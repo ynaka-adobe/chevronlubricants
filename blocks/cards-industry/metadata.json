@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-industry",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-02-27T21:07:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "industry-resources",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "5 cards with image + title link",
+    "buttonCount": 0,
+    "imageCount": 5
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "industry/category navigation cards",
+      "resource category displays",
+      "image-heavy category grids"
+    ],
+    "notSuitableFor": [
+      "article listings with descriptions",
+      "product cards with details",
+      "text-only card layouts"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-02-27T21:07:00.000Z"
+  }
+}

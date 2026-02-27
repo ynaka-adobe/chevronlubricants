@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-products",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-02-27T21:07:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "featured-products",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "2 columns - hero image left + product details right",
+    "buttonCount": 2,
+    "imageCount": 3
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "featured product showcases",
+      "product comparison layouts",
+      "promotional product sections"
+    ],
+    "notSuitableFor": [
+      "text-only content",
+      "logo displays",
+      "article listings"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-02-27T21:07:00.000Z"
+  }
+}

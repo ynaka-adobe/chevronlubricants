@@ -1,0 +1,36 @@
+{
+  "templates": [
+    {
+      "name": "chevron-homepage",
+      "urls": ["https://www.chevronlubricants.com"],
+      "description": "Chevron Lubricants homepage with hero banner, promotional columns, CTA section, industry cards, brand logos, featured products, and insights",
+      "blocks": [
+        {
+          "name": "section-hero",
+          "instances": ["main#main-content > .container-fluid > .richtext.parbase"],
+          "section": "Hero banner section with heading"
+        },
+        {
+          "name": "columns-promo",
+          "instances": [".multi-column.parbase > .multi-column__container"]
+        },
+        {
+          "name": "cards-industry",
+          "instances": [".multi-column.parbase .multi-column__content"]
+        },
+        {
+          "name": "columns-brands",
+          "instances": [".multi-column.parbase > .multi-column__container"]
+        },
+        {
+          "name": "columns-products",
+          "instances": [".featured-products"]
+        },
+        {
+          "name": "cards-insights",
+          "instances": [".content-component"]
+        }
+      ]
+    }
+  ]
+}
