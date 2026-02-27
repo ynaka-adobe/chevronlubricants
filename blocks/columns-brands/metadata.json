@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-brands",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-02-27T21:07:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "grey",
+    "density": "spacious",
+    "purpose": "brand-logos",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "4 columns with linked brand logo images",
+    "buttonCount": 0,
+    "imageCount": 4
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "brand logo showcases",
+      "partner logo rows",
+      "certification badge displays"
+    ],
+    "notSuitableFor": [
+      "text-heavy columns",
+      "columns with descriptions",
+      "promotional content"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-02-27T21:07:00.000Z"
+  }
+}

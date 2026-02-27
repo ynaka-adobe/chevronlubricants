@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-insights",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-02-27T21:07:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com",
+    "originPage": "homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "article-insights",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "intro text + 4 article cards with image + title + description + link",
+    "buttonCount": 1,
+    "imageCount": 4
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "blog/article listing sections",
+      "latest news displays",
+      "insight/resource card grids"
+    ],
+    "notSuitableFor": [
+      "product cards",
+      "category navigation cards",
+      "icon-based feature cards"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["content/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-02-27T21:07:00.000Z"
+  }
+}
