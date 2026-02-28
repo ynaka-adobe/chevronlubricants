@@ -1,33 +1,91 @@
+/* Columns-Products: Featured products layout
+ * Used for "Featured Products" section
+ * Left column: promo image + CTA, Right column: product details
+ */
+
+.columns-products {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-l);
+}
+
 .columns-products > div {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.columns-products > div > div {
+  flex: 1;
 }
 
 .columns-products img {
   width: 100%;
-}
-
-.columns-products > div > div {
-  order: 1;
-}
-
-.columns-products > div > .columns-products-img-col {
-  order: 0;
-}
-
-.columns-products > div > .columns-products-img-col img {
+  height: auto;
   display: block;
+  border-radius: 4px;
+}
+
+.columns-products strong {
+  color: var(--color-chevron-dark-blue);
+  font-size: var(--body-font-size-m);
+}
+
+.columns-products strong a {
+  color: var(--color-chevron-dark-blue);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.columns-products strong a:hover {
+  text-decoration: underline;
+}
+
+.columns-products p {
+  margin: 0 0 var(--spacing-s);
+}
+
+.columns-products a {
+  color: var(--color-chevron-dark-blue);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.columns-products a:hover {
+  color: var(--color-chevron-medium-blue);
+}
+
+.columns-products ul {
+  padding-left: var(--spacing-l);
+  margin: var(--spacing-m) 0;
+}
+
+.columns-products li {
+  margin-block: var(--spacing-xs);
+  font-size: var(--body-font-size-s);
+  color: var(--color-grey-text);
+  line-height: 1.5;
+}
+
+/* Product tile border treatment */
+.columns-products > div > div:last-child {
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  padding: var(--spacing-l);
 }
 
 @media (width >= 900px) {
+  .columns-products {
+    padding: 0;
+  }
+
   .columns-products > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 24px;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--spacing-xxl);
   }
 
   .columns-products > div > div {
     flex: 1;
-    order: unset;
   }
 }

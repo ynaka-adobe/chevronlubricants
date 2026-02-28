@@ -1,0 +1,43 @@
+<div><h1 id="pull-requests-log">Pull Requests Log</h1><h2 id="template">Template</h2><pre><code class="language-md">### Title
+&#x3C;short, imperative PR title>
+
+### Summary
+- What changed
+- Why it changed
+- Any notable constraints
+
+### Affected pages / blocks
+- /content/chevronlubricants/...
+
+### Testing
+- [ ] Local `hlx up` / `aem up`
+- [ ] Checked Lighthouse scores
+- [ ] Visual comparison to source URL
+
+### Related tickets
+- JIRA: XYZ-123
+- Slack: link-to-thread
+</code></pre></div>
+<div><h2 id="open-prs">Open PRs</h2><h3 id="migrate-chevron-lubricants-design-system-to-eds">Migrate Chevron Lubricants design system to EDS</h3><p><strong>Branch:</strong> <code>main</code>
+<strong>Status:</strong> Ready for review</p><h3 id="summary">Summary</h3><ul>
+<li>Extracted design tokens from chevronlubricants.com (colors, typography, spacing, sections)</li>
+<li>Updated <code>styles/styles.css</code> with Chevron brand palette (blues, greys) and typography (Montserrat as Gotham Narrow substitute)</li>
+<li>Created <code>styles/fonts.css</code> for font loading configuration</li>
+<li>Styled all 5 block variants: columns-promo, cards-industry, columns-brands, columns-products, cards-insights</li>
+<li>Added section background variants (blue-bg, grey-bg, light-blue-bg)</li>
+<li>Implemented button system with primary, outline, accent, and light variants including hover/focus/active states</li>
+</ul><h3 id="affected-pages--blocks">Affected pages / blocks</h3><ul>
+<li>/styles/styles.css (complete design system rewrite)</li>
+<li>/styles/fonts.css (new: font loading)</li>
+<li>/blocks/columns-promo/columns-promo.css</li>
+<li>/blocks/cards-industry/cards-industry.css</li>
+<li>/blocks/columns-brands/columns-brands.css</li>
+<li>/blocks/columns-products/columns-products.css</li>
+<li>/blocks/cards-insights/cards-insights.css</li>
+<li>/content/index (homepage preview)</li>
+</ul><h3 id="testing">Testing</h3><ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" checked disabled> Local <code>aem up</code> — page renders at localhost:3000/content/index</li>
+<li class="task-list-item"><input type="checkbox" disabled> Checked Lighthouse scores</li>
+<li class="task-list-item"><input type="checkbox" checked disabled> Visual comparison to source URL</li>
+</ul></div>
+<div><h2 id="merged-prs">Merged PRs</h2><p>(none yet)</p></div>

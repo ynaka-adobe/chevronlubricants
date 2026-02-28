@@ -1,33 +1,66 @@
+/* Columns-Promo: 3-column promotional layout
+ * Used for hero-like promo cards with linked image + bold title + description
+ * Source: multi-column__container on chevronlubricants.com
+ */
+
+.columns-promo {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-l);
+}
+
 .columns-promo > div {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-l);
+}
+
+.columns-promo > div > div {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
 }
 
 .columns-promo img {
   width: 100%;
-}
-
-.columns-promo > div > div {
-  order: 1;
-}
-
-.columns-promo > div > .columns-promo-img-col {
-  order: 0;
-}
-
-.columns-promo > div > .columns-promo-img-col img {
+  height: auto;
   display: block;
+  transition: transform 0.3s ease;
+}
+
+.columns-promo > div > div:hover img {
+  transform: scale(1.03);
+}
+
+.columns-promo p {
+  margin: 0 0 var(--spacing-s);
+}
+
+.columns-promo strong {
+  color: var(--color-chevron-dark-blue);
+  font-size: var(--body-font-size-l);
+}
+
+.columns-promo a {
+  color: var(--color-chevron-dark-blue);
+  text-decoration: none;
+}
+
+.columns-promo a:hover {
+  text-decoration: underline;
 }
 
 @media (width >= 900px) {
+  .columns-promo {
+    padding: 0;
+  }
+
   .columns-promo > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 24px;
+    flex-direction: row;
+    gap: var(--spacing-xl);
   }
 
   .columns-promo > div > div {
     flex: 1;
-    order: unset;
   }
 }
