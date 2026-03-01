@@ -275,10 +275,15 @@ a {
 main > .section.blue-bg {
   background-color: var(--color-chevron-blue);
   color: var(--color-white);
-  padding: var(--spacing-xl) 0;
+  padding: var(--spacing-xxl) 0;
+
+  > .default-content {
+    text-align: center;
+  }
 
   h1, h2, h3, h4, h5, h6 {
     color: var(--color-white);
+    text-align: center;
   }
 
   a {
@@ -292,11 +297,41 @@ main > .section.blue-bg {
   p {
     color: var(--color-white);
   }
+
+  /* Pill-button links (stacked CTAs on blue background) */
+  .default-content p a {
+    display: block;
+    background: var(--color-white);
+    color: var(--color-chevron-dark-blue);
+    padding: 14px 32px;
+    border-radius: 32px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: var(--body-font-size-m);
+    text-align: center;
+    max-width: 320px;
+    margin: var(--spacing-m) auto;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-chevron-light-blue);
+      color: var(--color-chevron-dark-blue);
+    }
+  }
 }
 
 /* Section variant: grey background */
 main > .section.grey-bg {
   background-color: var(--color-grey-light-bg);
+  padding: var(--spacing-xxl) 0;
+
+  > .default-content {
+    text-align: center;
+  }
+
+  h2, h3 {
+    text-align: center;
+  }
 }
 
 /* Section variant: light blue background */

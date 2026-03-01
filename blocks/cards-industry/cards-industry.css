@@ -50,7 +50,10 @@
   font-weight: 700;
   font-size: var(--body-font-size-s);
   text-decoration: none;
-  display: block;
+  display: inline;
+  background: none;
+  padding: 0;
+  border: none;
 }
 
 .cards-industry .cards-industry-card-body a:hover {
