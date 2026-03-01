@@ -1,29 +1,51 @@
-/* Columns-Promo: 3-column promotional layout
- * Used for hero-like promo cards with linked image + bold title + description
- * Source: multi-column__container on chevronlubricants.com
+/* Columns-Promo: Multi-column parbase promo cards
+ * Matches .multi-column.parbase > .multi-column__container on chevronlubricants.com
+ * Card layout: linked image + bold title + description
  */
 
 .columns-promo {
   max-width: var(--grid-container-width);
   margin: 0 auto;
-  padding: 0 var(--spacing-l);
+  padding: var(--spacing-xl) var(--spacing-l);
 }
 
 .columns-promo > div {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-l);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
 }
 
 .columns-promo > div > div {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-white);
+  border-radius: 8px;
   overflow: hidden;
-  border-radius: 4px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.columns-promo img {
+.columns-promo > div > div:hover {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.12);
+  transform: translateY(-2px);
+}
+
+/* Image container - matches multi-column__item .cmp-image */
+.columns-promo > div > div > a:has(img),
+.columns-promo > div > div > .columns-promo-img-col,
+.columns-promo > div > div > div:first-child:has(picture) {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.columns-promo > div > div > a:has(img) img,
+.columns-promo > div > div .columns-promo-img-col img,
+.columns-promo > div > div picture img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
   transition: transform 0.3s ease;
 }
@@ -32,35 +54,57 @@
   transform: scale(1.03);
 }
 
+/* Text block - matches multi-column__item .richtext */
+.columns-promo > div > div > p {
+  padding: 0 var(--spacing-l) var(--spacing-s);
+}
+
+.columns-promo > div > div > p:first-of-type {
+  padding-top: var(--spacing-l);
+}
+
+.columns-promo > div > div > p:last-child {
+  padding-bottom: var(--spacing-l);
+}
+
 .columns-promo p {
-  margin: 0 0 var(--spacing-s);
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--body-font-size-m);
+  line-height: 1.5;
 }
 
 .columns-promo strong {
   color: var(--color-chevron-dark-blue);
-  font-size: var(--body-font-size-l);
+  font-size: var(--heading-font-size-m);
+  font-weight: 700;
+  display: block;
+  margin-bottom: var(--spacing-xs);
 }
 
 .columns-promo a {
   color: var(--color-chevron-dark-blue);
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .columns-promo a:hover {
-  text-decoration: underline;
+  color: var(--color-chevron-medium-blue);
+}
+
+@media (width >= 600px) {
+  .columns-promo > div {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (width >= 900px) {
   .columns-promo {
-    padding: 0;
+    padding: var(--spacing-xxl) 0;
   }
 
   .columns-promo > div {
-    flex-direction: row;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-xl);
-  }
-
-  .columns-promo > div > div {
-    flex: 1;
   }
 }

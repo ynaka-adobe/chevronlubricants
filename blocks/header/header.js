@@ -1,4 +1,6 @@
 import { getConfig, getMetadata } from '../../scripts/ak.js';
+
+const LOGO_PATH = '/img/logos/Flat-chevron_lubricants-logo-80px.png';
 import { loadFragment } from '../fragment/fragment.js';
 import { setColorScheme } from '../section-metadata/section-metadata.js';
 
@@ -145,6 +147,23 @@ function decorateBrandSection(section) {
   span.className = 'brand-text';
   span.append(text);
   brandLink.append(span);
+
+  const { codeBase } = getConfig();
+  const logoUrl = `${codeBase}${LOGO_PATH}`;
+  const logoEl = brandLink.querySelector('.icon-logo') || brandLink.querySelector('img') || brandLink.querySelector('svg');
+  if (logoEl) {
+    const img = document.createElement('img');
+    img.src = logoUrl;
+    img.alt = 'Chevron Lubricants';
+    img.classList.add('icon', 'icon-logo');
+    logoEl.replaceWith(img);
+  } else {
+    const img = document.createElement('img');
+    img.src = logoUrl;
+    img.alt = 'Chevron Lubricants';
+    img.classList.add('icon', 'icon-logo');
+    brandLink.prepend(img);
+  }
 }
 
 function decorateNavSection(section) {
