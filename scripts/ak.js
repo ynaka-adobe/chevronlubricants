@@ -220,8 +220,8 @@ function decorateLinks(el) {
 
 function loadIcons(el) {
   const icons = el.querySelectorAll('span.icon');
-  if (!icons.length) return;
-  import('./utils/icons.js').then((mod) => mod.default(icons));
+  if (!icons.length) return Promise.resolve();
+  return import('./utils/icons.js').then((mod) => mod.default(icons));
 }
 
 function groupChildren(section) {
@@ -294,7 +294,7 @@ export async function loadArea({ area } = { area: document }) {
   if (decorateArea) decorateArea({ area });
   const sections = decorateSections(area, isDoc);
   for (const [idx, section] of sections.entries()) {
-    loadIcons(section);
+    await loadIcons(section);
     await Promise.all(section.linkBlocks.map((block) => loadBlock(block)));
     await Promise.all(section.blocks.map((block) => loadBlock(block)));
     delete section.dataset.status;

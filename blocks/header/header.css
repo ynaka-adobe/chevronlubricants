@@ -1,9 +1,10 @@
 header {
-  --logo-width: 40px;
-  --logo-height: 40px;
+  --logo-width: 80px;
+  --logo-height: 80px;
   --mega-columns: 4;
 
-  display: block;
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 0;
   left: 0;
@@ -12,6 +13,48 @@ header {
   overflow: hidden;
   max-height: var(--header-height);
   background-color: light-dark(var(--color-light), var(--color-dark));
+
+  /* Utility nav (Chevron-style top bar) */
+  .utility-nav {
+    flex-shrink: 0;
+    --utility-bg: #0b2d71;
+    --utility-text: #fff;
+    background-color: var(--utility-bg);
+    color: var(--utility-text);
+  }
+
+  .utility-nav__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--utility-nav-height);
+    padding: 0 var(--grid-gutter-width);
+    max-width: var(--grid-container-width);
+    margin: 0 auto;
+    font-size: 12px;
+  }
+
+  .utility-nav__links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .link {
+      color: var(--utility-text);
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .utility-nav__location {
+    cursor: pointer;
+  }
+
+  .utility-nav__location .location__label:hover {
+    text-decoration: underline;
+  }
 
   ul {
     margin: 0;
@@ -38,7 +81,7 @@ header {
       "brand"
       "nav"
       "actions";
-    grid-template-rows: var(--header-height) auto 1fr;
+    grid-template-rows: var(--header-main-height) auto 1fr;
   }
 
   .action-wrapper {
@@ -123,7 +166,7 @@ header {
     grid-area: brand;
 
     .default-content {
-      height: var(--header-height);
+      height: var(--header-main-height);
       display: flex;
       justify-content: space-between;
 
@@ -178,7 +221,7 @@ header {
     }
 
     .action-wrapper {
-      height: var(--header-height);
+      height: var(--header-main-height);
       right: -13px;
 
       button {
@@ -198,6 +241,16 @@ header {
     .default-content {
       max-width: 100%;
       margin: 0;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .default-content > nav {
+      align-self: stretch;
+    }
+
+    .main-nav-list {
+      align-items: flex-start;
     }
 
     .main-nav-item {
@@ -210,8 +263,16 @@ header {
     }
 
     .main-nav-link {
-      display: block;
-      line-height: 64px;
+      display: flex;
+      align-items: flex-start;
+      min-height: var(--header-main-height);
+      line-height: 1.2;
+      font-size: 12px;
+      padding-top: 0;
+    }
+
+    .main-nav-link .label__name {
+      display: inline;
     }
 
     .menu,

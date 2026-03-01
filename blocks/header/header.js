@@ -1,6 +1,45 @@
 import { getConfig, getMetadata } from '../../scripts/ak.js';
 
 const LOGO_PATH = '/img/logos/Flat-chevron_lubricants-logo-80px.png';
+
+const UTILITY_NAV_LINKS = [
+  { href: '/contact-us', label: 'Contact Us' },
+  { href: '/chevron-warranty', label: 'Chevron Warranty' },
+  { href: 'https://cglapps.chevron.com/sdspds/HomePage.aspx', label: 'SDS/PDS' },
+];
+
+function createUtilityNav() {
+  const nav = document.createElement('div');
+  nav.className = 'utility-nav utility-nav--default utility-nav__v2';
+
+  const container = document.createElement('div');
+  container.className = 'utility-nav__container';
+  container.dataset.backgroundColor = '#F5F5F5';
+  container.dataset.textColor = '#6B6D6F';
+
+  const links = document.createElement('div');
+  links.className = 'utility-nav__links';
+
+  UTILITY_NAV_LINKS.forEach(({ href, label }) => {
+    const a = document.createElement('a');
+    a.className = 'link';
+    a.href = href;
+    a.textContent = label;
+    links.append(a);
+  });
+
+  const locationBtn = document.createElement('span');
+  locationBtn.className = 'utility-nav__location topnav-controls__lang';
+  locationBtn.setAttribute('aria-hidden', 'true');
+  locationBtn.innerHTML = '<span class="location__label">Location Selector</span>';
+
+  container.append(locationBtn);
+  container.append(links);
+  nav.append(container);
+
+  return nav;
+}
+
 import { loadFragment } from '../fragment/fragment.js';
 import { setColorScheme } from '../section-metadata/section-metadata.js';
 
@@ -130,7 +169,16 @@ function decorateMegaMenu(li) {
 function decorateNavItem(li) {
   li.classList.add('main-nav-item');
   const link = li.querySelector(':scope > p > a');
-  if (link) link.classList.add('main-nav-link');
+  if (link) {
+    link.classList.add('main-nav-link');
+    if (link.textContent.trim() && !link.querySelector('.label__name')) {
+      const label = document.createElement('span');
+      label.className = 'label__name';
+      label.textContent = link.textContent.trim();
+      link.textContent = '';
+      link.appendChild(label);
+    }
+  }
   const menu = decorateMegaMenu(li) || decorateMenu(li);
   if (!(menu || link)) return;
   link.addEventListener('click', (e) => {
@@ -203,6 +251,9 @@ async function decorateHeader(fragment) {
  * @param {Element} el The header element
  */
 export default async function init(el) {
+  const utilityNav = createUtilityNav();
+  el.prepend(utilityNav);
+
   const headerMeta = getMetadata('header');
   const path = headerMeta || HEADER_PATH;
   try {

@@ -82,7 +82,9 @@
   --link-transition: color 0.2s ease;
 
   /* misc */
-  --header-height: 64px;
+  --utility-nav-height: 40px;
+  --header-main-height: 80px;
+  --header-height: calc(var(--utility-nav-height) + var(--header-main-height));
   --breadcrumb-height: 24px;
 }
 
