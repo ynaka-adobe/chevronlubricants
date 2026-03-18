@@ -14,12 +14,13 @@ const locales = {
 
 const linkBlocks = [
   { fragment: '/fragments/' },
+  { persona: '/schedules/main-persona' },
   { schedule: '/schedules/' },
   { youtube: 'https://www.youtube' },
 ];
 
 // Blocks with self-managed styles
-const components = ['fragment', 'schedule'];
+const components = ['fragment', 'persona', 'schedule'];
 
 // How to decorate an area before loading it
 const decorateArea = ({ area = document }) => {
