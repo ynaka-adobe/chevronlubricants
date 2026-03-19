@@ -15,6 +15,7 @@ const locales = {
 const linkBlocks = [
   { fragment: '/fragments/' },
   { persona: '/schedules/main-persona' },
+  { persona: '/schedules/landing-fragment' },
   { schedule: '/schedules/' },
   { youtube: 'https://www.youtube' },
 ];

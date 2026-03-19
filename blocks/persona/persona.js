@@ -99,13 +99,19 @@ export default async function init(a) {
   const persona = pageParams.get('persona');
   const now = getDate();
 
-  // Global default: entry with no start/end dates
-  const defEvent = data.find((evt) => !(evt.start && evt.end));
+  // Global default: prefer row with name/persona "default", else first undated entry
+  const defaultMatch = (evt) => (evt.name === 'default' || evt.persona === 'default');
+  const undated = (evt) => !(evt.start && evt.end);
+  const defEvent = data.find((evt) => defaultMatch(evt) && undated(evt))
+    || data.find(undated);
+
+  // Match persona param against name or persona column (sheet headers vary)
+  const personaMatch = (evt) => (evt.name === persona || evt.persona === persona);
 
   let event;
   if (persona) {
     // Narrow to persona-named rows
-    const activeData = data.filter((evt) => evt.name === persona);
+    const activeData = data.filter(personaMatch);
 
     // Find the first date-matched entry in the persona set
     const found = activeData.find((evt) => {
@@ -115,17 +121,17 @@ export default async function init(a) {
         const end = Date.parse(evt.end);
         return now > start && now < end;
       } catch {
-        config.log(`Could not evaluate persona event: ${evt.name}`);
+        config.log(`Could not evaluate persona event: ${evt.name || evt.persona}`);
         return false;
       }
     });
 
     // Persona-specific default (undated entry for this persona)
-    const activeDefault = activeData.find((evt) => !(evt.start && evt.end));
+    const activeDefault = activeData.find(undated);
 
     event = found || activeDefault || defEvent;
   } else {
-    // No persona param: show the global default
+    // No persona param: show the global default (prefer "default" row)
     event = defEvent;
   }
 
