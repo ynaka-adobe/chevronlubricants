@@ -14,8 +14,8 @@ function createUtilityNav() {
 
   const container = document.createElement('div');
   container.className = 'utility-nav__container';
-  container.dataset.backgroundColor = '#F5F5F5';
-  container.dataset.textColor = '#6B6D6F';
+  container.dataset.backgroundColor = '#0b2d71';
+  container.dataset.textColor = '#fff';
 
   const links = document.createElement('div');
   links.className = 'utility-nav__links';

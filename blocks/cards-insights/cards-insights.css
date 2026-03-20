@@ -1,6 +1,6 @@
 /* Cards-Insights: Article/insights cards grid
+ * Matches .multi-column__item.multi-column__customWidthItem.30.stack.defaultBorderColor
  * Used for "Stay Informed with Our Latest Insights" section
- * Grid of article cards with image + title link + description
  */
 
 .cards-insights {
@@ -9,6 +9,7 @@
   padding: 0 var(--spacing-l);
 }
 
+/* stack: 1 col mobile */
 .cards-insights > ul {
   list-style: none;
   margin: 0;
@@ -18,26 +19,38 @@
   gap: var(--spacing-l);
 }
 
+/* defaultBorderColor */
 .cards-insights > ul > li {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border-radius: 4px;
   background-color: var(--color-white);
-  transition: box-shadow 0.2s ease;
+  border: 1px solid #d8d8d8;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cards-insights > ul > li:hover {
-  box-shadow: 0 4px 12px rgb(0 0 0 / 12%);
+  border-color: var(--color-chevron-medium-blue);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
 }
 
 .cards-insights .cards-insights-card-image {
   line-height: 0;
+  width: 100%;
+  aspect-ratio: 461 / 424;
+  max-height: 424px;
+  overflow: hidden;
+  border-radius: 12px;
+  flex-shrink: 0;
 }
 
 .cards-insights > ul > li img {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  aspect-ratio: 461 / 424;
   object-fit: cover;
   display: block;
 }
@@ -72,12 +85,14 @@
   margin: 0;
 }
 
+/* 30: ~30% width = 2 cols */
 @media (width >= 600px) {
   .cards-insights > ul {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* 30: ~30% width = 3 cols */
 @media (width >= 900px) {
   .cards-insights {
     padding: 0;

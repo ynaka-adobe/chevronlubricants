@@ -1,5 +1,5 @@
 /* Columns-Promo: Multi-column parbase promo cards
- * Matches .multi-column.parbase > .multi-column__container on chevronlubricants.com
+ * Matches .multi-column__item.multi-column__customWidthItem.30.stack.defaultBorderColor
  * Card layout: linked image + bold title + description
  */
 
@@ -9,48 +9,109 @@
   padding: var(--spacing-xl) var(--spacing-l);
 }
 
+/* stack: 1 column on mobile */
 .columns-promo > div {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--spacing-xl);
 }
 
+/* defaultBorderColor: border instead of shadow */
 .columns-promo > div > div {
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 0;
+  padding-top: 0;
   background-color: var(--color-white);
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border: 1px solid #d8d8d8;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Reset top spacing - cols 2, 3 may have different structure or inherit margin */
+.columns-promo > div > div > :first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .columns-promo > div > div:hover {
-  box-shadow: 0 4px 16px rgb(0 0 0 / 0.12);
+  border-color: var(--color-chevron-medium-blue);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
   transform: translateY(-2px);
 }
 
-/* Image container - matches multi-column__item .cmp-image */
+/* Image container - square aspect (1:1), rounded edges. Fixed dimensions so all 3 columns match. Reset margin/padding. */
 .columns-promo > div > div > a:has(img),
 .columns-promo > div > div > .columns-promo-img-col,
-.columns-promo > div > div > div:first-child:has(picture) {
+.columns-promo > div > div > div:first-child:has(picture),
+.columns-promo > div > div > div:first-child:has(img),
+.columns-promo > div > div > :first-child:has(img, picture),
+.columns-promo > div > div > picture {
   display: block;
-  aspect-ratio: 16 / 10;
+  width: 378px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  max-width: 100%;
+  margin: 0 auto !important;
+  padding: 0 !important;
   overflow: hidden;
+  border-radius: 12px;
   flex-shrink: 0;
   position: relative;
   z-index: 0;
+  align-self: center;
 }
 
-.columns-promo > div > div > a:has(img) img,
-.columns-promo > div > div .columns-promo-img-col img,
-.columns-promo > div > div picture img {
+.columns-promo > div > div .columns-promo-img-col {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* All card images - consistent sizing and rounded corners */
+.columns-promo > div > div img {
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
+  object-position: center;
   display: block;
+  border-radius: 12px;
   transition: transform 0.3s ease;
+}
+
+/* Div wrappers around picture/img - same square dimensions for cards 2, 3. Reset margin/padding. */
+.columns-promo > div > div > div:has(> picture),
+.columns-promo > div > div > div:has(> img) {
+  width: 378px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  max-width: 100%;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border-radius: 12px;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* Override columns base block - .col :first-child can inherit margin */
+.columns-promo .col > :first-child,
+.columns-promo [class*="col"] > :first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Image container when NOT first child (cols 2, 3 may have title first) */
+.columns-promo > div > div > div.columns-promo-img-col,
+.columns-promo > div > div > a.columns-promo-img-col {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 .columns-promo > div > div:hover img {
@@ -62,6 +123,9 @@
   padding: 0 var(--spacing-l) var(--spacing-s);
   position: relative;
   z-index: 1;
+  align-self: stretch;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .columns-promo > div > div > p:first-of-type {
@@ -97,12 +161,14 @@
   color: var(--color-chevron-medium-blue);
 }
 
+/* 30: ~30% width = 2 cols at 600px */
 @media (width >= 600px) {
   .columns-promo > div {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* 30: ~30% width = 3 cols at 900px */
 @media (width >= 900px) {
   .columns-promo {
     padding: var(--spacing-xxl) 0;

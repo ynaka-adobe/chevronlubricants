@@ -102,9 +102,23 @@ const getMetadata = (el) => [...el.childNodes].reduce((rdx, row) => {
   return rdx;
 }, {});
 
+function getTopLevelSection(section) {
+  const main = section.closest('main');
+  if (!main) return section;
+  const topLevelSections = main.querySelectorAll(':scope > .section');
+  return [...topLevelSections].find((s) => s.contains(section)) || section;
+}
+
 export default async function init(el) {
-  const section = el.closest('.section');
+  let section = el.closest('.section');
   if (!section) return;
+  /* EDS convention: Section Metadata as only block applies to previous section */
+  const blocks = section.querySelectorAll('.block-content > div[class]');
+  if (blocks.length === 1 && section.previousElementSibling?.classList?.contains('section')) {
+    section = section.previousElementSibling;
+  }
+  /* Apply to top-level page section (main > div) when content is nested (e.g. persona fragment) */
+  section = getTopLevelSection(section);
   const metadata = getMetadata(el);
   if (metadata.style?.text) await handleStyle(metadata.style.text, section);
   if (metadata.grid?.text) handleLayout(metadata.grid.text, section, 'grid');

@@ -1,6 +1,6 @@
 /* Cards-Industry: Industry resource cards grid
+ * Matches .multi-column__item.multi-column__customWidthItem.30.stack.defaultBorderColor
  * Used for "Find Resources by Industry" section
- * Grid of clickable cards with image + industry name
  */
 
 .cards-industry {
@@ -9,34 +9,46 @@
   padding: 0 var(--spacing-l);
 }
 
+/* stack: 1 col mobile; 30: ~30% width on desktop */
 .cards-industry > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--spacing-l);
 }
 
+/* defaultBorderColor */
 .cards-industry > ul > li {
   position: relative;
   overflow: hidden;
   border-radius: 4px;
-  background-color: var(--color-grey-light-bg);
-  transition: box-shadow 0.2s ease;
+  background-color: var(--color-white);
+  border: 1px solid #d8d8d8;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cards-industry > ul > li:hover {
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  border-color: var(--color-chevron-medium-blue);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
 }
 
 .cards-industry .cards-industry-card-image {
   line-height: 0;
+  width: 100%;
+  aspect-ratio: 461 / 424;
+  max-height: 424px;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .cards-industry > ul > li img {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  aspect-ratio: 461 / 424;
   object-fit: cover;
   display: block;
 }
@@ -60,19 +72,21 @@
   text-decoration: underline;
 }
 
+/* 30: ~30% width = 2 cols */
 @media (width >= 600px) {
   .cards-industry > ul {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* 30: ~30% width = 3 cols */
 @media (width >= 900px) {
   .cards-industry {
     padding: 0;
   }
 
   .cards-industry > ul {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-xl);
   }
 }

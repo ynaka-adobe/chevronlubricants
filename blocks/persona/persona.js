@@ -61,9 +61,13 @@ async function loadPersonaFragment(a, event, defEvent) {
   const children = sections.length === 1
     ? fragment.querySelectorAll(':scope > *')
     : [fragment];
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'persona-fragment-content';
   for (const child of children) {
-    elToReplace.insertAdjacentElement('afterend', child);
+    wrapper.appendChild(child);
   }
+  elToReplace.insertAdjacentElement('afterend', wrapper);
   elToReplace.remove();
 }
 
