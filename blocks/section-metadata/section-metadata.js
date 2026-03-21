@@ -112,9 +112,12 @@ function getTopLevelSection(section) {
 export default async function init(el) {
   let section = el.closest('.section');
   if (!section) return;
-  /* EDS convention: Section Metadata as only block applies to previous section */
+  /* When only block in section: apply to next section (so placing metadata above target styles it) */
   const blocks = section.querySelectorAll('.block-content > div[class]');
-  if (blocks.length === 1 && section.previousElementSibling?.classList?.contains('section')) {
+  if (blocks.length === 1 && section.nextElementSibling?.classList?.contains('section')) {
+    section = section.nextElementSibling;
+  } else if (blocks.length === 1 && section.previousElementSibling?.classList?.contains('section')) {
+    /* Fallback: no next section, apply to previous (EDS convention) */
     section = section.previousElementSibling;
   }
   /* Apply to top-level page section (main > div) when content is nested (e.g. persona fragment) */
