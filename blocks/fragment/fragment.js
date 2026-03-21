@@ -3,7 +3,10 @@ import { loadArea } from '../../scripts/ak.js';
 function replaceDotMedia(path, doc) {
   const resetAttributeBase = (tag, attr) => {
     doc.querySelectorAll(`${tag}[${attr}^="./media_"]`).forEach((el) => {
-      el[attr] = new URL(el.getAttribute(attr), new URL(path, window.location)).href;
+      const val = el.getAttribute(attr);
+      /* Resolve ./media_xxx to site root (/media_xxx) - media is never under fragment path */
+      const resolved = val.replace(/^\.\//, '/');
+      el.setAttribute(attr, new URL(resolved, window.location.origin).href);
     });
   };
   resetAttributeBase('img', 'src');

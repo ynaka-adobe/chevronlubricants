@@ -57,23 +57,27 @@ export async function loadStyle(href) {
   });
 }
 
+const KNOWN_BLOCKS = new Set([
+  'advanced-tabs', 'card', 'cards-industry', 'cards-insights', 'columns',
+  'columns-brands', 'columns-products', 'columns-promo', 'footer', 'fragment',
+  'header', 'hero', 'persona', 'schedule', 'section-metadata', 'table', 'youtube',
+]);
+
 export async function loadBlock(block) {
   const { codeBase, log, components } = getConfig();
   const { classList } = block;
-  const name = classList[0];
-  block.dataset.blockName = name;
-  const blockPath = `${codeBase}/blocks/${name}/${name}`;
-  const loading = [new Promise((resolve) => {
-    (async () => {
-      try {
-        await (await import(`${blockPath}.js`)).default(block);
-      } catch (ex) { log(ex, block); }
-      resolve();
-    })();
-  })];
-  const isCmp = components.some((cmp) => name === cmp);
-  if (!isCmp) loading.push(loadStyle(`${blockPath}.css`));
-  await Promise.all(loading);
+  const toLoad = [...classList].filter((c) => KNOWN_BLOCKS.has(c));
+  block.dataset.blockName = toLoad[0] ?? classList[0];
+  const stylePromises = [];
+  for (const name of toLoad) {
+    const blockPath = `${codeBase}/blocks/${name}/${name}`;
+    try {
+      await (await import(`${blockPath}.js`)).default(block);
+    } catch (ex) { log(ex, block); }
+    const isCmp = components.some((cmp) => name === cmp);
+    if (!isCmp) stylePromises.push(loadStyle(`${blockPath}.css`));
+  }
+  await Promise.all(stylePromises);
   return block;
 }
 
