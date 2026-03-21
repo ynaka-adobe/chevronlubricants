@@ -100,7 +100,8 @@ export default async function init(a) {
   const { data } = await resp.json();
   data.reverse();
 
-  const persona = pageParams.get('persona');
+  // No persona in URL = equivalent to persona=default
+  const persona = pageParams.get('persona') || 'default';
   const now = getDate();
 
   // Global default: prefer row with name/persona "default", else first undated entry
@@ -112,32 +113,26 @@ export default async function init(a) {
   // Match persona param against name or persona column (sheet headers vary)
   const personaMatch = (evt) => (evt.name === persona || evt.persona === persona);
 
-  let event;
-  if (persona) {
-    // Narrow to persona-named rows
-    const activeData = data.filter(personaMatch);
+  // Narrow to persona-named rows (default when no param)
+  const activeData = data.filter(personaMatch);
 
-    // Find the first date-matched entry in the persona set
-    const found = activeData.find((evt) => {
-      if (!(evt.start && evt.end)) return false;
-      try {
-        const start = Date.parse(evt.start);
-        const end = Date.parse(evt.end);
-        return now > start && now < end;
-      } catch {
-        config.log(`Could not evaluate persona event: ${evt.name || evt.persona}`);
-        return false;
-      }
-    });
+  // Find the first date-matched entry in the persona set
+  const found = activeData.find((evt) => {
+    if (!(evt.start && evt.end)) return false;
+    try {
+      const start = Date.parse(evt.start);
+      const end = Date.parse(evt.end);
+      return now > start && now < end;
+    } catch {
+      config.log(`Could not evaluate persona event: ${evt.name || evt.persona}`);
+      return false;
+    }
+  });
 
-    // Persona-specific default (undated entry for this persona)
-    const activeDefault = activeData.find(undated);
+  // Persona-specific default (undated entry for this persona)
+  const activeDefault = activeData.find(undated);
 
-    event = found || activeDefault || defEvent;
-  } else {
-    // No persona param: show the global default (prefer "default" row)
-    event = defEvent;
-  }
+  const event = found || activeDefault || defEvent;
 
   if (!event) {
     await removePersona(a);
