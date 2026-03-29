@@ -60,7 +60,8 @@ export async function loadStyle(href) {
 const KNOWN_BLOCKS = new Set([
   'advanced-tabs', 'card', 'cards-industry', 'cards-insights', 'columns',
   'columns-brands', 'columns-products', 'columns-promo', 'footer', 'fragment',
-  'header', 'hero', 'persona', 'schedule', 'section-metadata', 'table', 'youtube',
+  'header', 'hero', 'persona', 'product', 'product-metadata', 'schedule',
+  'section-metadata', 'table', 'youtube',
 ]);
 
 export async function loadBlock(block) {
@@ -300,7 +301,10 @@ export async function loadArea({ area } = { area: document }) {
   for (const [idx, section] of sections.entries()) {
     await loadIcons(section);
     await Promise.all(section.linkBlocks.map((block) => loadBlock(block)));
-    await Promise.all(section.blocks.map((block) => loadBlock(block)));
+    /* Sequential: blocks like product-metadata must run before product */
+    for (const block of section.blocks) {
+      await loadBlock(block);
+    }
     delete section.dataset.status;
     if (isDoc && idx === 0) import('./postlcp.js').then((mod) => mod.default());
   }

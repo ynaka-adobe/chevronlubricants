@@ -1,0 +1,14 @@
+{
+  "variantName": "product",
+  "version": "1.1.0",
+  "pairsWith": "product-metadata",
+  "metadataFragmentRow": {
+    "description": "When Product-metadata lives on a separate fragment URL (not next to this block), add a row: first cell metadata-fragment (or metadata-src), second cell the path to the fragment, e.g. /fragments/products/delo-syn-trans-xe-sae-75w-90",
+    "example": [
+      ["metadata-fragment", "/fragments/products/delo-syn-trans-xe-sae-75w-90"],
+      ["oem-part-number", ""],
+      ["product-name", ""]
+    ]
+  },
+  "note": "Sibling Product-metadata still merges; fragment fetch runs first, then sibling values override by key."
+}

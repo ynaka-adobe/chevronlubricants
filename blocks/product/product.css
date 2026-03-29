@@ -1,0 +1,72 @@
+/* Product block — rows are metadata keys; values come from product-metadata */
+
+.product-block {
+  max-width: var(--grid-container-width);
+  margin: 0 auto;
+  padding: var(--spacing-l);
+}
+
+.product-block .product-inner--fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-m);
+}
+
+.product-block .product-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: var(--spacing-m) var(--spacing-l);
+  align-items: start;
+  padding: var(--spacing-s) 0;
+  border-bottom: 1px solid rgb(0 0 0 / 0.08);
+}
+
+.product-block .product-field:last-child {
+  border-bottom: none;
+}
+
+@media (width < 600px) {
+  .product-block .product-field {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-block .product-field-label {
+  color: var(--color-heading);
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.product-block .product-field-values {
+  min-width: 0;
+}
+
+.product-block .product-field-value {
+  color: var(--color-text);
+  font-size: var(--body-font-size-m);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.product-block .product-field-empty {
+  color: var(--color-grey-text);
+}
+
+.product-block .product-field-value--image img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
+.product-block .product-field-value--link {
+  color: var(--color-link);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.product-block .product-field-value--link:hover {
+  text-decoration: underline;
+  color: var(--color-link-secondary);
+}
