@@ -31,6 +31,16 @@ function decorateBackground(bg) {
   vidLink.remove();
 }
 
+function rowHasHeading(row) {
+  return Boolean(row.querySelector('h1, h2, h3, h4, h5, h6'));
+}
+
+/** Second row is a full-width image strip (picture/img, no heading). */
+function rowIsImageStrip(row) {
+  if (!row.querySelector('picture, img')) return false;
+  return !rowHasHeading(row);
+}
+
 function decorateForeground(fg) {
   const { children } = fg;
   const hero = fg.closest('.hero');
@@ -60,6 +70,23 @@ function decorateForeground(fg) {
 
 export default async function init(el) {
   const rows = [...el.querySelectorAll(':scope > div')];
+
+  /* account-based: copy in row 1, full-bleed image in row 2 (default JS uses last row as foreground) */
+  if (
+    el.classList.contains('account-based')
+    && rows.length === 2
+    && rowHasHeading(rows[0])
+    && rowIsImageStrip(rows[1])
+  ) {
+    const [fg, imageRow] = rows;
+    fg.classList.add('hero-foreground');
+    imageRow.classList.add('hero-image-row');
+    el.classList.add('hero-image-below');
+    decorateForeground(fg);
+    decorateBackground(imageRow);
+    return;
+  }
+
   const fg = rows.pop();
   fg.classList.add('hero-foreground');
   decorateForeground(fg);

@@ -164,7 +164,7 @@
   /* account-based: Chevron Championship style - full-bleed, centered overlay
    * Dark blue (#0b2d71) runs full page width, not contained by block content */
   &.account-based {
-    --min-height: 600px;
+    --min-height: 350px;
     --bg-gradient-color: #0b2d71;
     /* Full-width breakout - background spans edge-to-edge, not contained by hero block */
     width: 100vw;
@@ -184,7 +184,7 @@
       left: 0;
       right: 0;
       width: 100%;
-      height: 600px;
+      height: 350px;
       background: linear-gradient(to bottom, rgb(0 0 0 / 20%) 0%, var(--bg-gradient-color) 100%);
       z-index: 0;
       pointer-events: none;
@@ -242,6 +242,78 @@
       margin-top: var(--spacing-l);
       display: inline-block;
     }
+
+    /* Row 1 copy overlaid on row 2 image (see hero.js hero-image-below) */
+    &.hero-image-below {
+      position: relative;
+      min-height: 350px;
+      overflow: hidden;
+
+      /* Photo is the backdrop; skip the solid blue band */
+      &::before {
+        display: none;
+      }
+
+      .hero-image-row {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+        width: min(100%, 1200px);
+        height: 100%;
+        min-height: 350px;
+        margin: 0;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      .hero-image-row picture {
+        position: absolute;
+        inset: 0;
+        display: block;
+      }
+
+      .hero-image-row img {
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .hero-image-row video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hero-foreground {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 350px;
+        margin: 0;
+        width: min(100%, 1200px);
+        box-sizing: border-box;
+        padding: var(--spacing-xxl) var(--spacing-l);
+        background: linear-gradient(
+          to bottom,
+          rgb(0 0 0 / 45%) 0%,
+          rgb(11 45 113 / 72%) 100%
+        );
+      }
+    }
   }
 
   /* CTA: oval button with pronounced hover (all hero foreground links) */
@@ -295,6 +367,20 @@
 
     &.account-based .hero-foreground {
       background: linear-gradient(to bottom, rgb(0 0 0 / 20%) 0%, var(--bg-gradient-color) 100%);
+    }
+
+    &.account-based.hero-image-below .hero-foreground {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      width: min(100%, 1200px);
+      background: linear-gradient(
+        to bottom,
+        rgb(0 0 0 / 45%) 0%,
+        rgb(11 45 113 / 72%) 100%
+      );
     }
 
     &.stack {

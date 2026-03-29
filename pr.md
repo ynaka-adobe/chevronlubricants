@@ -34,7 +34,8 @@
 **Status:** Ready for review
 
 ### Summary
-- Product block: `product-image` metadata values render as `<img>` when the value is a URL; optional max width for the image row (`product-field--image`).
+- Hero `account-based` + `hero-image-below`: text-first / image-second, overlay scrim, 350px stage, row 1 & 2 max-width 1200px centered.
+- Product block: image left / fields right; URL `product-image` as `<img>`; value-only when no friendly label; `product-name`, `short-description`, `product-tag` styles; labeled `product-image` stacks label above image.
 - Extracted design tokens from chevronlubricants.com (colors, typography, spacing, sections)
 - Updated `styles/styles.css` with Chevron brand palette (blues, greys) and typography (Montserrat as Gotham Narrow substitute)
 - Created `styles/fonts.css` for font loading configuration

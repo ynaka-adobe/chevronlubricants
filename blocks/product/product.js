@@ -19,10 +19,6 @@ function normalizeKey(str) {
   return normalizeMetadataKey(str);
 }
 
-function humanizeKey(key) {
-  return key.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
 function parseMetadata(block) {
   if (!block.dataset.productMetadata) return {};
   try {
@@ -124,35 +120,86 @@ function collectRowKeys(block) {
   return out;
 }
 
+function isImageFieldKey(keyText) {
+  const k = normalizeKey(keyText);
+  return k === 'product-image' || k === 'image';
+}
+
+function createProductField(metadata, keyText, labelText) {
+  const key = normalizeKey(keyText);
+  const value = lookupValue(metadata, keyText);
+  const field = document.createElement('div');
+  field.className = 'product-field';
+  field.dataset.fieldKey = key || keyText;
+  if (key === 'product-image' || key === 'image') field.classList.add('product-field--image');
+  if (key === 'product-tag') field.classList.add('product-field--tag');
+  if (key === 'product-name') field.classList.add('product-field--name');
+  if (key === 'short-description') field.classList.add('product-field--short-description');
+
+  const hasFriendlyLabel = Boolean(labelText && String(labelText).trim());
+
+  const valueWrap = document.createElement('div');
+  valueWrap.className = 'product-field-values';
+  appendValue(valueWrap, value, keyText);
+
+  if (hasFriendlyLabel) {
+    const labelEl = document.createElement('span');
+    labelEl.className = 'product-field-label';
+    labelEl.textContent = labelText.trim();
+    field.append(labelEl, valueWrap);
+  } else {
+    field.classList.add('product-field--value-only');
+    field.append(valueWrap);
+  }
+  return field;
+}
+
 function renderLookup(block, metadata, rowKeys) {
   const displayRows = rowKeys.filter(
     (r) => !METADATA_SOURCE_ROW_KEYS.has(normalizeKey(r.keyText)),
   );
   if (!displayRows.length) return false;
 
+  let imageLead = null;
+  const otherRows = [];
+  for (const r of displayRows) {
+    if (!imageLead && isImageFieldKey(r.keyText)) {
+      imageLead = r;
+    } else {
+      otherRows.push(r);
+    }
+  }
+
   const inner = document.createElement('div');
   inner.className = 'product-inner product-inner--fields';
 
-  displayRows.forEach(({ keyText, labelText }) => {
-    const key = normalizeKey(keyText);
-    const value = lookupValue(metadata, keyText);
-    const field = document.createElement('div');
-    field.className = 'product-field';
-    field.dataset.fieldKey = key || keyText;
-    if (key === 'product-image') field.classList.add('product-field--image');
+  const layout = document.createElement('div');
+  layout.className = 'product-layout';
+  if (!imageLead) {
+    layout.classList.add('product-layout--no-image');
+  }
 
-    const labelEl = document.createElement('span');
-    labelEl.className = 'product-field-label';
-    labelEl.textContent = labelText || humanizeKey(key || keyText);
+  const media = document.createElement('div');
+  media.className = 'product-layout__media';
 
-    const valueWrap = document.createElement('div');
-    valueWrap.className = 'product-field-values';
-    appendValue(valueWrap, value, keyText);
+  const details = document.createElement('div');
+  details.className = 'product-layout__details';
 
-    field.append(labelEl, valueWrap);
-    inner.append(field);
+  if (imageLead) {
+    media.append(createProductField(metadata, imageLead.keyText, imageLead.labelText));
+  }
+
+  otherRows.forEach(({ keyText, labelText }) => {
+    details.append(createProductField(metadata, keyText, labelText));
   });
 
+  if (imageLead) {
+    layout.append(media, details);
+  } else {
+    layout.append(details);
+  }
+
+  inner.append(layout);
   block.replaceChildren(inner);
   return true;
 }
