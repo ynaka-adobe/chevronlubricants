@@ -76,7 +76,7 @@ const formatSearchParams = (url) => {
     }
   } else if (getExtension(url.pathname) === 'json') {
     for (const [key] of searchParams.entries()) {
-      if (!['limit', 'offset', 'sheet'].includes(key)) searchParams.delete(key);
+      if (!['limit', 'offset', 'sheet', 'persona'].includes(key)) searchParams.delete(key);
     }
   } else {
     url.search = '';

@@ -16,6 +16,8 @@ const linkBlocks = [
   { fragment: '/fragments/' },
   { persona: '/schedules/main-persona' },
   { persona: '/schedules/landing-fragment' },
+  /* Must be before generic schedule: persona-aware schedules (sheet + ?persona=) */
+  { persona: '/schedules/products' },
   { schedule: '/schedules/' },
   { youtube: 'https://www.youtube' },
 ];
