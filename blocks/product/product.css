@@ -53,6 +53,10 @@
   color: var(--color-grey-text);
 }
 
+.product-block .product-field--image .product-field-value--image img {
+  max-width: min(100%, 400px);
+}
+
 .product-block .product-field-value--image img {
   max-width: 100%;
   height: auto;

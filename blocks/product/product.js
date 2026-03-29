@@ -57,13 +57,28 @@ function isLikelyUrl(value) {
   return /^https?:\/\//i.test(value.trim()) || value.trim().startsWith('/');
 }
 
-function appendValue(container, value) {
+function appendValue(container, value, fieldKey) {
   const v = value == null ? '' : String(value).trim();
   if (!v) {
     const empty = document.createElement('span');
     empty.className = 'product-field-value product-field-empty';
     empty.textContent = '—';
     container.append(empty);
+    return;
+  }
+  const keyNorm = fieldKey ? normalizeKey(fieldKey) : '';
+  /* product-image (and image) always render as <img> for http(s), protocol-relative, or site paths */
+  const forceImage = keyNorm === 'product-image' || keyNorm === 'image';
+  if (forceImage && (v.startsWith('http://') || v.startsWith('https://') || v.startsWith('//') || v.startsWith('/'))) {
+    const wrap = document.createElement('span');
+    wrap.className = 'product-field-value product-field-value--image';
+    const img = document.createElement('img');
+    img.src = v.startsWith('//') ? `https:${v}` : v;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    wrap.append(img);
+    container.append(wrap);
     return;
   }
   if (isLikelyImageUrl(v)) {
@@ -124,6 +139,7 @@ function renderLookup(block, metadata, rowKeys) {
     const field = document.createElement('div');
     field.className = 'product-field';
     field.dataset.fieldKey = key || keyText;
+    if (key === 'product-image') field.classList.add('product-field--image');
 
     const labelEl = document.createElement('span');
     labelEl.className = 'product-field-label';
@@ -131,7 +147,7 @@ function renderLookup(block, metadata, rowKeys) {
 
     const valueWrap = document.createElement('div');
     valueWrap.className = 'product-field-values';
-    appendValue(valueWrap, value);
+    appendValue(valueWrap, value, keyText);
 
     field.append(labelEl, valueWrap);
     inner.append(field);

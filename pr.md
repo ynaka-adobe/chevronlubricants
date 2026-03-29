@@ -34,6 +34,7 @@
 **Status:** Ready for review
 
 ### Summary
+- Product block: `product-image` metadata values render as `<img>` when the value is a URL; optional max width for the image row (`product-field--image`).
 - Extracted design tokens from chevronlubricants.com (colors, typography, spacing, sections)
 - Updated `styles/styles.css` with Chevron brand palette (blues, greys) and typography (Montserrat as Gotham Narrow substitute)
 - Created `styles/fonts.css` for font loading configuration
