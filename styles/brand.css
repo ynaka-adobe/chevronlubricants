@@ -1,0 +1,47 @@
+/* Chevron Lubricants brand tokens
+ * Extracted from https://www.chevronlubricants.com/ (migration-work/brand.json).
+ * Source font Gotham Narrow (licensed, self-hosted on source) is not available
+ * from Typekit or Google Fonts; Montserrat is used as the substitute.
+ */
+
+:root {
+  /* fonts */
+  --brand-body-font-family: montserrat, montserrat-fallback, "Trebuchet MS", sans-serif;
+  --brand-heading-font-family: var(--brand-body-font-family);
+
+  /* colors */
+  --brand-background-color: #fff;
+  --brand-text-color: #6d6d6d;
+  --brand-heading-color: #0b2d71;
+  --brand-copy-color: #0c2e72;
+  --brand-link-color: #2459a9;
+  --brand-link-hover-color: #0b2d71;
+  --brand-band-blue: #0c2e72;
+  --brand-band-grey: #f5f5f5;
+
+  /* layout */
+  --brand-content-max-width: 1200px;
+  --brand-content-gutter: 12px;
+  --brand-section-spacing: 30px;
+  --brand-band-padding: 54px;
+  --brand-nav-height: 147px;
+
+  /* heading sizes (mobile first; desktop values in styles.css media queries) */
+  --brand-heading-size-h1: 36px;
+  --brand-heading-size-h2: 28px;
+  --brand-heading-size-h2-band: 24px;
+  --brand-heading-size-h2-split: 30px;
+  --brand-heading-size-h3: 20px;
+  --brand-copy-size: 16px;
+}
+
+@media (width >= 900px) {
+  :root {
+    --brand-heading-size-h1: 40px;
+    --brand-heading-size-h2: 40px;
+    --brand-heading-size-h2-band: 30px;
+    --brand-heading-size-h2-split: 42px;
+    --brand-heading-size-h3: 24px;
+    --brand-copy-size: 18px;
+  }
+}

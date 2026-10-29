@@ -1,0 +1,241 @@
+/* Cards-Products: horizontal product tile carousel with prev/next arrows and dots.
+ * Values measured from https://www.chevronlubricants.com/ (.feature-pills .prod).
+ */
+
+.cards-products {
+  position: relative;
+  min-width: 0;
+  font-family: var(--font-family);
+  color: var(--color-grey-text);
+}
+
+/* Track (source .prod__viewport + .prod__container): 297px tiles, 15px gap */
+.cards-products .cards-products-track {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.cards-products .cards-products-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tile (source .product-tile) */
+.cards-products .cards-products-card {
+  position: relative;
+  flex: 0 0 297px;
+  box-sizing: border-box;
+  height: 385px;
+  margin: 0;
+  border: 1px solid #d8d8d8;
+  border-radius: 5px;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/* Image cell: badge slot (always reserved) + product image */
+.cards-products .cards-products-card-image {
+  padding-top: 44.89px;
+}
+
+.cards-products .cards-products-badge {
+  position: absolute;
+  top: 9.89px;
+  left: 8px;
+  height: 25px;
+  line-height: 0;
+}
+
+.cards-products .cards-products-badge picture {
+  display: contents;
+}
+
+.cards-products .cards-products-badge img {
+  width: auto;
+  height: 25px;
+  border-radius: 5px;
+}
+
+.cards-products .cards-products-image {
+  height: 119px;
+  text-align: center;
+  line-height: 0;
+}
+
+.cards-products .cards-products-image picture {
+  display: contents;
+}
+
+.cards-products .cards-products-image img {
+  width: auto;
+  max-width: 100%;
+  height: 119px;
+  object-fit: contain;
+}
+
+/* Body cell (source .product-content) */
+.cards-products .cards-products-card-body {
+  padding: 22.12px 24px 0;
+}
+
+.cards-products .cards-products-card-body > * {
+  margin: 0;
+}
+
+.cards-products .cards-products-title {
+  height: 40px;
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  color: var(--color-chevron-dark-blue);
+}
+
+.cards-products .cards-products-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cards-products .cards-products-title a:hover {
+  text-decoration: underline;
+}
+
+/* Actions (source .fp-buy): text link + outlined pill */
+.cards-products .cards-products-card-body > .cards-products-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 15px 0;
+}
+
+.cards-products a.cards-products-link {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  color: var(--color-chevron-dark-blue);
+  text-decoration: underline;
+  white-space: nowrap;
+  flex: none;
+}
+
+.cards-products a.cards-products-button {
+  display: inline-flex;
+  flex: 0 1 140px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 0;
+  height: 36px;
+  padding: 1px 6px;
+  border: 1px solid var(--color-chevron-dark-blue);
+  border-radius: 25px;
+  background-color: var(--color-white);
+  color: var(--color-chevron-dark-blue);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--button-transition);
+}
+
+.cards-products a.cards-products-button:hover {
+  background-color: var(--color-chevron-dark-blue);
+  color: var(--color-white);
+}
+
+/* Benefits list (source ul.benefit) */
+.cards-products .cards-products-card-body > .cards-products-benefits {
+  margin: 0 0 0 15px;
+  padding: 0;
+  list-style-type: disc;
+  font-size: 13px;
+  font-weight: 325;
+  line-height: 18px;
+  text-align: left;
+}
+
+.cards-products .cards-products-benefits li {
+  margin: 0;
+  line-height: 18px;
+  color: var(--color-black);
+}
+
+/* Navigation (source .prod__dots / .nav-button): right-aligned arrows + dots */
+.cards-products .cards-products-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 29.55px 0 0;
+  padding: 0 18px 19.45px 0;
+}
+
+.cards-products .cards-products-nav[hidden] {
+  display: none;
+}
+
+.cards-products .cards-products-prev,
+.cards-products .cards-products-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-chevron-dark-blue);
+  border-radius: 20px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.cards-products .cards-products-prev svg,
+.cards-products .cards-products-next svg {
+  display: block;
+  width: 13px;
+  height: 11px;
+  fill: var(--color-chevron-dark-blue);
+}
+
+.cards-products .cards-products-prev:disabled,
+.cards-products .cards-products-next:disabled {
+  cursor: default;
+}
+
+.cards-products .cards-products-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cards-products .cards-products-dot {
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-chevron-dark-blue);
+  border-radius: 50%;
+  background-color: var(--color-white);
+  cursor: pointer;
+}
+
+.cards-products .cards-products-dot.is-active {
+  background-color: var(--color-chevron-dark-blue);
+}
+
+.cards-products button:focus-visible {
+  outline: 2px solid var(--color-chevron-medium-blue);
+  outline-offset: 2px;
+}

@@ -1,92 +1,120 @@
-/* Cards-Industry: Industry resource cards grid
- * Matches .multi-column__item.multi-column__customWidthItem.30.stack.defaultBorderColor
- * Used for "Find Resources by Industry" section
+/* Cards-Industry: image tiles with the title link overlaid bottom-left.
+ * Values measured from https://www.chevronlubricants.com/ ("Find resources by Industry",
+ * .multi-column__item.column20). Source stacks tiles below 1200px and shows one row
+ * of five (column20) at 1200px and up.
  */
 
-.cards-industry {
-  max-width: var(--grid-container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-l);
-}
-
-/* stack: 1 col mobile; 30: ~30% width on desktop */
 .cards-industry > ul {
-  list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-l);
+  list-style: none;
 }
 
-/* defaultBorderColor */
 .cards-industry > ul > li {
   position: relative;
-  overflow: hidden;
-  border-radius: 4px;
-  background-color: var(--color-white);
-  border: 1px solid #d8d8d8;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
-.cards-industry > ul > li:hover {
-  border-color: var(--color-chevron-medium-blue);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
-}
-
+/* image: natural size (capped to the column), 15px corners */
 .cards-industry .cards-industry-card-image {
   line-height: 0;
-  width: 100%;
-  aspect-ratio: 461 / 424;
-  max-height: 424px;
-  overflow: hidden;
-  border-radius: 12px;
 }
 
-.cards-industry > ul > li img {
-  width: 100%;
-  height: 100%;
-  min-width: 100%;
-  min-height: 100%;
-  aspect-ratio: 461 / 424;
-  object-fit: cover;
+.cards-industry .cards-industry-card-image img {
   display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
 }
 
+/* title overlay: 16px from the image's left edge, 13px above its bottom edge */
 .cards-industry .cards-industry-card-body {
-  padding: var(--spacing-m) var(--spacing-m);
-}
-
-.cards-industry .cards-industry-card-body a {
-  color: var(--color-chevron-dark-blue);
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 13px;
+  margin: 0;
+  font-family: var(--brand-body-font-family);
+  font-size: clamp(10px, 1.6667vw, 20px);
   font-weight: 700;
-  font-size: var(--body-font-size-s);
-  text-decoration: none;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.cards-industry .cards-industry-card-body p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* source link: white, bold, underlined; no hover change */
+main .cards-industry .cards-industry-card-body a:any-link,
+main .cards-industry .cards-industry-card-body a:any-link:hover {
   display: inline;
-  background: none;
   padding: 0;
+  margin: 0;
   border: none;
-}
-
-.cards-industry .cards-industry-card-body a:hover {
+  border-radius: 0;
+  background: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
   text-decoration: underline;
+  white-space: normal;
+  transition: none;
 }
 
-/* 30: ~30% width = 2 cols */
-@media (width >= 600px) {
-  .cards-industry > ul {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* 30: ~30% width = 3 cols */
-@media (width >= 900px) {
+@media (width >= 1200px) {
   .cards-industry {
-    padding: 0;
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin-inline: auto;
   }
 
   .cards-industry > ul {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-xl);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  /* column20 item: 4px white left border, 1px right (4px on the last), 4px top/9px bottom */
+  .cards-industry > ul > li {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin: 0;
+    padding: 4px 1px 9px 4px;
+  }
+
+  .cards-industry > ul > li:last-child {
+    padding-right: 4px;
+  }
+
+  /* all tiles share the row height (source: 282px images in every column) */
+  .cards-industry .cards-industry-card-image {
+    flex: 1 1 auto;
+  }
+
+  .cards-industry .cards-industry-card-image picture {
+    display: block;
+    height: 100%;
+  }
+
+  .cards-industry .cards-industry-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cards-industry .cards-industry-card-body {
+    left: 20px;
+    right: 17px;
+    bottom: 22px;
   }
 }

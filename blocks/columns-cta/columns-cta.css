@@ -1,0 +1,84 @@
+/* Columns-Cta: row of white pill CTA buttons on the dark-blue band.
+ * The band (background, padding, heading) comes from section style "blue-bg".
+ * Values measured on chevronlubricants.com (.multi-column__container).
+ */
+
+/* mobile: buttons stacked and centered; first button sits 72px below the
+ * heading (40px block-content margin + 32px), last one 15px above band end */
+.columns-cta {
+  margin-bottom: -9px;
+  padding-top: 32px;
+}
+
+.columns-cta .columns-cta-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.columns-cta .columns-cta-item {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  margin: 0;
+}
+
+main .columns-cta a.columns-cta-button:any-link {
+  display: block;
+  box-sizing: border-box;
+  padding: 12px 30px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  background-color: var(--color-white);
+  color: var(--color-chevron-blue);
+  font-family: var(--font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+main .columns-cta a.columns-cta-button:any-link:hover {
+  background-color: #e6e6e6;
+  color: var(--color-chevron-blue);
+  text-decoration: none;
+}
+
+main .columns-cta a.columns-cta-button:any-link:focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 2px;
+}
+
+/* wide desktop: the source keeps the stacked layout until 1200px, then shows
+ * one row of equal columns across the source block width (container minus
+ * gutter), each button centered in its column; 21px below the row.
+ * Columns never shrink below their button so the wider substitute font
+ * (Montserrat vs Gotham Narrow) keeps every label on one line. */
+@media (width >= 1200px) {
+  .columns-cta {
+    margin: 0 calc(var(--brand-content-gutter) - var(--spacing-l)) -3px;
+  }
+
+  .columns-cta .columns-cta-list {
+    display: grid;
+    grid-auto-columns: minmax(max-content, 1fr);
+    grid-auto-flow: column;
+    align-items: start;
+    gap: 0;
+  }
+
+  /* source's tightest column leaves 10px either side of its button */
+  .columns-cta .columns-cta-item {
+    padding: 0 10px;
+  }
+}

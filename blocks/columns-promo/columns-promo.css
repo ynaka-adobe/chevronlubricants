@@ -1,191 +1,145 @@
-/* Columns-Promo: Multi-column parbase promo cards
- * Matches .multi-column__item.multi-column__customWidthItem.30.stack.defaultBorderColor
- * Card layout: linked image + bold title + description
+/* Columns-Promo: source .multi-column (stack, 3 x 30% items)
+ * Values measured from https://www.chevronlubricants.com/ computed styles.
+ * Items stack below 1200px (image at natural 450px max, 15px + 15px spacing)
+ * and sit in a 3-up space-between row at >= 1200px.
  */
 
 .columns-promo {
-  max-width: var(--grid-container-width);
-  margin: 0 auto;
-  padding: var(--spacing-xl) var(--spacing-l);
+  margin: 0;
+  padding: 0;
+  color: var(--color-grey-text);
 }
 
 .columns-promo-link-row-hidden {
   display: none !important;
 }
 
-/* stack: 1 column on mobile */
 .columns-promo > div {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-xl);
-}
-
-/* defaultBorderColor: border instead of shadow */
-.columns-promo > div > .columns-promo-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  min-height: 0;
-  padding-top: 0;
-  background-color: var(--color-white);
-  border-radius: 4px;
-  overflow: hidden;
-  border: 1px solid #d8d8d8;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  gap: 15px;
 }
 
-/* Reset top spacing - cols 2, 3 may have different structure or inherit margin */
-.columns-promo > div > .columns-promo-card > :first-child,
-.columns-promo > div > .columns-promo-card > div > :first-child {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-.columns-promo > div > .columns-promo-card:hover {
-  border-color: var(--color-chevron-medium-blue);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
-  transform: translateY(-2px);
-}
-
-/* Image container - square aspect (1:1), rounded edges. Fixed dimensions so all 3 columns match. Reset margin/padding. */
-.columns-promo .columns-promo-card a:has(img),
-.columns-promo .columns-promo-card .columns-promo-img-col,
-.columns-promo .columns-promo-card div:first-child:has(picture),
-.columns-promo .columns-promo-card div:first-child:has(img),
-.columns-promo .columns-promo-card :first-child:has(img, picture),
-.columns-promo .columns-promo-card picture {
-  display: block;
-  width: 378px;
-  aspect-ratio: 1 / 1;
-  height: auto;
-  max-width: 100%;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  overflow: hidden;
-  border-radius: 12px;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 0;
-  align-self: center;
-}
-
-.columns-promo .columns-promo-card .columns-promo-img-col {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-
-/* All card images - consistent sizing and rounded corners */
-.columns-promo .columns-promo-card img {
-  width: 100%;
-  height: 100%;
-  margin: 0;
+.columns-promo .columns-promo-card {
+  margin-bottom: 15px;
   padding: 0;
+  text-align: center;
+}
+
+/* Image (p > a > picture, h3 > a > picture, a > picture...) */
+.columns-promo .columns-promo-card .columns-promo-image {
+  display: block;
+  margin: 0 0 5px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 0;
+}
+
+.columns-promo .columns-promo-card .columns-promo-image a,
+.columns-promo .columns-promo-card .columns-promo-image picture {
+  display: block;
+}
+
+.columns-promo .columns-promo-card .columns-promo-image img {
+  display: block;
+  width: 450px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  object-position: center;
-  display: block;
-  border-radius: 12px;
-  transition: transform 0.3s ease;
+  border-radius: 15px;
 }
 
-/* Div wrappers around picture/img - same square dimensions for cards 2, 3. Reset margin/padding. */
-.columns-promo .columns-promo-card > div:has(> picture),
-.columns-promo .columns-promo-card > div:has(> img),
-.columns-promo .columns-promo-card > div > div:has(> picture),
-.columns-promo .columns-promo-card > div > div:has(> img) {
-  width: 378px;
-  aspect-ratio: 1 / 1;
-  height: auto;
-  max-width: 100%;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  overflow: hidden;
-  border-radius: 12px;
-  flex-shrink: 0;
-  align-self: center;
-}
-
-/* Override columns base block - .col :first-child can inherit margin */
-.columns-promo .col > :first-child,
-.columns-promo [class*="col"] > :first-child {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-/* Image container when NOT first child (cols 2, 3 may have title first) */
-.columns-promo .columns-promo-card div.columns-promo-img-col,
-.columns-promo .columns-promo-card a.columns-promo-img-col {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-}
-
-.columns-promo .columns-promo-card:hover img {
-  transform: scale(1.03);
-}
-
-/* Text block - matches multi-column__item .richtext */
-.columns-promo .columns-promo-card > p,
-.columns-promo .columns-promo-card > div > p {
-  padding: 0 var(--spacing-l) var(--spacing-s);
-  position: relative;
-  z-index: 1;
-  align-self: stretch;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.columns-promo .columns-promo-card > p:first-of-type,
-.columns-promo .columns-promo-card > div > p:first-of-type {
-  padding-top: var(--spacing-l);
-}
-
-.columns-promo .columns-promo-card > p:last-child,
-.columns-promo .columns-promo-card > div > p:last-child {
-  padding-bottom: var(--spacing-l);
-}
-
-.columns-promo p {
+/* Text: black, centered, 10px under each text group */
+.columns-promo .columns-promo-card > :not(.columns-promo-image) {
   margin: 0;
-  color: var(--color-text);
+  padding: 0;
+  color: var(--color-black);
   font-size: var(--body-font-size-m);
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: var(--body-line-height);
+  letter-spacing: normal;
+  text-align: center;
 }
 
-.columns-promo strong {
-  color: var(--color-chevron-dark-blue);
-  font-size: var(--heading-font-size-m);
+/* Title: bold 18px (source gotham-narrow-bold) */
+.columns-promo .columns-promo-card > :is(h1, h2, h3, h4, h5, h6):not(.columns-promo-image),
+.columns-promo .columns-promo-card > p:has(> strong:only-child),
+.columns-promo .columns-promo-card > p:has(> a:only-child > strong) {
+  font-size: var(--body-font-size-l);
   font-weight: 700;
-  display: block;
-  margin-bottom: var(--spacing-s);
+  padding-bottom: 10px;
 }
 
-.columns-promo a {
-  color: var(--color-chevron-dark-blue);
-  text-decoration: none;
-  transition: color 0.2s ease;
+.columns-promo .columns-promo-card strong {
+  font-weight: 700;
 }
 
-.columns-promo a:hover {
+/* Description: 10px under the last paragraph of a description run */
+.columns-promo .columns-promo-card > p:not(.columns-promo-image, :has(> strong:only-child)):last-child {
+  padding-bottom: 10px;
+}
+
+/* ...and when a title follows the description (source card 3 order) */
+.columns-promo .columns-promo-card > p:not(.columns-promo-image, :has(> strong:only-child, > a:only-child > strong))
++ :is(p:has(> strong:only-child, > a:only-child > strong), h1, h2, h3, h4, h5, h6) {
+  margin-top: 10px;
+}
+
+.columns-promo .columns-promo-card a:any-link {
   color: var(--color-chevron-medium-blue);
+  text-decoration: none;
 }
 
-/* 30: ~30% width = 2 cols at 600px */
-@media (width >= 600px) {
-  .columns-promo > div {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.columns-promo .columns-promo-card > :is(h1, h2, h3, h4, h5, h6, p) a:any-link:has(> strong) {
+  color: inherit;
 }
 
-/* 30: ~30% width = 3 cols at 900px */
+/* On dark section bands (landing-page fragments) keep the white card
+ * treatment so black copy stays legible. */
+:is(.full-width-bg, .blue-bg) .columns-promo .columns-promo-card {
+  overflow: hidden;
+  padding-bottom: var(--spacing-l);
+  border: 1px solid #d8d8d8;
+  border-radius: 4px;
+  background-color: var(--color-white);
+}
+
+:is(.full-width-bg, .blue-bg) .columns-promo .columns-promo-card > :not(.columns-promo-image) {
+  padding-inline: var(--spacing-l);
+}
+
+:is(.full-width-bg, .blue-bg) .columns-promo .columns-promo-card .columns-promo-image img {
+  border-radius: 0;
+}
+
 @media (width >= 900px) {
   .columns-promo {
-    padding: var(--spacing-xxl) 0;
+    padding-inline: var(--brand-content-gutter);
+  }
+}
+
+@media (width >= 1200px) {
+  .columns-promo {
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin-inline: auto;
+    padding-inline: 0;
   }
 
   .columns-promo > div {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-xl);
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .columns-promo .columns-promo-card {
+    flex: 0 0 30%;
+    width: 30%;
+    margin-bottom: 0;
+  }
+
+  .columns-promo .columns-promo-card .columns-promo-image img {
+    width: 100%;
   }
 }

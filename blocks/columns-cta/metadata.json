@@ -1,0 +1,37 @@
+{
+  "variantName": "columns-cta",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Dark Chevron blue (#0c2e72) full-width band, white centered heading, 4 white pill buttons with navy text in a 4-column row.",
+    "colorScheme": "dark",
+    "density": "compact",
+    "purpose": "call-to-action",
+    "imagePattern": "none"
+  },
+  "contentPattern": {
+    "description": "One row of N cells (4 on source), one link per cell rendered as a pill button. Pair with section style 'blue-bg' and a default-content heading above.",
+    "structure": "1 row x 4 cells, each a single link",
+    "buttonCount": 4,
+    "imageCount": 0
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "rows of 2-5 primary CTA buttons",
+      "where-to-buy / finder link bands"
+    ],
+    "notSuitableFor": [
+      "logo rows (use columns-brands)",
+      "image-led promo columns (use columns-promo)"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "da",
+  "sites": {
+    "chevronlubricants": {
+      "previewOrg": "ynaka-adobe",
+      "previewSite": "chevronlubricants",
+      "contentHostUrl": "https://content.da.live/ynaka-adobe/chevronlubricants/",
+      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json"
+    }
+  }
+}

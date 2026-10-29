@@ -1,0 +1,37 @@
+{
+  "variantName": "cards-products",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "White band with horizontal carousel of product cards (optional ISOCLEAN Certified badge, product image, product name link, text link + outlined button, 3 bullet benefits) with prev/next arrows and dots.",
+    "colorScheme": "light",
+    "density": "medium",
+    "purpose": "featured-products",
+    "imagePattern": "product-packshot"
+  },
+  "contentPattern": {
+    "description": "One row per product card. Cell 1: optional badge image followed by the product image. Cell 2: title (heading or bold) linked to the product page, a text link, a button link (last link renders as outlined button), and a bullet list of benefits.",
+    "structure": "N rows (6 on source) x 2 cells: image cell + text cell",
+    "buttonCount": 1,
+    "imageCount": 2
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "featured product carousels",
+      "product cards with image, title, links and benefit bullets"
+    ],
+    "notSuitableFor": [
+      "industry/category image cards (use cards-industry)",
+      "article or insight listings (use cards-insights)"
+    ]
+  }
+}

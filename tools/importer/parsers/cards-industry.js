@@ -2,68 +2,78 @@
 /* global WebImporter */
 
 /**
- * Parser for cards-industry block
+ * Parser for cards-industry (base: cards)
+ * Source: https://www.chevronlubricants.com/ (homepage, "Find resources by Industry")
  *
- * Source: https://www.chevronlubricants.com
- * Base Block: cards
+ * Block table: one row per card, 2 cells: [image] [bold title link].
  *
- * Block Structure:
- * - Row 1: Block name header ("Cards-Industry")
- * - Row 2-N: Each row has image cell + text cell (industry name link)
- *
- * Source HTML Pattern:
- * <div class="multi-column__content">
- *   <div class="multi-column__item">
- *     <a href="/industry-page"><img src="industry-image.png" alt="Industry Name"></a>
- *     <div class="richtext"><p>Industry Name</p></div>
- *   </div>
- *   ...repeat for each industry card
- * </div>
- *
- * Generated: 2026-02-27
+ * Source DOM (validated against migration-work/block-context/cards-industry/source.html):
+ *   .multi-column__content > .multi-column__item (x5)
+ *     .adaptive-image__container
+ *       div[class^="overlay"] .richtext__container  -> many &nbsp; spacer <p>s, then the title
+ *          split over 2 <p>/<h3> lines (e.g. "Construction and" / "Mining"), linked via <a href>
+ *       img.mobile-only-hidden (rendition) + img.tablet-up-hidden (DAM original)
  */
+const ORIGIN = 'https://www.chevronlubricants.com';
+
+function absUrl(url) {
+  if (!url) return '';
+  try {
+    return new URL(url.trim(), ORIGIN).href;
+  } catch (e) {
+    return url;
+  }
+}
+
+function clean(text) {
+  return (text || '').replace(/[\s ]+/g, ' ').trim();
+}
+
 export default function parse(element, { document }) {
   const cells = [];
-
-  // Extract industry card items
-  // VALIDATED: Source HTML has .multi-column__item elements with image links and text
-  const items = element.querySelectorAll('.multi-column__item') ||
-                element.querySelectorAll(':scope > div');
+  const items = [...element.querySelectorAll('.multi-column__content > .multi-column__item')];
 
   items.forEach((item) => {
-    // Extract image
-    // VALIDATED: Source has <img> inside <a> elements with industry images
-    const img = item.querySelector('img');
-    const imageCell = document.createElement('div');
-    if (img) {
-      imageCell.appendChild(img.cloneNode(true));
+    // image: prefer the DAM original
+    const srcImg = item.querySelector('img.tablet-up-hidden') || item.querySelector('img');
+    const imageCell = [];
+    if (srcImg) {
+      const img = document.createElement('img');
+      img.src = absUrl(srcImg.getAttribute('data-src') || srcImg.getAttribute('src'));
+      img.alt = clean(srcImg.getAttribute('alt'));
+      imageCell.push(img);
     }
 
-    // Extract industry name and link
-    // VALIDATED: Source has <a> with href to industry page and text/title
-    const textCell = document.createElement('div');
-    const link = item.querySelector('a[href]') ||
-                 item.querySelector('.richtext a');
-    const titleText = item.querySelector('h3, h4, .richtext p, p');
+    // title: join the non-empty overlay text lines
+    const overlay = item.querySelector('.adaptive-image__container .richtext__container') || item;
+    const parts = [...overlay.querySelectorAll('p, h1, h2, h3, h4, h5, h6')]
+      .map((el) => clean(el.textContent))
+      .filter(Boolean);
+    const title = parts.reduce((acc, part) => {
+      if (!acc) return part;
+      return /^[/\-]/.test(part) || /[/\-]$/.test(acc) ? `${acc}${part}` : `${acc} ${part}`;
+    }, '') || (srcImg ? clean(srcImg.getAttribute('alt')) : '');
 
-    if (link && titleText) {
+    const srcLink = overlay.querySelector('a[href]') || item.querySelector('a[href]');
+    const textCell = [];
+    if (title) {
+      const p = document.createElement('p');
       const strong = document.createElement('strong');
-      const a = document.createElement('a');
-      a.href = link.href;
-      a.textContent = titleText.textContent.trim();
-      strong.appendChild(a);
-      textCell.appendChild(strong);
-    } else if (titleText) {
-      const strong = document.createElement('strong');
-      strong.textContent = titleText.textContent.trim();
-      textCell.appendChild(strong);
+      if (srcLink) {
+        const a = document.createElement('a');
+        a.href = absUrl(srcLink.getAttribute('href'));
+        a.textContent = title;
+        strong.append(a);
+      } else {
+        strong.textContent = title;
+      }
+      p.append(strong);
+      textCell.push(p);
     }
 
-    if (imageCell.childNodes.length || textCell.childNodes.length) {
-      cells.push([imageCell, textCell]);
-    }
+    if (imageCell.length || textCell.length) cells.push([imageCell, textCell]);
   });
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'Cards-Industry', cells });
+  const block = WebImporter.Blocks.createBlock(document, { name: 'cards-industry', cells });
   element.replaceWith(block);
 }

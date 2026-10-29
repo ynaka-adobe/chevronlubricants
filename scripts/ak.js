@@ -58,8 +58,8 @@ export async function loadStyle(href) {
 }
 
 const KNOWN_BLOCKS = new Set([
-  'advanced-tabs', 'card', 'cards-industry', 'cards-insights', 'columns',
-  'columns-brands', 'columns-products', 'columns-promo', 'footer', 'fragment',
+  'advanced-tabs', 'card', 'cards-industry', 'cards-insights', 'cards-products', 'columns',
+  'columns-brands', 'columns-cta', 'columns-products', 'columns-promo', 'footer', 'fragment',
   'header', 'hero', 'persona', 'product', 'product-metadata', 'schedule',
   'section-metadata', 'table', 'youtube',
 ]);
@@ -95,7 +95,7 @@ function loadTemplate() {
 }
 
 function decoratePictures(el) {
-  const pics = el.querySelectorAll('picture');
+  const pics = [...el.querySelectorAll('picture')].filter((pic) => pic.querySelector('source'));
   for (const pic of pics) {
     const source = pic.querySelector('source');
     const clone = source.cloneNode();
