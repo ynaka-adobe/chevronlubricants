@@ -523,6 +523,14 @@
 
 ## Merged PRs
 
+### Log learning-for-you pages and sheet publish
+
+**Branch:** `pr-log-learning` → `main`, [PR #4](https://github.com/ynaka-adobe/chevronlubricants/pull/4)
+**Status:** Merged 2026-10-30.
+
+### Summary
+- `pr.md` only: records the preview/publish of the 2 learning-for-you pages and the `resources` sheet (see the URL restructure entry under Open PRs).
+
 ### Log redirects sheet publish and persona fix
 
 **Branch:** `pr-log-redirects` → `main`, [PR #3](https://github.com/ynaka-adobe/chevronlubricants/pull/3)
