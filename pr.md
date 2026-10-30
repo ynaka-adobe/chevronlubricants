@@ -28,18 +28,6 @@
 
 ## Open PRs
 
-### Remove orphaned root files
-
-**Branch:** `cleanup-root-files` (pushed 2026-10-30; no PR opened yet)
-**Status:** Ready for review/merge.
-
-### Summary
-- Removed unreferenced repo-root files: `phase1-preview.png`, `phase2-preview.png`, `pr.html`, `pr.plain.html`, and the old `fragments/` folder (7 header-menu/landing-page fragments; the header uses `content/nav`).
-- Content pages are not in git; the old-structure local orphans are tracked in the URL restructure entry below.
-
-### Testing
-- [x] `git grep` finds no references to any removed file.
-
 ### Restructure URLs to mirror the source (/en-us/home/...)
 
 **Branch:** `main` (uncommitted)
@@ -533,4 +521,14 @@
 
 ## Merged PRs
 
-(none yet)
+### Remove orphaned root files
+
+**Branch:** `cleanup-root-files` → `main`, [PR #2](https://github.com/ynaka-adobe/chevronlubricants/pull/2)
+**Status:** Merged 2026-10-30.
+
+### Summary
+- Removed unreferenced repo-root files: `phase1-preview.png`, `phase2-preview.png`, `pr.html`, `pr.plain.html`, and the old `fragments/` folder (7 header-menu/landing-page fragments; the header uses `content/nav`).
+- Content pages are not in git; the old-structure local orphans are tracked in the URL restructure entry under Open PRs.
+
+### Testing
+- [x] `git grep` finds no references to any removed file.
