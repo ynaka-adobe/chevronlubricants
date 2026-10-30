@@ -1,4 +1,4 @@
-import { loadArea, setConfig } from './ak.js';
+import { getConfig, loadArea, setConfig } from './ak.js';
 
 const hostnames = ['authorkit.dev', 'localhost'];
 
@@ -39,6 +39,14 @@ const decorateArea = ({ area = document }) => {
 
 export async function loadPage() {
   setConfig({ hostnames, locales, linkBlocks, components, decorateArea });
+  if (document.querySelector('meta[name="sku"]')) {
+    try {
+      const { default: decorateCommerceProduct } = await import('./commerce-product.js');
+      await decorateCommerceProduct(document.querySelector('main'));
+    } catch (error) {
+      getConfig().log(error, document.querySelector('main'));
+    }
+  }
   await loadArea();
 }
 await loadPage();
