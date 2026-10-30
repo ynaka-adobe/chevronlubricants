@@ -28,6 +28,21 @@
 
 ## Open PRs
 
+### Keep loading sections hidden (desktop layout shift)
+
+**Branch:** `fix-loading-cls`
+**Status:** Open for review; not merged.
+
+### Summary
+- Cause: `styles/styles.css` hides a section while it loads with `div[data-status] { display: none; }`, but three section styles set their own `display` with a more specific selector: the insights band at ≥900px (`grid`), `split` (`grid`) and `banner` (`flex`). On desktop the "Stay informed with Our Latest Insights" band could show at the top of the homepage before the sections above it, then get pushed off screen when they loaded.
+- Measured on live `/en-us/home` at 1350×940, cold cache: 1 run in 5 shifted by 0.87 (the band at y=150, 790px tall, pushed off screen); other runs 0.02–0.06. Mobile 0.04. The persona banner makes the top section slower, so the band shows more often; it is not the cause.
+- Fix: `main > .section[data-status] { display: none !important; }` next to the framework visibility rule, so any section style is hidden while loading.
+
+### Testing
+- [x] stylelint passes.
+- [x] Local preview, homepage at 1350px: the insights band and the split section compute `display: none` while `data-status` is set and `grid` after; all 6 sections are visible after load.
+- [ ] aem-psi-check on the branch.
+
 ### Restructure URLs to mirror the source (/en-us/home/...)
 
 **Branch:** `main` (uncommitted)
@@ -53,6 +68,8 @@
   - [x] `schedules/landing-fragment` sheet: all 16 rows were dated Jan–Apr 2026 (expired), so the block would show nothing. Added 3 undated fallback rows (`default`, `fleet-managers`, `oem` → `/fragments/landing-page/<persona>`); dated rows still take priority. Local copy `content/schedules/landing-fragment.json` == DA; uploaded, previewed and published (19 rows live). Backup: `migration-work/da-backups/landing-fragment.before-fallback-2026-10-30.json`.
   - [x] Local `content/en-us/home.plain.html` = DA source + a new first section with the schedule link (same authoring as the old `/home`). Local preview: the default landing fragment (hero + 3 promos) renders above "Premium Chevron Lubricants". Note: the local file is now the DA source, so its `content.da.live` images don't load in the local preview (they do on aem.page/aem.live). Backups: `migration-work/da-backups/en-us__home.before-persona-2026-10-30.html` (DA) and `…local-before-persona-2026-10-30.plain.html` (local).
   - [x] `/en-us/home` uploaded to DA, previewed and published 2026-10-30 (customer request). DA was unchanged since the backup; DA source == local after upload. Live check: the persona fragment renders at the top for no param, `?persona=default`, `?persona=fleet-managers` and `?persona=oem` (each shows its own hero/promos; images load; the schedule link is gone). The `/persona/*` redirects now land on a working persona view.
+  - [x] **Live homepage changed outside this work (2026-10-30):** DA version history shows a save at 16:16:43 GMT that removed only the persona section, published at 16:16:50, then a save at 16:17:06 that restored it (identical to the local copy) but was not published. Customer chose to republish the version with the persona; previewed and published again, link verified on aem.page and aem.live.
+  - [ ] Desktop layout shift: see "Keep loading sections hidden" under Open PRs. (An earlier note blamed the persona banner; the cause is a CSS specificity bug, which the banner makes worse.)
   - [ ] The landing fragments still link to `/home#find-resources-by-industry` and `/home?persona=fleet-managers|oem` (404 now) and `/en-us/home/chevron-products-selector` (not migrated). The page also has 2 H1s for `default` and `oem` (fragment hero + "Premium Chevron Lubricants"), as the old `/home` did; the `fleet-managers` fragment has no H1.
 - [x] Local workspace synced from DA (2026-10-30): the 113 DA pages/fragments (`/en-us/home/**`, `/nav`, `/footer`) were mirrored locally from the aem.page preview (identical text/links to DA source; images absolutized to aem.page media; DA metadata block kept). Pre-sync backup: `migration-work/local-before-da-sync-2026-10-30/`.
 - [ ] DA content issues found during the sync:
