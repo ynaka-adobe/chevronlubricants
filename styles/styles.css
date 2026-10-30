@@ -1621,6 +1621,13 @@ div[data-status] {
   display: none;
 }
 
+/* A section still loading stays hidden even when its section style sets its own
+   display (banner, split, insights band); otherwise it flashes at the top of the
+   page before the sections above it and shifts the layout. */
+main > .section[data-status] {
+  display: none !important;
+}
+
 aem-sidekick {
   opacity: 0;
 
