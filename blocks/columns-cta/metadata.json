@@ -17,12 +17,25 @@
     "imagePattern": "none"
   },
   "contentPattern": {
-    "description": "One row of N cells (4 on source), one link per cell rendered as a pill button. Pair with section style 'blue-bg' and a default-content heading above.",
-    "structure": "1 row x 4 cells, each a single link",
+    "description": "One row of N cells (4 on source), one link per cell rendered as a pill button. Pair with section style 'blue-bg' and a default-content heading above. A cell with no link renders as plain left-aligned text (text + button band, e.g. on sky-blue-bg). An image before the link text in a cell renders as an icon (social rows). Option links: underlined inline text links instead of pills (jump links, filter links). Option red: red (#b5121b) square buttons with white labels (Havoline gf-7 jump links). Option icons: icon-only social links (78px icons, label visually hidden as the accessible name).",
+    "structure": "1 row x N cells, each a single link (optional icon image) or plain text",
     "buttonCount": 4,
     "imageCount": 0
   },
-  "options": [],
+  "options": [
+    {
+      "class": "links",
+      "label": "Links"
+    },
+    {
+      "class": "red",
+      "label": "Red"
+    },
+    {
+      "class": "icons",
+      "label": "Icons"
+    }
+  ],
   "memberVariantIds": [],
   "reuseGuidance": {
     "suitableFor": [
@@ -33,5 +46,20 @@
       "logo rows (use columns-brands)",
       "image-led promo columns (use columns-promo)"
     ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/isoclean",
+      "/en-us/home/learning/about-our-brands/delo",
+      "/en-us/home/learning/about-our-brands/havoline/gf-7-landing-page",
+      "/en-us/home/learning/about-our-brands/delo/delo-customer-success-stories",
+      "/en-us/home/learning/about-our-brands/isoclean/isoclean-faqs",
+      "/en-us/home/learning/about-our-brands/techron",
+      "/en-us/home/learning/about-our-brands/havoline",
+      "/en-us/home/learning/about-our-brands/havoline/drivers",
+      "/en-us/home/learning/about-our-brands/havoline/havoline-customer-stories"
+    ],
+    "reuseCount": 9,
+    "lastUsed": "2026-10-30T00:00:00.000Z"
   }
 }

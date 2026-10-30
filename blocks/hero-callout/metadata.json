@@ -1,0 +1,43 @@
+{
+  "variantName": "hero-callout",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean.html",
+    "originPage": "isoclean",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Inline centred callout (not a top-of-page hero): wordmark graphic (~350px), centred paragraph, centred filled button.",
+    "colorScheme": "light",
+    "density": "medium",
+    "purpose": "mid-page brand callout",
+    "imagePattern": "wordmark / graphic"
+  },
+  "contentPattern": {
+    "description": "2 rows: [graphic / wordmark image] [paragraph + CTA link].",
+    "structure": "2 rows: [image] [paragraph + CTA link]",
+    "imageCount": 1,
+    "buttonCount": 1
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "centred graphic + text + button callouts"
+    ],
+    "notSuitableFor": [
+      "top-of-page heroes (use hero)",
+      "text over photo (use hero-overlay)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/isoclean"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

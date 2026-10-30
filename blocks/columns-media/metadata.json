@@ -1,0 +1,52 @@
+{
+  "variantName": "columns-media",
+  "baseBlock": "columns",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean.html",
+    "originPage": "isoclean",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Photo beside a text panel (bold heading, copy, optional square #0066b2 button). Default unframed; 'card' variant = shadowed columns with centred heading/button. Stacks on mobile.",
+    "colorScheme": "light",
+    "density": "medium",
+    "purpose": "feature / explainer",
+    "imagePattern": "one photo"
+  },
+  "contentPattern": {
+    "description": "1 row, 2 cells: [photo | heading + paragraph + button]. Cells render in authored order; empty spacer paragraphs are dropped; a single standalone link paragraph becomes the button.",
+    "structure": "1 row x 2 cells: [photo | heading + paragraph + button]",
+    "imageCount": 1,
+    "buttonCount": 1
+  },
+  "options": [
+    {
+      "class": "card",
+      "label": "Card (shadowed columns, centred heading + button)"
+    },
+    {
+      "class": "centered",
+      "label": "Centered heading + button"
+    }
+  ],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "image + text feature panels"
+    ],
+    "notSuitableFor": [
+      "3 stacked promos (use columns-promo)",
+      "product details (use columns-products)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/isoclean"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

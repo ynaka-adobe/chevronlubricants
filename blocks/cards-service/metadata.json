@@ -1,0 +1,44 @@
+{
+  "variantName": "cards-service",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo.html",
+    "originPage": "delo",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Horizontal shadowed white tiles: ~80px line icon left (25%), centred (linked) bold navy title + grey description right; 2-4 per row, a single tile is centred at one third width. On a black-bg band: unboxed white text tiles with thin dividers.",
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "service / benefit links",
+    "imagePattern": "small icon"
+  },
+  "contentPattern": {
+    "description": "1 row per tile: [icon image (~80px) | title (h3, optionally linked) + description paragraph].",
+    "structure": "1 row per tile: [icon | linked h3 title + description]",
+    "imageCount": "1 icon per tile"
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "self / pro service tiles",
+      "benefit tiles with icons"
+    ],
+    "notSuitableFor": [
+      "image-top resource tiles (use cards-resource)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/delo",
+      "/en-us/home/learning/about-our-brands/havoline/gf-7-landing-page",
+      "/en-us/home/learning/about-our-brands/industrial-products/learning-for-you"
+    ],
+    "reuseCount": 3,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

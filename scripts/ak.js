@@ -58,10 +58,12 @@ export async function loadStyle(href) {
 }
 
 const KNOWN_BLOCKS = new Set([
-  'advanced-tabs', 'card', 'cards-industry', 'cards-insights', 'cards-products', 'columns',
-  'columns-brands', 'columns-cta', 'columns-products', 'columns-promo', 'footer', 'fragment',
-  'header', 'hero', 'persona', 'product', 'product-metadata', 'schedule',
-  'section-metadata', 'table', 'youtube',
+  'accordion-drawer', 'accordion-faq', 'advanced-tabs', 'card', 'cards-filterable',
+  'cards-industry', 'cards-insights', 'cards-products', 'cards-resource', 'cards-service',
+  'carousel-banner', 'carousel-square', 'columns', 'columns-brands', 'columns-cta',
+  'columns-media', 'columns-products', 'columns-promo', 'footer', 'fragment', 'header', 'hero',
+  'hero-callout', 'hero-overlay', 'locator', 'persona', 'product', 'product-metadata', 'quote-testimonial',
+  'schedule', 'section-metadata', 'table', 'youtube',
 ]);
 
 export async function loadBlock(block) {

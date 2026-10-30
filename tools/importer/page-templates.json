@@ -135,6 +135,975 @@
           ]
         }
       ]
+    },
+    {
+      "name": "products-brand",
+      "urls": [
+        "https://www.chevronlubricants.com/en_us/home/products/by_brand/delo.html",
+        "https://www.chevronlubricants.com/en_us/home/products/by_brand/havoline.html",
+        "https://www.chevronlubricants.com/en_us/home/products/by_brand/industrial_products.html",
+        "https://www.chevronlubricants.com/en_us/home/products/by_brand/isoclean.html",
+        "https://www.chevronlubricants.com/en_us/home/products/by_brand/techron.html"
+      ],
+      "representativeUrl": "https://www.chevronlubricants.com/en_us/home/products/by_brand/delo.html",
+      "description": "Brand product listing pages (by_brand): brand H1 + tagline (catalog header), Featured carousel (cards-products), brand links bar, brand header + product groups (cards-products grid). Same block model as products-listing.",
+      "blocks": [
+        {
+          "name": "cards-products",
+          "instances": [
+            ".product-list__rebrand .slider-wrapper",
+            ".pll .product-listing-list__category-container__items"
+          ]
+        }
+      ],
+      "urlPattern": "/en_us/home/products/*",
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Brand listing main content",
+          "selector": [
+            "#main-content .root.responsivegrid",
+            ".root.responsivegrid"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-products"
+          ],
+          "defaultContent": [
+            ".product-catalog-header .product-catalog__tagtitle",
+            ".product-catalog-header .product-catalog__tagline",
+            ".richtext.parbase.aem-GridColumn .richtext__container",
+            ".title.aem-GridColumn .title__container",
+            ".product-list__rebrand .richtext__container",
+            ".product-list__rebrand .product-list-rebrand__title",
+            ".category-listing > .category > ol",
+            ".pll .product-listing-category__header"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "products-listing",
+      "urls": [
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/gasoline_fleets_oil_change_service_centers/automobile_fleets.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/gasoline_fleets_oil_change_service_centers/oil_change_service_centers.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/gasoline_fleets_oil_change_service_centers/truck_fleets.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/cement_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/circulating_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/compressors.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/conveyors.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/injection_molding_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/lifts.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/manufacturing_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/mining_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/oil_gas_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/paper_machines.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/steel_mills.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/off_highway_heavy_duty/agriculture_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/off_highway_heavy_duty/construction_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/off_highway_heavy_duty/forestry_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/off_highway_heavy_duty/inland_marine_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/off_highway_heavy_duty/mining_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/on_highway_heavy_duty/buses.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/on_highway_heavy_duty/light_duty_and_diesel_pick_up_trucks.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/on_highway_heavy_duty/medium_large_trucks.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/on_highway_heavy_duty/waste_hauler.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/personal_rec_vehicles/atvs_utvs_snowmobiles.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/personal_rec_vehicles/boats.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/personal_rec_vehicles/cars_suvs.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/personal_rec_vehicles/motorcycles.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/personal_rec_vehicles/pick_up_trucks_sprinter_vans_diesel.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/personal_rec_vehicles/pick_up_trucks_sprinter_vans_gasoline.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/personal_rec_vehicles/professional_lawn_care.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/coolants_antifreezes/gasoline_fleets.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/coolants_antifreezes/industrial.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/coolants_antifreezes/off_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/coolants_antifreezes/on_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/coolants_antifreezes/personal_rec_vehicles.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/engine_oils/gasoline_fleets.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/engine_oils/industrial.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/engine_oils/off_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/engine_oils/on_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/engine_oils/personal_rec_vehicles.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/fuel_additives/personal_rec_vehicles.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/greases/gasoline_fleets.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/greases/off_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/greases/on_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/greases/personal_rec_vehicles.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/hydraulic_oils/industrial.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/hydraulic_oils/off_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/hydraulic_oils/on_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/circulating_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/compressor_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/gear_box_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/hydraulic_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/metal_working_equipment_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/mining_equipment_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/paper_machine_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/specialty_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/turbine_oils.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/transmission_gear_oils/gasoline_fleets.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/transmission_gear_oils/off_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/transmission_gear_oils/on_highway_heavy_duty.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/transmission_gear_oils/personal_rec_vehicles.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/transmission_gear_oils/industrial.html",
+        "https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery/power_generation_equipment.html",
+        "https://www.chevronlubricants.com/en_us/home/products/product_category/greases/industrial.html"
+      ],
+      "representativeUrl": "https://www.chevronlubricants.com/en_us/home/products/equipment_type/gasoline_fleets_oil_change_service_centers/automobile_fleets.html",
+      "description": "Product category and equipment-type listing pages (61). One white main section (no section style): page H1 (inside the Featured product-list richtext on 49 pages; in a standalone top-level richtext on 10 pages without the carousel; in a title component on 2 pages without the carousel), optional \"Featured Products\" label + carousel, category sibling-link nav (Filter toggle/panel, mobile scroll-menu, \"See all\" toggles and \"Back to all products\" links are cleanup-removed), then grouped product grids each preceded by its group heading. Both the Featured carousel and every product group grid map to the single block variant cards-products (grid is a block option, not a separate variant). Instance .product-list__rebrand .slider-wrapper is the carousel and must emit the plain \"Cards-Products\" header; instance .pll .product-listing-list__category-container__items is a group grid and the parser must detect it (element.matches('.product-listing-list__category-container__items') / contains .product-listing-item) and call WebImporter.Blocks.createBlock(document, { name: 'cards-products', variants: ['grid'], cells }) so the header renders \"Cards-Products (grid)\". Carousel DOM: a.slide > .teaser-image (img in rendered DOM, data-bg on raw HTML) + .product-title + .category-heading .inner__description (skip .slick-cloned slides). Grid DOM: .product-listing-item > .product-listing-item__img-container (optional __isologo ISOCLEAN badge img + __product img) + .product-listing-item__title-link + .product-listing-item__benefits label + .product-listing-item__benefits-container ul + .product-listing-category__more a (Learn More) + .product-listing-category__buyonline a (button).",
+      "blocks": [
+        {
+          "name": "cards-products",
+          "instances": [
+            ".product-list__rebrand .slider-wrapper",
+            ".pll .product-listing-list__category-container__items"
+          ]
+        }
+      ],
+      "urlPattern": "/en_us/home/products/*",
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Product listing main content",
+          "selector": [
+            "#main-content .root.responsivegrid",
+            ".root.responsivegrid"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-products"
+          ],
+          "defaultContent": [
+            ".richtext.parbase.aem-GridColumn .richtext__container",
+            ".title.aem-GridColumn .title__container",
+            ".product-list__rebrand .richtext__container",
+            ".product-list__rebrand .product-list-rebrand__title",
+            ".category-listing > .category > ol",
+            ".pll .product-listing-category__header"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "expertise-marketing",
+      "urls": [
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo/coolant-landing-page.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo/delo-customer-success-stories.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo/simplify-your-fleet-protection.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo/tractor-restoration-competition.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/havoline.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/havoline/business.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/havoline/drivers.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/havoline/gf-7-landing-page.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/havoline/havoline-customer-stories.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/clarity-landing-page.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/greaseportfolio.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/industrial-products-faqs.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/learning-for-you.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/vartech-isc.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean/construction-new-oil-is-costing-you.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean/isoclean-faqs.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean/learning-for-you.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean/mining-did-you-check-the-third-spec.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean/oil-and-gas-svcs-the-impact-of-dirty-oil.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean/waste-hauling-does-your-new-oil-meet-the-third-spec.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/techron.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/techron/faqs.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/techron/history.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/xpress-lube.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/xpress-lube/drivers.html",
+        "https://www.chevronlubricants.com/en_us/home/services/pro-services/personal-rec-vehicles/xpress-lube-contact-us.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo/emissions-control-center/on-hwy-the-solution.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo/the-delo-difference.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/choosing-industrial-engine-oil.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean/customer-success.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/how-hydraulic-oils-impact-efficiency.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/from-chevron/heavy-duty-diesel-vehicles-and-equipment/get-more-efficiency-from-the-workhorse-fuel.html",
+        "https://www.chevronlubricants.com/en_us/home/learning/from-chevron/industrial-machinery/smaller-eservoirs-and-hotter-operating-temps-change-hydraulic-fluid-selection.html"
+      ],
+      "representativeUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo.html",
+      "description": "Our Expertise brand/marketing pages (28) built from AEM components (multi-column, richtext, title, cmp-image, carousels, accordion-text, drawer, testimonial, simple-panel, panel-with-button, distributor, social-media, knowledge-center, product-list). Every top-level component under #main-content > .container-fluid maps to exactly one block variant, default content, or is excluded - verified on all 28 live pages (see migration-work/expertise/mapping-coverage.json). multi-column instances are told apart by item structure only (no :nth-child/:nth-of-type): nested icon|text multi-column per item = cards-service; image-only item beside text item = columns-media; items of image + richtext + (richtext|button|video) = cards-resource; image + single label = cards-service; image-only items = columns-promo; button-only / social-icon (column16) / link-icon (column20) items = columns-cta. multi-columns nested in a multi-column item or a drawer are never block instances. simple-panel is a container (children mapped individually) except image+richtext+button-only panels = hero-callout. Parser branches (see mapping-coverage.json notes): quote-testimonial on the delo bg-blue video multi-column uses item 1 as the quote and leaves item 2 as default content; cards-resource splits items into one card per cmp-image group, splits text-only product columns at .divider, handles text-before-image items and adds blue-caption when the caption richtext__container has bg-isoclean; columns-media takes the image/video item as cell 1 regardless of order and skips spacer items; cards-service handles nested and flat tiles; columns-cta handles social-media, panel-with-button, button rows, icon-link rows and the richtext link row (option links); accordion-faq adds load-more when a.btn is present; hero-overlay handles richtext and button overlays. Sections: generic bands derived from bg classes per migration-work/expertise/section-rules.json (sections[] below documents the band types; the sections transformer must group consecutive top-level components by computed band style instead of using one selector per section).",
+      "blocks": [
+        {
+          "name": "carousel-banner",
+          "instances": [
+            "#main-content .image-carousel"
+          ]
+        },
+        {
+          "name": "carousel-square",
+          "instances": [
+            "#main-content .square-carousel"
+          ]
+        },
+        {
+          "name": "cards-products",
+          "instances": [
+            "#main-content .product-list-component .product-list .slider-wrapper"
+          ]
+        },
+        {
+          "name": "cards-filterable",
+          "instances": [
+            "#main-content .knowledge-center"
+          ]
+        },
+        {
+          "name": "accordion-drawer",
+          "instances": [
+            "#main-content .drawer"
+          ]
+        },
+        {
+          "name": "accordion-faq",
+          "instances": [
+            "#main-content .accordion-text"
+          ]
+        },
+        {
+          "name": "quote-testimonial",
+          "instances": [
+            "#main-content .testimonial",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container[data-bg-color=\"bg-blue\"] > .multi-column__content > .multi-column__item > .video)"
+          ]
+        },
+        {
+          "name": "hero-callout",
+          "instances": [
+            "#main-content .simple-panel:has(> .row > .container-fluid > div > .cmp-image + .richtext + .button):not(:has(.multi-column, .panel-with-button, .simple-panel))"
+          ]
+        },
+        {
+          "name": "hero-overlay",
+          "instances": [
+            "#main-content .cmp-image:not(.multi-column__item *):has(> .cl-adaptive-image > .adaptive-image__container > [class*=\"overlay\"] .richtext__container)",
+            "#main-content .cmp-image:not(.multi-column__item *):has(> .cl-adaptive-image > .adaptive-image__container > .buttonOverlay .btn-wrapper a[href])"
+          ]
+        },
+        {
+          "name": "columns-cta",
+          "instances": [
+            "#main-content .social-media",
+            "#main-content .panel-with-button",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container > div > p > a ~ a ~ a ~ a ~ a)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .button:only-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item.column16 > .cmp-image:only-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item.column20 > .cmp-image:only-child)"
+          ]
+        },
+        {
+          "name": "columns-promo",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.richtext, .title, .button, .video, .multi-column, .salesforce-embed-component))):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item.column16))"
+          ]
+        },
+        {
+          "name": "cards-service",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .multi-column:only-child > .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext:last-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + .divider + .cmp-image:last-child)"
+          ]
+        },
+        {
+          "name": "cards-resource",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):not(:has(> .multi-column__container[data-bg-color=\"bg-blue\"] > .multi-column__content > .multi-column__item > .video)):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + :is(.richtext, .button, .video))",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .richtext:first-child + .cmp-image:last-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .richtext + .richtext + .richtext + .divider + .richtext)"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.cmp-image:only-child, .video:only-child, .divider:first-child + .cmp-image + .divider:last-child)):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.richtext, .title)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item.column20))"
+          ]
+        }
+      ],
+      "urlPattern": "/en_us/home/*",
+      "sections": [
+        {
+          "id": "band-default",
+          "name": "Unstyled band (white / transparent background): every top-level component whose band element has bg-white, bg-transparent, defaultBackground or no bg token; consecutive ones form one section (\"centered\" appended when all its default content is centre-aligned)",
+          "selector": [
+            "#main-content > .container-fluid > *"
+          ],
+          "style": null,
+          "blocks": [
+            "carousel-banner",
+            "carousel-square",
+            "accordion-drawer",
+            "accordion-faq",
+            "hero-callout",
+            "hero-overlay",
+            "columns-cta",
+            "columns-promo",
+            "cards-service",
+            "cards-resource",
+            "columns-media"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .cmp-image",
+            "#main-content > .container-fluid > .title",
+            "#main-content > .container-fluid > .richtext",
+            "#main-content > .container-fluid > .button",
+            "#main-content > .container-fluid > .simple-panel",
+            "#main-content > .container-fluid > .multi-column"
+          ]
+        },
+        {
+          "id": "band-grey-bg",
+          "name": "Light grey band (#f5f5f5): bg-light-gray on the band element, plus the testimonial container",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-light-gray\"])",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-light-gray)",
+            "#main-content > .container-fluid > .simple-panel:has(> .row.panel-background.bg-light-gray)",
+            "#main-content > .container-fluid > .drawer:has(.drawer__content.bg-light-gray)",
+            "#main-content > .container-fluid > .knowledge-center:has(.knowledge-center__container.bg-light-gray)",
+            "#main-content > .container-fluid > .square-carousel:has(.square-carousel__container.bg-light-gray)",
+            "#main-content > .container-fluid > .testimonial"
+          ],
+          "style": "grey-bg",
+          "blocks": [
+            "carousel-square",
+            "cards-filterable",
+            "accordion-drawer",
+            "quote-testimonial",
+            "cards-service",
+            "cards-resource",
+            "columns-media"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-light-gray)",
+            "#main-content > .container-fluid > .simple-panel:has(> .row.panel-background.bg-light-gray)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-light-gray\"])"
+          ]
+        },
+        {
+          "id": "band-grey-gradient",
+          "name": "Product carousel band (linear-gradient #f5f5f5 to white)",
+          "selector": [
+            "#main-content > .container-fluid > .row.product-list-component:has(.product-list .list-wrapper.bg-light-gray)"
+          ],
+          "style": "grey-gradient",
+          "blocks": [
+            "cards-products"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "band-sky-blue-bg",
+          "name": "ISOCLEAN sky blue band (#04a2d3): bg-isoclean",
+          "selector": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-isoclean)",
+            "#main-content > .container-fluid > .social-media:has(.social-media__container.bg-isoclean)",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container.bg-isoclean)",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-isoclean)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-isoclean\"])"
+          ],
+          "style": "sky-blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-isoclean)"
+          ]
+        },
+        {
+          "id": "band-cobalt-blue-bg",
+          "name": "Delo cobalt blue band (#0066b2): bg-blue / bg-delo",
+          "selector": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-blue)",
+            "#main-content > .container-fluid > .social-media:has(.social-media__container.bg-blue)",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container:is(.bg-blue, .bg-delo))",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-blue)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-blue\"])",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-delo\"])"
+          ],
+          "style": "cobalt-blue-bg",
+          "blocks": [
+            "quote-testimonial",
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-blue)",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-blue)"
+          ]
+        },
+        {
+          "id": "band-blue-bg",
+          "name": "Chevron blue band (#0c2e72): bg-strong-blue, and panel-with-button defaultBackground (#0b2d71)",
+          "selector": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-strong-blue)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-strong-blue\"])",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container.defaultBackground)"
+          ],
+          "style": "blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-strong-blue)"
+          ]
+        },
+        {
+          "id": "band-black-bg",
+          "name": "Black band (#000): bg-black",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-black\"])",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-black)"
+          ],
+          "style": "black-bg",
+          "blocks": [
+            "cards-service"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "band-teal-blue-bg",
+          "name": "Teal blue band (#017da4): bg-blue-2 (greaseportfolio filter row only; needs a section style in styles.css)",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-blue-2\"])"
+          ],
+          "style": "teal-blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "expertise-blog-landing",
+      "urls": [
+        "https://www.chevronlubricants.com/en_us/home/learning/from-chevron/chevron-lubematters-blog-landing.html"
+      ],
+      "representativeUrl": "https://www.chevronlubricants.com/en_us/home/learning/from-chevron/chevron-lubematters-blog-landing.html",
+      "description": "Chevron Lube Matters blog landing page",
+      "blocks": [
+        {
+          "name": "carousel-banner",
+          "instances": [
+            "#main-content .image-carousel"
+          ]
+        },
+        {
+          "name": "carousel-square",
+          "instances": [
+            "#main-content .square-carousel"
+          ]
+        },
+        {
+          "name": "cards-products",
+          "instances": [
+            "#main-content .product-list-component .product-list .slider-wrapper"
+          ]
+        },
+        {
+          "name": "cards-filterable",
+          "instances": [
+            "#main-content .knowledge-center"
+          ]
+        },
+        {
+          "name": "accordion-drawer",
+          "instances": [
+            "#main-content .drawer"
+          ]
+        },
+        {
+          "name": "accordion-faq",
+          "instances": [
+            "#main-content .accordion-text"
+          ]
+        },
+        {
+          "name": "quote-testimonial",
+          "instances": [
+            "#main-content .testimonial",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container[data-bg-color=\"bg-blue\"] > .multi-column__content > .multi-column__item > .video)"
+          ]
+        },
+        {
+          "name": "hero-callout",
+          "instances": [
+            "#main-content .simple-panel:has(> .row > .container-fluid > div > .cmp-image + .richtext + .button):not(:has(.multi-column, .panel-with-button, .simple-panel))"
+          ]
+        },
+        {
+          "name": "hero-overlay",
+          "instances": [
+            "#main-content .cmp-image:not(.multi-column__item *):has(> .cl-adaptive-image > .adaptive-image__container > [class*=\"overlay\"] .richtext__container)",
+            "#main-content .cmp-image:not(.multi-column__item *):has(> .cl-adaptive-image > .adaptive-image__container > .buttonOverlay .btn-wrapper a[href])"
+          ]
+        },
+        {
+          "name": "columns-cta",
+          "instances": [
+            "#main-content .social-media",
+            "#main-content .panel-with-button",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container > div > p > a ~ a ~ a ~ a ~ a)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .button:only-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item.column16 > .cmp-image:only-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item.column20 > .cmp-image:only-child)"
+          ]
+        },
+        {
+          "name": "columns-promo",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.richtext, .title, .button, .video, .multi-column, .salesforce-embed-component))):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item.column16))"
+          ]
+        },
+        {
+          "name": "cards-service",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .multi-column:only-child > .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext:last-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + .divider + .cmp-image:last-child)"
+          ]
+        },
+        {
+          "name": "cards-resource",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):not(:has(> .multi-column__container[data-bg-color=\"bg-blue\"] > .multi-column__content > .multi-column__item > .video)):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + :is(.richtext, .button, .video))",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .richtext:first-child + .cmp-image:last-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .richtext + .richtext + .richtext + .divider + .richtext)"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.cmp-image:only-child, .video:only-child, .divider:first-child + .cmp-image + .divider:last-child)):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.richtext, .title)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item.column20))"
+          ]
+        },
+        {
+          "name": "cards-insights",
+          "instances": [
+            "#main-content .content-component .content-list"
+          ]
+        }
+      ],
+      "urlPattern": "/en_us/home/learning/from-chevron/*",
+      "sections": [
+        {
+          "id": "band-default",
+          "name": "Unstyled band (white / transparent background): every top-level component whose band element has bg-white, bg-transparent, defaultBackground or no bg token; consecutive ones form one section (\"centered\" appended when all its default content is centre-aligned)",
+          "selector": [
+            "#main-content > .container-fluid > *"
+          ],
+          "style": null,
+          "blocks": [
+            "carousel-banner",
+            "carousel-square",
+            "accordion-drawer",
+            "accordion-faq",
+            "hero-callout",
+            "hero-overlay",
+            "columns-cta",
+            "columns-promo",
+            "cards-service",
+            "cards-resource",
+            "columns-media"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .cmp-image",
+            "#main-content > .container-fluid > .title",
+            "#main-content > .container-fluid > .richtext",
+            "#main-content > .container-fluid > .button",
+            "#main-content > .container-fluid > .simple-panel",
+            "#main-content > .container-fluid > .multi-column"
+          ]
+        },
+        {
+          "id": "band-grey-bg",
+          "name": "Light grey band (#f5f5f5): bg-light-gray on the band element, plus the testimonial container",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-light-gray\"])",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-light-gray)",
+            "#main-content > .container-fluid > .simple-panel:has(> .row.panel-background.bg-light-gray)",
+            "#main-content > .container-fluid > .drawer:has(.drawer__content.bg-light-gray)",
+            "#main-content > .container-fluid > .knowledge-center:has(.knowledge-center__container.bg-light-gray)",
+            "#main-content > .container-fluid > .square-carousel:has(.square-carousel__container.bg-light-gray)",
+            "#main-content > .container-fluid > .testimonial"
+          ],
+          "style": "grey-bg",
+          "blocks": [
+            "carousel-square",
+            "cards-filterable",
+            "accordion-drawer",
+            "quote-testimonial",
+            "cards-service",
+            "cards-resource",
+            "columns-media"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-light-gray)",
+            "#main-content > .container-fluid > .simple-panel:has(> .row.panel-background.bg-light-gray)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-light-gray\"])"
+          ]
+        },
+        {
+          "id": "band-grey-gradient",
+          "name": "Product carousel band (linear-gradient #f5f5f5 to white)",
+          "selector": [
+            "#main-content > .container-fluid > .row.product-list-component:has(.product-list .list-wrapper.bg-light-gray)"
+          ],
+          "style": "grey-gradient",
+          "blocks": [
+            "cards-products"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "band-sky-blue-bg",
+          "name": "ISOCLEAN sky blue band (#04a2d3): bg-isoclean",
+          "selector": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-isoclean)",
+            "#main-content > .container-fluid > .social-media:has(.social-media__container.bg-isoclean)",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container.bg-isoclean)",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-isoclean)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-isoclean\"])"
+          ],
+          "style": "sky-blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-isoclean)"
+          ]
+        },
+        {
+          "id": "band-cobalt-blue-bg",
+          "name": "Delo cobalt blue band (#0066b2): bg-blue / bg-delo",
+          "selector": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-blue)",
+            "#main-content > .container-fluid > .social-media:has(.social-media__container.bg-blue)",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container:is(.bg-blue, .bg-delo))",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-blue)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-blue\"])",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-delo\"])"
+          ],
+          "style": "cobalt-blue-bg",
+          "blocks": [
+            "quote-testimonial",
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-blue)",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-blue)"
+          ]
+        },
+        {
+          "id": "band-blue-bg",
+          "name": "Chevron blue band (#0c2e72): bg-strong-blue, and panel-with-button defaultBackground (#0b2d71)",
+          "selector": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-strong-blue)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-strong-blue\"])",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container.defaultBackground)"
+          ],
+          "style": "blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-strong-blue)"
+          ]
+        },
+        {
+          "id": "band-black-bg",
+          "name": "Black band (#000): bg-black",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-black\"])",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-black)"
+          ],
+          "style": "black-bg",
+          "blocks": [
+            "cards-service"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "band-teal-blue-bg",
+          "name": "Teal blue band (#017da4): bg-blue-2 (greaseportfolio filter row only; needs a section style in styles.css)",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-blue-2\"])"
+          ],
+          "style": "teal-blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "expertise-where-to-buy",
+      "description": "Where to buy pages: three locators (distributor/installer/retailer, rebuilt as the locator block calling Chevron's locator service) and Contact Us. Uses the expertise-marketing component mapping plus the locator.",
+      "urls": [
+        "https://www.chevronlubricants.com/en_us/home/where-to-buy/find-a-distributor.html",
+        "https://www.chevronlubricants.com/en_us/home/where-to-buy/find-an-installer.html",
+        "https://www.chevronlubricants.com/en_us/home/where-to-buy/find-a-retailer.html",
+        "https://www.chevronlubricants.com/en_us/home/contact-us.html"
+      ],
+      "representativeUrl": "https://www.chevronlubricants.com/en_us/home/where-to-buy/find-a-distributor.html",
+      "blocks": [
+        {
+          "name": "carousel-banner",
+          "instances": [
+            "#main-content .image-carousel"
+          ]
+        },
+        {
+          "name": "carousel-square",
+          "instances": [
+            "#main-content .square-carousel"
+          ]
+        },
+        {
+          "name": "cards-products",
+          "instances": [
+            "#main-content .product-list-component .product-list .slider-wrapper"
+          ]
+        },
+        {
+          "name": "cards-filterable",
+          "instances": [
+            "#main-content .knowledge-center"
+          ]
+        },
+        {
+          "name": "accordion-drawer",
+          "instances": [
+            "#main-content .drawer"
+          ]
+        },
+        {
+          "name": "accordion-faq",
+          "instances": [
+            "#main-content .accordion-text"
+          ]
+        },
+        {
+          "name": "quote-testimonial",
+          "instances": [
+            "#main-content .testimonial",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container[data-bg-color=\"bg-blue\"] > .multi-column__content > .multi-column__item > .video)"
+          ]
+        },
+        {
+          "name": "hero-callout",
+          "instances": [
+            "#main-content .simple-panel:has(> .row > .container-fluid > div > .cmp-image + .richtext + .button):not(:has(.multi-column, .panel-with-button, .simple-panel))"
+          ]
+        },
+        {
+          "name": "hero-overlay",
+          "instances": [
+            "#main-content .cmp-image:not(.multi-column__item *):has(> .cl-adaptive-image > .adaptive-image__container > [class*=\"overlay\"] .richtext__container)",
+            "#main-content .cmp-image:not(.multi-column__item *):has(> .cl-adaptive-image > .adaptive-image__container > .buttonOverlay .btn-wrapper a[href])"
+          ]
+        },
+        {
+          "name": "columns-cta",
+          "instances": [
+            "#main-content .social-media",
+            "#main-content .panel-with-button",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container > div > p > a ~ a ~ a ~ a ~ a)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .button:only-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item.column16 > .cmp-image:only-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item.column20 > .cmp-image:only-child)"
+          ]
+        },
+        {
+          "name": "columns-promo",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.richtext, .title, .button, .video, .multi-column, .salesforce-embed-component))):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item.column16))"
+          ]
+        },
+        {
+          "name": "cards-service",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .multi-column:only-child > .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext:last-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + .divider + .cmp-image:last-child)"
+          ]
+        },
+        {
+          "name": "cards-resource",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):not(:has(> .multi-column__container[data-bg-color=\"bg-blue\"] > .multi-column__content > .multi-column__item > .video)):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + :is(.richtext, .button, .video))",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .richtext:first-child + .cmp-image:last-child)",
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .richtext + .richtext + .richtext + .divider + .richtext)"
+          ]
+        },
+        {
+          "name": "columns-media",
+          "instances": [
+            "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.cmp-image:only-child, .video:only-child, .divider:first-child + .cmp-image + .divider:last-child)):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.richtext, .title)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item.column20))"
+          ]
+        },
+        {
+          "name": "locator",
+          "instances": [
+            "#main-content .retailer-finder"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "band-default",
+          "name": "Unstyled band (white / transparent background): every top-level component whose band element has bg-white, bg-transparent, defaultBackground or no bg token; consecutive ones form one section (\"centered\" appended when all its default content is centre-aligned)",
+          "selector": [
+            "#main-content > .container-fluid > *"
+          ],
+          "style": null,
+          "blocks": [
+            "carousel-banner",
+            "carousel-square",
+            "accordion-drawer",
+            "accordion-faq",
+            "hero-callout",
+            "hero-overlay",
+            "columns-cta",
+            "columns-promo",
+            "cards-service",
+            "cards-resource",
+            "columns-media"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .cmp-image",
+            "#main-content > .container-fluid > .title",
+            "#main-content > .container-fluid > .richtext",
+            "#main-content > .container-fluid > .button",
+            "#main-content > .container-fluid > .simple-panel",
+            "#main-content > .container-fluid > .multi-column"
+          ]
+        },
+        {
+          "id": "band-grey-bg",
+          "name": "Light grey band (#f5f5f5): bg-light-gray on the band element, plus the testimonial container",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-light-gray\"])",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-light-gray)",
+            "#main-content > .container-fluid > .simple-panel:has(> .row.panel-background.bg-light-gray)",
+            "#main-content > .container-fluid > .drawer:has(.drawer__content.bg-light-gray)",
+            "#main-content > .container-fluid > .knowledge-center:has(.knowledge-center__container.bg-light-gray)",
+            "#main-content > .container-fluid > .square-carousel:has(.square-carousel__container.bg-light-gray)",
+            "#main-content > .container-fluid > .testimonial"
+          ],
+          "style": "grey-bg",
+          "blocks": [
+            "carousel-square",
+            "cards-filterable",
+            "accordion-drawer",
+            "quote-testimonial",
+            "cards-service",
+            "cards-resource",
+            "columns-media"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-light-gray)",
+            "#main-content > .container-fluid > .simple-panel:has(> .row.panel-background.bg-light-gray)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-light-gray\"])"
+          ]
+        },
+        {
+          "id": "band-grey-gradient",
+          "name": "Product carousel band (linear-gradient #f5f5f5 to white)",
+          "selector": [
+            "#main-content > .container-fluid > .row.product-list-component:has(.product-list .list-wrapper.bg-light-gray)"
+          ],
+          "style": "grey-gradient",
+          "blocks": [
+            "cards-products"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "band-sky-blue-bg",
+          "name": "ISOCLEAN sky blue band (#04a2d3): bg-isoclean",
+          "selector": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-isoclean)",
+            "#main-content > .container-fluid > .social-media:has(.social-media__container.bg-isoclean)",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container.bg-isoclean)",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-isoclean)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-isoclean\"])"
+          ],
+          "style": "sky-blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-isoclean)"
+          ]
+        },
+        {
+          "id": "band-cobalt-blue-bg",
+          "name": "Delo cobalt blue band (#0066b2): bg-blue / bg-delo",
+          "selector": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-blue)",
+            "#main-content > .container-fluid > .social-media:has(.social-media__container.bg-blue)",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container:is(.bg-blue, .bg-delo))",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-blue)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-blue\"])",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-delo\"])"
+          ],
+          "style": "cobalt-blue-bg",
+          "blocks": [
+            "quote-testimonial",
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .distributor:has(.distributor__container.bg-blue)",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-blue)"
+          ]
+        },
+        {
+          "id": "band-blue-bg",
+          "name": "Chevron blue band (#0c2e72): bg-strong-blue, and panel-with-button defaultBackground (#0b2d71)",
+          "selector": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-strong-blue)",
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-strong-blue\"])",
+            "#main-content > .container-fluid > .panel-with-button:has(.panel-with-button__container.defaultBackground)"
+          ],
+          "style": "blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": [
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-strong-blue)"
+          ]
+        },
+        {
+          "id": "band-black-bg",
+          "name": "Black band (#000): bg-black",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-black\"])",
+            "#main-content > .container-fluid > .richtext:has(> .richtext__container.bg-black)"
+          ],
+          "style": "black-bg",
+          "blocks": [
+            "cards-service"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "band-teal-blue-bg",
+          "name": "Teal blue band (#017da4): bg-blue-2 (greaseportfolio filter row only; needs a section style in styles.css)",
+          "selector": [
+            "#main-content > .container-fluid > .multi-column:has(> .multi-column__container[data-bg-color=\"bg-blue-2\"])"
+          ],
+          "style": "teal-blue-bg",
+          "blocks": [
+            "columns-cta"
+          ],
+          "defaultContent": []
+        }
+      ]
     }
   ]
 }

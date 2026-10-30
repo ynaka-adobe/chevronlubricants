@@ -1,0 +1,157 @@
+/* Hero-Overlay: banner photo with live text overlaid middle-left (>= 900px).
+ * Source (1440px viewport, 1176px image): .overlayMiddleLeft at left 16px, top 50%,
+ * translateY(-50%), white Gotham Narrow text; .buttonOverlay pinned bottom-left.
+ * The source scales the overlay with the image, so desktop geometry is expressed in
+ * cqi of the block (100cqi = 1176px at full size: 1px = 0.08503cqi).
+ * Below 900px the text stacks under the photo so it stays legible (the source shrinks
+ * it to 10px over the photo).
+ */
+
+.hero-overlay {
+  position: relative;
+}
+
+.hero-overlay .hero-overlay-media {
+  line-height: 0;
+}
+
+.hero-overlay .hero-overlay-media p {
+  margin: 0;
+}
+
+.hero-overlay .hero-overlay-media img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+/* stacked text (mobile) */
+.hero-overlay .hero-overlay-content {
+  padding: 15px 16px 0;
+  color: var(--brand-copy-color);
+  font-size: var(--brand-copy-size);
+  line-height: 1.2;
+  text-align: left;
+}
+
+.hero-overlay .hero-overlay-content p {
+  margin: 0;
+  line-height: inherit;
+}
+
+.hero-overlay.hero-overlay-display .hero-overlay-content {
+  font-size: var(--brand-heading-size-h2);
+}
+
+.hero-overlay.hero-overlay-label .hero-overlay-content {
+  font-size: var(--brand-heading-size-h2);
+  font-weight: 700;
+  text-align: center;
+}
+
+.hero-overlay.hero-overlay-label .hero-overlay-content :is(strong, b) {
+  display: block;
+}
+
+/* link-only overlay: source .buttonOverlay .btn--lubricants.bg-havoline */
+main .hero-overlay.hero-overlay-cta .hero-overlay-content a:any-link {
+  display: inline-block;
+  padding: 12px 30px;
+  border: 1px solid transparent;
+  border-radius: 25px;
+  background-color: #b5121b;
+  color: var(--color-white);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+main .hero-overlay.hero-overlay-cta .hero-overlay-content a:any-link:hover {
+  background-color: #870d14;
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+main .hero-overlay.hero-overlay-cta .hero-overlay-content a:any-link:focus-visible {
+  outline: 2px solid var(--color-chevron-medium-blue);
+  outline-offset: 2px;
+}
+
+@media (width >= 900px) {
+  .hero-overlay {
+    container-type: inline-size;
+  }
+
+  /* soft scrim right behind the overlaid copy: keeps white text >= 4.5:1 on light
+   * spots of the photo without dimming artwork baked into it (e.g. the GF-7 headline) */
+  .hero-overlay:not(.hero-overlay-cta) .hero-overlay-content > div {
+    position: relative;
+  }
+
+  .hero-overlay:not(.hero-overlay-cta) .hero-overlay-content > div::before {
+    content: '';
+    position: absolute;
+    inset: -12px -24px;
+    z-index: -1;
+    border-radius: 24px;
+    background: rgb(0 0 0 / 50%);
+    filter: blur(16px);
+    pointer-events: none;
+  }
+
+  /* body copy: 16px/19.2px in a 563px box, padding 20px 10px 20px 35px; the source
+   * also carries two empty lines above and one below the copy (2.4em / 1.2em) */
+  .hero-overlay .hero-overlay-content {
+    position: absolute;
+    top: 50%;
+    left: 1.3605cqi;
+    z-index: 2;
+    box-sizing: border-box;
+    color: var(--color-white);
+    text-shadow: 0 1px 3px rgb(0 0 0 / 60%);
+    transform: translateY(-50%);
+    width: 47.874cqi;
+    padding: calc(1.7007cqi + 2.4em) 0.8503cqi calc(1.7007cqi + 1.2em) 2.9762cqi;
+    font-size: max(12px, 1.3605cqi);
+    line-height: 1.2;
+  }
+
+  .hero-overlay .hero-overlay-content :is(h1, h2, h3, h4, p, strong, b, a:not(.btn)) {
+    color: var(--color-white);
+  }
+
+  /* short tagline: 50px/60px, padding 15px */
+  .hero-overlay.hero-overlay-display .hero-overlay-content {
+    width: auto;
+    padding: 1.2755cqi;
+    font-size: 4.2517cqi;
+  }
+
+  /* bold label: 30px/36px, centered, padding 15px */
+  .hero-overlay.hero-overlay-label .hero-overlay-content {
+    width: auto;
+    padding: 1.2755cqi;
+    font-size: 2.551cqi;
+  }
+
+  /* button overlay: bottom 0 / left 0, wrapper margin 0 0 10px 50px */
+  .hero-overlay.hero-overlay-cta .hero-overlay-content {
+    top: auto;
+    bottom: 10px;
+    left: 50px;
+    width: auto;
+    padding: 0;
+    text-shadow: none;
+    transform: none;
+  }
+}
+
+@media (width >= 1200px) {
+  .hero-overlay {
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin-inline: auto;
+  }
+}

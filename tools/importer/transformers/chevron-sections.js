@@ -41,6 +41,10 @@ function findSectionElement(root, section) {
 }
 
 export default function transform(hookName, element, payload) {
+  // expertise-* templates derive sections from background bands instead of
+  // per-section selectors: handled by chevron-expertise-sections.js.
+  const templateName = (payload && payload.template && payload.template.name) || '';
+  if (templateName.startsWith('expertise-')) return;
   const sections = (payload && payload.template && payload.template.sections) || [];
   if (sections.length < 2) return;
   const doc = element.ownerDocument || payload.document;

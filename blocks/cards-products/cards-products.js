@@ -3,8 +3,14 @@
  * arrows and dots. Each row = one card:
  *   cell 1: [optional badge image] + product image
  *   cell 2: title (heading/strong link), "Learn More" link, button link, bullet list
+ *
+ * Option `grid` (block class): wrapping 4-column listing grid, no carousel
+ * controls; with more than GRID_VISIBLE cards the rest are hidden behind a
+ * "See all (N)" toggle.
  * @param {Element} block
  */
+
+const GRID_VISIBLE = 4;
 
 function decorateImageCell(cell) {
   cell.className = 'cards-products-card-image';
@@ -56,7 +62,14 @@ function decorateBodyCell(cell) {
   }
 
   const list = cell.querySelector('ul');
-  if (list) list.classList.add('cards-products-benefits');
+  if (list) {
+    list.classList.add('cards-products-benefits');
+    // short link-free paragraph right before the list = "Benefits" label
+    const label = list.previousElementSibling;
+    if (label && label.tagName === 'P' && label !== title && !label.querySelector('a')) {
+      label.classList.add('cards-products-benefits-label');
+    }
+  }
 }
 
 const ARROW_PATHS = {
@@ -97,8 +110,10 @@ function buildCarousel(block, track) {
     return max <= 2 ? 1 : Math.ceil((max - 2) / step()) + 1;
   };
 
+  const scrollMotion = () => (window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+
   const goTo = (index) => {
-    track.scrollTo({ left: Math.min(index * step(), maxScroll()), behavior: 'smooth' });
+    track.scrollTo({ left: Math.min(index * step(), maxScroll()), behavior: scrollMotion() });
   };
 
   const renderDots = () => {
@@ -133,10 +148,10 @@ function buildCarousel(block, track) {
   };
 
   prev.addEventListener('click', () => {
-    track.scrollBy({ left: -step(), behavior: 'smooth' });
+    track.scrollBy({ left: -step(), behavior: scrollMotion() });
   });
   next.addEventListener('click', () => {
-    track.scrollBy({ left: step(), behavior: 'smooth' });
+    track.scrollBy({ left: step(), behavior: scrollMotion() });
   });
 
   let ticking = false;
@@ -153,6 +168,52 @@ function buildCarousel(block, track) {
   nav.append(prev, dots, next);
   block.append(nav);
   update();
+}
+
+let gridCount = 0;
+
+function buildGrid(block, track) {
+  // source order: title, benefits label + list, then actions at the bottom
+  track.querySelectorAll('.cards-products-card-body').forEach((body) => {
+    const actions = body.querySelector(':scope > .cards-products-actions');
+    if (actions) body.append(actions);
+  });
+
+  const cards = [...track.children];
+  if (cards.length <= GRID_VISIBLE) return;
+
+  gridCount += 1;
+  track.id = track.id || `cards-products-grid-${gridCount}`;
+  const extra = cards.slice(GRID_VISIBLE);
+  extra.forEach((card) => { card.hidden = true; });
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'cards-products-seeall';
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-controls', track.id);
+  toggle.innerHTML = `See all <span class="cards-products-seeall-count">(${cards.length})</span><span aria-hidden="true"> &gt;</span>`;
+  toggle.addEventListener('click', () => {
+    extra.forEach((card) => { card.hidden = false; });
+    toggle.setAttribute('aria-expanded', 'true');
+    // source removes the toggle once expanded; keep keyboard focus on the new content
+    const focusTarget = extra[0].querySelector('a[href]');
+    toggle.hidden = true;
+    if (focusTarget) focusTarget.focus();
+  });
+
+  // source shows the toggle inline after the category heading
+  // ("Havoline Coolants  See all (5) >"); fall back to below the grid
+  const heading = block.parentElement?.previousElementSibling?.lastElementChild;
+  if (heading && /^H[2-4]$/.test(heading.tagName)) {
+    heading.classList.add('cards-products-heading');
+    heading.append(' ', toggle);
+    return;
+  }
+  const wrap = document.createElement('div');
+  wrap.className = 'cards-products-seeall-wrap';
+  wrap.append(toggle);
+  block.append(wrap);
 }
 
 export default function decorate(block) {
@@ -175,5 +236,6 @@ export default function decorate(block) {
 
   block.textContent = '';
   block.append(track);
-  buildCarousel(block, track);
+  if (block.classList.contains('grid')) buildGrid(block, track);
+  else buildCarousel(block, track);
 }

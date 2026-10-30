@@ -1,0 +1,42 @@
+{
+  "variantName": "hero-overlay",
+  "baseBlock": "hero",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/havoline/gf-7-landing-page.html",
+    "originPage": "gf7",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Full-bleed banner photo with live white text overlaid middle-left at >= 900px; text stacks under the photo on smaller screens.",
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "banner with overlaid intro text",
+    "imagePattern": "full-width photo"
+  },
+  "contentPattern": {
+    "description": "2 rows: [background photo] [text: paragraph, optional heading and CTA].",
+    "structure": "2 rows: [photo] [text]",
+    "imageCount": 1
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "photo banners with a short live intro"
+    ],
+    "notSuitableFor": [
+      "top-of-page account heroes (use hero)",
+      "stacked callouts (use hero-callout)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/havoline/gf-7-landing-page"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

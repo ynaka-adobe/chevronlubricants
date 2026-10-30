@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/vartech-isc.html",
+  "path": "learning/about-our-brands/industrial-products/vartech-isc",
+  "timestamp": "2026-10-30T05:22:16.370Z",
+  "title": "VARTECH ISC: Clean Right. Run Right | Chevron Lubricants (US)",
+  "template": "expertise-marketing",
+  "blocks": [
+    "carousel-banner",
+    "columns-promo",
+    "cards-service",
+    "cards-resource",
+    "columns-media",
+    "columns-media"
+  ]
+}

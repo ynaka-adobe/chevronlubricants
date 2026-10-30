@@ -8,7 +8,11 @@ import columnsBrandsParser from './parsers/columns-brands.js';
 import cardsProductsParser from './parsers/cards-products.js';
 import cardsInsightsParser from './parsers/cards-insights.js';
 
+import chevronProductsCleanupTransformer from './transformers/chevron-products-cleanup.js';
+import chevronExpertiseCleanupTransformer from './transformers/chevron-expertise-cleanup.js';
 import chevronCleanupTransformer from './transformers/chevron-cleanup.js';
+import chevronExpertiseSectionsTransformer from './transformers/chevron-expertise-sections.js';
+import chevronLinksTransformer from './transformers/chevron-links.js';
 import chevronSectionsTransformer from './transformers/chevron-sections.js';
 
 const PAGE_TEMPLATE = {
@@ -154,7 +158,7 @@ const parsers = {
   'cards-insights': cardsInsightsParser,
 };
 
-const transformers = [chevronCleanupTransformer, chevronSectionsTransformer];
+const transformers = [chevronProductsCleanupTransformer, chevronExpertiseCleanupTransformer, chevronCleanupTransformer, chevronExpertiseSectionsTransformer, chevronLinksTransformer, chevronSectionsTransformer];
 
 function executeTransformers(hookName, element, payload) {
   const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
@@ -202,7 +206,9 @@ export default {
     const rawPath = new URL(params.originalURL).pathname
       .replace(/\/$/, '')
       .replace(/\.html?$/, '');
-    const path = WebImporter.FileUtils.sanitizePath(rawPath === '' ? '/home' : rawPath);
+    // mirror the source structure under /en-us/home (sanitizePath: en_us -> en-us, _ -> -);
+    // the source root is the homepage -> /en-us/home (same rule as generate-link-map.mjs)
+    const path = WebImporter.FileUtils.sanitizePath((rawPath === '' ? '/en_us/home' : rawPath).toLowerCase());
 
     return [{
       element: main,

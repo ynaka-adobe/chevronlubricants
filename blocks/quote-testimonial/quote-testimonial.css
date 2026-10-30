@@ -1,0 +1,215 @@
+/* Quote-Testimonial
+ * Default (title) variant - source ISOCLEAN .testimonial__container: grey card,
+ * centred 24px title, 385px quotation column, name + role, button CTA.
+ * Portrait variant (block has a portrait row) - source Delo multi-column video
+ * tile: portrait 240px tall, quotation and attribution run inline, left aligned,
+ * followed by a bold underlined video link.
+ * Values are the source computed styles (1440px and 390px are identical).
+ */
+
+.quote-testimonial {
+  --quote-testimonial-cta-bg: var(--color-sky-blue); /* source bg-isoclean #04a2d3, AA-safe band token */
+  --quote-testimonial-cta-hover-bg: #005a7c; /* source darkens the button ~24% on hover */
+
+  box-sizing: border-box;
+  padding: 18px 15px;
+  background-color: var(--color-grey-light-bg);
+  color: var(--color-chevron-dark-blue);
+  font-size: 16px;
+  line-height: 19.2px;
+  text-align: center;
+}
+
+.quote-testimonial .quote-testimonial-figure {
+  margin: 0;
+}
+
+.quote-testimonial .quote-testimonial-title {
+  margin: 0 0 20px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28.8px;
+}
+
+.quote-testimonial .quote-testimonial-title :is(h2, h3, h4, p) {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+}
+
+.quote-testimonial .quote-testimonial-quote {
+  max-width: 385px;
+  margin: 0 auto 16px;
+  font-size: 20px;
+  line-height: 26px;
+}
+
+.quote-testimonial .quote-testimonial-quote p {
+  margin: 0;
+  line-height: inherit;
+}
+
+.quote-testimonial .quote-testimonial-attribution {
+  margin: 0;
+  color: var(--color-grey-text);
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.quote-testimonial .quote-testimonial-attribution p {
+  margin: 0;
+  line-height: inherit;
+}
+
+.quote-testimonial .quote-testimonial-attribution .quote-testimonial-name {
+  color: var(--color-chevron-dark-blue);
+}
+
+.quote-testimonial .quote-testimonial-cta {
+  margin: 20px 0;
+}
+
+.quote-testimonial .quote-testimonial-cta p {
+  margin: 0;
+}
+
+main .quote-testimonial .quote-testimonial-cta a:any-link {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 12px 30px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background-color: var(--quote-testimonial-cta-bg);
+  color: var(--color-white);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  text-decoration: none;
+  transition: background-color 0.15s ease-in-out;
+}
+
+main .quote-testimonial .quote-testimonial-cta a:any-link:hover {
+  background-color: var(--quote-testimonial-cta-hover-bg);
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+main .quote-testimonial .quote-testimonial-cta a:any-link:focus-visible {
+  outline: 2px solid var(--color-chevron-medium-blue);
+  outline-offset: 2px;
+}
+
+/* portrait variant (Delo video tile) */
+.quote-testimonial:has(.quote-testimonial-portrait) {
+  padding: 0;
+  background-color: transparent;
+  text-align: left;
+}
+
+.quote-testimonial .quote-testimonial-figure:has(.quote-testimonial-portrait) {
+  padding: 0 10px 35px;
+}
+
+.quote-testimonial .quote-testimonial-portrait {
+  margin: 0 -10px 15px;
+  line-height: 0;
+  text-align: center;
+}
+
+.quote-testimonial .quote-testimonial-portrait p {
+  margin: 0;
+}
+
+.quote-testimonial .quote-testimonial-portrait img {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 240px;
+}
+
+.quote-testimonial:has(.quote-testimonial-portrait) :is(.quote-testimonial-quote, .quote-testimonial-attribution) {
+  display: inline;
+  max-width: none;
+  margin: 0;
+  color: inherit;
+  font-size: 16px;
+  line-height: 19.2px;
+}
+
+.quote-testimonial:has(.quote-testimonial-portrait) :is(.quote-testimonial-quote, .quote-testimonial-attribution) p {
+  display: inline;
+}
+
+.quote-testimonial:has(.quote-testimonial-portrait) .quote-testimonial-attribution::before {
+  content: " - ";
+}
+
+.quote-testimonial:has(.quote-testimonial-portrait) .quote-testimonial-attribution p + p::before {
+  content: ", ";
+}
+
+.quote-testimonial:has(.quote-testimonial-portrait) .quote-testimonial-attribution .quote-testimonial-name {
+  color: inherit;
+}
+
+.quote-testimonial:has(.quote-testimonial-portrait) .quote-testimonial-cta {
+  margin: 0;
+  padding: 15px;
+}
+
+main .quote-testimonial:has(.quote-testimonial-portrait) .quote-testimonial-cta a:any-link {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19.2px;
+  text-decoration: underline;
+}
+
+main .quote-testimonial:has(.quote-testimonial-portrait) .quote-testimonial-cta a:any-link:hover {
+  background-color: transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* dark bands: white text (white passes AA on every band colour) */
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .blue-bg, .black-bg) .quote-testimonial,
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .blue-bg, .black-bg) .quote-testimonial .quote-testimonial-attribution,
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .blue-bg, .black-bg) .quote-testimonial .quote-testimonial-name {
+  color: var(--color-white);
+}
+
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .blue-bg, .black-bg) .quote-testimonial:not(:has(.quote-testimonial-portrait)) {
+  --quote-testimonial-cta-bg: var(--color-white);
+  --quote-testimonial-cta-hover-bg: var(--color-chevron-light-blue);
+
+  background-color: transparent;
+}
+
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .blue-bg, .black-bg) .quote-testimonial:not(:has(.quote-testimonial-portrait)) .quote-testimonial-cta a:any-link {
+  color: var(--color-chevron-dark-blue);
+}
+
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .blue-bg, .black-bg) .quote-testimonial .quote-testimonial-cta a:any-link:focus-visible {
+  outline-color: var(--color-white);
+}
+
+/* two testimonials in a row */
+@media (width >= 900px) {
+  .block-content:has(> .quote-testimonial + .quote-testimonial) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .block-content > .quote-testimonial + .quote-testimonial {
+    border-left: 1px solid currentcolor;
+  }
+
+  .block-content:has(> .quote-testimonial + .quote-testimonial) > .quote-testimonial {
+    padding-inline: var(--spacing-l);
+  }
+}

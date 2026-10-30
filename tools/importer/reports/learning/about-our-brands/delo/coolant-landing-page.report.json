@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo/coolant-landing-page.html",
+  "path": "learning/about-our-brands/delo/coolant-landing-page",
+  "timestamp": "2026-10-30T05:22:45.350Z",
+  "title": "Coolant Landing Page | Chevron Lubricants (US)",
+  "template": "expertise-marketing",
+  "blocks": [
+    "hero-overlay",
+    "cards-service",
+    "columns-media",
+    "columns-media",
+    "columns-media",
+    "columns-media"
+  ]
+}

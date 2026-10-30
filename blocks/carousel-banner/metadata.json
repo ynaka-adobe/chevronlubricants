@@ -1,0 +1,43 @@
+{
+  "variantName": "carousel-banner",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean.html",
+    "originPage": "isoclean",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Full-container-width banner slider, one image-only slide visible, round white prev/next arrows overlapping the edges, dots below. No auto-rotation.",
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "hero banner rotation",
+    "imagePattern": "full-width banner (text baked into image), optional mobile crop"
+  },
+  "contentPattern": {
+    "description": "1 row per slide: [linked banner image (+ optional second image = mobile crop shown below 600px) | optional text cell (empty for image-only banners)].",
+    "structure": "1 row per slide: [linked image (+ optional mobile image) | optional text]",
+    "imageCount": "1-2 per slide"
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "image-only banner rotations",
+      "promo banners with baked-in text"
+    ],
+    "notSuitableFor": [
+      "multi-tile centre-mode strips (use carousel-square)",
+      "product carousels (use cards-products carousel)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/isoclean"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

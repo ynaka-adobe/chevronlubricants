@@ -1,0 +1,70 @@
+/* Hero-Callout: stacked, centred callout: wordmark graphic, paragraph, button.
+ * Values from the source .simple-panel (isoclean.html, 1440px and 390px):
+ * graphic 500px wide; richtext 15px padding, 18px/21.6px black copy;
+ * #0066b2 square button, 12px 30px padding, 20px/24px label;
+ * 30px below the section heading and a 20px + 1px + 20px divider below.
+ */
+
+.hero-callout {
+  box-sizing: border-box;
+  max-width: var(--brand-content-max-width);
+  margin-inline: auto;
+
+  /* top: 30px heading gap less the section's 15px; bottom: 41px divider less the 30px section margin */
+  padding: 15px var(--brand-content-gutter) 11px;
+  text-align: center;
+}
+
+.hero-callout .hero-callout-media {
+  line-height: 0;
+}
+
+.hero-callout .hero-callout-media p {
+  margin: 0;
+}
+
+/* inline image line box on the source adds 5px under the graphic */
+.hero-callout .hero-callout-media img {
+  display: block;
+  width: 500px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 5px;
+}
+
+.hero-callout .hero-callout-content > div {
+  padding: 15px 15px 0;
+}
+
+.hero-callout .hero-callout-content p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 21.6px;
+  color: #000;
+}
+
+.hero-callout .hero-callout-content p.hero-callout-cta {
+  margin-top: 15px;
+}
+
+main .hero-callout .hero-callout-cta a:any-link {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 12px 30px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background-color: var(--brand-band-cobalt-blue);
+  color: var(--color-white);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+  white-space: normal;
+}
+
+main .hero-callout .hero-callout-cta a:any-link:hover {
+  background-color: var(--brand-band-cobalt-blue);
+  color: var(--color-white);
+  text-decoration: none;
+}

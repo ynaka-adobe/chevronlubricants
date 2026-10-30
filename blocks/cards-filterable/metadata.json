@@ -1,0 +1,49 @@
+{
+  "variantName": "cards-filterable",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/learning-for-you.html",
+    "originPage": "learning",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "\"Filter by\" toggle expanding a panel with Brands and Type checkbox groups and Apply Filter / Clear All; below a 3-column grid of compact white tiles (linked blue title left, small thumbnail right, play overlay on videos). All items render at once.",
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "filterable resource library (knowledge center)",
+    "imagePattern": "small thumbnail per tile"
+  },
+  "contentPattern": {
+    "description": "Sheet mode: row 1 = one cell with a link to a sheet .json (columns title, link, image, video, brand, type, lastModified; brand/type comma-separated); optional row 2 = preselected filters (\"Brand: X\" / \"Type: A, B\"). The link is resolved against the page; on local dev (/content/...) /content is prefixed. Static mode: 1 row per item [thumbnail (video: linked to YouTube, add #_dnb) | linked title + tags paragraph \"Brand, Type[, Type]\"]. Filter: OR within a group, AND across groups.",
+    "structure": "Sheet mode: 1 row, 1 cell = link to sheet .json (+ optional preselected-filter row). Static mode: 1 row per item: [thumbnail | linked title + \"Brand, Type\" tags]",
+    "sheetColumns": [
+      "title",
+      "link",
+      "image",
+      "video",
+      "brand",
+      "type",
+      "lastModified"
+    ]
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "filterable resource / knowledge libraries driven by a sheet"
+    ],
+    "notSuitableFor": [
+      "small static tile sets (use cards-resource)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/industrial-products/learning-for-you"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

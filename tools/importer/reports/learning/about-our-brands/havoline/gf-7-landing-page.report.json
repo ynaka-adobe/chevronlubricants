@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/havoline/gf-7-landing-page.html",
+  "path": "learning/about-our-brands/havoline/gf-7-landing-page",
+  "timestamp": "2026-10-30T05:44:16.677Z",
+  "title": "Havoline GF-7 Motor Oils | Chevron Lubricants (US)",
+  "template": "expertise-marketing",
+  "blocks": [
+    "accordion-faq",
+    "hero-overlay",
+    "columns-cta",
+    "columns-promo",
+    "cards-service",
+    "cards-service"
+  ]
+}

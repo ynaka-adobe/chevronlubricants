@@ -1,0 +1,42 @@
+{
+  "variantName": "carousel-square",
+  "baseBlock": "carousel",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/delo/delo-customer-success-stories.html",
+    "originPage": "ss",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Centre-mode strip of ~5 square white tiles (photo + linked uppercase company name); centre tile enlarged with a shadow, neighbours step down; active slide caption (person name) below; round edge arrows and dots. Circular, no auto-rotation.",
+    "colorScheme": "light",
+    "density": "medium",
+    "purpose": "featured customers showcase",
+    "imagePattern": "square photo per tile"
+  },
+  "contentPattern": {
+    "description": "1 row per slide: [square image (optionally linked) | linked company-name paragraph + optional person-name caption paragraph]. Caption shows below the strip for the centred slide.",
+    "structure": "1 row per slide: [square image | linked title paragraph + caption paragraph]",
+    "imageCount": "1 per slide"
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "featured customers / people strips",
+      "square tile showcases"
+    ],
+    "notSuitableFor": [
+      "full-width banners (use carousel-banner)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/delo/delo-customer-success-stories"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

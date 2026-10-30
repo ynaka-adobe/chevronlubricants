@@ -1,0 +1,61 @@
+{
+  "variantName": "cards-resource",
+  "baseBlock": "cards",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean.html",
+    "originPage": "isoclean",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Shadowed image-top tiles: image, optional bold title, text, CTA pinned to the bottom; 1-4 column wrapping grid (5 -> 3 cols, 8/12 -> 4 cols). Download CTAs (PDF / 'Download ...') render as centred tiles with a blue button. Options: blue-caption (sky-blue caption panel, white text), unboxed (customer grid, auto when all images linked), logo-list (retailer rows, auto when all CTAs read 'Visit').",
+    "colorScheme": "light",
+    "density": "medium",
+    "purpose": "resource downloads, videos and case studies",
+    "imagePattern": "image on top of each tile"
+  },
+  "contentPattern": {
+    "description": "1 row per card: [image (optionally linked: YouTube watch URL / case study / PDF) | optional bold title or name, text, CTA link last]. Append #_dnb to YouTube links so they stay links (otherwise the youtube auto-block embeds them).",
+    "structure": "1 row per card: [image | bold title + text + CTA link]",
+    "imageCount": "1 per card"
+  },
+  "options": [
+    {
+      "class": "blue-caption",
+      "label": "Blue caption"
+    },
+    {
+      "class": "unboxed",
+      "label": "Unboxed customer grid"
+    },
+    {
+      "class": "logo-list",
+      "label": "Logo list (retailer rows)"
+    }
+  ],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "download / video / case-study tiles",
+      "customer story grids"
+    ],
+    "notSuitableFor": [
+      "icon service tiles (use cards-service)",
+      "category image tiles (use cards-industry)",
+      "filterable libraries (use cards-filterable)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/isoclean",
+      "/en-us/home/learning/about-our-brands/delo/delo-customer-success-stories",
+      "/en-us/home/learning/about-our-brands/industrial-products/learning-for-you",
+      "/en-us/home/learning/about-our-brands/isoclean/isoclean-faqs",
+      "/en-us/home/where-to-buy/find-a-retailer"
+    ],
+    "reuseCount": 4,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

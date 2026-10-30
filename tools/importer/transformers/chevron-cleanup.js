@@ -87,6 +87,12 @@ export default function transform(hookName, element, payload) {
         if (bold && bold.textContent.trim() === text && !p.querySelector('a, img')) {
           const h2 = element.ownerDocument.createElement('h2');
           h2.textContent = text;
+          // expertise-* only: keep inline text-align so chevron-expertise-sections.js
+          // can still derive "centered" when it runs after this transformer
+          const templateName = (payload && payload.template && payload.template.name) || '';
+          if (templateName.startsWith('expertise-') && p.getAttribute('style')) {
+            h2.setAttribute('style', p.getAttribute('style'));
+          }
           p.replaceWith(h2);
         }
       });

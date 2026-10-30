@@ -112,11 +112,13 @@ function getTopLevelSection(section) {
 export default async function init(el) {
   let section = el.closest('.section');
   if (!section) return;
-  /* When only block in section: apply to next section (so placing metadata above target styles it) */
+  /* When metadata is the section's only content: apply to next section (so placing metadata
+     above target styles it). A section that also has default content keeps its own style. */
   const blocks = section.querySelectorAll('.block-content > div[class]');
-  if (blocks.length === 1 && section.nextElementSibling?.classList?.contains('section')) {
+  const metadataOnly = blocks.length === 1 && !section.querySelector(':scope > .default-content > *');
+  if (metadataOnly && section.nextElementSibling?.classList?.contains('section')) {
     section = section.nextElementSibling;
-  } else if (blocks.length === 1 && section.previousElementSibling?.classList?.contains('section')) {
+  } else if (metadataOnly && section.previousElementSibling?.classList?.contains('section')) {
     /* Fallback: no next section, apply to previous (EDS convention) */
     section = section.previousElementSibling;
   }

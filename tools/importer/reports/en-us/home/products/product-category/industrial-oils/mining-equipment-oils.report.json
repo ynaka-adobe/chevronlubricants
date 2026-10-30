@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.chevronlubricants.com/en_us/home/products/product_category/industrial_oils/mining_equipment_oils.html",
+  "path": "en-us/home/products/product-category/industrial-oils/mining-equipment-oils",
+  "timestamp": "2026-10-30T14:21:28.234Z",
+  "title": "Mining Equipment Oils | Chevron Lubricants (US)",
+  "template": "products-listing",
+  "blocks": [
+    "cards-products",
+    "cards-products",
+    "cards-products",
+    "cards-products",
+    "cards-products"
+  ]
+}
