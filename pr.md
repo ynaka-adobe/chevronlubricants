@@ -523,6 +523,14 @@
 
 ## Merged PRs
 
+### Log redirects sheet publish and persona fix
+
+**Branch:** `pr-log-redirects` → `main`, [PR #3](https://github.com/ynaka-adobe/chevronlubricants/pull/3)
+**Status:** Merged 2026-10-30.
+
+### Summary
+- `pr.md` only: records the redirects sheet preview/publish and the persona rows repointed to `/en-us/home?persona=…` (see the URL restructure entry under Open PRs).
+
 ### Remove orphaned root files
 
 **Branch:** `cleanup-root-files` → `main`, [PR #2](https://github.com/ynaka-adobe/chevronlubricants/pull/2)
