@@ -1,0 +1,176 @@
+/* Carousel-Banner: edge-to-edge image banner slider (max 1200px), half-pill
+ * white edge arrows (768px+), dots below.
+ * Values from source .image-carousel computed styles (chevronlubricants.com).
+ */
+
+.carousel-banner {
+  position: relative;
+  max-width: var(--brand-content-max-width);
+  margin-inline: auto;
+  padding: 20px 0;
+  color: var(--color-grey-text);
+}
+
+.carousel-banner .carousel-banner-viewport {
+  position: relative;
+}
+
+.carousel-banner .carousel-banner-slides {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.carousel-banner .carousel-banner-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-banner .carousel-banner-slide {
+  position: relative;
+  flex: 0 0 100%;
+  margin: 0;
+  scroll-snap-align: start;
+  line-height: 0;
+}
+
+.carousel-banner .carousel-banner-slide-image p {
+  margin: 0;
+}
+
+.carousel-banner .carousel-banner-slide-image a {
+  display: block;
+}
+
+.carousel-banner .carousel-banner-slide-image picture {
+  display: block;
+}
+
+.carousel-banner .carousel-banner-slide-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* source swaps to the mobile crop below 768px (tablet-up-hidden / mobile-only-hidden) */
+.carousel-banner .carousel-banner-slide-image.has-mobile .carousel-banner-desktop {
+  display: none;
+}
+
+.carousel-banner .carousel-banner-slide-content {
+  padding: var(--spacing-m) var(--spacing-l);
+  color: var(--brand-copy-color);
+  line-height: var(--body-line-height);
+}
+
+/* half-pill white tabs flush with the left / right edges; hidden below 768px like the source */
+.carousel-banner .carousel-banner-prev,
+.carousel-banner .carousel-banner-next {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 80px;
+  margin: 0;
+  border: 0;
+  background: var(--color-white);
+  box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
+  color: #0066b2;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.carousel-banner .carousel-banner-prev {
+  left: 0;
+  padding: 0 8px 0 0;
+  border-radius: 0 40px 40px 0;
+}
+
+.carousel-banner .carousel-banner-next {
+  right: 0;
+  padding: 0 0 0 8px;
+  border-radius: 40px 0 0 40px;
+}
+
+.carousel-banner .carousel-banner-prev svg,
+.carousel-banner .carousel-banner-next svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+}
+
+.carousel-banner .carousel-banner-prev:focus-visible,
+.carousel-banner .carousel-banner-next:focus-visible,
+.carousel-banner .carousel-banner-dot:focus-visible {
+  outline: 2px solid var(--color-chevron-medium-blue);
+  outline-offset: -2px;
+}
+
+/* dots: 24px hit areas; active = 16px dark-blue disc, inactive = 3px grey point (source slick-dots) */
+.carousel-banner .carousel-banner-dots {
+  display: flex;
+  justify-content: center;
+  margin: 33px 0 15px;
+}
+
+.carousel-banner .carousel-banner-dot {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.carousel-banner .carousel-banner-dot::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-black);
+  opacity: 0.2;
+  transform: translate(-50%, -50%);
+  content: "";
+}
+
+.carousel-banner .carousel-banner-dot[aria-current="true"]::before {
+  width: 16px;
+  height: 16px;
+  background: var(--color-chevron-dark-blue);
+  opacity: 0.75;
+}
+
+@media (width >= 768px) {
+  .carousel-banner .carousel-banner-slide-image.has-mobile .carousel-banner-desktop {
+    display: block;
+  }
+
+  .carousel-banner .carousel-banner-slide-image.has-mobile .carousel-banner-mobile {
+    display: none;
+  }
+
+  .carousel-banner .carousel-banner-prev,
+  .carousel-banner .carousel-banner-next {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-banner .carousel-banner-slides {
+    scroll-behavior: auto;
+  }
+}

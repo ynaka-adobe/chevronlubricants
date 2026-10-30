@@ -1,0 +1,237 @@
+/* Cards-Service - values measured from the source multi-column tiles
+ * (chevronlubricants.com delo / gf-7 / contact-us / industrial-products, 375 + 1440px):
+ *   tile: 0 6px padding, 0 3px 6px rgb(0 0 0 / 12%) shadow, 50% / 33% / 25% wide,
+ *         space-between, 15px apart when stacked on mobile
+ *   icon-left tile (default): 80px icon centred in the left 25%, 21px from the top;
+ *         title 18px/1.2 bold #2459a9 link, description 16px/1.2 #0b2d71 3px below,
+ *         60px (mobile 75px) below the text
+ *   stacked tile (title only): image on top, 15px padded centred title
+ *   black band (gf-7): no shadow, 4px white divider, icon right-aligned in 20%,
+ *         16px bold white title, text column padded 40px 10px 10px
+ */
+
+.cards-service {
+  margin-bottom: 30px;
+}
+
+main > .section > .block-content:last-child > .cards-service:last-child {
+  margin-bottom: 0;
+}
+
+.cards-service .cards-service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cards-service .cards-service-card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 21px 6px 75px;
+  background: var(--color-white);
+  box-shadow: 0 3px 6px 0 rgb(0 0 0 / 12%);
+  color: var(--color-chevron-dark-blue);
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+  text-align: center;
+}
+
+.cards-service .cards-service-icon {
+  margin-bottom: 42px;
+  line-height: 0;
+  text-align: center;
+}
+
+.cards-service .cards-service-icon p {
+  margin: 0;
+}
+
+.cards-service .cards-service-icon img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.cards-service .cards-service-body {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.cards-service .cards-service-body > * {
+  margin: 0;
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+}
+
+.cards-service .cards-service-body > * + * {
+  margin-top: 3px;
+}
+
+.cards-service .cards-service-body p {
+  color: var(--color-chevron-dark-blue);
+}
+
+.cards-service .cards-service-body > .cards-service-title {
+  color: var(--color-chevron-dark-blue);
+  font-size: var(--heading-font-size-s);
+  font-weight: 700;
+  line-height: var(--heading-line-height);
+  letter-spacing: normal;
+}
+
+.cards-service .cards-service-title a {
+  color: var(--color-link-secondary);
+  text-decoration: none;
+}
+
+.cards-service .cards-service-title a:hover {
+  color: var(--color-link-secondary);
+  text-decoration: underline;
+}
+
+/* stacked: image on top, centred title below (contact-us, industrial-products) */
+.cards-service.cards-service-stacked .cards-service-card {
+  padding: 0 6px;
+  background: transparent;
+}
+
+.cards-service.cards-service-stacked .cards-service-icon {
+  margin-bottom: 0;
+}
+
+.cards-service.cards-service-stacked .cards-service-body {
+  padding: 15px;
+}
+
+.cards-service.cards-service-stacked .cards-service-body > .cards-service-title {
+  color: var(--color-black);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+}
+
+.cards-service.cards-service-stacked .cards-service-body > .cards-service-title:has(a) {
+  font-size: var(--heading-font-size-s);
+  font-weight: 700;
+}
+
+.cards-service.cards-service-stacked .cards-service-title a {
+  text-decoration: underline;
+}
+
+/* black band: unboxed white tiles (gf-7 benefits) */
+main > .section.black-bg .cards-service .cards-service-card {
+  padding: 20px 10px 30px;
+  background: transparent;
+  box-shadow: none;
+}
+
+main > .section.black-bg .cards-service .cards-service-icon {
+  margin-bottom: 20px;
+}
+
+main > .section.black-bg .cards-service .cards-service-body p,
+main > .section.black-bg .cards-service .cards-service-body > .cards-service-title,
+main > .section.black-bg .cards-service .cards-service-title a {
+  color: var(--color-white);
+}
+
+main > .section.black-bg .cards-service .cards-service-body > .cards-service-title {
+  font-size: var(--body-font-size-m);
+}
+
+main > .section.black-bg .cards-service .cards-service-body > * + * {
+  margin-top: 0;
+}
+
+@media (width >= 900px) {
+  /* source container keeps a 12px gutter below 1200px */
+  .cards-service {
+    margin-inline: var(--brand-content-gutter);
+  }
+
+  .cards-service .cards-service-list {
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 15px 0;
+  }
+
+  .cards-service .cards-service-card {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 21px 6px 60px;
+  }
+
+  .cards-service.cards-service-cols-2 .cards-service-card {
+    flex: 0 0 50%;
+  }
+
+  .cards-service.cards-service-cols-3 .cards-service-card {
+    flex: 0 0 33%;
+  }
+
+  .cards-service.cards-service-cols-4 .cards-service-card {
+    flex: 0 0 25%;
+  }
+
+  /* single tile: one third of the row, centred */
+  .cards-service.cards-service-cols-1 .cards-service-list {
+    justify-content: center;
+  }
+
+  .cards-service.cards-service-cols-1 .cards-service-card {
+    flex: 0 0 33%;
+  }
+
+  .cards-service .cards-service-icon {
+    flex: 0 0 25%;
+    margin-bottom: 0;
+  }
+
+  .cards-service .cards-service-body {
+    flex: 1 1 0;
+  }
+
+  .cards-service.cards-service-stacked .cards-service-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 6px;
+  }
+
+  .cards-service.cards-service-stacked .cards-service-icon {
+    flex: none;
+  }
+
+  .cards-service.cards-service-stacked .cards-service-body {
+    flex: none;
+  }
+
+  main > .section.black-bg .cards-service .cards-service-card {
+    padding: 0 0 30px;
+  }
+
+  main > .section.black-bg .cards-service .cards-service-card:not(:last-child) {
+    border-right: 4px solid var(--color-white);
+  }
+
+  main > .section.black-bg .cards-service .cards-service-icon {
+    flex: 0 0 20%;
+    padding-top: 51px;
+    text-align: right;
+  }
+
+  main > .section.black-bg .cards-service .cards-service-body {
+    padding: 40px 10px 10px;
+  }
+}
+
+@media (width >= 1200px) {
+  .cards-service {
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin-inline: auto;
+  }
+}

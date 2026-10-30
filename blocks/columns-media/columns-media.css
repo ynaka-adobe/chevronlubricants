@@ -1,0 +1,163 @@
+/* Columns-Media: photo beside a text panel; stacks on mobile.
+ * Values measured on chevronlubricants.com (1440px / 390px):
+ *   default (delo simplify-your-fleet-protection, havoline, techron): no frame,
+ *     24px/28.8px bold heading, 16px/19.2px copy, 20px text padding
+ *   .card (isoclean, mining, construction): each column a shadowed card
+ *     (0 3px 6px rgb(0 0 0 / 12%), 0 6px padding), centred #0066b2 heading
+ *     and button, #333 copy
+ *   button: #0066b2, 12px 30px, 1px transparent border, square, 16px/22px bold;
+ *     hover #00497f
+ */
+
+.columns-media .columns-media-row {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* media column: intrinsic width, never upscaled */
+.columns-media .columns-media-image {
+  box-sizing: border-box;
+  min-width: 0;
+  text-align: center;
+}
+
+.columns-media .columns-media-image p {
+  margin: 0;
+}
+
+.columns-media .columns-media-image :is(picture, a) {
+  display: block;
+}
+
+.columns-media .columns-media-image img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+/* text column */
+.columns-media .columns-media-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 20px;
+  color: var(--color-black);
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+  text-align: start;
+}
+
+.columns-media .columns-media-body > * {
+  margin: 0;
+}
+
+.columns-media .columns-media-body > * + * {
+  margin-top: 20px;
+}
+
+/* main prefix: outranks the grey-bg section's centred h2/h3 */
+main .columns-media .columns-media-body :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-chevron-blue);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: var(--heading-line-height);
+  text-align: start;
+}
+
+.columns-media .columns-media-body :is(p, li) {
+  font-size: var(--body-font-size-m);
+  line-height: var(--body-line-height);
+}
+
+/* text links (source #2459a9, no underline) */
+.columns-media .columns-media-body a:not(.btn) {
+  color: var(--color-chevron-medium-blue);
+}
+
+/* button (single standalone link). Kept below the dark-band a.btn rule in
+ * specificity so white buttons on blue bands still apply. */
+.columns-media .columns-media-body a.btn {
+  padding: 12px 30px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background-color: var(--color-cobalt-blue);
+  color: var(--color-white);
+  font-size: var(--body-font-size-m);
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+}
+
+.columns-media .columns-media-body a.btn:hover,
+.columns-media .columns-media-body a.btn:active {
+  border-color: transparent;
+  background-color: #00497f;
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+/* text on dark bands */
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) .columns-media .columns-media-body,
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) .columns-media .columns-media-body :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-white);
+}
+
+/* centred heading + button (card, centered) */
+main .columns-media:is(.card, .centered) .columns-media-body :is(h1, h2, h3, h4, h5, h6),
+.columns-media:is(.card, .centered) .columns-media-button {
+  text-align: center;
+}
+
+/* card: each column is its own shadowed card */
+.columns-media.card .columns-media-image,
+.columns-media.card .columns-media-body {
+  padding-inline: 6px;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 12%);
+}
+
+.columns-media.card .columns-media-body {
+  padding: 10px 21px 0;
+  color: #333;
+}
+
+main .columns-media.card .columns-media-body :is(h1, h2, h3, h4, h5, h6) {
+  padding-inline: 5px;
+  color: var(--color-cobalt-blue);
+}
+
+.columns-media.card .columns-media-body > * + * {
+  margin-top: 15px;
+}
+
+.columns-media.card .columns-media-body > :is(h1, h2, h3, h4, h5, h6) + * {
+  margin-top: 25px;
+}
+
+@media (width >= 900px) {
+  .columns-media .columns-media-row {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .columns-media .columns-media-image {
+    flex: 0 1 auto;
+    max-width: 60%;
+  }
+
+  .columns-media .columns-media-body {
+    flex: 1 1 0;
+  }
+}
+
+@media (width >= 1200px) {
+  .columns-media {
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin-inline: auto;
+  }
+}

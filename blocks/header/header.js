@@ -123,8 +123,8 @@ function getButtonLink(paragraph) {
 }
 
 /* Label-only links (href "#") stay anchors without href, like the source labels */
+// label-only items render as text, not href-less anchors (not crawlable as links)
 function createLabel(info, className) {
-  if (info.anchor && !info.href) return createEl('a', className, [info.text]);
   return createEl('span', className, [info.text]);
 }
 

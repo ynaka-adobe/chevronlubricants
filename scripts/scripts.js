@@ -37,7 +37,58 @@ const decorateArea = ({ area = document }) => {
   eagerLoad(area, 'img');
 };
 
+// Skip link so keyboard users can bypass the header navigation
+const addSkipLink = () => {
+  const main = document.querySelector('main');
+  if (!main || document.querySelector('.skip-link')) return;
+  if (!main.id) main.id = 'main';
+  main.tabIndex = -1;
+  const link = document.createElement('a');
+  link.className = 'skip-link';
+  link.href = `#${main.id}`;
+  link.textContent = 'Skip to main content';
+  document.body.prepend(link);
+};
+
+// Mark links to the current page (e.g. category links bars) with aria-current="page".
+// Local preview serves pages under /content, which is ignored for the comparison.
+const markCurrentLinks = () => {
+  const norm = (p) => p.replace(/^\/content(?=\/)/, '').replace(/\.html$/, '').replace(/\/$/, '');
+  const here = norm(window.location.pathname);
+  document.querySelectorAll('main li > a[href]').forEach((a) => {
+    const url = new URL(a.href, window.location.href);
+    if (url.origin === window.location.origin && norm(url.pathname) === here) a.setAttribute('aria-current', 'page');
+  });
+};
+
+// Accessibility for imported default content (authored as-is from the source pages):
+// - an image-only link without alt text that repeats the neighbouring text link (same href)
+//   is a redundant, unnamed tab stop: hide it from assistive tech and the tab order
+// - a link inside running text is marked .link-inline so it can be underlined
+//   (link colour alone does not distinguish it from the navy copy)
+const decorateDefaultContentLinks = () => {
+  document.querySelectorAll('main .default-content a[href]').forEach((a) => {
+    const p = a.parentElement;
+    const imgs = [...a.querySelectorAll('img')];
+    if (imgs.length && !a.textContent.trim() && !imgs.some((img) => img.alt.trim())) {
+      const next = p.nextElementSibling;
+      const near = [p.previousElementSibling, next, next?.nextElementSibling];
+      const twin = near.some((el) => [...(el?.querySelectorAll('a[href]') || [])]
+        .some((link) => link !== a && link.href === a.href && link.textContent.trim()));
+      if (twin) {
+        a.setAttribute('aria-hidden', 'true');
+        a.tabIndex = -1;
+      }
+      return;
+    }
+    const outside = [...p.childNodes].some((node) => node !== a && node.textContent.trim());
+    if (p.tagName === 'P' && outside && !a.classList.contains('btn')) a.classList.add('link-inline');
+  });
+};
+
 export async function loadPage() {
+  addSkipLink();
+  markCurrentLinks();
   setConfig({ hostnames, locales, linkBlocks, components, decorateArea });
   if (document.querySelector('meta[name="sku"]')) {
     try {
@@ -48,6 +99,7 @@ export async function loadPage() {
     }
   }
   await loadArea();
+  decorateDefaultContentLinks();
 }
 await loadPage();
 

@@ -39,6 +39,10 @@
   --color-white: #fff;
   --color-black: #000;
   --color-dark-text: #212529;
+  --color-sky-blue: var(--brand-band-sky-blue); /* ISOCLEAN band (source bg-isoclean, darkened for AA) */
+  --color-cobalt-blue: var(--brand-band-cobalt-blue); /* Delo band (source bg-blue) */
+  --color-teal-blue: var(--brand-band-teal-blue); /* grease portfolio band (source bg-blue-2) */
+  --color-techron-grey: #5c5e60; /* blog article-list band (source bg-techron-gray) */
 
   /* semantic colors */
   --color-text: var(--color-grey-text);
@@ -603,6 +607,39 @@ svg {
   clear: both;
 }
 
+/* Skip link: hidden until focused */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 12px 20px;
+  background: var(--color-white);
+  color: var(--brand-copy-color);
+  font-weight: 700;
+  transform: translateY(-100%);
+
+  &:focus {
+    transform: none;
+  }
+}
+
+main:focus {
+  outline: none;
+}
+
+/* Honor reduced-motion preferences site-wide */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* EDS button reset (links decorated as .button keep plain link styling) */
 main .button-container {
   display: inline;
@@ -680,6 +717,15 @@ main > .section {
 
 main > .section:first-child {
   margin-top: 15px;
+}
+
+/* links in running copy (marked in scripts.js): underlined so they are not told apart by colour alone */
+main > .section > .default-content a.link-inline {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 /* centered: headings and copy centered */
@@ -892,11 +938,694 @@ main > .section.blue-bg.split {
   }
 }
 
+/* ---------------------------------------------------------------
+ * Article-list stack (blog landing): an unstyled section holding several
+ * "heading + copy + link" / cards-insights pairs. Each pair renders as the
+ * homepage insights band. Source .cc-container (1440px): 1200px band, 544px tall,
+ * 41px apart, bg-blue #0066b2 (third list bg-techron-gray #5c5e60); copy column
+ * 445px at 55px / 91px, carousel 60px to its right, clipped at the band edge.
+ * --------------------------------------------------------------- */
+main > .section:not(.blue-bg, .split):has(> .default-content + .block-content > .cards-insights) {
+  > .default-content:has(+ .block-content > .cards-insights),
+  > .default-content + .block-content:has(> .cards-insights) {
+    box-sizing: border-box;
+    max-width: none;
+    margin: 0;
+    background-color: var(--color-cobalt-blue);
+  }
+
+  > .default-content:has(+ .block-content > .cards-insights) {
+    padding: 40px var(--spacing-l) 20px;
+    text-align: left;
+
+    :is(h2, p) {
+      color: var(--color-white);
+      text-align: left;
+    }
+
+    h2 {
+      font-size: var(--brand-heading-size-h2-split);
+      font-weight: 400;
+      line-height: 1.24;
+    }
+
+    h2 + p {
+      margin-top: 30px;
+      font-weight: 300;
+      line-height: 28px;
+    }
+
+    p > a:only-child {
+      display: block;
+      box-sizing: border-box;
+      width: min(406px, 100%);
+      margin: 30px 0 0;
+      padding: 10px 30px;
+      border: 1px solid var(--color-white);
+      border-radius: 25px;
+      background: var(--color-white);
+      color: var(--brand-copy-color);
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 27px;
+      text-align: center;
+      text-decoration: none;
+
+      &:hover {
+        color: var(--brand-copy-color);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  > .default-content + .block-content:has(> .cards-insights) {
+    margin-bottom: 41px;
+    padding: 0 0 0 var(--spacing-l);
+    overflow: hidden;
+  }
+
+  /* third list and later: grey band */
+  > .default-content:nth-child(n+5):has(+ .block-content > .cards-insights),
+  > .default-content:nth-child(n+5) + .block-content:has(> .cards-insights) {
+    background-color: var(--color-techron-grey);
+  }
+}
+
+@media (width >= 900px) {
+  main > .section:not(.blue-bg, .split):has(> .default-content + .block-content > .cards-insights) {
+    display: grid;
+    grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
+    row-gap: 41px;
+    max-width: var(--brand-content-max-width);
+    margin-inline: auto;
+
+    > .default-content:has(+ .block-content > .cards-insights) {
+      grid-column: 1;
+      min-height: 544px;
+      padding: 91px 60px 100px 55px;
+    }
+
+    > .default-content + .block-content:has(> .cards-insights) {
+      grid-column: 2;
+      margin: 0;
+      padding: 91px 0 100px;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Expertise-page grey bands around full-bleed blocks. On the source the
+ * grey container IS the block, with no band padding (1440px):
+ *   .drawer__content       1176px, 0 0 20px, 30px white gap between drawers
+ *   .square-carousel       1200px, 20px 0 (block already pads 20px)
+ *   .knowledge-center      1200px, 0 (filter bar 20px from the top)
+ *   .multi-column (tiles)  1176px, 0, one grey strip per row, 30px apart
+ * Homepage bands hold columns-cta / columns-brands only and keep their padding.
+ * --------------------------------------------------------------- */
+main > .section.grey-bg:has(> .block-content > .accordion-drawer) {
+  padding: 0;
+  background: none;
+
+  .accordion-drawer-details {
+    background-color: var(--color-grey-light-bg);
+  }
+}
+
+main > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > :is(.carousel-square, .cards-filterable)) {
+  max-width: var(--brand-content-max-width);
+  padding: 0;
+}
+
+main > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > .cards-filterable) {
+  padding-top: 20px;
+}
+
+main > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > .cards-service-stacked) {
+  padding: 0;
+  background: none;
+
+  .cards-service-list {
+    row-gap: 30px;
+  }
+
+  .cards-service-card {
+    background-color: var(--color-grey-light-bg);
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Section styles for the expertise pages
+ * Contained 1176px bands like blue-bg / grey-bg. Source (1440px):
+ * .distributor__container 30px 15px padding, 30px bottom margin;
+ * the grease-portfolio bg-blue-2 strip has no padding (block only).
+ * --------------------------------------------------------------- */
+main > .section.sky-blue-bg,
+main > .section.cobalt-blue-bg,
+main > .section.teal-blue-bg,
+main > .section.black-bg,
+main > .section.grey-gradient {
+  box-sizing: border-box;
+  padding: 30px 15px;
+
+  > .default-content {
+    max-width: none;
+    padding: 0;
+  }
+
+  > .default-content + .block-content {
+    margin-top: 20px;
+  }
+}
+
+main > .section.sky-blue-bg {
+  background-color: var(--color-sky-blue);
+}
+
+main > .section.cobalt-blue-bg {
+  background-color: var(--color-cobalt-blue);
+}
+
+main > .section.teal-blue-bg {
+  padding: 0;
+  background-color: var(--color-teal-blue);
+}
+
+main > .section.black-bg {
+  background-color: var(--color-black);
+}
+
+main > .section.grey-gradient {
+  background: linear-gradient(var(--color-grey-light-bg), var(--color-white));
+}
+
+/* dark bands: white text and links (white on every band >= 4.5:1) */
+main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) {
+  color: var(--color-white);
+
+  > .default-content :is(h1, h2, h3, h4, h5, h6, p, li) {
+    color: var(--color-white);
+  }
+
+  a:not(.btn, .columns-cta-button) {
+    color: var(--color-white);
+
+    &:hover {
+      color: var(--color-white);
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline-color: var(--color-white);
+    }
+  }
+
+  /* standalone links in copy: source "Watch video ..." links are bold + underlined */
+  > .default-content p > a:only-child:not(.btn) {
+    font-weight: 700;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  /* authored buttons (strong/em links) inverted for the dark background */
+  a.btn {
+    background-color: var(--color-white);
+    border-color: var(--color-white);
+    color: var(--color-chevron-dark-blue);
+
+    &:hover,
+    &:active {
+      background-color: var(--color-chevron-light-blue);
+      border-color: var(--color-chevron-light-blue);
+      color: var(--color-chevron-dark-blue);
+    }
+
+    &:focus-visible {
+      outline-color: var(--color-white);
+    }
+  }
+
+  a.btn.btn-outline {
+    background-color: transparent;
+    color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-white);
+      color: var(--color-chevron-dark-blue);
+    }
+  }
+}
+
+/* distributor locator band: "Find ... in" copy + "Find a distributor" link.
+ * Source: 24px/26px Gotham medium white copy beside a white 40px zip-code box. */
+main > .section.centered:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg)
+  > .default-content:has(> p:first-child + p:last-child > a:only-child) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 20px;
+
+  > p:first-child {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 26px;
+  }
+
+  > p:last-child > a:only-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #e1e1e1;
+    background-color: var(--color-white);
+    color: var(--color-chevron-dark-blue);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    text-decoration: none;
+
+    &::after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border: solid var(--color-chevron-medium-blue);
+      border-width: 0 1.5px 1.5px 0;
+      transform: rotate(-45deg);
+    }
+
+    &:hover {
+      color: var(--color-chevron-dark-blue);
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline-color: var(--color-white);
+    }
+  }
+}
+
+/* video tile pair (Delo): intro copy, a portrait quote-testimonial, then a default-content
+ * video tile (image, copy, link). Source .multi-column at 1440px: intro richtext 20px 0 20px 20px,
+ * two 588px columns in DOM order, 1px white divider on the right of the first, image 240px tall
+ * flush with the top, copy 10px in, bold underlined link 15px in. */
+main > .section:has(> .block-content > .quote-testimonial .quote-testimonial-portrait):has(> .block-content + .default-content) {
+  > .block-content:has(> .quote-testimonial) + .default-content {
+    margin-top: 30px;
+
+    p:has(> picture) {
+      margin: 0 0 15px;
+      line-height: 0;
+      text-align: center;
+
+      img {
+        display: inline-block;
+        width: auto;
+        max-width: 100%;
+        max-height: 240px;
+      }
+    }
+
+    p:not(:has(> picture, > a:only-child)) {
+      padding: 0 10px;
+      font-size: 16px;
+      line-height: 19.2px;
+    }
+
+    p:has(> a:only-child) {
+      margin-top: 35px;
+      padding: 15px;
+      line-height: 19.2px;
+
+      a {
+        font-size: 16px;
+      }
+    }
+  }
+}
+
+@media (width >= 900px) {
+  main > .section:has(> .block-content > .quote-testimonial .quote-testimonial-portrait):has(> .block-content + .default-content) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    padding: 0;
+
+    > .default-content:has(+ .block-content > .quote-testimonial) {
+      grid-column: 1 / -1;
+      padding: 20px 0 20px 20px;
+
+      p {
+        font-size: 16px;
+        line-height: 19.2px;
+      }
+    }
+
+    > .block-content:has(> .quote-testimonial) {
+      grid-column: 1;
+      margin-top: 0;
+      border-right: 1px solid var(--color-white);
+    }
+
+    > .block-content:has(> .quote-testimonial) + .default-content {
+      grid-column: 2;
+      margin-top: 0;
+    }
+  }
+}
+
+/* help buttons (contact-us): a lead line followed by link-only paragraphs renders as a row
+ * of square blue buttons. Source .help-buttons (1440px): 776px column at the container start,
+ * 24px/28.8px navy title 20px above, 254x64 buttons (20px 30px, #0066b2, white 16px/22px),
+ * 5px apart; the following section heading spans the full container. */
+main > .section.centered:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg)
+  > .default-content:has(> p:first-child + p > a:only-child):has(> p:first-child + p + p > a:only-child):not(:has(> p:first-child a)) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+
+  > * {
+    flex: 0 0 100%;
+  }
+
+  > p:first-child {
+    margin-bottom: 15px;
+    font-size: 24px;
+    line-height: 28.8px;
+  }
+
+  > p:has(> a:only-child) {
+    flex: none;
+  }
+
+  > p > a:only-child {
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: 254px;
+    padding: 20px 30px;
+    border: 1px solid transparent;
+    background-color: var(--color-cobalt-blue);
+    color: var(--color-white);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      background-color: var(--color-chevron-medium-blue);
+      color: var(--color-white);
+      text-decoration: none;
+    }
+  }
+
+  > p:has(> a:only-child) + :not(p) {
+    margin-top: 55px;
+  }
+}
+
+@media (width >= 1200px) {
+  main > .section.centered:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg)
+    > .default-content:has(> p:first-child + p > a:only-child):has(> p:first-child + p + p > a:only-child):not(:has(> p:first-child a)) {
+    padding-inline-end: 400px;
+
+    > :not(p) {
+      margin-inline-end: -400px;
+    }
+  }
+}
+
+/* where-to-buy locator pages: page title above the locator.
+ * Source .title h1: Gotham Narrow bold 30px/36px, centred, 10px top margin, black
+ * (distributor, installer); the retailer page (locator + "Find online" list) keeps it navy. */
+main > .section:has(> .block-content > .locator) > .default-content > h1 {
+  margin-top: 10px;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center;
+  color: var(--brand-products-heading-color);
+}
+
+main > .section:has(> .block-content > .locator):has(> .default-content > h2) > .default-content > h1 {
+  color: var(--brand-copy-color);
+}
+
+/* right-aligned: default content aligned right (e.g. "Download the chart" link) */
+main > .section.right-aligned > .default-content {
+  text-align: right;
+}
+
+@media (width >= 1200px) {
+  main > .section.sky-blue-bg,
+  main > .section.cobalt-blue-bg,
+  main > .section.teal-blue-bg,
+  main > .section.black-bg,
+  main > .section.grey-gradient {
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin-inline: auto;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Expertise pages: default content (homepage patterns excluded)
+ * Source section headings (gf-7, ISOCLEAN, Delo landing pages):
+ *   .section-heading 24px/28.8px bold, centered
+ *   .sub-heading     20px/24px regular
+ *   in-page H1       30px/36px bold, centered
+ * --------------------------------------------------------------- */
+
+/* standalone images and logos: intrinsic size, centered (source images are
+ * authored at their own size; wide banners still fill the 1176px container) */
+main > .section:not(.split) > .default-content p > picture > img,
+main > .section:not(.split) > .default-content p > a > picture > img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+/* brand logos: source renders them 55-100px tall (Delo 134x70, ISOCLEAN 226x77) */
+main > .section:not(.split) > .default-content p > picture > img[alt*="logo" i],
+main > .section:not(.split) > .default-content p > a > picture > img[alt*="logo" i] {
+  max-height: 80px;
+}
+
+main > .section:not(.split) > .default-content p:has(> picture, > a > picture) + p:has(> picture, > a > picture) {
+  margin-top: 30px;
+}
+
+/* in-page H1 (not the page-top heading): after a block or in a later section */
+main > .section:not(:first-child) > .default-content > h1,
+main > .section > .block-content:not(:empty) + .default-content > h1 {
+  margin-top: 10px;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center;
+}
+
+/* section headings: centered non-band sections, after a block, or after copy */
+main > .section.centered:not(.blue-bg, .grey-bg) > .default-content > h2,
+main > .section > .block-content:not(:empty) + .default-content > h2,
+main > .section > .default-content > :not(h1, h2) ~ h2 {
+  margin-top: 10px;
+  font-size: 24px;
+  line-height: 28.8px;
+  text-align: center;
+}
+
+main > .section > .default-content > h2 + h3 {
+  margin-top: 3px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+}
+
+main > .section > .block-content:not(:empty) + .default-content > h2 + p {
+  margin-top: 3px;
+  text-align: center;
+}
+
+main > .section.centered > .default-content > :is(h1, h2) + p:has(> picture, > a > picture),
+main > .section > .block-content:not(:empty) + .default-content > :is(h1, h2, p) + p:has(> picture, > a > picture) {
+  margin-top: 24px;
+}
+
+/* ---------------------------------------------------------------
+ * Products listing / brand pages: the section holding product grids
+ * Measured at 1440px from .../equipment_type/.../automobile_fleets.html
+ * and .../by_brand/delo.html (source page body #f5f5f5, featured carousel
+ * #f5f5f5 -> #fff gradient, category strip with a #dbdbdb top rule).
+ * --------------------------------------------------------------- */
+main > .section:has(> .block-content > .cards-products.grid) {
+  margin-top: 0;
+  padding: 40px 0 60px;
+  background-color: var(--color-grey-light-bg);
+
+  > .default-content {
+    color: var(--brand-products-heading-color);
+    text-align: start;
+
+    > :is(h1, h2, h3) {
+      text-align: start;
+    }
+
+    /* page title: Gotham Narrow bold 30px/36px, black */
+    > h1 {
+      font-size: 30px;
+      line-height: 36px;
+      color: var(--brand-products-heading-color);
+    }
+
+    /* "Featured Products": Gotham bold 18px/26px (20px/28px desktop), 40px above, 24px below */
+    > h1 ~ h2 {
+      margin-top: 40px;
+      font-size: 18px;
+      line-height: 26px;
+      color: var(--brand-products-heading-color);
+    }
+
+    /* category links bar: full-width strip, top rule, centered links */
+    > ol {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0 4px;
+      margin: 0;
+      padding: 4px 0;
+      border-top: 1px solid var(--brand-products-rule-color);
+      border-image: linear-gradient(var(--brand-products-rule-color) 0 0) 1 0 0 / 1px 0 0 / 0 100vw;
+      list-style: none;
+
+      > li {
+        margin: 0;
+        line-height: 24px;
+      }
+
+      a {
+        display: block;
+        padding: 14px;
+        color: var(--brand-products-link-color);
+        font-size: 16px;
+        line-height: 24px;
+
+        &:hover {
+          color: var(--brand-products-link-current-color);
+        }
+
+        &[aria-current="page"] {
+          color: var(--brand-products-link-current-color);
+          font-weight: 700;
+        }
+      }
+    }
+
+    /* category (H2) and group (H3) headings: 24px/30px, black */
+    > ol ~ h2,
+    > h3 {
+      margin-top: 50px;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 30px;
+      color: var(--brand-products-heading-color);
+    }
+
+    > ol + h2 {
+      margin-top: 70px;
+    }
+  }
+
+  /* featured carousel band */
+  > .default-content:first-child + .block-content {
+    margin-top: 24px;
+    padding-bottom: 30px;
+    background: linear-gradient(var(--color-grey-light-bg), var(--color-white));
+  }
+
+  > .default-content:not(:first-child) + .block-content {
+    margin-top: 40px;
+  }
+
+  /* brand pages: H1 with the tagline inline ("Delo | Top performing ...") */
+  > .default-content:has(> h1 + p) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+
+    > * {
+      grid-column: 1 / -1;
+    }
+
+    > h1 {
+      color: var(--brand-products-tagline-color);
+    }
+
+    > h1 + p {
+      margin-top: 8px;
+      font-size: 18px;
+      line-height: 26px;
+      color: var(--brand-products-tagline-color);
+    }
+  }
+}
+
+@media (width >= 900px) {
+  main > .section:has(> .block-content > .cards-products.grid) {
+    > .default-content {
+      box-sizing: border-box;
+      padding-inline: 18px;
+
+      > h1 ~ h2 {
+        font-size: 20px;
+        line-height: 28px;
+      }
+
+      > ol {
+        gap: 0 48px;
+        padding: 12px 0;
+
+        a {
+          padding: 10px 5px 0;
+        }
+      }
+    }
+
+    > .default-content:has(> h1 + p) {
+      grid-template-columns: auto minmax(0, 1fr);
+
+      > h1 {
+        grid-column: 1;
+        font-size: 40px;
+        line-height: 52px;
+      }
+
+      > h1 + p {
+        grid-column: 2;
+        margin: 0 0 0 12px;
+        padding-left: 12px;
+        border-left: 1px solid currentcolor;
+      }
+    }
+  }
+}
+
 /* EDS framework visibility */
 main > div,
 .has-template,
 div[data-status] {
   display: none;
+}
+
+/* A section still loading stays hidden even when its section style sets its own
+   display (banner, split, insights band); otherwise it flashes at the top of the
+   page before the sections above it and shifts the layout. */
+main > .section[data-status] {
+  display: none !important;
 }
 
 aem-sidekick {

@@ -1,0 +1,56 @@
+{
+  "variantName": "accordion-faq",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/havoline/gf-7-landing-page.html",
+    "originPage": "gf7",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Centred 8/12 column FAQ list: black 16px question rows with a black +/- glyph at the right, no rules, answers indented below (10px, 40px on desktop); \"Expand\" / \"Collapse\" text toggle top right. Option load-more: first 3 rows, blue icons, \"Expand all\" label, teal \"Load more questions\" button toggling to \"Hide items\". Option grey: light-grey column, cobalt icons. Option blue: dark-blue questions/toggle/icons.",
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "FAQ",
+    "imagePattern": "none"
+  },
+  "contentPattern": {
+    "description": "1 row per FAQ: [question (plain text, not a heading) | answer rich text (paragraphs, lists, links)]. Native details/summary.",
+    "structure": "1 row per FAQ: [question | answer rich text]",
+    "imageCount": 0
+  },
+  "options": [
+    {
+      "class": "load-more",
+      "label": "Load more"
+    },
+    {
+      "class": "grey",
+      "label": "Grey"
+    },
+    {
+      "class": "blue",
+      "label": "Blue"
+    }
+  ],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "FAQ lists",
+      "long Q&A pages (load-more)"
+    ],
+    "notSuitableFor": [
+      "photo-headed drawers (use accordion-drawer)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/havoline/gf-7-landing-page",
+      "/en-us/home/learning/about-our-brands/isoclean/isoclean-faqs"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

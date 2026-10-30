@@ -19,6 +19,18 @@
   --brand-band-blue: #0c2e72;
   --brand-band-grey: #f5f5f5;
 
+  /* expertise band colors (white text on each passes WCAG AA 4.5:1) */
+  --brand-band-sky-blue: #0077a3; /* accessible replacement for source bg-isoclean #04a2d3 (2.95:1) - 5.04:1 */
+  --brand-band-cobalt-blue: #0066b2; /* source bg-blue - 5.93:1 */
+  --brand-band-teal-blue: #017da4; /* source bg-blue-2 - 4.70:1 */
+
+  /* products listing / brand pages */
+  --brand-products-heading-color: #000;
+  --brand-products-tagline-color: #2459a9;
+  --brand-products-rule-color: #dbdbdb;
+  --brand-products-link-color: #1d1d1d;
+  --brand-products-link-current-color: #005da6;
+
   /* layout */
   --brand-content-max-width: 1200px;
   --brand-content-gutter: 12px;

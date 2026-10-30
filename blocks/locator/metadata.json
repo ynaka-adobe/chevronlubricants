@@ -1,0 +1,79 @@
+{
+  "variantName": "locator",
+  "baseBlock": "locator",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-30T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/where-to-buy/find-a-distributor.html",
+    "originUrls": [
+      "https://www.chevronlubricants.com/en_us/home/where-to-buy/find-a-distributor.html",
+      "https://www.chevronlubricants.com/en_us/home/where-to-buy/find-an-installer.html",
+      "https://www.chevronlubricants.com/en_us/home/where-to-buy/find-a-retailer.html"
+    ],
+    "originPage": "where-to-buy",
+    "blockPosition": "middle",
+    "spec": "migration-work/where-to-buy/locator-spec.json"
+  },
+  "visualCharacteristics": {
+    "description": "Search form on a light-grey band (brand select, ZIP/city input, radius select, optional 'Certified marketers only' checkbox, 'Search >' and 'Use my location' buttons), then a map (only with a Maps key) and a two-column grid of result cards: name, address, '{distance} mi - {City}', phone, website, Directions, badge footer.",
+    "colorScheme": "light",
+    "density": "medium",
+    "purpose": "store / distributor / installer finder",
+    "imagePattern": "none (map with markers when a Google Maps key is configured)"
+  },
+  "contentPattern": {
+    "description": "Key/value rows (cell 1 key, cell 2 value). Only Type is required; every label and message has a default. The block calls the Chevron locator service via JSONP; ZIP/city search and the map need a google-maps-api-key row in the site configuration sheet (/configuration.json; locally /content/configuration.json). Without a key the block searches from the browser location only and shows a notice. URL params ?zip= ?brand= ?radius= pre-fill and auto-search.",
+    "structure": "N rows x 2 cells: [key | value]",
+    "keys": {
+      "type": "distributor | installer | retailer (marketer accepted as alias of distributor)",
+      "brands": "comma list; default per type (distributor none, installer Havoline, retailer Delo, Havoline, Techron). One brand = preselected; several = required choice",
+      "radius-options": "10, 20, 30, 40, 50, 60, 70, 80, 90, 100",
+      "default-radius": "distributor 100, installer 40, retailer empty (user must choose)",
+      "certified-filter-label": "distributor only (adds isoclean=1)",
+      "placeholder": "Zip or City,State",
+      "button-label": "Search > (a trailing > becomes an icon)",
+      "my-location-label": "Use my location",
+      "required-message": "*required field",
+      "no-results-message": "retailer empty result",
+      "searched-again-message": "distributor/installer retry success; tokens [RADIUS] [SEARCH_AGAIN_RADIUS] [RADIUS_UNITS]",
+      "searched-again-empty-message": "distributor/installer retry also empty; same tokens",
+      "error-message": "service failure or timeout",
+      "geocode-error-message": "ZIP/city not found",
+      "no-key-notice": "shown when no Maps key is configured",
+      "location-denied-message": "geolocation refused or failed",
+      "location-unsupported-message": "no navigator.geolocation",
+      "searching-message": "announced while searching",
+      "results-heading": "[COUNT] locations found",
+      "results-heading-single": "1 location found",
+      "brand-label / zip-label / radius-label / brand-placeholder / radius-placeholder": "control labels",
+      "radius-units / radius-units-abbr": "miles / mi",
+      "directions-label / new-tab-label / map-label / form-label": "link and landmark labels",
+      "badge-certified / badge-elite / badge-first-source / badge-preferred": "Certified Marketer / Chevron 1st Source Elite / Chevron 1st Source / Chevron Preferred"
+    },
+    "siteConfiguration": {
+      "sheet": "/configuration.json",
+      "key": "google-maps-api-key"
+    }
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "Chevron where-to-buy pages: find a distributor, find an installer, find a retailer (Find nearby)"
+    ],
+    "notSuitableFor": [
+      "static online-retailer lists (author as cards)",
+      "non-US regions or the Caltex/Texaco locators (not implemented)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/where-to-buy/find-a-distributor",
+      "/en-us/home/where-to-buy/find-an-installer",
+      "/en-us/home/where-to-buy/find-a-retailer"
+    ],
+    "reuseCount": 3,
+    "lastUsed": "2026-10-30T00:00:00.000Z"
+  }
+}

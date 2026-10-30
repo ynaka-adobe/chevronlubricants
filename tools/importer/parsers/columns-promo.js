@@ -34,7 +34,83 @@ function buildImage(document, item) {
   return img;
 }
 
+/* ------------------------------------------------------------------------------------------
+ * expertise-* templates (gf7 #6 GF-7 oil types, vartech #14 benefit graphics). The homepage
+ * element is the .multi-column__container itself and never reaches this code.
+ * Source (instances/expertise-*.html, live DOM): div.multi-column > .multi-column__container
+ *   > .multi-column__content > .multi-column__item (spacers: empty / only .divider skipped)
+ *     .cmp-image [a[href]] > img.mobile-only-hidden (desktop) + img.tablet-up-hidden (mobile)
+ *     (vartech: two .cmp-image per item, optionally separated by a .divider)
+ *     [.richtext p (title / description), kept as paragraphs when present]
+ * One cell per non-empty item; every image of the item, in source order; images are only
+ * linked when the source image is.
+ * ---------------------------------------------------------------------------------------- */
+
+function promoClean(text) {
+  return (text || '').replace(/[\s ​]+/g, ' ').trim();
+}
+
+function promoImage(document, cmp) {
+  const src = cmp.querySelector('img.mobile-only-hidden') || cmp.querySelector('img');
+  const url = src && (src.getAttribute('data-src') || src.getAttribute('src'));
+  if (!url || url.startsWith('data:')) return null;
+  const img = document.createElement('img');
+  img.src = absUrl(url);
+  img.alt = promoClean(src.getAttribute('alt'));
+  const p = document.createElement('p');
+  const link = cmp.querySelector('a[href]');
+  const href = link && (link.getAttribute('href') || '').trim();
+  if (href && href !== '#') {
+    const a = document.createElement('a');
+    a.href = href.startsWith('#') ? href : absUrl(href);
+    a.append(img);
+    p.append(a);
+  } else {
+    p.append(img);
+  }
+  return p;
+}
+
+function parseExpertise(element, document) {
+  const items = [...element.querySelectorAll(':scope > .multi-column__container > .multi-column__content > .multi-column__item')]
+    .filter((item) => promoClean(item.textContent) || item.querySelector('img'));
+  const row = items.map((item) => {
+    const cell = [];
+    [...item.children].forEach((c) => {
+      if (c.matches('.cmp-image')) {
+        const p = promoImage(document, c);
+        if (p) cell.push(p);
+      } else if (c.matches('.richtext')) {
+        c.querySelectorAll('p').forEach((srcP) => {
+          const text = promoClean(srcP.textContent);
+          if (!text) return;
+          const p = document.createElement('p');
+          const bold = srcP.querySelector('b, strong');
+          if (bold && promoClean(bold.textContent) === text) {
+            const strong = document.createElement('strong');
+            strong.textContent = text;
+            p.append(strong);
+          } else {
+            p.textContent = text;
+          }
+          cell.push(p);
+        });
+      }
+    });
+    return cell;
+  }).filter((cell) => cell.length);
+  const cells = row.length ? [row] : [];
+  const block = WebImporter.Blocks.createBlock(document, { name: 'columns-promo', cells });
+  element.replaceWith(block);
+}
+
 export default function parse(element, { document }) {
+  // expertise-* sources (the homepage passes the .multi-column__container itself)
+  if (!element.matches('.multi-column__container')) {
+    parseExpertise(element, document);
+    return;
+  }
+
   const items = [...element.querySelectorAll('.multi-column__content > .multi-column__item')]
     // drop empty spacer columns
     .filter((item) => item.querySelector('img') || item.textContent.trim());

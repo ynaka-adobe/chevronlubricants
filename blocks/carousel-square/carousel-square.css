@@ -1,0 +1,313 @@
+/* Carousel-Square: centre-mode strip of square white tiles (source: .square-carousel,
+ * slick centre mode). All slides share one grid cell and are offset by --pos (set in JS:
+ * 0 = centre, +-1 adjacent, +-2 distant) in steps of half a tile; side tiles scale to
+ * 0.9 / 0.8. Values come from the source computed styles.
+ */
+
+.carousel-square {
+  position: relative;
+  padding-block: 20px;
+}
+
+.carousel-square .carousel-square-stage {
+  position: relative;
+}
+
+/* tile size is measured against the strip width (container query units) */
+.carousel-square .carousel-square-viewport {
+  container-type: inline-size;
+  overflow: hidden;
+  padding-block: 20px;
+}
+
+.carousel-square .carousel-square-slides {
+  --carousel-square-tile: calc(100cqi - 58px);
+  --carousel-square-step: calc(var(--carousel-square-tile) / 2);
+
+  display: grid;
+  touch-action: pan-y;
+
+  /* tiles are clipped at the strip edges (shadows may spill vertically) */
+  clip-path: inset(-20px 0);
+}
+
+.carousel-square .carousel-square-slide {
+  --carousel-square-scale: 0.8;
+
+  grid-area: 1 / 1;
+  justify-self: center;
+  width: var(--carousel-square-tile);
+  transform:
+    translateX(calc(var(--pos, 0) * var(--carousel-square-step)))
+    scale(var(--carousel-square-scale));
+  transition: opacity 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+
+.carousel-square .carousel-square-slide.is-center {
+  --carousel-square-scale: 1;
+
+  z-index: 20;
+  cursor: auto;
+}
+
+.carousel-square .carousel-square-slide.is-adjacent {
+  --carousel-square-scale: 0.9;
+
+  z-index: 10;
+}
+
+.carousel-square .carousel-square-slide.is-distant {
+  z-index: 1;
+}
+
+.carousel-square .carousel-square-slide.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* square tile: image on the top half, centred title on the bottom half */
+.carousel-square .carousel-square-tile {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: var(--color-white);
+  box-shadow: 0 0 12px 0 rgb(0 0 0 / 20%);
+}
+
+.carousel-square .carousel-square-image {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.carousel-square .carousel-square-image p {
+  margin: 0;
+}
+
+.carousel-square .carousel-square-image a,
+.carousel-square .carousel-square-image picture {
+  display: block;
+}
+
+.carousel-square .carousel-square-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.carousel-square .carousel-square-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 10px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.carousel-square .carousel-square-body p {
+  margin: 0;
+}
+
+.carousel-square .carousel-square-title,
+.carousel-square .carousel-square-title a {
+  color: #0066b2;
+  font-size: var(--body-font-size-xl);
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+/* video tiles: white 40px disc with a blue play triangle over the image */
+.carousel-square .carousel-square-slide.is-video .carousel-square-image {
+  position: relative;
+}
+
+.carousel-square .carousel-square-slide.is-video .carousel-square-image::before,
+.carousel-square .carousel-square-slide.is-video .carousel-square-image::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  content: "";
+}
+
+.carousel-square .carousel-square-slide.is-video .carousel-square-image::before {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  transform: translate(-50%, -50%);
+}
+
+.carousel-square .carousel-square-slide.is-video .carousel-square-image::after {
+  border-block: 10px solid transparent;
+  border-left: 15px solid #0066b2;
+  transform: translate(-6px, -50%);
+}
+
+/* side-by-side strip: equal 160px (190px from 768px) tiles, 4px apart, no scaling */
+.carousel-square.side-by-side .carousel-square-slides {
+  --carousel-square-tile: 160px;
+  --carousel-square-step: 164px;
+
+  /* the five-tile strip is wider than the 10-column track: clip at the block edges */
+  clip-path: none;
+}
+
+.carousel-square.side-by-side .carousel-square-slide {
+  --carousel-square-scale: 1;
+}
+
+.carousel-square.side-by-side .carousel-square-tile {
+  grid-template-rows: auto 1fr;
+}
+
+.carousel-square.side-by-side .carousel-square-title,
+.carousel-square.side-by-side .carousel-square-title a {
+  font-size: var(--body-font-size-s);
+  line-height: 18px;
+}
+
+.carousel-square.side-by-side .carousel-square-dots {
+  margin-top: 17px;
+}
+
+.carousel-square .carousel-square-caption {
+  min-height: 19.2px;
+  margin: 20px 0 0;
+  color: var(--color-black);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  line-height: 19.2px;
+  text-align: center;
+}
+
+/* half-pill white arrows on the strip edges (hidden on mobile, as on the source) */
+.carousel-square .carousel-square-prev,
+.carousel-square .carousel-square-next {
+  position: absolute;
+  top: 50%;
+  z-index: 40;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 80px;
+  margin: 0;
+  border: 0;
+  background-color: var(--color-white);
+  box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
+  color: #0066b2;
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 28.8px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.carousel-square .carousel-square-prev {
+  left: 0;
+  padding: 0 8px 0 0;
+  border-radius: 0 40px 40px 0;
+}
+
+.carousel-square .carousel-square-next {
+  right: 0;
+  padding: 0 0 0 8px;
+  border-radius: 40px 0 0 40px;
+}
+
+.carousel-square .carousel-square-prev:focus-visible,
+.carousel-square .carousel-square-next:focus-visible,
+.carousel-square .carousel-square-dot:focus-visible {
+  outline: 2px solid var(--color-chevron-medium-blue);
+  outline-offset: 2px;
+}
+
+/* dots: 24px hit area; active 16px dark-blue dot, others 5px (end dots 3px) */
+.carousel-square .carousel-square-dots {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0 34px;
+}
+
+.carousel-square .carousel-square-dot {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.carousel-square .carousel-square-dot::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-black);
+  opacity: 0.2;
+  transform: translate(-50%, -50%);
+  content: "";
+}
+
+.carousel-square .carousel-square-dot:first-child::before,
+.carousel-square .carousel-square-dot:last-child::before {
+  width: 3px;
+  height: 3px;
+}
+
+.carousel-square .carousel-square-dot[aria-current="true"]::before {
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-chevron-dark-blue);
+  opacity: 0.75;
+}
+
+@media (width >= 768px) {
+  /* strip is 10 of 12 columns; three full tiles fit across it */
+  .carousel-square .carousel-square-viewport {
+    padding-inline: calc((100% + 24px) / 12);
+  }
+
+  .carousel-square .carousel-square-slides {
+    --carousel-square-tile: calc(100cqi / 3);
+  }
+
+  .carousel-square.side-by-side .carousel-square-slides {
+    --carousel-square-tile: 190px;
+    --carousel-square-step: 194px;
+  }
+
+  .carousel-square .carousel-square-prev,
+  .carousel-square .carousel-square-next {
+    display: flex;
+  }
+}
+
+@media (width >= 1200px) {
+  .carousel-square {
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin-inline: auto;
+  }
+
+  .carousel-square .carousel-square-prev {
+    left: -11px;
+  }
+
+  .carousel-square .carousel-square-next {
+    right: -11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-square .carousel-square-slide {
+    transition: none;
+  }
+}

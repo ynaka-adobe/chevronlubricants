@@ -1,0 +1,609 @@
+/* Locator: values from the source .retailer-finder computed styles */
+.locator {
+  --locator-box-border: 1px solid #e1e1e1;
+  --locator-box-height: 56px;
+  --locator-accent: var(--color-cobalt-blue);
+  --locator-link: #0066b4;
+  --locator-error: #d0021b;
+  --locator-focus: 2px solid var(--color-chevron-medium-blue);
+  --locator-caret: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='4' viewBox='0 0 8 4'%3E%3Cpath d='M0 0h8L4 4z' fill='%230066b2'/%3E%3C/svg%3E");
+
+  display: block;
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 12px;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+/* visually hidden, still announced */
+.locator .locator-field-zip .locator-label,
+.locator .locator-field-brand .locator-label,
+.locator .locator-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- search box ---------- */
+.locator .locator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 56px;
+}
+
+.locator .locator-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px 24px;
+}
+
+.locator .locator-field {
+  min-width: 0;
+}
+
+.locator .locator-field[hidden] {
+  display: none;
+}
+
+.locator .locator-field-error {
+  grid-column: 1 / -1;
+  margin: 4px 0 0;
+  color: var(--locator-error);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.locator .locator-field-error[hidden] {
+  display: none;
+}
+
+/* zip: plain square box, centred text */
+.locator .locator-field-zip input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: var(--locator-box-height);
+  padding: 17px 20px;
+  border: var(--locator-box-border);
+  border-radius: 0;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.locator .locator-field-zip input::placeholder {
+  color: #767676;
+  opacity: 1;
+}
+
+.locator .locator-field.is-error input {
+  border-color: var(--locator-error);
+}
+
+/* brand + radius: rounded white "dropdown" box, label and value centred inside */
+.locator .locator-field-brand,
+.locator .locator-field-radius {
+  display: grid;
+  grid-template-columns: 1fr auto auto 1fr;
+  grid-template-rows: var(--locator-box-height) auto;
+  align-items: center;
+}
+
+.locator .locator-field-brand::before,
+.locator .locator-field-radius::before {
+  content: "";
+  grid-area: 1 / 1 / 2 / -1;
+  align-self: stretch;
+  border: var(--locator-box-border);
+  border-radius: 6px;
+  background-color: var(--color-white);
+}
+
+.locator .locator-field.is-error::before {
+  border-color: var(--locator-error);
+}
+
+.locator .locator-field-radius .locator-label {
+  grid-area: 1 / 2 / 2 / 3;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  padding: 0 4px 0 0;
+  white-space: nowrap;
+  color: var(--locator-accent);
+  font-size: 14px;
+  line-height: 21px;
+  cursor: pointer;
+}
+
+.locator .locator-field-brand select,
+.locator .locator-field-radius select {
+  grid-area: 1 / 3 / 2 / 4;
+  justify-self: start;
+  box-sizing: border-box;
+  max-width: 100%;
+  height: calc(var(--locator-box-height) - 2px);
+  padding: 0 14px 0 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  background: var(--locator-caret) no-repeat right center / 8px 4px;
+  color: var(--locator-accent);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 21px;
+  cursor: pointer;
+}
+
+.locator .locator-field-brand select {
+  grid-column: 1 / -1;
+  justify-self: center;
+  max-width: calc(100% - 40px);
+}
+
+.locator .locator-field-brand select:focus-visible,
+.locator .locator-field-radius select:focus-visible {
+  outline: none;
+}
+
+.locator .locator-field-brand:has(select:focus-visible)::before,
+.locator .locator-field-radius:has(select:focus-visible)::before {
+  outline: var(--locator-focus);
+  outline-offset: 2px;
+}
+
+/* ISOCLEAN toggle */
+.locator .locator-field-certified {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.locator .locator-field-certified input {
+  flex: none;
+  width: 30px;
+  height: 15px;
+  margin: 0;
+  border-radius: 50px;
+  appearance: none;
+  background: radial-gradient(circle at 7.5px 50%, #6d6d6d 5.5px, transparent 6px) var(--color-white);
+  box-shadow: inset 0 1px 1px rgb(0 0 0 / 50%), 0 1px 0 rgb(255 255 255 / 20%);
+  cursor: pointer;
+  transition: background-position 0.2s ease;
+}
+
+.locator .locator-field-certified input:checked {
+  background: radial-gradient(circle at 22.5px 50%, var(--locator-accent) 5.5px, transparent 6px) var(--color-white);
+}
+
+.locator .locator-checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.locator .locator-checkbox-label::before {
+  content: "";
+  flex: none;
+  width: 80px;
+  height: 19px;
+  margin: 0 0 0 5px;
+  background: url("./images/isoclean-inverse.png") no-repeat center / contain;
+}
+
+/* buttons */
+.locator .locator-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.locator .locator-search,
+.locator .locator-locate {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 290px;
+  max-width: 100%;
+  min-height: 60px;
+  padding: 20px 30px;
+  border: 1px solid var(--locator-accent);
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 22px;
+  cursor: pointer;
+  transition: var(--button-transition);
+}
+
+.locator .locator-search,
+.locator .locator-locate.is-primary {
+  background-color: var(--locator-accent);
+  color: var(--color-white);
+}
+
+.locator .locator-locate {
+  background-color: var(--color-white);
+  color: var(--locator-accent);
+}
+
+.locator .locator-search:hover,
+.locator .locator-locate.is-primary:hover {
+  border-color: var(--color-chevron-dark-blue);
+  background-color: var(--color-chevron-dark-blue);
+}
+
+.locator .locator-locate:not(.is-primary):hover {
+  background-color: var(--color-chevron-light-blue);
+}
+
+.locator .locator-search[hidden],
+.locator .locator-locate[hidden] {
+  display: none;
+}
+
+.locator .locator-search svg,
+.locator .locator-locate svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  fill: currentcolor;
+}
+
+.locator .locator-search svg {
+  margin-inline-start: -4px;
+}
+
+.locator button:focus-visible,
+.locator input:focus-visible,
+.locator a:focus-visible {
+  outline: var(--locator-focus);
+  outline-offset: 2px;
+}
+
+.locator .locator-notice {
+  margin: -10px 0 0;
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.locator .locator-notice[hidden] {
+  display: none;
+}
+
+.locator[aria-busy="true"] .locator-search,
+.locator[aria-busy="true"] .locator-locate {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+/* ---------- map ---------- */
+.locator .locator-map {
+  width: 100%;
+  height: 150px;
+  margin-top: 15px;
+}
+
+.locator .locator-map[hidden],
+.locator .locator-results[hidden] {
+  display: none;
+}
+
+.locator .locator-info-window {
+  color: var(--color-black);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.locator .locator-info-window p {
+  margin: 0 0 4px;
+}
+
+.locator .locator-info-window-name {
+  font-weight: 700;
+}
+
+.locator .locator-info-window a {
+  color: var(--locator-link);
+}
+
+/* ---------- results ---------- */
+.locator .locator-results {
+  margin: 15px 0 10px;
+}
+
+.locator .locator-map:not([hidden]) + .locator-results {
+  margin-top: 0;
+}
+
+.locator .locator-results-heading {
+  margin: 10px 0 0;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.locator .locator-results-heading[hidden],
+.locator .locator-results-message[hidden] {
+  display: none;
+}
+
+.locator .locator-results-heading:focus,
+.locator .locator-results-message:focus {
+  outline: none;
+}
+
+.locator .locator-results-heading:focus-visible,
+.locator .locator-results-message:focus-visible {
+  outline: var(--locator-focus);
+  outline-offset: 2px;
+}
+
+.locator .locator-results-message {
+  margin: 10px 0 0;
+  color: var(--color-text);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.locator .locator-results.is-error .locator-results-message {
+  color: var(--locator-error);
+}
+
+.locator .locator-result-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px 16px;
+  margin: 10px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.locator li {
+  margin-block: 0;
+  line-height: inherit;
+}
+
+.locator .locator-result {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 50px;
+  padding: 10px;
+  border: 5px solid transparent;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.locator .locator-result.is-elite {
+  border-color: var(--color-chevron-dark-blue);
+}
+
+/* text column; the square icons (2 x 50px, top right) sit beside the first
+   three lines, so the link lines below them can use the full card width */
+.locator .locator-result-name,
+.locator .locator-result-address,
+.locator .locator-result-distance {
+  max-width: calc(100% - 104px);
+}
+
+.locator .locator-result p {
+  margin: 0;
+  line-height: inherit;
+}
+
+.locator .locator-result-name {
+  margin: 0;
+  color: var(--locator-link);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.locator .locator-result-name-button {
+  min-height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.locator .locator-result-name-button:hover {
+  text-decoration: underline;
+}
+
+.locator .locator-result-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.locator .locator-result-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--locator-link);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.locator .locator-result-links a:hover {
+  text-decoration: underline;
+}
+
+/* square icon links (images carry the caption, as on the source) */
+.locator .locator-result-directions,
+.locator .locator-result-phone::after,
+.locator .locator-result-website::after {
+  position: absolute;
+  top: 10px;
+  width: 50px;
+  height: 50px;
+  background: no-repeat center / 50px 50px;
+}
+
+.locator .locator-result-links .locator-result-directions {
+  right: 8px;
+  min-height: 0;
+  overflow: hidden;
+  background-image: url("./images/square-directions.png");
+  white-space: nowrap;
+  text-indent: 100%;
+}
+
+.locator .locator-result-phone::after,
+.locator .locator-result-website::after {
+  right: 58px;
+}
+
+.locator .locator-result-phone::after {
+  content: "";
+  background-image: url("./images/square-call.png");
+}
+
+.locator .locator-result-phone:focus-visible::after,
+.locator .locator-result-website:focus-visible::after {
+  outline: var(--locator-focus);
+  outline-offset: 2px;
+}
+
+/* badges footer */
+.locator .locator-result-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: auto 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--color-grey-light-bg);
+  color: var(--color-chevron-dark-blue);
+  font-size: 11px;
+  line-height: 1.2;
+  list-style: none;
+}
+
+.locator .locator-result > :has(+ .locator-result-badges) {
+  margin-bottom: 10px;
+}
+
+.locator .locator-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.locator .locator-badge-certified::before,
+.locator .locator-badge-elite::before,
+.locator .locator-badge-preferred::before {
+  content: "";
+  flex: none;
+  background: no-repeat center / contain;
+}
+
+.locator .locator-badge-certified::before {
+  width: 42px;
+  height: 10px;
+  background-image: url("./images/isoclean-small.png");
+}
+
+.locator .locator-badge-elite::before,
+.locator .locator-badge-preferred::before {
+  width: 10px;
+  height: 10px;
+  background-image: url("./images/cvx-preferred-star.png");
+}
+
+@media (width >= 768px) {
+  .locator .locator-fields {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .locator .locator-field-brand {
+    grid-column: span 4;
+  }
+
+  .locator .locator-field-zip {
+    grid-column: span 3;
+  }
+
+  .locator .locator-field-radius {
+    grid-column: span 9;
+  }
+
+  .locator .locator-fields:has(.locator-field-brand) .locator-field-radius {
+    grid-column: span 5;
+  }
+
+  .locator .locator-fields:has(.locator-field-zip[hidden]) .locator-field-radius {
+    grid-column: 1 / -1;
+  }
+
+  .locator .locator-fields:has(.locator-field-brand):has(.locator-field-zip[hidden]) .locator-field-radius {
+    grid-column: span 8;
+  }
+
+  .locator .locator-map {
+    height: 345px;
+  }
+
+  .locator .locator-result-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* desktop: phone is plain text, website gets the square icon (source md-up) */
+  .locator .locator-result-links .locator-result-phone {
+    color: var(--color-black);
+  }
+
+  .locator .locator-result-phone::after {
+    content: none;
+  }
+
+  .locator .locator-result-website::after {
+    content: "";
+    background-image: url("./images/square-website.png");
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .locator *,
+  .locator *::before,
+  .locator *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

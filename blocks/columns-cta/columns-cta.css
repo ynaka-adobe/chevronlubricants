@@ -65,7 +65,17 @@ main .columns-cta a.columns-cta-button:any-link:focus-visible {
  * Columns never shrink below their button so the wider substitute font
  * (Montserrat vs Gotham Narrow) keeps every label on one line. */
 @media (width >= 1200px) {
+  /* outside a padded band the row stays inside the 1176px source container
+   * (a plain section's block-content spans the viewport) */
   .columns-cta {
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin: 0 auto -3px;
+  }
+
+  /* inside the padded blue-bg / grey-bg band (homepage "Where to buy") the
+   * pill row widens past the band padding to the source block width */
+  main > .section:is(.blue-bg, .grey-bg) .columns-cta:not(.links, .red, .icons, .columns-cta-has-text, .columns-cta-has-icon) {
+    max-width: none;
     margin: 0 calc(var(--brand-content-gutter) - var(--spacing-l)) -3px;
   }
 
@@ -80,5 +90,386 @@ main .columns-cta a.columns-cta-button:any-link:focus-visible {
   /* source's tightest column leaves 10px either side of its button */
   .columns-cta .columns-cta-item {
     padding: 0 10px;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Additive cases (expertise pages). The default pill row above is
+ * unchanged; these rules only match the markers set by the block JS
+ * (columns-cta-has-text, columns-cta-has-icon) or the links option.
+ * --------------------------------------------------------------- */
+
+/* text cell + button (generic; panel and icon variants refine it below) */
+.columns-cta .columns-cta-item.columns-cta-text {
+  display: block;
+  color: inherit;
+  font-size: var(--body-font-size-l);
+  text-align: left;
+}
+
+.columns-cta .columns-cta-item.columns-cta-text p {
+  margin: 0;
+  color: inherit;
+}
+
+.columns-cta.columns-cta-has-text {
+  margin-bottom: 0;
+  padding-top: 0;
+}
+
+.columns-cta.columns-cta-has-text .columns-cta-list {
+  align-items: stretch;
+  gap: var(--spacing-m);
+}
+
+.columns-cta .columns-cta-icon,
+.columns-cta .columns-cta-icon img {
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* text + icon links (e.g. grease portfolio "Let's talk shop"): icon pill */
+main .columns-cta a.columns-cta-has-icon:any-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-s);
+}
+
+/* panel-with-button band (isoclean-faqs on sky-blue-bg): text + white
+ * square button. Source .panel-with-button__container: 20px padding and a
+ * centered column below 768px; 30px 55px padding and two equal halves from
+ * 768px (text 20px/24px, 10px inset; button centered in its half).
+ * The section style supplies 30px 15px, the block adds the rest inline. */
+.columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) {
+  margin: 0;
+  padding: 0 5px;
+}
+
+.columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) .columns-cta-list {
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) .columns-cta-item.columns-cta-text {
+  font-size: var(--body-font-size-l);
+  line-height: 1.2;
+  text-align: center;
+}
+
+main .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) a.columns-cta-button:any-link {
+  min-width: 250px;
+  padding: 12px 30px;
+  border-radius: 0;
+  font-size: var(--body-font-size-s);
+  line-height: 20px;
+}
+
+/* social icon rows (Delo "Connect with Delo", Havoline installer):
+ * source .social-media__list - 30px icon above a 10px label, 60px items */
+.columns-cta.columns-cta-has-icon:not(.columns-cta-has-text, .icons) {
+  margin-block: 0;
+  padding: 0;
+}
+
+.columns-cta.columns-cta-has-icon:not(.columns-cta-has-text, .icons) .columns-cta-list {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+}
+
+.columns-cta.columns-cta-has-icon:not(.columns-cta-has-text, .icons) .columns-cta-item {
+  padding: 0;
+}
+
+main .columns-cta.columns-cta-has-icon:not(.columns-cta-has-text, .icons) a.columns-cta-button:any-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  box-sizing: border-box;
+  min-width: 60px;
+
+  /* keeps long labels (@HavolineUSA) apart in the wider substitute font;
+   * short labels stay inside the 60px source item */
+  padding: 0 3px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--color-link-secondary);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  white-space: nowrap;
+}
+
+main .columns-cta.columns-cta-has-icon:not(.columns-cta-has-text, .icons) a.columns-cta-button:any-link:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+main .columns-cta.columns-cta-has-icon:not(.columns-cta-has-text, .icons) a.columns-cta-button:any-link:focus-visible {
+  outline-color: currentcolor;
+}
+
+.columns-cta.columns-cta-has-icon:not(.columns-cta-has-text, .icons) .columns-cta-icon,
+.columns-cta.columns-cta-has-icon:not(.columns-cta-has-text, .icons) .columns-cta-icon img {
+  width: 30px;
+  height: 30px;
+}
+
+/* single social link (isoclean "Connect with us on LinkedIn"): 20px icon in
+ * the source's 30px-padded 46px icon button, 16px label beside it */
+main .columns-cta.columns-cta-1-cols.columns-cta-has-icon:not(.columns-cta-has-text, .icons) a.columns-cta-button:any-link {
+  flex-direction: row;
+  gap: 31px;
+  padding: 12px 0 12px 30px;
+  font-size: var(--body-font-size-m);
+  line-height: 22px;
+  white-space: normal;
+}
+
+.columns-cta.columns-cta-1-cols.columns-cta-has-icon:not(.columns-cta-has-text, .icons) .columns-cta-icon,
+.columns-cta.columns-cta-1-cols.columns-cta-has-icon:not(.columns-cta-has-text, .icons) .columns-cta-icon img {
+  width: 20px;
+  height: 20px;
+}
+
+/* option: links - underlined inline text links (delo customer success
+ * stories filter row). Source .richtext: 1176px container, 15px inset,
+ * 16px #2459a9 underlined links about 16px apart, wrapping inline.
+ * Links get a 24px line box (WCAG 2.5.8 target size) instead of the source
+ * 19.2px; the block padding absorbs the 2.4px so the text sits where the
+ * source text does (20px below / 27px above the grey divider images). */
+.columns-cta.links {
+  box-sizing: border-box;
+  max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+  margin: 0 auto;
+  padding: 3px 15px 25px;
+}
+
+.columns-cta.links .columns-cta-list {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0 16px;
+}
+
+.columns-cta.links .columns-cta-item {
+  display: block;
+  padding: 0;
+}
+
+main .columns-cta.links a.columns-cta-button:any-link {
+  display: inline-block;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--color-link-secondary);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  text-decoration: underline;
+}
+
+main .columns-cta.links a.columns-cta-button:any-link:hover {
+  background: none;
+  color: var(--color-link);
+}
+
+main .columns-cta.links a.columns-cta-button:any-link:focus-visible {
+  outline-color: currentcolor;
+}
+
+/* white labels / links on the dark bands */
+main > .section:is(.blue-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) .columns-cta:is(.links, .columns-cta-has-icon:not(.columns-cta-has-text, .icons)) a.columns-cta-button:any-link,
+main > .section:is(.blue-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) .columns-cta:is(.links, .columns-cta-has-icon:not(.columns-cta-has-text, .icons)) a.columns-cta-button:any-link:hover {
+  color: var(--color-white);
+}
+
+@media (width >= 600px) {
+  .columns-cta.columns-cta-has-text .columns-cta-list {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (width >= 768px) {
+  .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) {
+    padding: 0 40px;
+  }
+
+  .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) .columns-cta-list {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) .columns-cta-item {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) .columns-cta-item.columns-cta-text {
+    padding-left: 10px;
+    font-size: var(--body-font-size-xl);
+    line-height: 24px;
+    text-align: left;
+  }
+
+  main .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) a.columns-cta-button:any-link {
+    min-width: 0;
+  }
+}
+
+@media (width >= 1200px) {
+  .columns-cta.columns-cta-has-text.columns-cta-has-icon {
+    margin: 0 auto;
+  }
+
+  .columns-cta.columns-cta-has-text.columns-cta-has-icon .columns-cta-list {
+    display: flex;
+    gap: var(--spacing-m) var(--spacing-l);
+  }
+
+  .columns-cta.columns-cta-has-text.columns-cta-has-icon .columns-cta-item {
+    padding: 0;
+  }
+}
+
+/* option: red - Havoline jump-link buttons (gf-7 landing page).
+ * Source .btn.bg-havoline: #b5121b square buttons, white bold 16px/22px
+ * label, 12px 30px padding, hover #870d14 (white on #b5121b is 6.6:1).
+ * Stacked until 1200px (15px apart, full-width items), then one row of
+ * equal columns about 6px apart. The source aligns the first button to the
+ * end of its column, the last to the start and the middle ones centered, so
+ * the row gathers toward the middle; the stacked layout keeps the same
+ * alignment. 41px below the hero, 56px (71px stacked) above the heading
+ * (the margin collapses with the heading's). */
+.columns-cta.red {
+  margin-bottom: 71px;
+  padding-top: 41px;
+}
+
+.columns-cta.red .columns-cta-list {
+  align-items: stretch;
+  gap: 15px;
+}
+
+.columns-cta.red .columns-cta-item:first-child:not(:last-child) {
+  justify-content: flex-end;
+}
+
+.columns-cta.red .columns-cta-item:last-child:not(:first-child) {
+  justify-content: flex-start;
+}
+
+main .columns-cta.red a.columns-cta-button:any-link {
+  border-radius: 0;
+  background-color: #b5121b;
+  color: var(--color-white);
+}
+
+main .columns-cta.red a.columns-cta-button:any-link:hover {
+  background-color: #870d14;
+  color: var(--color-white);
+}
+
+main .columns-cta.red a.columns-cta-button:any-link:focus-visible {
+  outline-color: #b5121b;
+}
+
+/* option: icons - icon-only social rows (Techron / Havoline "Connect with
+ * us"). Source multi-column column16: six 1/6 columns in a 1px #f5f5f5 box,
+ * the outer two empty, so the 78px icons sit centered about 196px apart;
+ * stacked (15px apart, 15px / 30px end space) until 1200px; the box starts
+ * 30px below the heading (the margin collapses with the heading's). The
+ * label stays in the link as its accessible name but is visually hidden. */
+.columns-cta.icons {
+  box-sizing: border-box;
+  margin: 30px 0 0;
+  padding: 15px 0 30px;
+  border: 1px solid var(--color-grey-light-bg);
+}
+
+.columns-cta.icons .columns-cta-list {
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.columns-cta.icons .columns-cta-item {
+  padding: 0;
+}
+
+main .columns-cta.icons a.columns-cta-button:any-link {
+  display: block;
+  padding: 0 0 5px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+main .columns-cta.icons a.columns-cta-button:any-link:hover {
+  background: none;
+}
+
+main .columns-cta.icons a.columns-cta-button:any-link:focus-visible {
+  outline-color: var(--color-link-secondary);
+}
+
+.columns-cta.icons .columns-cta-icon,
+.columns-cta.icons .columns-cta-icon img {
+  width: 78px;
+  height: 78px;
+}
+
+.columns-cta.icons .columns-cta-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (width >= 1200px) {
+  .columns-cta.red {
+    margin-bottom: 56px;
+  }
+
+  .columns-cta.red .columns-cta-list {
+    column-gap: 6px;
+  }
+
+  .columns-cta.red .columns-cta-item {
+    padding: 0;
+  }
+
+  .columns-cta.icons {
+    margin: 30px auto 0;
+    padding: 0;
+  }
+
+  .columns-cta.icons .columns-cta-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .columns-cta.icons .columns-cta-item {
+    flex: 0 0 calc(100% / 6);
   }
 }

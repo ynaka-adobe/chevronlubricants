@@ -1,0 +1,41 @@
+{
+  "variantName": "accordion-drawer",
+  "baseBlock": "accordion",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean.html",
+    "originPage": "isoclean",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "One drawer per grey band: full-width header photo with a slanted overlay at the bottom edge, centred dark-blue title, round +/- toggle; the panel shows a blue intro paragraph and 1-4 case-study tiles (image, bold title, link). Native details/summary.",
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "expandable benefit stories with case studies",
+    "imagePattern": "header photo + tile images"
+  },
+  "contentPattern": {
+    "description": "1 row per drawer: [header photo + title text (paragraph) | intro paragraph(s), then repeated case-study groups: image, bold title paragraph, link paragraph].",
+    "structure": "1 row per drawer: [header photo + title | intro + case-study groups (image, bold title, link)]",
+    "imageCount": "1 header + 1 per case study"
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "photo-headed expandable sections"
+    ],
+    "notSuitableFor": [
+      "text FAQ lists (use accordion-faq)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/isoclean"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

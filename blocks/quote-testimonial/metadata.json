@@ -1,0 +1,42 @@
+{
+  "variantName": "quote-testimonial",
+  "baseBlock": "quote",
+  "canonicalModel": "standalone",
+  "version": "1.0.0",
+  "created": "2026-10-29T22:41:32.377Z",
+  "sourceContext": {
+    "originUrl": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/isoclean.html",
+    "originPage": "isoclean",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "description": "Centred testimonial: optional portrait, dark-blue title, quotation in a narrow column, attribution (bold name, grey role/location), CTA button or link. Two consecutive testimonials sit side by side with a thin divider (>= 900px); white text on cobalt/blue/black bands.",
+    "colorScheme": "light",
+    "density": "medium",
+    "purpose": "customer testimonial",
+    "imagePattern": "optional portrait / video thumbnail"
+  },
+  "contentPattern": {
+    "description": "Up to 5 single-cell rows: [optional portrait image] [optional title] [quotation paragraph(s)] [attribution: name line, role/location line] [optional CTA link]. Rows are recognised by content. Append #_dnb to a YouTube CTA to keep it a link.",
+    "structure": "up to 5 rows: [portrait] [title] [quotation] [attribution] [CTA link]",
+    "imageCount": "0-1"
+  },
+  "options": [],
+  "memberVariantIds": [],
+  "reuseGuidance": {
+    "suitableFor": [
+      "customer quotes with attribution and CTA"
+    ],
+    "notSuitableFor": [
+      "pull quotes inside running text"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/learning/about-our-brands/isoclean",
+      "/en-us/home/learning/about-our-brands/delo"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-10-29T22:41:32.377Z"
+  }
+}

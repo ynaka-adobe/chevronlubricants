@@ -65,7 +65,7 @@
   width: 264px;
   height: 149px;
   border-radius: 10px 10px 0 0;
-  object-fit: fill;
+  object-fit: cover;
   -webkit-user-drag: none;
 }
 

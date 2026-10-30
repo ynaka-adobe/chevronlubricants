@@ -20,6 +20,10 @@
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   scrollbar-width: none;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 }
 
 .cards-products .cards-products-track::-webkit-scrollbar {
@@ -216,26 +220,329 @@
 .cards-products .cards-products-dots {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0;
 }
 
+/* 24px hit area (WCAG 2.2 target size) around the 10px source dot */
 .cards-products .cards-products-dot {
+  display: grid;
+  place-items: center;
   box-sizing: border-box;
-  width: 10px;
-  height: 10px;
+  width: 24px;
+  height: 24px;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--color-chevron-dark-blue);
+  border: 0;
   border-radius: 50%;
-  background-color: var(--color-white);
+  background: none;
   cursor: pointer;
 }
 
-.cards-products .cards-products-dot.is-active {
+.cards-products .cards-products-dot::before {
+  content: "";
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--color-chevron-dark-blue);
+  border-radius: 50%;
+  background-color: var(--color-white);
+}
+
+.cards-products .cards-products-dot.is-active::before {
   background-color: var(--color-chevron-dark-blue);
 }
 
 .cards-products button:focus-visible {
   outline: 2px solid var(--color-chevron-medium-blue);
   outline-offset: 2px;
+}
+
+
+/* ---------------------------------------------------------------------------
+ * Option `grid`: wrapping product listing grid (no carousel controls).
+ * Values measured from the source listing page at 1440 / 1024 / 768 / 375px
+ * (.product-listing-list__category-container__items / .product-listing-item):
+ * 1116px row inside the page column (1440px), tiles 1px #dbdbdb, 6px radius,
+ * 24/14/14 padding, 40px row gap, 3px side margins (6px between tiles).
+ * 1 column < 768px, 2 columns 768-991px, 3 columns 992-1199px (269px tiles
+ * wrapping in a 1000px row), 4 columns >= 1200px.
+ * ------------------------------------------------------------------------- */
+
+/* grid and the listing-page featured carousel sit in the page text column
+ * (same box as the section's default content) */
+.cards-products.grid,
+main > .section:has(.cards-products.grid) .cards-products:not(.grid) {
+  max-width: var(--grid-container-width);
+  margin-inline: auto;
+}
+
+.cards-products.grid .cards-products-track {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px 6px;
+  padding: 0 3px;
+  overflow: visible;
+  scroll-snap-type: none;
+
+  @media (width >= 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (width >= 992px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (width >= 1200px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.cards-products.grid .cards-products-card {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  padding: 24px 14px 14px;
+  border: 1px solid var(--brand-products-rule-color);
+  border-radius: 6px;
+  background-color: var(--color-white);
+  text-align: center;
+  scroll-snap-align: none;
+}
+
+.cards-products.grid .cards-products-card[hidden] {
+  display: none;
+}
+
+/* Image area (source .product-listing-item__img-container): 155px, 23px badge slot, 124px packshot */
+.cards-products.grid .cards-products-card-image {
+  box-sizing: border-box;
+  height: 155px;
+  padding-top: 23px;
+}
+
+/* ISOCLEAN badge (source __isologo): in flow, centered in the 23px slot, 20px tall */
+.cards-products.grid .cards-products-card-image:has(> .cards-products-badge) {
+  padding-top: 0;
+}
+
+.cards-products.grid .cards-products-badge {
+  position: static;
+  height: 23px;
+}
+
+.cards-products.grid .cards-products-badge img {
+  height: 20px;
+  border-radius: 0;
+}
+
+.cards-products.grid .cards-products-image {
+  height: 124px;
+}
+
+.cards-products.grid .cards-products-image img {
+  height: 124px;
+}
+
+.cards-products.grid .cards-products-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* Title (source .product-listing-item__title, fixed 48px box, overflow visible) */
+.cards-products.grid .cards-products-title {
+  height: 48px;
+  margin: 16px 0 0;
+  padding: 0 15px;
+  overflow: visible;
+  font-size: var(--body-font-size-m);
+  line-height: 19.2px;
+  color: var(--color-chevron-medium-blue);
+}
+
+/* "Benefits" label (source .product-listing-item__benefits) */
+.cards-products.grid .cards-products-card-body > .cards-products-benefits-label {
+  margin: 10px 0 0;
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  line-height: 20px;
+  text-align: left;
+  color: var(--color-black);
+}
+
+/* Bullets (source .product-listing-item__benefits-container ul, 12px 0 margin) */
+.cards-products.grid .cards-products-card-body > .cards-products-benefits {
+  margin: 12px 0;
+  padding: 0 0 0 18px;
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.cards-products.grid .cards-products-benefits li {
+  line-height: 20px;
+}
+
+/* Actions (source .card-footer-buttons): pinned to the tile bottom. Montserrat
+ * sets wider than Gotham Narrow, so keep an 8px minimum gap and wrap if needed. */
+.cards-products.grid .cards-products-card-body > .cards-products-actions {
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 8px;
+  margin: auto 0 0;
+  padding: 0;
+}
+
+/* "Learn More" (source .product-listing-category__more: 4px 0 box, 14px/20px black) */
+.cards-products.grid a.cards-products-link {
+  padding: 4px 0;
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  color: var(--color-black);
+  text-decoration: none;
+}
+
+.cards-products.grid a.cards-products-link:hover {
+  text-decoration: underline;
+}
+
+/* Filled pill (source .product-listing-category__buyonline > a > div: #003764,
+ * 24px radius; 4px 24px padding trimmed to 16px sides for the wider substitute font) */
+.cards-products.grid a.cards-products-button {
+  flex: 0 0 auto;
+  height: 28px;
+  padding: 4px 16px;
+  border: 0;
+  border-radius: 24px;
+  background-color: #003764;
+  color: var(--color-white);
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.cards-products.grid a.cards-products-button:hover {
+  background-color: var(--color-chevron-medium-blue);
+  color: var(--color-white);
+}
+
+.cards-products.grid a:focus-visible {
+  outline: 2px solid var(--color-chevron-medium-blue);
+  outline-offset: 2px;
+}
+
+/* "See all (N) >" toggle (source .product-listing-category__seeall): inline after the
+ * category heading the block JS appends it to; below the grid when there is no heading */
+.cards-products-heading > .cards-products-seeall,
+.cards-products.grid .cards-products-seeall {
+  display: inline-block;
+  box-sizing: border-box;
+  min-height: 24px;
+  margin: 0;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--color-chevron-medium-blue);
+  font-family: var(--font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 400;
+  line-height: 19.2px;
+  letter-spacing: normal;
+  text-align: start;
+  cursor: pointer;
+}
+
+.cards-products-heading > .cards-products-seeall:hover,
+.cards-products.grid .cards-products-seeall:hover {
+  text-decoration: underline;
+}
+
+.cards-products-heading > .cards-products-seeall:focus-visible {
+  outline: 2px solid var(--color-chevron-medium-blue);
+  outline-offset: 2px;
+}
+
+.cards-products-heading > .cards-products-seeall[hidden],
+.cards-products.grid .cards-products-seeall[hidden] {
+  display: none;
+}
+
+.cards-products.grid .cards-products-seeall-wrap {
+  margin: 24px 0 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Featured carousel on the listing / brand pages (plain cards-products in the
+ * section that also holds the grids). Source .product-list__rebrand
+ * .slider-wrapper: 1140px row, white 269x328 tiles, 1px #dbdbdb, 6px radius,
+ * 24/14/0 padding, 16px gap, 160px image, 16px/18px title, 14px/18px copy.
+ * The homepage carousel (no grid on the page) is unaffected.
+ * ------------------------------------------------------------------------- */
+main > .section:has(.cards-products.grid) .cards-products:not(.grid) {
+  .cards-products-track {
+    gap: 16px;
+  }
+
+  .cards-products-card {
+    flex-basis: 269px;
+    height: 328px;
+    padding: 24px 14px 0;
+    border-color: var(--brand-products-rule-color);
+    border-radius: 6px;
+    background-color: var(--color-white);
+    text-align: center;
+  }
+
+  .cards-products-card-image {
+    padding-top: 0;
+  }
+
+  .cards-products-badge {
+    top: 8px;
+  }
+
+  .cards-products-image,
+  .cards-products-image img {
+    height: 160px;
+  }
+
+  .cards-products-card-body {
+    padding: 0;
+  }
+
+  .cards-products-title {
+    height: 36px;
+    margin: 12px 0;
+    line-height: 18px;
+  }
+
+  .cards-products-card-body > p:not(.cards-products-title) {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: var(--body-font-size-s);
+    line-height: 18px;
+    text-align: start;
+    color: var(--color-black);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+}
+
+@media (width >= 900px) {
+  /* default content is border-box with 18px side padding from 900px */
+  .cards-products.grid,
+  main > .section:has(.cards-products.grid) .cards-products:not(.grid) {
+    max-width: calc(var(--grid-container-width) - 36px);
+  }
+}
+
+@media (width >= 1200px) {
+  .cards-products.grid {
+    max-width: 1116px;
+  }
+
+  main > .section:has(.cards-products.grid) .cards-products:not(.grid) {
+    max-width: 1140px;
+  }
 }

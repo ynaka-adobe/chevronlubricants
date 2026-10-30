@@ -1,0 +1,248 @@
+/* Accordion-Drawer (source .drawer). Values from source computed styles:
+ * header photo with a light-grey wedge (.drawer__img-container--triangle: border
+ * wedge 120vw wide x 70px/100px tall, so the slope tracks the viewport) and the
+ * 20px/24px title on its bottom edge; 24px white round +/- toggle 20px below,
+ * 20px padding under it, 30px gap after each drawer. Open panel: 10px padding,
+ * intro 0 20px 20px, case-study tiles (0 6px padding, card shadow) stacked
+ * below 1200px, 33% / 25% columns from 1200px.
+ */
+
+.accordion-drawer {
+  padding-bottom: 30px;
+}
+
+.accordion-drawer .accordion-drawer-details {
+  position: relative;
+  padding-bottom: 64px; /* 20px gap + 24px toggle + 20px padding */
+}
+
+.accordion-drawer .accordion-drawer-details + .accordion-drawer-details {
+  margin-top: 30px;
+}
+
+/* header */
+.accordion-drawer .accordion-drawer-header {
+  display: block;
+  list-style: none;
+  cursor: pointer;
+}
+
+.accordion-drawer .accordion-drawer-header::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-drawer .accordion-drawer-header:focus {
+  outline: none;
+}
+
+.accordion-drawer .accordion-drawer-header:focus-visible .accordion-drawer-icon {
+  outline: 2px solid var(--color-chevron-medium-blue);
+  outline-offset: 7px;
+}
+
+.accordion-drawer .accordion-drawer-media {
+  position: relative;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.accordion-drawer .accordion-drawer-media picture,
+.accordion-drawer .accordion-drawer-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* wedge: left edge rises to the strip top, right edge meets the bottom at 120vw */
+.accordion-drawer .accordion-drawer-media::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px; /* hide the anti-aliased last image row */
+  left: 0;
+  height: 71px;
+  background: var(--color-grey-light-bg);
+  clip-path: polygon(0 0, 120vw 100%, 0 100%);
+  content: "";
+}
+
+.accordion-drawer .accordion-drawer-title {
+  display: block;
+  color: var(--color-chevron-dark-blue);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+}
+
+.accordion-drawer .accordion-drawer-media .accordion-drawer-title {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* +/- toggle (source .expand-control / .collapse-control + glyphicon 16px) */
+.accordion-drawer .accordion-drawer-icon {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-white);
+  box-shadow: 0 0 0 5px rgb(255 255 255 / 30%);
+  transform: translateX(-50%);
+}
+
+.accordion-drawer .accordion-drawer-icon::before,
+.accordion-drawer .accordion-drawer-icon::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 4px;
+  background: var(--color-chevron-medium-blue);
+  transform: translate(-50%, -50%);
+  content: "";
+}
+
+.accordion-drawer .accordion-drawer-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  transition: opacity 0.2s ease;
+}
+
+.accordion-drawer .accordion-drawer-details[open] .accordion-drawer-icon::after {
+  opacity: 0;
+}
+
+/* panel */
+.accordion-drawer .accordion-drawer-panel {
+  padding: 10px;
+}
+
+.accordion-drawer .accordion-drawer-intro {
+  padding: 0 20px 20px;
+}
+
+.accordion-drawer .accordion-drawer-intro p {
+  margin: 0;
+  color: var(--color-chevron-dark-blue);
+  font-size: 16px;
+  line-height: 19.2px;
+}
+
+.accordion-drawer .accordion-drawer-panel-image {
+  margin: 0;
+  line-height: 0;
+  text-align: center;
+}
+
+.accordion-drawer .accordion-drawer-panel-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* case-study tiles */
+.accordion-drawer .accordion-drawer-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0 0 45px;
+  padding: 0;
+  list-style: none;
+}
+
+.accordion-drawer .accordion-drawer-item {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 6px;
+  box-shadow: 0 3px 6px rgb(0 0 0 / 12%);
+  text-align: start;
+}
+
+.accordion-drawer .accordion-drawer-item > * {
+  margin: 0;
+}
+
+.accordion-drawer .accordion-drawer-item-image {
+  padding-bottom: 6px;
+  line-height: 0;
+  text-align: center;
+}
+
+.accordion-drawer .accordion-drawer-item-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+.accordion-drawer .accordion-drawer-item-title {
+  padding: 10px 0;
+  color: var(--color-black);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19.2px;
+}
+
+.accordion-drawer .accordion-drawer-item-link {
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 16.8px;
+}
+
+.accordion-drawer .accordion-drawer-item-link a {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-chevron-medium-blue);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16.8px;
+  text-decoration: none;
+}
+
+.accordion-drawer .accordion-drawer-item-link a:hover {
+  color: var(--color-chevron-dark-blue);
+  text-decoration: underline;
+}
+
+@media (width >= 768px) {
+  .accordion-drawer .accordion-drawer-media::after {
+    height: 101px;
+  }
+}
+
+@media (width >= 1200px) {
+  .accordion-drawer {
+    max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
+    margin-inline: auto;
+  }
+
+  .accordion-drawer .accordion-drawer-items {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 30px;
+  }
+
+  /* source column33 / column25 tiles; 2 tiles sit in the middle of a 4-up row */
+  .accordion-drawer .accordion-drawer-item {
+    flex: 0 0 33%;
+  }
+
+  .accordion-drawer .accordion-drawer-items-3 {
+    justify-content: space-between;
+  }
+
+  .accordion-drawer .accordion-drawer-items-2 .accordion-drawer-item,
+  .accordion-drawer .accordion-drawer-items-4 .accordion-drawer-item {
+    flex-basis: 25%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion-drawer .accordion-drawer-icon::after {
+    transition: none;
+  }
+}

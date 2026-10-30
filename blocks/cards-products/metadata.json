@@ -7,31 +7,51 @@
   "sourceContext": {
     "originUrl": "https://www.chevronlubricants.com/",
     "originPage": "homepage",
-    "blockPosition": "middle"
+    "blockPosition": "middle",
+    "additionalOrigins": [
+      "https://www.chevronlubricants.com/en_us/home/products/equipment_type/gasoline_fleets_oil_change_service_centers/automobile_fleets.html",
+      "https://www.chevronlubricants.com/en_us/home/products/by_brand/delo.html"
+    ]
   },
   "visualCharacteristics": {
-    "description": "White band with horizontal carousel of product cards (optional ISOCLEAN Certified badge, product image, product name link, text link + outlined button, 3 bullet benefits) with prev/next arrows and dots.",
+    "description": "White band with horizontal carousel of product cards (optional ISOCLEAN Certified badge, product image, product name link, text link + outlined button, 3 bullet benefits) with prev/next arrows and dots. Option grid: 4-column wrapping listing of white tiles (1px #dbdbdb border, 6px radius), blue title link, bold Benefits label, bullets, Learn More text link + filled navy pill, with a See all (N) toggle when more than 4 tiles.",
     "colorScheme": "light",
     "density": "medium",
     "purpose": "featured-products",
     "imagePattern": "product-packshot"
   },
   "contentPattern": {
-    "description": "One row per product card. Cell 1: optional badge image followed by the product image. Cell 2: title (heading or bold) linked to the product page, a text link, a button link (last link renders as outlined button), and a bullet list of benefits.",
+    "description": "One row per product card. Cell 1: optional badge image followed by the product image. Cell 2: title (heading or bold) linked to the product page, a text link, a button link (last link renders as outlined button), and a bullet list of benefits. Optional (any mode): a short link-free paragraph immediately before the bullet list (e.g. \"Benefits\") is styled as the list label. Use Cards-Products (grid) for product listing grids.",
     "structure": "N rows (6 on source) x 2 cells: image cell + text cell",
     "buttonCount": 1,
     "imageCount": 2
   },
-  "options": [],
+  "options": [
+    {
+      "class": "grid",
+      "label": "Grid",
+      "description": "Wrapping product listing grid (1/2/4 columns at <768/768-991/>=992px) instead of the carousel; no arrows or dots. With more than 4 cards, the first 4 show and a \"See all (N) >\" button reveals the rest. Actions sit at the tile bottom and the last link renders as a filled navy pill. A link-free paragraph directly before the bullet list (e.g. \"Benefits\") renders as the list label."
+    }
+  ],
   "memberVariantIds": [],
   "reuseGuidance": {
     "suitableFor": [
       "featured product carousels",
-      "product cards with image, title, links and benefit bullets"
+      "product cards with image, title, links and benefit bullets",
+      "product listing grids grouped by category (option grid)"
     ],
     "notSuitableFor": [
       "industry/category image cards (use cards-industry)",
       "article or insight listings (use cards-insights)"
     ]
+  },
+  "usage": {
+    "pagesUsing": [
+      "/en-us/home/products/equipment-type/gasoline-fleets-oil-change-service-centers/automobile-fleets",
+      "/en-us/home/products/by-brand/delo",
+      "/en-us/home/learning/about-our-brands/delo"
+    ],
+    "reuseCount": 3,
+    "lastUsed": "2026-10-29T22:00:00.000Z"
   }
 }
