@@ -527,6 +527,14 @@
 
 ## Merged PRs
 
+### Log homepage persona block
+
+**Branch:** `pr-log-persona` → `main`, [PR #5](https://github.com/ynaka-adobe/chevronlubricants/pull/5)
+**Status:** Merged 2026-10-30.
+
+### Summary
+- `pr.md` only: records the landing-fragment schedule fallback rows, the persona block on `/en-us/home` (uploaded, previewed, published) and the live check of all three personas (see the URL restructure entry under Open PRs).
+
 ### Log learning-for-you pages and sheet publish
 
 **Branch:** `pr-log-learning` → `main`, [PR #4](https://github.com/ynaka-adobe/chevronlubricants/pull/4)
