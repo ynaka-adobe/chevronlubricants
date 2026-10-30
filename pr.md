@@ -28,21 +28,6 @@
 
 ## Open PRs
 
-### Keep loading sections hidden (desktop layout shift)
-
-**Branch:** `fix-loading-cls`
-**Status:** Open for review; not merged.
-
-### Summary
-- Cause: `styles/styles.css` hides a section while it loads with `div[data-status] { display: none; }`, but three section styles set their own `display` with a more specific selector: the insights band at ≥900px (`grid`), `split` (`grid`) and `banner` (`flex`). On desktop the "Stay informed with Our Latest Insights" band could show at the top of the homepage before the sections above it, then get pushed off screen when they loaded.
-- Measured on live `/en-us/home` at 1350×940, cold cache: 1 run in 5 shifted by 0.87 (the band at y=150, 790px tall, pushed off screen); other runs 0.02–0.06. Mobile 0.04. The persona banner makes the top section slower, so the band shows more often; it is not the cause.
-- Fix: `main > .section[data-status] { display: none !important; }` next to the framework visibility rule, so any section style is hidden while loading.
-
-### Testing
-- [x] stylelint passes.
-- [x] Local preview, homepage at 1350px: the insights band and the split section compute `display: none` while `data-status` is set and `grid` after; all 6 sections are visible after load.
-- [ ] aem-psi-check on the branch.
-
 ### Restructure URLs to mirror the source (/en-us/home/...)
 
 **Branch:** `main` (uncommitted)
@@ -543,6 +528,22 @@
 ---
 
 ## Merged PRs
+
+### Keep loading sections hidden (desktop layout shift)
+
+**Branch:** `fix-loading-cls` → `main`, [PR #6](https://github.com/ynaka-adobe/chevronlubricants/pull/6)
+**Status:** Merged 2026-10-30.
+
+### Summary
+- Cause: `styles/styles.css` hides a section while it loads with `div[data-status] { display: none; }`, but three section styles set their own `display` with a more specific selector: the insights band at ≥900px (`grid`), `split` (`grid`) and `banner` (`flex`). On desktop the "Stay informed with Our Latest Insights" band could show at the top of the homepage before the sections above it, then get pushed off screen when they loaded.
+- Measured on live `/en-us/home` at 1350×940, cold cache: 1 run in 5 shifted by 0.87 (the band at y=150, 790px tall, pushed off screen); other runs 0.02–0.06. Mobile 0.04. The persona banner makes the top section slower, so the band shows more often; it is not the cause.
+- Fix: `main > .section[data-status] { display: none !important; }` next to the framework visibility rule, so any section style is hidden while loading.
+
+### Testing
+- [x] stylelint passes.
+- [x] Local preview, homepage at 1350px: the insights band and the split section compute `display: none` while `data-status` is set and `grid` after; all 6 sections are visible after load.
+- [x] Branch, cold-cache desktop 1350×940: 5/5 runs CLS 0.023 (persona loaded each time); mobile 0.038.
+- [x] aem-psi-check: passed, Lighthouse 98. Desktop performance 99 (was 81), CLS 0.023 (was 0.42); mobile 98, CLS 0.038. Accessibility 96 (persona fragment content: unnamed image link, second H1); SEO 61 unchanged.
 
 ### Log homepage persona block
 
