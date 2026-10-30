@@ -46,8 +46,18 @@
 ### Testing
 - [x] 111/111 pages imported, 0 failures.
 - [x] Render check on 8 pages across all templates: no errors; the header Where to buy menu points to `/en-us/home/...`; the resources sheet loads 45 items.
-- [ ] Update the DA `redirects` sheet: `/` → `/en-us/home` (currently `/` → `/home`). Optionally add `/home` → `/en-us/home`.
+- [x] DA `redirects` sheet updated (2026-10-30): `/` → `/en-us/home` (was `/home`). The persona rows (`/persona/*` → `/home?persona=…`) were kept, and no `/home` redirect was added (customer decision). Backup: `migration-work/da-backups/redirects.before-2026-10-30.json`.
+- [ ] Preview/publish the `redirects` sheet only after `/en-us/home` (and the other migrated pages) are uploaded to DA and published, otherwise `/` would lead to a 404.
+- [x] Local workspace synced from DA (2026-10-30): the 113 DA pages/fragments (`/en-us/home/**`, `/nav`, `/footer`) were mirrored locally from the aem.page preview (identical text/links to DA source; images absolutized to aem.page media; DA metadata block kept). Pre-sync backup: `migration-work/local-before-da-sync-2026-10-30/`.
+- [ ] DA content issues found during the sync:
+  - The upload made every chevronlubricants.com link relative: 3,275 links on 104 pages point to `/en-us/home/...` pages that don't exist (product detail pages and non-migrated marketing pages).
+  - [x] Fixed 2026-10-30: the `cards-filterable` sheet link (mangled to `/en-us/home/learning/resources-json`) is restored to `/en-us/home/learning/resources.json` on both learning-for-you pages, uploaded to DA (DA source = local). The pre-fix DA source is backed up in `migration-work/da-backups/`.
+  - [x] Uploaded 2026-10-30: the `resources` sheet to DA at `/en-us/home/learning/resources.json` (45 rows; identical to `content/en-us/home/learning/resources.json`).
+  - [ ] Preview/publish in DA: the 2 learning-for-you pages + the resources sheet.
+- [ ] Delete the 119 local pages that are no longer in DA (old-structure copies, the 7 root pages deleted in DA, test pages). Deletes under content/ are blocked for the assistant.
 - [ ] Delete the old local copies (the assistant can't delete under content/): `content/home.plain.html`, `content/index.plain.html`, `content/products/`, `content/learning/`, `content/services/`, `content/where-to-buy/`, `content/contact-us.plain.html`, plus the test pages `content/locator-test.plain.html` and `content/bgen-test/`.
+  - Verified 2026-10-30: DA no longer has any of these (DA root = `docs/`, `en-us/`, `fragments/`, `media/`, `nav`, `footer`, `redirects`, `schedules`). All 112 old-structure files have a copy under `content/en-us/home/`. These are local-only orphans; the customer will delete them from the Preview view.
+- [x] Removed stale repo-root files (2026-10-30, `git rm`, not referenced anywhere): `phase1-preview.png`, `phase2-preview.png` (old design screenshots), `pr.html`, `pr.plain.html` (old exports of this file). Also removed an empty, untracked `en-us/home/...` folder tree at the repo root (no files; left over from an earlier import run). Removed the unused repo-root `fragments/` folder (7 old header-menu/landing-page `.plain.html` files from commit 165bcf3; the header now reads `content/nav`; no code references).
 
 ### Design Phase 3: section/page-level fixes + page verification
 
