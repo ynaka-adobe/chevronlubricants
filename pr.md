@@ -47,7 +47,9 @@
 - [x] 111/111 pages imported, 0 failures.
 - [x] Render check on 8 pages across all templates: no errors; the header Where to buy menu points to `/en-us/home/...`; the resources sheet loads 45 items.
 - [x] DA `redirects` sheet updated (2026-10-30): `/` → `/en-us/home` (was `/home`). The persona rows (`/persona/*` → `/home?persona=…`) were kept, and no `/home` redirect was added (customer decision). Backup: `migration-work/da-backups/redirects.before-2026-10-30.json`.
-- [ ] Preview/publish the `redirects` sheet only after `/en-us/home` (and the other migrated pages) are uploaded to DA and published, otherwise `/` would lead to a 404.
+- [x] `redirects` sheet previewed and published 2026-10-30 (customer request; `/en-us/home` was already live). Verified on aem.page and aem.live: `/` → 301 → `/en-us/home`.
+- [x] Persona rows repointed 2026-10-30 (customer request): `/persona/{fleet-managers,oem,default}` → `/en-us/home?persona=…` (was `/home?persona=…`, a 404). Local copy `content/redirects.json` == DA; uploaded, previewed and published; verified 301 → 200 on aem.page and aem.live. Backup: `migration-work/da-backups/redirects.before-persona-fix-2026-10-30.json`.
+- [ ] The migrated `/en-us/home` has no `persona` block, so the `?persona=` parameter currently has no effect (the old `/home` used it to swap fragments).
 - [x] Local workspace synced from DA (2026-10-30): the 113 DA pages/fragments (`/en-us/home/**`, `/nav`, `/footer`) were mirrored locally from the aem.page preview (identical text/links to DA source; images absolutized to aem.page media; DA metadata block kept). Pre-sync backup: `migration-work/local-before-da-sync-2026-10-30/`.
 - [ ] DA content issues found during the sync:
   - The upload made every chevronlubricants.com link relative: 3,275 links on 104 pages point to `/en-us/home/...` pages that don't exist (product detail pages and non-migrated marketing pages).
@@ -520,6 +522,14 @@
 ---
 
 ## Merged PRs
+
+### Log redirects sheet publish and persona fix
+
+**Branch:** `pr-log-redirects` → `main`, [PR #3](https://github.com/ynaka-adobe/chevronlubricants/pull/3)
+**Status:** Merged 2026-10-30.
+
+### Summary
+- `pr.md` only: records the redirects sheet preview/publish and the persona rows repointed to `/en-us/home?persona=…` (see the URL restructure entry under Open PRs).
 
 ### Remove orphaned root files
 
