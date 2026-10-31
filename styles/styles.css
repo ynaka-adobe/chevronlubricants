@@ -673,6 +673,9 @@ main > .section {
   > .default-content {
     color: var(--brand-copy-color);
 
+    /* long plain-text URLs (chevron-warranty spec link) wrap instead of scrolling phones sideways */
+    overflow-wrap: break-word;
+
     h1 {
       margin: 0;
       font-size: var(--brand-heading-size-h1);
