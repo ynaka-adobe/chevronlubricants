@@ -243,6 +243,27 @@ custom-domain JavaScript and CSS match the committed files.
 The user subsequently observed the pipeline Running; final Cloud Manager
 execution status and deployed revision remain unverified by this session.
 
+### Techron catalog and detail presentation
+
+The supplied Techron listing links to four distinct products: Complete Fuel
+System Cleaner, Diesel, Fuel Injector Cleaner and High Mileage Fuel System
+Cleaner. All four records were created after immediate absent-record checks
+and independently read back. Eight exact Helix product/media routes were
+merged with all prior configuration preserved. Network content and all 15
+generated/supporting image requests are verified.
+
+The finite detail inventory includes only these four Techron paths. The shared
+retailer-action layout uses Techron's source gray title/buttons and blue benefit
+cards, retaining descriptions, equipment, documents, applications, packaging
+identifiers and Self Services. Latest EMA image-loading fixes and all previous
+Delo/Havoline rendering remain intact.
+
+Custom-domain Techron delivery is pending the separate exact eight-path CDN
+change. Fresh Techron-specific deployment approval and a fresh idle check of
+pipeline `60291285` are required before publication; previous Havoline approval
+does not apply. No prices, checkout, broad routing or listing-page changes are
+included.
+
 ### Credentials and ongoing ingestion
 
 The Chevron-specific ingestion service token has only `catalog:read` and

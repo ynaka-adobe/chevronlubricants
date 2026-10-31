@@ -143,6 +143,30 @@ Use the established exact-path/SKU-gated detail renderer, adding only Havoline's
 source-specific presentation. Do not add prices, checkout, broad routes, or
 overwrite EMA-authored pages or existing products.
 
+## Techron catalog migration
+
+User authorized the actual products linked from
+`https://www.chevronlubricants.com/en_us/home/products/by_brand/techron.html?src-tab=products`.
+There are four distinct linked detail pages. All sources returned 200 and
+their catalog/Network/custom destination paths were absent at inventory time.
+Sources are under `/en_us/home/products/`; destinations are under
+`/en-us/home/products/`, without `.html`.
+
+| Source filename | Destination slug |
+| --- | --- |
+| `techron-complete-fuel-system-cleaner.html` | `techron-complete-fuel-system-cleaner` |
+| `techron-diesel.html` | `techron-diesel` |
+| `techron-fuel-injector-cleaner.html` | `techron-fuel-injector-cleaner` |
+| `techron-high-mileage-fuel-system-cleaner.html` | `techron-high-mileage-fuel-system-cleaner` |
+
+Preserve source descriptions, images, documents, equipment, benefits,
+applications/specifications, packaging identifiers and Self Services.
+Reuse the finite SKU-gated renderer with Techron's source gray title/actions
+and blue benefit cards. Preserve Delo/Havoline and active EMA work.
+No checkout or invented prices. New exact CDN routes need fresh Techron-specific
+deployment approval and pipeline-idle confirmation; Havoline approval is not
+authorization to deploy Techron.
+
 ## Guides document pilot
 
 The user approved a single English Syn-Trans XE PDS conversion demo on
@@ -318,4 +342,4 @@ SDS conversion and bulk document ingestion are not included.
 
 ### Out of scope (for now)
 
-- Other product detail pages (`/en_us/home/products/<product>.html`, 160+ overall), except the 40 explicitly authorized Delo and 17 Havoline products above. These will be delivered later via Edge Commerce (Product Bus). Listing-page link updates are not part of the product detail-template change.
+- Other product detail pages (`/en_us/home/products/<product>.html`, 160+ overall), except the 40 explicitly authorized Delo, 17 Havoline and four Techron products above. These will be delivered later via Edge Commerce (Product Bus). Listing-page link updates are not part of the product detail-template change.

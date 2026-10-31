@@ -348,11 +348,19 @@ main .commerce-product .commerce-product-image-dialog img {
   margin: 16px auto;
 }
 
-main .commerce-product-havoline .commerce-product-details h1 {
-  color: #b5121b;
+main .commerce-product-havoline {
+  --commerce-product-accent: #b5121b;
 }
 
-main .commerce-product-havoline .commerce-product-actions {
+main .commerce-product-techron {
+  --commerce-product-accent: #5c5e60;
+}
+
+main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-details h1 {
+  color: var(--commerce-product-accent);
+}
+
+main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -360,24 +368,24 @@ main .commerce-product-havoline .commerce-product-actions {
   margin-top: 16px;
 }
 
-main .commerce-product-havoline .commerce-product-actions p {
+main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-actions p {
   margin: 0;
 }
 
-main .commerce-product-havoline .commerce-product-distributor a,
-main .commerce-product-havoline .commerce-product-retailer a {
+main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-distributor a,
+main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-retailer a {
   display: inline-block;
   margin: 0;
-  border: 1px solid #b5121b;
+  border: 1px solid var(--commerce-product-accent);
   padding: 12px 24px;
   background: #fff;
-  color: #b5121b;
+  color: var(--commerce-product-accent);
   font-weight: 700;
   text-decoration: none;
 }
 
-main .commerce-product-havoline .commerce-product-retailer a {
-  background: #b5121b;
+main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-retailer a {
+  background: var(--commerce-product-accent);
   color: #fff;
 }
 
@@ -444,7 +452,7 @@ main .commerce-product-havoline .commerce-product-service-card h4 {
     grid-row: 6;
   }
 
-  main .commerce-product-havoline .commerce-product-actions {
+  main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-actions {
     grid-row: 6;
   }
 

@@ -99,7 +99,7 @@ describe('Delo Product Bus detail template', () => {
   it('supports all 17 Havoline paths without broadening the product hierarchy', async () => {
     const response = await fetch('/source_website.md');
     expect(response.ok).to.be.true;
-    const inventory = (await response.text()).split('## Havoline catalog migration')[1].split('## Guides document pilot')[0];
+    const inventory = (await response.text()).split('## Havoline catalog migration')[1].split('## Techron catalog migration')[0];
     const rows = [...inventory.matchAll(/^\| `[^`]+\.html` \| `([^`]+)` \|$/gm)];
     expect(rows).to.have.length(17);
     rows.forEach(([, slug]) => {
@@ -112,6 +112,29 @@ describe('Delo Product Bus detail template', () => {
       expect(getProductType(`${path}.html`)).to.be.undefined;
       expect(getProductType(`${path}/nested`)).to.be.undefined;
     });
+  });
+
+  it('supports only the four listed Techron paths and preserves retailer actions', async () => {
+    const response = await fetch('/source_website.md');
+    expect(response.ok).to.be.true;
+    const inventory = (await response.text()).split('## Techron catalog migration')[1].split('## Guides document pilot')[0];
+    const rows = [...inventory.matchAll(/^\| `[^`]+\.html` \| `([^`]+)` \|$/gm)];
+    expect(rows).to.have.length(4);
+    rows.forEach(([, slug]) => {
+      document.body.innerHTML = fixture;
+      sku.content = slug;
+      const productMain = document.querySelector('main');
+      productMain.children[1].insertAdjacentHTML('afterbegin', '<p><a href="/find-a-retailer">Find a Retailer</a></p>');
+      const path = `/en-us/home/products/${slug}`;
+      expect(getProductType(path)).to.equal('Fuel additives');
+      expect(decorateCommerceProduct(productMain, path)).to.be.true;
+      expect(productMain.querySelector('.commerce-product-techron')).to.exist;
+      expect(productMain.querySelectorAll('.commerce-product-actions a')).to.have.length(2);
+      expect(productMain.querySelector('.commerce-product-retailer a').getAttribute('href')).to.equal('/find-a-retailer');
+      expect(getProductType(`${path}.html`)).to.be.undefined;
+      expect(getProductType(`${path}/nested`)).to.be.undefined;
+    });
+    expect(getProductType('/en-us/home/products/techron-unknown')).to.be.undefined;
   });
 
   it('preserves Havoline hero actions and distinct Self/Pro Services groups', () => {

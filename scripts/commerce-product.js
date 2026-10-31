@@ -56,6 +56,10 @@ const PRODUCT_TYPES = new Map([
   ['havoline-synblend-motor-oil', 'Engine oils'],
   ['havoline-universal-antifreezecoolant', 'Coolants & antifreezes'],
   ['havoline-xtended-life-antifreezecoolant', 'Coolants & antifreezes'],
+  ['techron-complete-fuel-system-cleaner', 'Fuel additives'],
+  ['techron-diesel', 'Fuel additives'],
+  ['techron-fuel-injector-cleaner', 'Fuel additives'],
+  ['techron-high-mileage-fuel-system-cleaner', 'Fuel additives'],
 ]);
 
 export function getProductType(pathname) {
@@ -134,7 +138,7 @@ function addZoom(media, picture, name) {
   media.append(zoom, dialog);
 }
 
-function buildHero(content, type, havoline) {
+function buildHero(content, type, retailBrand) {
   const hero = element('article', 'hero');
   const media = element('div', 'media');
   media.append(content.picture);
@@ -147,7 +151,7 @@ function buildHero(content, type, havoline) {
   for (const node of content.groups.get('intro')) {
     const action = node.querySelector('a');
     const label = node.textContent.trim();
-    if (havoline && action && /^(Find a (Distributor|Retailer)|Buy Online|Buy at Walmart)$/i.test(label)) {
+    if (retailBrand && action && /^(Find a (Distributor|Retailer)|Buy Online|Buy at Walmart)$/i.test(label)) {
       node.classList.add(label === 'Find a Distributor' ? 'commerce-product-distributor' : 'commerce-product-retailer');
       actions.append(node);
     } else if (action && label === 'Find a Distributor') {
@@ -269,13 +273,15 @@ export function decorateCommerceProduct(main, pathname = window.location.pathnam
   if (!document.querySelector('script[type="application/ld+json"]')) return false;
   const content = readContent(main);
   const havoline = slug.startsWith('havoline-');
+  const techron = slug.startsWith('techron-');
   const root = element('div');
   root.className = 'commerce-product';
   if (havoline) root.classList.add('commerce-product-havoline');
+  if (techron) root.classList.add('commerce-product-techron');
   const breadcrumbs = element('nav', 'breadcrumbs');
   breadcrumbs.setAttribute('aria-label', 'Breadcrumb');
   breadcrumbs.append(link('Home', '/en-us/home'), element('span', '', '>'), element('span', '', 'Products'));
-  const hero = buildHero(content, type, havoline);
+  const hero = buildHero(content, type, havoline || techron);
   const equipment = buildSection('equipment', 'Equipment Supported', content.groups.get('Equipment Supported'));
   decorateEquipment(equipment);
   const benefits = buildSection('benefits', 'Product Benefits', content.groups.get('Product Benefits'));

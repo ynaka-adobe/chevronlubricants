@@ -28,6 +28,39 @@
 
 ## Open PRs
 
+### Migrate the four linked Techron products
+
+**Branch:** `ynaka-adobe-chevron-edge-commerce`
+**Status:** All four records ingested and verified on Network; source-aligned
+renderer locally verified. Custom-domain CDN publication awaits fresh approval
+and pipeline-idle confirmation. No PR requested.
+
+- Actual listing scope: four unique Techron detail links, all source 200,
+  catalog/Network/custom 404 before ingestion.
+- Destinations use `/en-us/home/products/{slug}`, without `.html`.
+- Preserve descriptions, images, documents, equipment, benefits, applications,
+  specifications, packaging identifiers and the two Self Services cards.
+- Extend only the finite product renderer and scoped CSS; reuse retailer actions
+  with source gray title/actions and blue benefits. Preserve latest EMA
+  image-loading fixes from main `d5a51cb` and all Delo/Havoline behavior.
+- GET before full-replacement PUT; existing records are never blindly replaced.
+- Prepare only necessary exact product/media CDN routes in the existing CDN
+  session. Fresh Techron deployment approval and pipeline idle are required
+  before an auto-triggering push. No Havoline approval reuse.
+- All four catalog readbacks match expected records; eight exact Helix paths
+  added with all prior configuration preserved. All four Network pages and
+  15 generated/supporting image responses pass.
+- All four Techron, 17 Havoline and 40 Delo real fixtures preserve source
+  text/links/category and responsive layout; zoom, equipment scrolling and
+  section links work. Focused browser suite: 14 passed; ESLint/Stylelint pass.
+  The fixture checker scopes its dialog to the product (EMA also has a dialog)
+  and waits for the existing EMA lead-image visibility gate.
+- CDN-only commit `b5eb9d9453cc2d7ab9f3ed7c1db5ce67e46bb511` is prepared,
+  unpushed: 19 added lines/eight exact product-media paths, zero overlaps,
+  1068 scope/control cases pass; all prior config byte-preserved.
+
+---
+
 ### Fix the layout shift on ISOCLEAN third-spec and Havoline business pages
 
 **Branch:** `fix-image-cls` → `main` (follow-up agreed when PR #8's check failed on this shift)
