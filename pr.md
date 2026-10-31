@@ -28,6 +28,36 @@
 
 ## Open PRs
 
+### Prepare an isolated Chevron PDS-to-Guides pilot
+
+**Branch:** `ynaka-adobe-chevron-edge-commerce`
+**Status:** Awaiting user-assisted file upload; no PR requested. The original
+English PDF and validated DITA/map are preserved in session artifacts and an
+import archive. AEM sign-in completed and the isolated folder was created and
+read back successfully. File import and genuine Guides PDF/HTML generation
+remain pending; no output or live-site publication is claimed.
+
+- User approved one Syn-Trans XE PDS demo and the existing Guides environment
+  in program 154856, environment 1944736, with a separate
+  `/content/dam/chevron-guides-demo` folder.
+- Source: Chevron PDS `docDataId=470254`, product `223079`, printed revision
+  1 September 2026 (`TTF-29`); two pages, 240156 bytes.
+- Preserve the original, technical values, qualification distinctions and axle
+  warning. The conversion carries an explicit unapproved-demo notice.
+- No SDS conversion, bulk ingestion, dealer-document/template modifications,
+  live product replacement or EMA code/content changes are included.
+- The dealer service code confirms genuine Guides PDF generation, but its
+  frontend HTML export is browser-generated. This pilot must independently
+  verify real Guides output for both requested formats.
+- DITA topic/map pass official DITA 1.3 DTD validation. All 41 converted source
+  text units, nine technical-data rows, nine benefits, eight qualification
+  entries, source checksum and axle warning were checked against the PDF.
+- Browser tools do not provide local-file upload, and the browser-to-local
+  transfer attempt failed. Use the Assets upload UI for the original PDF and
+  DITA topic/map, keeping their filenames and relative reference intact.
+
+---
+
 ### Match the Delo Product Bus detail layout to the source
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`

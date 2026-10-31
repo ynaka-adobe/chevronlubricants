@@ -106,6 +106,20 @@ combined XDM page above preserves its source description, applications and SKUs
 for the grades already documented there. The featured 75W-90 card has no link
 in the source listing; it does not justify another guessed product page.
 
+## Guides document pilot
+
+The user approved a single English Syn-Trans XE PDS conversion demo on
+2026-10-30, followed by use of the existing Guides environment in program
+154856, environment 1944736. Source:
+https://cglapps.chevron.com/sdspds/PDSDetailPage.aspx?docDataId=470254&docFormat=PDF
+
+Preserve the original PDF; prepare structured DITA for genuine Guides PDF and
+HTML publishing. New content is isolated under
+`/content/dam/chevron-guides-demo`; existing dealer documents, shared templates,
+EMA content and live product routes are not to be changed. Converted content
+must be labeled as an unapproved demo, not an official PDS replacement.
+SDS conversion and bulk document ingestion are not included.
+
 ## Migration scope
 
 ### URL structure on the new site (decided 2026-10-30)
