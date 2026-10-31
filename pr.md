@@ -30,7 +30,7 @@
 
 ### Become a distributor + re-import of havoline/business and havoline-oil-change-pros
 
-**Branch:** `main` (uncommitted)
+**Branch:** `services-migration` (pushed 2026-10-31, commit d4cb014; no PR yet)
 **Status:** Imported locally and verified. Not uploaded to DA, not previewed or published.
 
 ### Summary
@@ -45,7 +45,7 @@
 
 ### Migrate Services and Support pages (24) + tool-embed and isoclean-calculator blocks
 
-**Branch:** `main` (uncommitted)
+**Branch:** `services-migration` (pushed 2026-10-31, commit d4cb014; no PR yet)
 **Status:** Content imported locally and verified. Not uploaded to DA, not previewed or published. Design pass for the two new blocks still to do.
 
 ### Summary
