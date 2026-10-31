@@ -232,11 +232,16 @@ LIFELONG retains its source Walmart link; no store checkout is added.
 CVT+ retains the source's malformed distributor URL and self-link labeled
 Buy Online rather than inventing purchase behavior.
 
-Custom-domain Havoline delivery is **not yet complete**: all 17 paths currently
-return 404. The existing CDN session is preparing only the exact 34-path
-manifest; publication requires confirmed pipeline idle state and authorized
-deployment. The Havoline renderer is published in main commit `15b5614`;
-decompressed custom-domain JavaScript and CSS match the committed files.
+Custom-domain Havoline delivery is verified: all 17 product pages and all
+17 generated images return 200, including each image's `format=webply` query.
+The existing CDN session published only the exact 34-path manifest in
+`a9a7072`, after deployment approval and fresh user-confirmed pipeline idle.
+Live browser checks preserve source content and category across all 17
+Havoline and all 40 Delo pages; existing-page and excluded-path controls pass.
+The Havoline renderer is published in main commit `15b5614`; decompressed
+custom-domain JavaScript and CSS match the committed files.
+The user subsequently observed the pipeline Running; final Cloud Manager
+execution status and deployed revision remain unverified by this session.
 
 ### Credentials and ongoing ingestion
 

@@ -33,7 +33,7 @@
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
 **Status:** All 17 records ingested and independently verified on Network;
 renderer published to main in `15b5614` using user-selected `@ynakagawa`.
-Custom-domain CDN delivery pending.
+Custom-domain product/media delivery independently verified after CDN publication.
 No PR requested.
 
 - Scope: all 17 distinct products from the supplied Havoline products tab,
@@ -58,12 +58,22 @@ No PR requested.
   across all 17 Havoline and all 40 Delo products. Responsive hero, zoom,
   equipment scrolling and section links work. Focused browser suite:
   13 passed; targeted ESLint and Stylelint pass.
-- All 17 custom-domain Havoline paths still return 404. The CDN session received
-  the verified 34-path manifest; no live Havoline delivery is claimed.
 - Published custom-domain JavaScript and CSS, after HTTP decompression, exactly
   match the committed renderer/style files. CDN commit
-  `a9a7072114eaebad5090803be081332a59d0c220` is prepared separately and unpushed;
-  it needs both pipeline-idle confirmation and deployment authorization.
+  `a9a7072114eaebad5090803be081332a59d0c220` was published by the CDN session
+  using selected `@ynakagawa`, after explicit deployment approval, fresh
+  user-confirmed pipeline idle and remote/config concurrency checks.
+- Initial post-push requests returned 404; one bounded propagation recheck
+  verified all 17 custom products and all 34 image/query responses (17 generated
+  images, each plain and `format=webply`). Source text, links, documents,
+  canonical, SKU and expected media match.
+- Live custom-domain browser checks cover all 17 Havoline and all 40 Delo
+  products: content/category preservation, desktop layout and no overflow;
+  representative mobile ordering, zoom, section links and equipment scrolling
+  also pass. Eight existing-page/negative-path controls pass.
+- User observed pipeline `60291285` Running. Its final execution result/ID and
+  deployed revision are not independently observable from the signed-out
+  session UI; live delivery success is not a claim of pipeline completion.
 
 ---
 
