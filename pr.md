@@ -792,6 +792,21 @@ product now returns HTTP 200 (independently confirmed 2026-10-30).
 
 ## Merged PRs
 
+### Become a distributor + re-import of havoline/business and havoline-oil-change-pros
+
+**Branch:** `distributor-page` → `main`, [PR #9](https://github.com/ynaka-adobe/chevronlubricants/pull/9) (replaces closed PR #8)
+**Status:** Merged 2026-10-31. Code/import changes ready; pages imported locally and verified. Not uploaded to DA, not previewed or published.
+
+### Summary
+- New page `/en-us/home/become-distributor` (template `expertise-services`; URL added to `page-templates.json` and `urls-expertise-services.txt`; link map 138 paths): H1, subheading, "Request additional information / Email us today" panel (`columns-cta` in a cobalt band; mailto link). Local footer "Work With Us" and "Become a Chevron lubricants distributor" relinked to it (backup `migration-work/footer.before-relink-distributor-2026-10-31.plain.html`).
+- Re-imported `/en-us/home/learning/about-our-brands/havoline/business` (expertise-marketing): same blocks, section styles, metadata and text as the DA-mirrored copy; images now from the source instead of DA media on aem.page; the Havoline FAQs link now goes to the live page (the DA copy pointed to the non-migrated `/en-us/home/.../havoline/faqs`).
+- Re-imported `/en-us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros` (output unchanged).
+- Note: the Services and Support code had looked lost from this working copy on 2026-10-31; it was already on `main` (763aed9 "Preserve current EMA services migration alongside Guides pilot", ddc6e97). A restore from the session record (`services-migration`, PR #8) was therefore redundant and slightly older for `checklist.css` / `isoclean-calculator.css`; PR #8 was closed unmerged and this branch starts from `main`.
+
+### Testing
+- [x] 3/3 imported, 0 transformer/parser errors; line-level text check 0 missing; no broken images; render ok at 1440 and 390px.
+- [ ] Upload to DA + preview/publish when requested.
+
 ### Keep loading sections hidden (desktop layout shift)
 
 **Branch:** `fix-loading-cls` → `main`, [PR #6](https://github.com/ynaka-adobe/chevronlubricants/pull/6)
