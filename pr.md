@@ -28,41 +28,6 @@
 
 ## Open PRs
 
-### Show the SDS/PDS button in the header
-
-**Branch:** `warranty-sds-header` → `main`
-**Status:** Open 2026-10-31. Code change verified in the local preview. No content change: the published nav already has the `<li><p><strong><a href="https://cglapps.chevron.com/">SDS/PDS</a></strong></p></li>` item.
-
-### Summary
-- `blocks/header/header.js`: a main-nav call-to-action is also found when DA wraps it in a paragraph (`li > p > strong > a`). Before, the SDS/PDS item rendered as an empty `<li>`.
-- `blocks/header/header.css`:
-  - Desktop top-level label padding is 16px per side at ≥1200px (source 25px) and 6px at 900–1199px (source 10px). Montserrat labels are ~126px wider than the source's Gotham, so with the button the search box was squeezed to 147px ("Sea").
-  - 16px gap between the button and the search, like the source.
-  - The button is hidden at 900–999px, where the source wraps its labels; the top bar SDS/PDS link remains.
-
-### Testing
-- [x] Desktop: navy 12px pill beside "Products selector" (source: navy, 6px radius, 12px), linking to `https://cglapps.chevron.com/` like the source. Search box 221px at 1440/1280 (source 281), 171px at 1024, 147px at 1000, 213/153px at 960/900 without the button.
-- [x] Mobile 390px: the button appears in the slide-in menu under the main items, as before for CTAs.
-- [x] Products megamenu opens and lines up at 1440; no horizontal scroll at 1024/1440. ESLint / Stylelint clean.
-
-### Migrate the Chevron Warranty page and relink the header and footer
-
-**Branch:** `warranty-sds-header` → `main`
-**Status:** Open 2026-10-31. Page, header and footer imported/edited locally; not uploaded to DA, not previewed or published.
-
-### Summary
-- `chevron-warranty.html` added to the `expertise-services` template (`page-templates.json`, `urls-expertise-services.txt`). The link map now has 139 migrated paths. Page: `/en-us/home/chevron-warranty`.
-- Header (local `content/nav.plain.html`): the top bar "Chevron Warranty" and the Products menu "Review the Chevron warranty" now link to `/en-us/home/chevron-warranty`. Backup: `migration-work/nav.before-relink-warranty-2026-10-31.plain.html`.
-- Footer (local `content/footer.plain.html`): "Product Warranty" now links to `/en-us/home/chevron-warranty` in the same tab, like the other migrated footer links. It was the live page with `#_blank`. Backup: `migration-work/footer.before-relink-warranty-2026-10-31.plain.html`.
-- `styles/styles.css`: default content gets `overflow-wrap: break-word`. The page's plain-text specifications URL made phones scroll sideways (scroll width 470 at 390px); it only affects words longer than a line.
-
-### Testing
-- [x] Imported with no errors, content completeness 99.2%. Source has no links in the body (the specifications URL is plain text there too).
-- [x] Preview at 1440 and 390px: no errors, 0 broken images, no horizontal scroll; both header links resolve to the new page.
-- [ ] Known gaps vs source: site-wide heading sizes (H1 40px left vs source 16px centered); "LIMITED PRODUCT WARRANTY" imports as a centered H2 (source: bold paragraph); no space between the last three paragraphs (site-wide `p` margin 0); banner image hotlinked from chevronlubricants.com until DA upload.
-
----
-
 ### Migrate the four linked Techron products
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
@@ -876,6 +841,43 @@ product now returns HTTP 200 (independently confirmed 2026-10-30).
 ---
 
 ## Merged PRs
+
+### Show the SDS/PDS button in the header
+
+**Branch:** `warranty-sds-header` → `main`, [PR #11](https://github.com/ynaka-adobe/chevronlubricants/pull/11)
+**Status:** Merged 2026-10-31. Code change verified in the local preview. No content change: the published nav already has the `<li><p><strong><a href="https://cglapps.chevron.com/">SDS/PDS</a></strong></p></li>` item.
+
+### Summary
+- `blocks/header/header.js`: a main-nav call-to-action is also found when DA wraps it in a paragraph (`li > p > strong > a`). Before, the SDS/PDS item rendered as an empty `<li>`.
+- `blocks/header/header.css`:
+  - Desktop top-level label padding is 16px per side at ≥1200px (source 25px) and 6px at 900–1199px (source 10px). Montserrat labels are ~126px wider than the source's Gotham, so with the button the search box was squeezed to 147px ("Sea").
+  - 16px gap between the button and the search, like the source.
+  - The button is hidden at 900–999px, where the source wraps its labels; the top bar SDS/PDS link remains.
+
+### Testing
+- [x] Desktop: navy 12px pill beside "Products selector" (source: navy, 6px radius, 12px), linking to `https://cglapps.chevron.com/` like the source. Search box 221px at 1440/1280 (source 281), 171px at 1024, 147px at 1000, 213/153px at 960/900 without the button.
+- [x] Mobile 390px: the button appears in the slide-in menu under the main items, as before for CTAs.
+- [x] Products megamenu opens and lines up at 1440; no horizontal scroll at 1024/1440. ESLint / Stylelint clean.
+
+---
+
+### Migrate the Chevron Warranty page and relink the header and footer
+
+**Branch:** `warranty-sds-header` → `main`, [PR #11](https://github.com/ynaka-adobe/chevronlubricants/pull/11)
+**Status:** Merged 2026-10-31. Page, header and footer imported/edited locally; not uploaded to DA, not previewed or published.
+
+### Summary
+- `chevron-warranty.html` added to the `expertise-services` template (`page-templates.json`, `urls-expertise-services.txt`). The link map now has 139 migrated paths. Page: `/en-us/home/chevron-warranty`.
+- Header (local `content/nav.plain.html`): the top bar "Chevron Warranty" and the Products menu "Review the Chevron warranty" now link to `/en-us/home/chevron-warranty`. Backup: `migration-work/nav.before-relink-warranty-2026-10-31.plain.html`.
+- Footer (local `content/footer.plain.html`): "Product Warranty" now links to `/en-us/home/chevron-warranty` in the same tab, like the other migrated footer links. It was the live page with `#_blank`. Backup: `migration-work/footer.before-relink-warranty-2026-10-31.plain.html`.
+- `styles/styles.css`: default content gets `overflow-wrap: break-word`. The page's plain-text specifications URL made phones scroll sideways (scroll width 470 at 390px); it only affects words longer than a line.
+
+### Testing
+- [x] Imported with no errors, content completeness 99.2%. Source has no links in the body (the specifications URL is plain text there too).
+- [x] Preview at 1440 and 390px: no errors, 0 broken images, no horizontal scroll; both header links resolve to the new page.
+- [ ] Known gaps vs source: site-wide heading sizes (H1 40px left vs source 16px centered); "LIMITED PRODUCT WARRANTY" imports as a centered H2 (source: bold paragraph); no space between the last three paragraphs (site-wide `p` margin 0); banner image hotlinked from chevronlubricants.com until DA upload.
+
+---
 
 ### Fix the layout shift on ISOCLEAN third-spec and Havoline business pages
 
