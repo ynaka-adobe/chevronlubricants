@@ -1,0 +1,430 @@
+main > .commerce-product {
+  padding: 28px 0 40px;
+  color: #000;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+main > .commerce-product > .default-content {
+  box-sizing: border-box;
+  width: calc(100% - 80px);
+  max-width: 1200px;
+  padding: 0 12px;
+}
+
+main .commerce-product .default-content h1,
+main .commerce-product .default-content h2,
+main .commerce-product .default-content h3,
+main .commerce-product .default-content p,
+main .commerce-product .default-content ul {
+  text-align: left;
+}
+
+main .commerce-product .default-content p {
+  margin: 0 0 16px;
+  color: #000;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+main .commerce-product .default-content a {
+  color: #0066b2;
+}
+
+main .commerce-product .default-content button,
+main .commerce-product .default-content a {
+  &:focus-visible {
+    outline: 2px solid #2459a9;
+    outline-offset: 4px;
+  }
+}
+
+main .commerce-product .commerce-product-breadcrumbs {
+  display: flex;
+  gap: 12px;
+  margin: 0 0 48px;
+  color: #6d6d6d;
+  font-size: 14px;
+}
+
+main .commerce-product .commerce-product-breadcrumbs a {
+  color: inherit;
+}
+
+main .commerce-product .commerce-product-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+main .commerce-product .commerce-product-media {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 24px;
+}
+
+main .commerce-product .commerce-product-media picture {
+  display: block;
+}
+
+main .commerce-product .commerce-product-media picture img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 311px;
+  object-fit: contain;
+}
+
+main .commerce-product .commerce-product-zoom {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  border: 0;
+  padding: 0 8px;
+  background: transparent;
+  color: #000;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+main .commerce-product .commerce-product-category {
+  display: inline-block;
+  padding: 5px 10px;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+main .commerce-product .commerce-product-details h1 {
+  margin: 0 0 24px;
+  color: #2459a9;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 44px;
+}
+
+main .commerce-product .commerce-product-intro > :first-child {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+main .commerce-product .commerce-product-documents {
+  border-top: 1px solid #dbdbdb;
+  padding-top: 14px;
+}
+
+main .commerce-product .commerce-product-documents h2,
+main .commerce-product .commerce-product-diagrams h3 {
+  margin: 0 0 12px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+main .commerce-product .commerce-product-documents small {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+main .commerce-product .commerce-product-document-list {
+  box-sizing: border-box;
+  width: 280px;
+  max-width: 100%;
+  margin: 0 0 12px;
+  border: 1px solid #808080;
+  padding: 0 16px;
+  list-style: none;
+}
+
+main .commerce-product .commerce-product-document-list li + li {
+  border-top: 1px solid #808080;
+}
+
+main .commerce-product .commerce-product-document-list a {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .commerce-product .commerce-product-document-list a::after {
+  content: ">";
+}
+
+main .commerce-product .commerce-product-diagrams a {
+  display: block;
+  margin-bottom: 12px;
+}
+
+main .commerce-product .commerce-product-distributor a {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 24px;
+  background: #2459a9;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .commerce-product .commerce-product-navigation {
+  position: sticky;
+  z-index: 2;
+  top: var(--header-height, 120px);
+  display: flex;
+  justify-content: space-around;
+  gap: 24px;
+  overflow-x: auto;
+  margin-bottom: 32px;
+  border-block: 1px solid #ccc;
+  padding: 16px 8px;
+  background: #f5f5f5;
+}
+
+main .commerce-product .commerce-product-navigation a {
+  flex-shrink: 0;
+  color: #6d6d6d;
+  font-size: 13px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+main .commerce-product .commerce-product-navigation a[aria-current] {
+  border-bottom: 2px solid #2459a9;
+  color: #000;
+  font-weight: 700;
+}
+
+main .commerce-product .default-content section[id] {
+  margin-bottom: 32px;
+  scroll-margin-top: calc(var(--header-height, 120px) + 80px);
+}
+
+main .commerce-product .default-content section[id] > h2 {
+  margin: 0 0 24px;
+  color: #000;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 36px;
+  text-transform: uppercase;
+}
+
+main .commerce-product .commerce-product-equipment-controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+main .commerce-product .commerce-product-equipment-controls button {
+  border: 0;
+  padding: 0 8px;
+  background: transparent;
+  color: #2459a9;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+main .commerce-product .commerce-product-equipment-list {
+  display: grid;
+  grid-auto-columns: calc((100% - 60px) / 6);
+  grid-auto-flow: column;
+  gap: 12px;
+  overflow-x: auto;
+  margin: 0;
+  padding: 4px 0 12px;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+}
+
+main .commerce-product .commerce-product-equipment-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-sizing: border-box;
+  min-height: 120px;
+  border: 1px solid #808080;
+  padding: 16px 8px;
+  text-align: center;
+  scroll-snap-align: start;
+}
+
+main .commerce-product .commerce-product-equipment-list img {
+  width: 50px;
+  max-height: 40px;
+  object-fit: contain;
+}
+
+main .commerce-product .commerce-product-benefit-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 24px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+main .commerce-product .commerce-product-benefit-cards > li {
+  border-radius: 2px;
+  padding: 20px;
+  background: #2459a9;
+  color: #fff;
+}
+
+main .commerce-product .commerce-product-benefit-cards p,
+main .commerce-product .commerce-product-benefit-cards a,
+main .commerce-product .commerce-product-benefit-cards h3 {
+  color: inherit;
+}
+
+main .commerce-product .commerce-product-applications ul {
+  padding-left: 20px;
+}
+
+main .commerce-product .commerce-product-applications li {
+  margin-bottom: 16px;
+}
+
+main .commerce-product .commerce-product-service-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+main .commerce-product .commerce-product-service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  background: #f0f4fa;
+  text-align: center;
+}
+
+main .commerce-product .commerce-product-service-card h3,
+main .commerce-product .commerce-product-service-card p {
+  text-align: center;
+}
+
+main .commerce-product .commerce-product-service-card h3 {
+  margin: 16px 0;
+  color: #000;
+  font-size: 20px;
+}
+
+main .commerce-product .commerce-product-service-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+main .commerce-product .commerce-product-service-card > p:last-child {
+  margin-top: auto;
+}
+
+main .commerce-product .commerce-product-image-dialog {
+  max-width: min(90vw, 900px);
+  max-height: 85vh;
+  border: 1px solid #ccc;
+  padding: 24px;
+}
+
+main .commerce-product .commerce-product-image-dialog::backdrop {
+  background: rgb(0 0 0 / 65%);
+}
+
+main .commerce-product .commerce-product-image-dialog img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  margin: 16px auto;
+}
+
+@media (width < 900px) {
+  main > .commerce-product > .default-content {
+    width: calc(100% - 32px);
+    padding: 0;
+  }
+
+  main .commerce-product .commerce-product-hero {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  main .commerce-product .commerce-product-details {
+    display: contents;
+  }
+
+  main .commerce-product .commerce-product-category {
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  main .commerce-product .commerce-product-media {
+    grid-row: 3;
+  }
+
+  main .commerce-product .commerce-product-intro {
+    grid-row: 4;
+  }
+
+  main .commerce-product .commerce-product-documents {
+    grid-row: 5;
+  }
+
+  main .commerce-product .commerce-product-distributor {
+    grid-row: 6;
+  }
+
+  main .commerce-product .commerce-product-details h1 {
+    grid-row: 2;
+    margin-bottom: 0;
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  main .commerce-product .commerce-product-benefit-cards,
+  main .commerce-product .commerce-product-service-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  main .commerce-product .commerce-product-equipment-list {
+    grid-auto-columns: calc((100% - 24px) / 3);
+  }
+}
+
+@media (width < 600px) {
+  main .commerce-product .commerce-product-breadcrumbs {
+    margin-bottom: 24px;
+  }
+
+  main .commerce-product .commerce-product-details h1 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  main .commerce-product .commerce-product-media picture img {
+    height: 263px;
+  }
+
+  main .commerce-product .commerce-product-benefit-cards,
+  main .commerce-product .commerce-product-service-cards {
+    grid-template-columns: 1fr;
+  }
+
+  main .commerce-product .commerce-product-equipment-list {
+    grid-auto-columns: calc((100% - 12px) / 2);
+  }
+
+  main .commerce-product .commerce-product-navigation {
+    justify-content: flex-start;
+  }
+}

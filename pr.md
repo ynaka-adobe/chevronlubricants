@@ -28,9 +28,27 @@
 
 ## Open PRs
 
+### Resolve PR #7 conflicts with current main
+
+**Branch:** `aem-20261030-1905`
+**Status:** Open PR #7; conflicts resolved against `main` at `de3f5ce` in the existing PR branch. The PR itself is not merged.
+
+### Summary
+- Resolved the overlapping additions in this log by retaining both the Services and Support migration entry and all Edge Commerce entries.
+- Preserved the PR's EMA blocks, importer, link map and Services scope alongside main's Delo catalog inventory, scoped product renderer, styles and regression tests.
+- Kept both the new block registrations in `scripts/ak.js` and the SKU-gated product hook in `scripts/scripts.js`; no authored content, catalog data or routing changed.
+
+### Testing
+- [x] Targeted ESLint (page loader, product renderer and renderer tests) and Stylelint (product styles) pass.
+- [x] Page-loader and Delo-renderer browser tests: 9 passed, 0 failed.
+- [x] Exact preservation checks: all 52 non-documentation EMA files match the original PR head; main's README, product renderer, page loader, styles and tests are unchanged.
+- [x] Both migration scopes and all pre-existing log entries retained; all PR JavaScript passes syntax checks, importer templates parse as JSON, and `git diff --check` passes.
+
+---
+
 ### Migrate Services and Support pages (24) + tool-embed and isoclean-calculator blocks
 
-**Branch:** `main` (uncommitted)
+**Branch:** `aem-20261030-1905` (PR #7)
 **Status:** Content imported locally and verified. Not uploaded to DA, not previewed or published. Design pass for the two new blocks still to do.
 
 ### Summary
@@ -71,6 +89,114 @@
 - [ ] Page match vs source (1440px), after the restructure: fuel-economy-calculator ~92%; preferred-vendors ~85%; lubetek ~80%; isoclean-program ~78%; havoline-oil-change-pros ~75% (was ~45%: checklists, PitPack button, Featured Products carousel now in place); isoclean-calculator page ~72%; lubewatch ~70%+ (stats carousel, 6 tiles and grey checklist now in place). Remaining gaps: (a) block — lubetek "Where to buy" default columns-cta pills are white on white; havoline eLearning "Watch now" blue vs source red; isoclean-program CTA band 106 vs 132px; best-in-class video rows in one padded band vs two flat strips; (b) import/content — intro paragraphs and some sections left-aligned/coloured differently (section alignment), isoclean-calculator "Program basics | TRUST" two columns stacked, checkfluid brochure cards plain paragraphs (extra wrapper div in the source multi-column), isoclean-program "Real results" stats as text, "Start clean" image sizes, Featured Products promo tile above (not beside) the carousel; (c) intentional — Montserrat, site-wide heading scale, contrast colours, PitPack form as a link, hidden checklist items shown. Screenshots: `migration-work/services-verify/`, `migration-work/checklist/`.
   - Rejected: position-based CSS for the flattened check-list / image-check-list content (would break silently on any authoring change). Kept for reference in `migration-work/services-verify/rejected-checklist-css.diff`.
 - [ ] Upload to DA + preview/publish when requested.
+---
+
+### Match the Delo Product Bus detail layout to the source
+
+**Branch:** `ynaka-adobe-chevron-edge-commerce`
+**Status:** Prepared with a local preview; no PR opened or live publication.
+Normal GitHub access reports `push: false`.
+
+### Summary
+- User reported that the Syn-Trans XE detail page did not match the source, then explicitly approved applying a matching detail template to all 40 confirmed Delo products.
+- The previous ingestion migrated content but left it in the generic stacked Product Bus layout. Added a dedicated renderer in `scripts/commerce-product.js` and scoped styles in `styles/commerce-product.css`, with a small SKU-gated hook in `scripts/scripts.js`.
+- Scope is the exact 40-product inventory plus matching SKU metadata and a structured-data script. The DA product block, unrelated pages, categories, other brands, existing header/footer and global typography are not changed.
+- Restored the two-column desktop hero, source category and blue title, bold lead, PDF panel, protection-diagram links, distributor CTA, sticky section navigation, equipment carousel, three-column blue benefit cards and service cards. Mobile follows the source heading/image/description order.
+- Preserved all original product text, outgoing links, application warnings, packaging identifiers, canonical and structured data. No catalog records or routing were changed for this layout correction.
+- Image enlargement is a native accessible dialog (including Escape); equipment scrolling and section links are keyboard accessible. Errors are logged through the existing page logger; missing styles or incomplete markup leave the original content available.
+- Retained the project's existing Montserrat/fallback fonts rather than copying proprietary source fonts. The target is the source layout and presentation, not pixel-identical licensed typography.
+
+### Verification and remaining action
+- Existing script tests and new renderer regression tests pass. The new tests cover all 40 documented paths, nonmatching/DA isolation, source text/link preservation, idempotency, invalid markup, navigation and image dialog behavior.
+- Real Product Bus HTML fixtures for all 40 products preserve all original text/links and source category values; desktop/mobile layout and interactions were exercised in Chrome.
+- Local preview uses current remote EMA assets plus a clean three-way merge of the page-loader hook, preserving newer skip-link, link accessibility and loading fixes.
+- Publish through authorized repository access after preserving the current remote main revision. Do not overwrite the EMA page loader with an older checkout. The live Syn-Trans XE page remains unchanged until code publication; the catalog CDN deployment remains a separate requirement for the other 39 new products.
+
+---
+
+### Migrate the available Delo product catalog into Edge Commerce
+
+**Branch:** `ynaka-adobe-chevron-edge-commerce`
+**Status:** No PR opened. All 40 available products render on AEM Network:
+39 newly created records plus the existing, unchanged Syn-Trans XE.
+Custom-domain delivery for the 39 new products awaits the prepared CDN commit
+`39b8cc259deff17253f53857d0a09602be463ae5` in `ynaka-adobe/AEM-p154856`.
+Agent GitHub access still reports `push: false`; no push/deployment was attempted.
+
+### Summary
+- User requested all Delo products linked from `https://www.chevronlubricants.com/en_us/home/products/by_brand/delo.html?src-tab=products`.
+- Inspected all 41 distinct source product links, including hidden category cards and featured products. Forty source pages are available; the standalone `delo-syn-gear-xdm-sae-80w-140.html` source returns HTTP 404. Migrated the available combined XDM page without inventing a replacement for the broken link.
+- Documented the complete finite source/destination inventory in `source_website.md`. Destination paths follow `/en-us/home/products/{source-slug}`. User explicitly approved `delo-syn-thf-xc` for the source double-hyphen path rejected by the catalog API.
+- Preserved source introductions, equipment entries/icons, benefits, applications/warnings, packaging identifiers, document links, distributor links and unique service cards. Retained semantic HTML/links; deduplicated responsive copies of service cards.
+- Created 39 records only after catalog and destination collision checks; independently read back the stored records. Existing Syn-Trans XE was not PUT or replaced. Product images were ingested; supporting images/documents retain public source URLs.
+- Merged 40 exact product and 39 unique generated-image paths into the current Helix `public.json`, preserving previous configuration. No prices, availability, checkout, wildcard routes or other-brand migrations added.
+- No EMA-owned authored pages, listing/category pages, blocks, styles or shared scripts were edited.
+
+### Verification and remaining action
+- All 40 Network pages return HTTP 200 with all required source-section text, document links, generated images and exact custom-domain canonicals.
+- All 39 generated images return HTTP 200 normally and with the browser image query; all 26 unique supporting images return HTTP 200 (104 image responses total).
+- Homepage/pilot/Syn-Trans and nonmatching route baselines, plus shared script/style hashes, are unchanged. The full Delo 600 page was also checked in the browser.
+- Existing Syn-Trans XE returns HTTP 200 on the custom domain; the 39 new product URLs return HTTP 404 pending their separate CDN deployment.
+- Coordinated CDN commit `39b8cc259deff17253f53857d0a09602be463ae5`, parent `55bbbd55cce48b303697a9e5ec19730506a84218`, adds only 77 uncovered exact paths (39 products, 38 images) in one new selector; the existing Syn-Trans selector covers the other two manifest paths. Prior YAML is preserved byte-for-byte; all 79 paths have exactly one selector.
+- An authorized user must confirm pipeline `60291285` is idle, then push the prepared CDN commit to its configured `main` branch without force. After deployment, verify the requested custom-domain pages and images before marking delivery complete.
+
+---
+
+### Migrate Delo Syn-Trans XE into Edge Commerce
+
+**Branch:** `ynaka-adobe-chevron-edge-commerce`
+**Status:** No PR opened. Catalog ingestion, Network rendering and custom-domain
+delivery complete. CDN commit `55bbbd55cce48b303697a9e5ec19730506a84218`
+is confirmed on remote `main`, and the custom-domain product returns HTTP 200.
+
+### Summary
+- Explicit source: `https://www.chevronlubricants.com/en_us/home/products/delo-syn-trans-xe.html`.
+- Explicit destination: `https://chevronlubricants.ynaka-adobe.com/en-us/home/products/delo-syn-trans-xe`; the user chose Edge Commerce delivery.
+- Preserved introduction, all eight supported-equipment entries/icons, six benefits, applications and axle-use warning, three actual packaging SKUs, PDS/SDS/diagram links, distributor link and advisor content. No prices or checkout invented.
+- Created one catalog record after confirming the destination record did not exist. Independently read back the full record and verified source content in Network HTML.
+- Merged only the exact product route and generated image `/en-us/home/products/media_8c90e2b40526fb1677b313d1c434513f5dcb7d8c.png` into current Helix `public.json`, preserving previous routes and settings.
+- No EMA-owned page content, blocks, styles or shared scripts changed. No root-level DA moves or other product migrations included.
+
+### Verification and remaining action
+- Network product and generated image return HTTP 200; browser confirms the source content and product image.
+- All nine supporting source images return HTTP 200.
+- Existing homepage/pilot statuses and shared script/style hashes are unchanged; `/home` was already HTTP 404 before this change.
+- The CDN session prepared a 13-line rule-only addition in `AEM-p154856/config-eds/cdn.yaml`, reusing the existing origin and matching exactly this product and generated image. The commit is now published; the custom-domain product independently returns HTTP 200 (2026-10-30).
+
+---
+
+### Set up an isolated Chevron Edge Commerce pilot
+
+**Branch:** `ynaka-adobe-chevron-edge-commerce`
+**Status:** No PR opened. Production API access and isolated AEM Network pilot
+are configured; the separately approved custom-domain CDN patch is prepared
+and published in `ynaka-adobe/AEM-p154856`. The original pilot's custom-domain
+product now returns HTTP 200 (independently confirmed 2026-10-30).
+
+### Summary
+- Confirmed production provisioning and administrator access for `ynaka-adobe/chevronlubricants`.
+- Created a Chevron-scoped, 30-day catalog read/write service token, stored privately outside source control; expires 2026-11-29 03:31:25 UTC.
+- Ingested one approved Delo 600 ADF SAE 15W-40 pilot using existing homepage copy/image, a clearly identified demo SKU, no price and no checkout.
+- Added only the approved exact pilot product and generated-image routes to live Helix `public.json`, using the Product Bus backend. No broad globs, category overrides or existing product-route replacements.
+- Preserved EMA-owned content, blocks, styles and shared scripts. Repository changes are documentation only.
+- Documented routing, credential rotation, rollback and the remaining CDN action in `README.md`.
+- Coordinated the separate 18-line CDN-only patch in `ynaka-adobe/AEM-p154856` (`config-eds/cdn.yaml`, prepared commit `25135abf687a32bb28f6d21adaa08c26ce7ba145`). It matches the exact Chevron domain and two pilot paths, uses Parker's Network-origin pattern and explicitly forwards the custom host.
+- Confirmed Cloud Manager program `154856` / Edge Delivery configuration pipeline `60291285` uses GitHub repository `AEM-p154856`, `main`, `/config-eds`, `EDGE-ENVIRONMENT-PUBLISH`, with an On Git Changes trigger. The user authorized deployment; no broad origin change is included.
+
+### Affected pages / blocks
+- New isolated route: `/edge-commerce/products/delo-600-adf-15w-40`.
+- New isolated media route: `/edge-commerce/products/media_d8320c16ba6e000b2cb939cd08c2fa9d06c5a5b1.png`.
+- No existing pages or blocks changed.
+
+### Verification and remaining action
+- Authenticated catalog GET confirms the stored product, description and absence of price.
+- AEM Network returns HTTP 200 for the product and its image; browser shows the product name and all three existing benefit statements.
+- Existing homepage, navigation and original product-route responses remained unchanged on AEM Network and the custom domain.
+- The agent's non-force push was rejected by GitHub with HTTP 403. The user subsequently pushed the exact reviewed commit; remote CDN `main` is confirmed at `25135abf687a32bb28f6d21adaa08c26ce7ba145`.
+- Execution `9439178` reports successful Edge Delivery deployment at 2026-10-29 21:23:05 PDT. The UI does not expose its source SHA in artifact timing details; the Artifact Preparation log is needed to verify that revision.
+- Initial custom-domain requests after deployment returned HTTP 404. A later independent 2026-10-30 check confirmed the original pilot working on the custom domain; the new Syn-Trans product requires its own separate scoped rule.
+
+---
 
 ### Restructure URLs to mirror the source (/en-us/home/...)
 
