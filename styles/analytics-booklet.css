@@ -1,0 +1,46 @@
+.chevron-booklet {
+  position: fixed;
+  z-index: 1100;
+  inset: 12px 12px 12px auto;
+  width: min(460px, calc(100% - 24px));
+  box-sizing: border-box;
+  padding: 20px;
+  overflow: auto;
+  color: #333;
+  border: 1px solid #0b2d71;
+  background: #fff;
+  box-shadow: 0 4px 24px #0003;
+  font: 14px/1.5 var(--brand-body-font-family, sans-serif);
+  overflow-wrap: anywhere;
+}
+
+.chevron-booklet h2,
+.chevron-booklet h3 {
+  font-size: 20px;
+  color: #0b2d71;
+  margin: 16px 0;
+}
+
+.chevron-booklet button {
+  min-height: 44px;
+  padding: 8px 16px;
+  background: #0b2d71;
+  color: #fff;
+  border: 1px solid #0b2d71;
+  font: inherit;
+  cursor: pointer;
+}
+
+.chevron-booklet button:focus-visible {
+  outline: 3px solid #2459a9;
+  outline-offset: 3px;
+}
+
+.chevron-booklet-feed {
+  padding-left: 24px;
+}
+
+.chevron-booklet-feed li {
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
+}

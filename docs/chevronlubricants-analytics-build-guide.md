@@ -589,3 +589,48 @@ event ids differ (they won't, if A.2 ran). `rsid` is the target suite.
 >    but confirm this suite isn't already live. 4. If `allocation_type`/`expiration_type`
 >    enum values are rejected, fetch the suite's current eVars via `getEVars` and mirror the
 >    exact string casing that tenant returns.
+
+---
+
+## Implementation decisions (2026-10-31)
+
+The owner confirmed RSID `acsmarketingb2bcontentexperiences` and the same
+collector as Parker, `acsmarketing.sc.omtrdc.net`. With no Tags URL or
+AppMeasurement library provided, the owner explicitly selected Parker's
+direct Adobe collector pattern, with suite configuration/reporting marked
+unverified. This is a deliberate deviation from Section 3.1, not an
+AppMeasurement/Tags installation or an AEP integration.
+
+The integration is `scripts/martech/`, initialized from `scripts/lazy.js`.
+It uses Section 5's event names and variable slots, including the US locale.
+Author Kit does not add `.block` to every component, so discovery also uses
+`data-block-name`, its block-content boundaries, and the existing Edge Commerce
+renderer boundaries. No migration-owned markup or product rendering was
+redesigned. IntersectionObserver checks an actual ratio of at least 0.5,
+including its initial callback. Later fragments/blocks are discovered.
+
+The owner selected: close/Escape dismisses without saving/granting; advertising
+opt-out saves necessary-only consent. Analytics/external media require explicit
+permission. Target and RUM bootstrap tags were removed, including the 404 RUM
+path. Pre-consent events are not queued or replayed. Revocation stops new
+requests, clears in-memory events and best-effort removes accessible legacy
+Analytics/Target cookies; already-received requests cannot be withdrawn.
+Locator measurement is consent-gated and omits search/location terms.
+
+The [live analytics booklet](https://chevronlubricants.ynaka-adobe.com/en-us/home?insights=1)
+is an opt-in, live browser event consumer, following Parker's `?insights=1`
+pattern. It displays real consent state, retained events, component counts,
+CTA CTR, download counts and collector status. It does not query or simulate
+Adobe reports. Counts are scoped to the last 200 events on the current page,
+not all visits; no persistent visitor ID is stored. See README for retention,
+privacy, entry points and keyboard controls.
+
+**External prerequisite still unverified:** Section 2 configuration and
+processed reporting in Analysis Workspace. Parker's available local
+credentials were not verified for Analytics administration and were not used
+to modify this suite. No suite changes, Tags publishing, CDN changes or
+Cloud Manager deployments were performed. Section 2.3 says prop1/3/4 list
+enabled, while Appendix A.4 says `list_enabled: false`; an Analytics administrator
+must resolve that contradiction against the actual TEBG configuration before
+applying it. The configured collector is Adobe's confirmed tenant collector,
+not the unconfirmed first-party CNAME placeholder.

@@ -1,4 +1,4 @@
-import observe from '../../scripts/utils/observer.js';
+import consentMedia from '../../scripts/martech/media.js';
 
 function decorate(el) {
   el.innerHTML = `<iframe src="${el.dataset.src}" class="youtube"
@@ -17,5 +17,5 @@ export default function init(a) {
   params.delete('v');
   div.dataset.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?${params.toString()}`;
   a.parentElement.replaceChild(div, a);
-  observe(div, decorate);
+  consentMedia(div, decorate);
 }

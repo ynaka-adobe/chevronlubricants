@@ -1,4 +1,4 @@
-import observe from '../../scripts/utils/observer.js';
+import consentMedia from '../../scripts/martech/media.js';
 
 function toKey(text) {
   return text.trim().toLowerCase().replace(/\s+/g, '-');
@@ -56,5 +56,5 @@ export default function init(block) {
   if (height) frame.style.setProperty('--tool-embed-height', `${height}px`);
 
   block.replaceChildren(frame);
-  observe(frame, loadFrame);
+  consentMedia(frame, loadFrame);
 }

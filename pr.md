@@ -28,6 +28,38 @@
 
 ## Open PRs
 
+### Implement Chevron consent and live analytics
+
+**Branch:** `ynaka-adobe-chevron-consent-and-analytics`
+**Status:** Scoped implementation validated with 34 targeted browser-runner
+tests and real-content desktop/mobile checks; direct-main publication and
+live verification pending. No PR requested.
+
+- Read the complete supplied guide and consent screenshot, and inspect Parker's
+  actual consent, analytics transport and live-insights implementation read-only.
+- User confirmed RSID `acsmarketingb2bcontentexperiences`, collector
+  `acsmarketing.sc.omtrdc.net`, and Parker's direct collector instead of Tags/
+  AppMeasurement. Suite configuration and processed reporting remain unverified.
+- User-selected consent behavior: close/Escape saves/grants nothing;
+  advertising/sale opt-out saves necessary-only. Explicit analytics/media
+  choices, expiry, persistence, cross-tab revocation and accessible preferences.
+- Shared lazy-phase discovery for DA/Author Kit and Edge Commerce boundaries;
+  exact guide event/variable mapping, 50% impressions and scroll milestones.
+  No pre-consent queue, persistent visitor ID, raw queries or form/search data.
+- Remove pre-consent Target/RUM bootstrap, including 404 RUM. Gate external
+  video/tool iframes; gate legacy locator measurement and omit search terms.
+  Preserve functional location lookup, form protection and migration rendering.
+- Real opt-in booklet at `/en-us/home?insights=1`, subscribed to the same
+  consented event stream, with bounded local counts and honest collector status.
+- Targeted browser-runner regression coverage includes consent, threshold,
+  mapping, deduplication, late blocks, revocation, retention, booklet/media,
+  commerce rendering, scripts and DA preview. Desktop/mobile live-content
+  checks passed for home, ISOCLEAN FAQs and Delo Syn-Trans XE, including all
+  seven commerce boundaries and actual PDS download mapping. Adobe collector
+  responses were HTTP 200; processed reporting is not thereby verified.
+
+---
+
 ### Add the Audience Personas PDF
 
 **Branch:** `ynaka-adobe-chevron-analytics-guide`
