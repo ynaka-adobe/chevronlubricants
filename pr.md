@@ -28,6 +28,69 @@
 
 ## Open PRs
 
+### Resolve PR #7 conflicts with current main
+
+**Branch:** `aem-20261030-1905`
+**Status:** Open PR #7; conflicts resolved against `main` at `de3f5ce` in the existing PR branch. The PR itself is not merged.
+
+### Summary
+- Resolved the overlapping additions in this log by retaining both the Services and Support migration entry and all Edge Commerce entries.
+- Preserved the PR's EMA blocks, importer, link map and Services scope alongside main's Delo catalog inventory, scoped product renderer, styles and regression tests.
+- Kept both the new block registrations in `scripts/ak.js` and the SKU-gated product hook in `scripts/scripts.js`; no authored content, catalog data or routing changed.
+
+### Testing
+- [x] Targeted ESLint (page loader, product renderer and renderer tests) and Stylelint (product styles) pass.
+- [x] Page-loader and Delo-renderer browser tests: 9 passed, 0 failed.
+- [x] Exact preservation checks: all 52 non-documentation EMA files match the original PR head; main's README, product renderer, page loader, styles and tests are unchanged.
+- [x] Both migration scopes and all pre-existing log entries retained; all PR JavaScript passes syntax checks, importer templates parse as JSON, and `git diff --check` passes.
+
+---
+
+### Migrate Services and Support pages (24) + tool-embed and isoclean-calculator blocks
+
+**Branch:** `aem-20261030-1905` (PR #7)
+**Status:** Content imported locally and verified. Not uploaded to DA, not previewed or published. Design pass for the two new blocks still to do.
+
+### Summary
+- Scope recorded in `source_website.md` ("Services and Support menu pages (24)"), with the customer decisions: embedded tools stay embedded; the ISOCLEAN calculator is rebuilt; the PitPack sign-up links to the live form.
+- New template `expertise-services` in `tools/importer/page-templates.json` (Expertise block set + `tool-embed` + `isoclean-calculator`), import script `tools/importer/import-expertise-services.js`, URL list `urls-expertise-services.txt`. Pages imported to `content/en-us/home/services/...` and `content/en-us/home/lubetek`.
+- New block `blocks/tool-embed` (+ parser): external tool in a lazy-loaded, titled iframe; keeps the source height, caps the width at the source width and shrinks on small screens (the source overflows phones). Used on 10 pages (earlweb product selectors, delocalculator.com calculators/assessment, Delo SmartChoice). Named `tool-embed` because `embed` is the library's video/social block.
+- New block `blocks/isoclean-calculator` (+ parser): client-side rebuild of the server-rendered 3-step calculator (industry → equipment component → storage environment → target vs current ISO code). Data sheet `content/en-us/home/services/self-services/industrial-machinery/isoclean-calculator-data.json` (sheets `components` 321 rows / 12 industries, `scenarios` 12 rows, `targets` 6 rows), crawled from the source (`migration-work/isoclean-calculator/`). Not rebuilt: the source's life-extension figure (always an empty "x" and a 100% bar on the source), "Email results". "Request more information" → `/en-us/home/contact-us`.
+- `chevron-expertise-cleanup.js` (shared by all expertise-* templates; earlier templates not re-imported):
+  - Salesforce forms: the `<form>` is swapped for the live-form link before the parsers (a form inside a multi-column was flattened into text); the embed's `<style>`/`<script>` no longer leak as text; `*Required field` notes removed; PitPack added to `FORM_LINKS`; the keep-absolute mark is re-applied after parsing (cleanup strips data attributes).
+  - Plain-text check-list item titles (`.check-list__list .item .title`) are kept (bold paragraph) instead of dropped.
+  - Images: desktop renditions with an upper-case extension (`adaptive_image.img.JPG|PNG`, 23/23 404 on the source) use the paired original; DAM files with an upper-case extension use `/_jcr_content/renditions/original` (the direct URL 404s on the source too). Both `src` and `data-src` are updated. Null-pair crash fixed.
+- `expertise-services` columns-promo selector also excludes items with `.check-list` / `.image-check-list` (the promo parser keeps only images).
+- Link map regenerated (137 migrated paths). Local `content/nav.plain.html` (24 Services links) and `content/footer.plain.html` (4 links) relinked to the migrated pages; backups `migration-work/{nav,footer}.before-services-relink.plain.html`.
+- `scripts/ak.js` KNOWN_BLOCKS: `tool-embed`, `isoclean-calculator`.
+
+### Testing
+- [x] 24/24 imported, 0 transformer errors.
+- [x] Line-level text check vs the rendered source (every line of 4+ words): 0 missing, apart from the calculator's 3 step labels (now block defaults).
+- [x] 0 broken images (14 were broken on the source too).
+- [x] All 10 tools load in the preview at 1440 and 390px, titled, no overflow; console errors on 2 tools also occur on the source (inside the tools).
+- [x] Calculator: full flow in the preview (Construction → Backhoe Loader → Engine → Extreme 28/26/23 → target 20/18/15, same as source); step-bar back navigation; tab arrow keys; focus moves to each step; no overflow at 320/390/1440px. 8 random components: target and current codes match fresh source lookups (8/8).
+- [x] All 28 Services menu links point to migrated pages.
+- [ ] Known gaps: Trade Shows "Event Information" captions over the event images are dropped (the image itself links to the same event page); the menu's "Browse self services" / "Browse pro services" tab labels link to `/en-us/home` (source `#`); calculator photos and icons are hotlinked from chevronlubricants.com (sheet values), not DA media.
+- [x] Design pass (2026-10-30):
+  - `tool-embed`: left-aligned in the content column like the source (x=132 at 1440px), source sizes kept; a 1200px tool may extend 24px past the 1176px column from 1260px up, as on the source. ~94% match. SmartChoice loads when framed (Chrome only warns about its ALLOW-FROM header).
+  - `isoclean-calculator`: all four views refined from source computed styles (step bar states + pointer, 4-col industry grid, 2-col equipment lists, environment tabs, scenario cards, result boxes, buttons, credit box); list-item margins reset. ~90% match. Contrast substitutions: inactive tabs #767676, black text on the orange button, Start over #666, accessible sky-blue. No horizontal scroll at 320–1440px.
+  - `columns-promo`: 4-image rows use 25% columns (benchmark-calculator scrolled sideways to 1543px; now 4 x 294px like the source). 3-card rows unchanged.
+  - Block gap pass after the re-import: `columns-media` flat grey strips (a grey-bg band holding only columns-media blocks has no band padding; photo column max 50%; several blocks become separate 1px-framed strips 30px apart with a 25/75 logo/copy row at every width, logos within 200x150, plain "Click here" text links) — preferred-vendors logos now 157x150 / 200x104 at the source positions, havoline eLearning photo 588x353 flush like the source. Same rule also flattens lubetek, best-in-class, coolants-freezepoint (x3), delo simplify-your-fleet-protection and coolant-landing-page strips (coolant-landing's photo is inset 48/41px on the source, so it moved from close to flush). `columns-cta` panel-with-button outside a coloured band (isoclean-program) gets the source's #0066b2 band (30px 55px) inside the 1176px container (was x0, 1256px, white button on white). `cards-resource` image + bare-link tiles: lubetek brand tiles are 5 x 235px with 124px product shots and blue buttons; best-in-class video tiles are flat with 14px underlined links. No change on en-us/home, isoclean, delo, havoline/business at 390/768/1440. No horizontal scroll on the 24 pages at 390/768/1024.
+- [x] Import restructure (customer choice "fix the import, then style"; site-wide heading sizes kept):
+  - New block `blocks/checklist` (+ parser): source `.check-list` / `.image-check-list` → rows of 1–2 cells (title + list, image, button); variants `check` / `bullet`, `grey` (from `.bg-light-gray` or a computed #f5f5f5 background). A multi-column of only check-lists / images / buttons becomes one block, so image | list, list + button | image and list | list stay side by side. Items hidden by the source's broken, empty `.check-list__control` toggle are shown. 10 instances on 8 pages; styled ~92%.
+  - New block `blocks/stats-carousel` (+ parser): source `.article-hero-carousel-component` (lubewatch, lubewatch-oil-analysis "Maintenance facts"): one statistic at a time in a CSS progress ring, prev/next + "1 of 4". Styled ~94%. Not used for isoclean-program "Real results" (inside a cards-resource card; stays text).
+  - Default-content `.button` links become EDS buttons (`<strong>` primary; red Havoline buttons `<strong><em>` accent) — 35 on the Services pages.
+  - cards-resource also takes columns of image + button (lubetek brand tiles), image + video (best-in-class) and stacked image + caption tiles (lubewatch "Standard test packages": 6 tiles; cards-service no longer claims columns that stack several images). cards-products also takes `.featured-products .fp-container .feature-pills` (havoline Featured Products).
+  - Salesforce embeds: hidden submit messages ("Thank you!", "Oops! Looks like something went wrong.", loader) removed.
+  - cards-resource download links may wrap (lubewatch scrolled sideways at 390/768px).
+  - Re-import: 24/24, 0 errors, 0 missing text lines (apart from the calculator's step labels), 0 broken images, no horizontal scroll at 390/768/1024/1440.
+  - Note: the transformer changes (buttons, forms, images, check-list titles) also apply to the other expertise-* templates on their next re-import; those pages were not re-imported (local content mirrors DA). CSS changes in shared blocks do affect them now: `columns-cta` band also applies to isoclean/waste-hauling-does-your-new-oil-meet-the-third-spec (its source panel is `bg-delo` too); `columns-media` strips also flatten delo/coolant-landing-page, whose source photo is inset (slightly further from the source there).
+- [ ] Page match vs source (1440px), after the restructure: fuel-economy-calculator ~92%; preferred-vendors ~85%; lubetek ~80%; isoclean-program ~78%; havoline-oil-change-pros ~75% (was ~45%: checklists, PitPack button, Featured Products carousel now in place); isoclean-calculator page ~72%; lubewatch ~70%+ (stats carousel, 6 tiles and grey checklist now in place). Remaining gaps: (a) block — lubetek "Where to buy" default columns-cta pills are white on white; havoline eLearning "Watch now" blue vs source red; isoclean-program CTA band 106 vs 132px; best-in-class video rows in one padded band vs two flat strips; (b) import/content — intro paragraphs and some sections left-aligned/coloured differently (section alignment), isoclean-calculator "Program basics | TRUST" two columns stacked, checkfluid brochure cards plain paragraphs (extra wrapper div in the source multi-column), isoclean-program "Real results" stats as text, "Start clean" image sizes, Featured Products promo tile above (not beside) the carousel; (c) intentional — Montserrat, site-wide heading scale, contrast colours, PitPack form as a link, hidden checklist items shown. Screenshots: `migration-work/services-verify/`, `migration-work/checklist/`.
+  - Rejected: position-based CSS for the flattened check-list / image-check-list content (would break silently on any authoring change). Kept for reference in `migration-work/services-verify/rejected-checklist-css.diff`.
+- [ ] Upload to DA + preview/publish when requested.
+---
+
 ### Match the Delo Product Bus detail layout to the source
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`

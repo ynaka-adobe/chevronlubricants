@@ -333,7 +333,28 @@ main > .section:is(.blue-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .blac
   }
 }
 
+/* panel-with-button outside a coloured band (isoclean-program "Ready for an
+ * on-site assessment?"): the source panel carries its own band
+ * (.panel-with-button__container.bg-delo: #0066b2, white text, 20px padding
+ * on phones, 30px 55px from 768px) inside the 1176px container */
+main > .section:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) {
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: var(--color-cobalt-blue);
+  color: var(--color-white);
+}
+
+@media (width >= 768px) {
+  main > .section:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) {
+    padding: 30px 55px;
+  }
+}
+
 @media (width >= 1200px) {
+  main > .section:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) .columns-cta.columns-cta-has-text:not(.columns-cta-has-icon) {
+    margin-inline: auto;
+  }
+
   .columns-cta.columns-cta-has-text.columns-cta-has-icon {
     margin: 0 auto;
   }

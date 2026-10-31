@@ -59,11 +59,11 @@ export async function loadStyle(href) {
 
 const KNOWN_BLOCKS = new Set([
   'accordion-drawer', 'accordion-faq', 'advanced-tabs', 'card', 'cards-filterable',
-  'cards-industry', 'cards-insights', 'cards-products', 'cards-resource', 'cards-service',
+  'cards-industry', 'cards-insights', 'cards-products', 'cards-resource', 'checklist', 'cards-service',
   'carousel-banner', 'carousel-square', 'columns', 'columns-brands', 'columns-cta',
   'columns-media', 'columns-products', 'columns-promo', 'footer', 'fragment', 'header', 'hero',
-  'hero-callout', 'hero-overlay', 'locator', 'persona', 'product', 'product-metadata', 'quote-testimonial',
-  'schedule', 'section-metadata', 'table', 'youtube',
+  'hero-callout', 'hero-overlay', 'isoclean-calculator', 'locator', 'persona', 'product', 'product-metadata', 'quote-testimonial',
+  'schedule', 'section-metadata', 'stats-carousel', 'table', 'tool-embed', 'youtube',
 ]);
 
 export async function loadBlock(block) {
