@@ -6,6 +6,9 @@ describe('Chevron consent-first analytics', () => {
   let doc;
   let api;
   const tick = () => new Promise((resolve) => { setTimeout(resolve, 20); });
+  const render = () => new Promise((resolve) => {
+    win.requestAnimationFrame(() => win.requestAnimationFrame(resolve));
+  });
 
   async function load(query = '?insights=1') {
     frame?.remove();
@@ -222,6 +225,7 @@ describe('Chevron consent-first analytics', () => {
       await Promise.resolve();
     }
     expect(win.adobeDataLayer).to.have.length(200);
+    await render();
     const panel = doc.querySelector('.chevron-booklet');
     expect(panel.textContent).to.include('cta-click: 200');
     expect(panel.querySelectorAll('.chevron-booklet-feed li')).to.have.length(60);
@@ -335,5 +339,85 @@ describe('Chevron consent-first analytics', () => {
     } finally {
       win.Storage.prototype.setItem = original;
     }
+  });
+
+  it('renders Parker-style stats, rankings and observations from Chevron events only', async () => {
+    grant();
+    impressions();
+    doc.querySelector('main a').click();
+    doc.querySelector('main a').click();
+    doc.querySelector('main button').click();
+    doc.querySelector('.download').click();
+    api.instrument.track('scroll', { depth: 75 });
+    await render();
+    const summary = api.booklet.summarize(win.adobeDataLayer);
+    expect(summary.links[0].label).to.equal('Learn more');
+    expect(summary.links[0].count).to.equal(2);
+    expect(summary.components).to.have.length(3);
+    expect(summary.components[0].label).to.equal('1: hero--wide');
+    expect(summary.components[0].clicks).to.equal(2);
+    expect(summary.components[1].label).to.equal('2: hero--wide');
+    expect(summary.components[1].clicks).to.equal(1);
+    expect(summary.scroll).to.equal(75);
+    const panel = doc.querySelector('.chevron-booklet');
+    expect(panel.querySelectorAll('.chevron-booklet-stats > div')).to.have.length(4);
+    expect(panel.textContent).to.include('Most-engaged component');
+    expect(panel.textContent).to.include('Most-clicked link');
+    expect(panel.textContent).to.include('Viewed but not engaged');
+    expect(panel.textContent).to.include('CTR 200.0%');
+    expect(panel.querySelectorAll('.chevron-booklet-bars')).to.have.length(3);
+    expect(panel.querySelector('.chevron-booklet-count').textContent).to.equal('9');
+    expect(panel.textContent).not.to.include('CJA preview');
+    expect(panel.textContent).not.to.include('Bot Detection');
+  });
+
+  it('keeps details, focus and scroll stable across live updates', async () => {
+    frame.width = '800';
+    frame.height = '900';
+    grant();
+    impressions();
+    for (let index = 0; index < 20; index += 1) {
+      api.instrument.track('cta-click', { link: { text: 'View', url: '/products' } });
+      await Promise.resolve();
+    }
+    await render();
+    const details = doc.querySelector('.chevron-booklet-details');
+    details.open = true;
+    details.querySelector('summary').focus();
+    const body = doc.querySelector('.chevron-booklet-body');
+    body.scrollTop = 120;
+    const position = body.scrollTop;
+    expect(position).to.be.greaterThan(0);
+    api.instrument.track('cta-click', { link: { text: 'View', url: '/products' } });
+    await render();
+    expect(details.open).to.equal(true);
+    expect(doc.activeElement).to.equal(details.querySelector('summary'));
+    expect(body.scrollTop).to.equal(position);
+  });
+
+  it('uses the floating Insights toggle and keyboard shortcut without generating events', async () => {
+    const close = doc.querySelector('.chevron-booklet-close');
+    const toggle = doc.querySelector('.chevron-booklet-toggle');
+    close.click();
+    expect(doc.querySelector('.chevron-booklet').hidden).to.equal(true);
+    expect(toggle.getAttribute('aria-expanded')).to.equal('false');
+    expect(doc.activeElement).to.equal(toggle);
+    toggle.click();
+    expect(toggle.getAttribute('aria-expanded')).to.equal('true');
+    expect(doc.activeElement).to.equal(close);
+    doc.dispatchEvent(new win.KeyboardEvent('keydown', { altKey: true, shiftKey: true, code: 'KeyI' }));
+    expect(doc.querySelector('.chevron-booklet').hidden).to.equal(true);
+    expect(win.requests).to.have.length(0);
+    expect(win.adobeDataLayer).to.have.length(0);
+    grant();
+    api.instrument.track('scroll', { depth: 100 });
+    toggle.click();
+    await render();
+    expect(doc.querySelector('.chevron-booklet-stats').textContent).to.include('100%');
+    api.consent.setConsent({});
+    expect(doc.querySelector('.chevron-booklet-stats')).to.equal(null);
+    expect(doc.querySelectorAll('.chevron-booklet-feed li')).to.have.length(0);
+    expect(doc.querySelector('.chevron-booklet-count').textContent).to.equal('0');
+    expect(toggle.dataset.analytics).to.equal('false');
   });
 });

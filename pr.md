@@ -68,6 +68,25 @@ tests passed, plus desktop/mobile live-site checks. No PR requested.
   Remaining external prerequisite: verify Section 2 suite configuration and
   processed reporting. Collector responses do not establish those facts.
 
+#### Parker live-panel alignment follow-up
+
+- User directed alignment with Parker's current `scripts/insights.js`.
+  Inspected GitHub main, related `styles/insights.css` and delayed/
+  analytics subscription wiring read-only; reference revision `742ada8`.
+- Replace the plain booklet list with Parker-style summary tiles, observations,
+  component/link ranking bars, event categories and timestamped feed. Add the
+  floating Insights toggle, fixed header/footer, responsive slide-over and
+  reduced-motion support, using Chevron colors and current real events.
+- Preserve existing consent/revocation, approved collector/RSID, AA event names,
+  repeated component positions, 200-event retention and reporting limitations.
+  No CJA/persona previews, bot scores or reference benchmarks copied into this
+  Analytics-only build. No instrumentation or migration-owned rendering changes.
+- Local targeted suite: 39 passing tests, including rank/count accuracy,
+  CTR above 100%, focus/scroll/details continuity, floating controls, shortcuts
+  and immediate dashboard clearing on revocation. Real-content desktop/mobile
+  home, ISOCLEAN FAQs and Delo Syn-Trans XE checks passed with no page errors
+  or panel overflow. Publication/live re-verification pending.
+
 ---
 
 ### Add the Audience Personas PDF

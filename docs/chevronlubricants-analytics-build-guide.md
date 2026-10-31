@@ -644,3 +644,21 @@ boundaries and PDS download mapping. Pre-consent Analytics/Target/RUM requests
 were absent; post-consent Adobe collector requests returned HTTP 200.
 This verifies client integration and collector reachability, **not** Section 2
 configuration or processed reporting.
+
+### Parker panel alignment
+
+The follow-up panel adapts the current Parker `scripts/insights.js` and
+`styles/insights.css` presentation, inspected on GitHub main (`742ada8`):
+floating Insights control, fixed-header responsive slide-over, four summary
+tiles, observations, component/link bars, category counts and timestamped feed.
+It remains a consumer of Chevron's existing sanitized consented event stream,
+not a new instrumentation path. Duplicate component IDs are distinguished
+by position. Scroll, focus and expanded consent/collection details survive live
+updates. Revocation clears the dashboard synchronously; rendering is batched
+and deferred while closed, with reduced-motion support.
+
+Parker's CJA/persona previews, bot heuristics, illustrative invisible-traffic
+figures and opt-in reference benchmarks are omitted because this US build is
+Analytics-only and does not provide those supported live capabilities.
+The heading is "This page," not "This session": counts/rankings/CTR describe the
+bounded 200-event retained window. No Adobe reporting metrics are simulated.

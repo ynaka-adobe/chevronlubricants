@@ -9,6 +9,15 @@ collection, not fabricated metrics or an Analytics reporting API. `?insights=1`
 enables the booklet for the current tab; `?insights=0` disables it.
 Shift+Alt+I toggles the panel. Normal visitors do not see it.
 
+The panel follows Parker's live Insights presentation: a floating Insights
+button, slide-over with fixed header/footer, four summary tiles, observations,
+ranked component/link bars, event categories and timestamped feed. Consent and
+collector details are expandable. Live updates preserve reader scroll, focus
+and expanded details; revocation clears the dashboard immediately. Chevron
+colors, event names, duplicate-component positions and bounded retention are
+preserved. Parker's CJA/persona previews, bot heuristics and reference benchmarks
+are intentionally omitted: they are not supported live Chevron Analytics data.
+
 Optional measurement is off until an explicit choice. Accept All enables
 analytics and external media; Reject All disables both. The advertising/sale
 opt-out saves necessary-only consent. Close/Escape saves nothing and grants
