@@ -930,7 +930,7 @@ product now returns HTTP 200 (independently confirmed 2026-10-30).
 ### Migrate the Chevron Warranty page and relink the header and footer
 
 **Branch:** `warranty-sds-header` → `main`, [PR #11](https://github.com/ynaka-adobe/chevronlubricants/pull/11)
-**Status:** Merged 2026-10-31. Page, header and footer imported/edited locally; not uploaded to DA, not previewed or published.
+**Status:** Merged 2026-10-31. Page, nav and footer uploaded to DA, previewed and published 2026-10-31 (customer request). Before upload, DA nav/footer differed from local only by these links. The footer's two Become a distributor links were set back to the live-site URL at first, because that page was not in DA yet. They were relinked and republished once the page was published, later the same day. Verified on the custom domain: all three links resolve to `/en-us/home/chevron-warranty` (200); page renders at 1440/390 with its banner (now in the media bus) and no horizontal scroll.
 
 ### Summary
 - `chevron-warranty.html` added to the `expertise-services` template (`page-templates.json`, `urls-expertise-services.txt`). The link map now has 139 migrated paths. Page: `/en-us/home/chevron-warranty`.
@@ -974,7 +974,11 @@ product now returns HTTP 200 (independently confirmed 2026-10-30).
 ### Become a distributor + re-import of havoline/business and havoline-oil-change-pros
 
 **Branch:** `distributor-page` → `main`, [PR #9](https://github.com/ynaka-adobe/chevronlubricants/pull/9) (replaces closed PR #8)
-**Status:** Merged 2026-10-31. Code/import changes ready; pages imported locally and verified. Not uploaded to DA, not previewed or published.
+**Status:** Merged 2026-10-31. Code/import changes ready; pages imported locally and verified. `/en-us/home/become-distributor` uploaded to DA, previewed and published 2026-10-31 (customer request). The footer was republished with "Work With Us" and "Become a Chevron lubricants distributor" linking to it; that is the only difference from the previous footer. Verified on the custom domain: both links 200; the page renders at 1440/390 with the `mailto:sceh@chevron.com` link and no horizontal scroll.
+- The re-imported havoline/business and havoline-oil-change-pros were uploaded to DA, previewed and published 2026-10-31 (customer request).
+  - The previous DA versions (saved and published 02:03 GMT, outside this work) had the same text, blocks and image alts, but links rewritten to site paths. 4 targets 404 (havoline/faqs, xpress-lube owner, ATF4 product, personal-rec-vehicles), and the PitPack "Fill out the contact form" link pointed to the page itself.
+  - Before upload, local links were set to the site path where the page exists on the custom domain (warranty plus 7 Havoline products, 15 links); the rest, and the contact-form link, stay on chevronlubricants.com. Backup: `migration-work/havoline-oil-change-pros.before-relink-2026-10-31.plain.html`.
+  - Verified on the custom domain at 1440/390: all images load (8 and 14), no horizontal scroll. Links all 200 except Facebook/YouTube (block automated checks) and the ATF4 product, which is 404 on chevronlubricants.com too.
 
 ### Summary
 - New page `/en-us/home/become-distributor` (template `expertise-services`; URL added to `page-templates.json` and `urls-expertise-services.txt`; link map 138 paths): H1, subheading, "Request additional information / Email us today" panel (`columns-cta` in a cobalt band; mailto link). Local footer "Work With Us" and "Become a Chevron lubricants distributor" relinked to it (backup `migration-work/footer.before-relink-distributor-2026-10-31.plain.html`).
