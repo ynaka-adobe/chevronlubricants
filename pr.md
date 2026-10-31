@@ -31,9 +31,9 @@
 ### Migrate the four linked Techron products
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
-**Status:** All four records ingested and verified on Network; source-aligned
-renderer locally verified. Custom-domain CDN publication awaits fresh approval
-and pipeline-idle confirmation. No PR requested.
+**Status:** All four records and source-aligned renderer are published;
+custom-domain content/media and live layout independently verified.
+No PR requested.
 
 - Actual listing scope: four unique Techron detail links, all source 200,
   catalog/Network/custom 404 before ingestion.
@@ -55,9 +55,25 @@ and pipeline-idle confirmation. No PR requested.
   section links work. Focused browser suite: 14 passed; ESLint/Stylelint pass.
   The fixture checker scopes its dialog to the product (EMA also has a dialog)
   and waits for the existing EMA lead-image visibility gate.
-- CDN-only commit `b5eb9d9453cc2d7ab9f3ed7c1db5ce67e46bb511` is prepared,
-  unpushed: 19 added lines/eight exact product-media paths, zero overlaps,
+- CDN-only commit `b5eb9d9453cc2d7ab9f3ed7c1db5ce67e46bb511` is published:
+  19 added lines/eight exact product-media paths, zero overlaps,
   1068 scope/control cases pass; all prior config byte-preserved.
+- Renderer code `02b8cf9` published using selected `@ynakagawa`; custom-domain
+  JavaScript/CSS exactly match the committed source after decompression.
+- User specifically approved the eight-route Techron deployment and freshly
+  confirmed pipeline `60291285` idle at 09:12 PDT on 31 October 2026.
+  The CDN session rechecked identity, remote parent and baseline config bytes
+  immediately before its nonforce push. No separate execution was triggered.
+- Early checks saw partial propagation; subsequent verification passed all
+  four custom products and all eight image responses (four images, plain and
+  `format=webply`). Source content, links, documents, canonical, SKU and media
+  match. Eight existing-page/negative-path controls pass.
+- Live browser checks pass across all four Techron, 17 Havoline and 40 Delo
+  products: content/category, desktop layout/no overflow; representative mobile
+  ordering, image zoom, navigation and equipment scrolling also pass.
+- Final Cloud Manager execution status/ID and deployed revision remain
+  independently inaccessible; verified live delivery is not a claim of
+  pipeline completion.
 
 ---
 

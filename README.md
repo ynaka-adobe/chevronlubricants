@@ -258,11 +258,15 @@ cards, retaining descriptions, equipment, documents, applications, packaging
 identifiers and Self Services. Latest EMA image-loading fixes and all previous
 Delo/Havoline rendering remain intact.
 
-Custom-domain Techron delivery is pending the separate exact eight-path CDN
-change. Fresh Techron-specific deployment approval and a fresh idle check of
-pipeline `60291285` are required before publication; previous Havoline approval
-does not apply. No prices, checkout, broad routing or listing-page changes are
-included.
+Custom-domain delivery is verified for all four Techron products and images,
+including plain and `format=webply` image queries. The CDN session published
+only the exact eight-path change in `b5eb9d9`, after fresh Techron-specific
+deployment approval, user-confirmed pipeline `60291285` idle and concurrency
+checks. Live layout/content checks across all 61 migrated products and
+existing-page/negative-path controls pass. Renderer code is published in
+`02b8cf9`. Final Cloud Manager execution status and deployed revision remain
+unverified by this session. No prices, checkout, broad routing or listing-page
+changes are included.
 
 ### Credentials and ongoing ingestion
 
