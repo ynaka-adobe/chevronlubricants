@@ -32,7 +32,8 @@
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
 **Status:** All 17 records ingested and independently verified on Network;
-scoped renderer complete and locally verified. Custom-domain CDN delivery pending.
+renderer published to main in `15b5614` using user-selected `@ynakagawa`.
+Custom-domain CDN delivery pending.
 No PR requested.
 
 - Scope: all 17 distinct products from the supplied Havoline products tab,
@@ -59,6 +60,10 @@ No PR requested.
   13 passed; targeted ESLint and Stylelint pass.
 - All 17 custom-domain Havoline paths still return 404. The CDN session received
   the verified 34-path manifest; no live Havoline delivery is claimed.
+- Published custom-domain JavaScript and CSS, after HTTP decompression, exactly
+  match the committed renderer/style files. CDN commit
+  `a9a7072114eaebad5090803be081332a59d0c220` is prepared separately and unpushed;
+  it needs both pipeline-idle confirmation and deployment authorization.
 
 ---
 

@@ -235,7 +235,8 @@ Buy Online rather than inventing purchase behavior.
 Custom-domain Havoline delivery is **not yet complete**: all 17 paths currently
 return 404. The existing CDN session is preparing only the exact 34-path
 manifest; publication requires confirmed pipeline idle state and authorized
-deployment. The Havoline renderer changes also require code publication.
+deployment. The Havoline renderer is published in main commit `15b5614`;
+decompressed custom-domain JavaScript and CSS match the committed files.
 
 ### Credentials and ongoing ingestion
 
