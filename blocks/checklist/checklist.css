@@ -1,0 +1,299 @@
+/* Checklist (source .check-list / .image-check-list, Bootstrap grid in a 1200px container).
+   Panel (.check-list__container): 30px top/bottom padding and 12px past the 1176px content
+   column on both sides; its content is a col-sm-8 column (2/3 of the panel from 768px, full
+   width below) with 12px padding, aligned to the panel's start. Title 24px/28.8px regular,
+   centered in that column, 30px below; subtitle 16px/19.2px centered, 20px below; items 20px
+   apart (and 20px after the last one), title bold 16px/19.2px, text 3px lower at 16px/19px.
+   Bullet: 8px round black dot 5px down, text 25px in. Check: Glyphicons ok-sign (20px navy
+   circle with a white check, 2px down), text 35px in. Grey panel #f5f5f5.
+   Two cells (source multi-column) stack 15px apart until 1200px, then sit side by side:
+   50/50, or 40/60 when the list comes first (list | image). Images keep their own size,
+   centered at the top of their column (10px corners; 15px for the image after a list).
+   Text is black; titled single-column lists and the image cards panel use navy #0b2d71. */
+.checklist {
+  --checklist-text: var(--color-black);
+  --checklist-marker: var(--color-chevron-dark-blue);
+  --checklist-bleed: 12px;
+
+  box-sizing: border-box;
+  max-width: var(--brand-content-max-width, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--brand-content-gutter, 12px);
+  color: var(--checklist-text);
+  font-size: 16px;
+  line-height: 19.2px;
+}
+
+.checklist:has(.checklist-cards),
+.checklist .checklist-row-1 > .checklist-list:has(> h3) {
+  --checklist-text: var(--color-chevron-dark-blue);
+
+  color: var(--checklist-text);
+}
+
+.checklist .checklist-row {
+  display: grid;
+  gap: 15px;
+}
+
+.checklist .checklist-row + .checklist-row {
+  margin-top: 15px;
+}
+
+.checklist .checklist-cell {
+  min-width: 0;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* panel: list / text cells */
+.checklist :is(.checklist-list, .checklist-text) {
+  margin-inline: calc(var(--checklist-bleed) * -1);
+  padding: 30px var(--checklist-bleed);
+}
+
+.checklist.grey :is(.checklist-list, .checklist-text) {
+  background-color: var(--color-grey-light-bg);
+}
+
+.checklist h3 {
+  margin: 0 0 30px;
+  color: var(--checklist-text);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28.8px;
+  text-align: center;
+}
+
+/* subtitle */
+.checklist :is(.checklist-list, .checklist-text) > p:not(:has(> .btn)) {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 19.2px;
+  text-align: center;
+}
+
+.checklist ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  position: relative;
+  margin: 0 0 20px;
+  padding: 3px 0 0 25px;
+  line-height: 19px;
+
+  &:has(> strong:first-child) {
+    padding-top: 0;
+  }
+
+  > strong:first-child {
+    display: block;
+    margin-bottom: 3px;
+    font-weight: 700;
+    line-height: 19.2px;
+  }
+
+  > strong:first-child + br {
+    display: none;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-black);
+  }
+}
+
+.checklist a:any-link:not(.btn) {
+  color: var(--color-chevron-medium-blue);
+}
+
+/* check items: Glyphicons ok-sign, 20px navy circle with a white check */
+.checklist.check li {
+  padding-inline-start: 35px;
+
+  &::before {
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    background-color: var(--checklist-marker);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cmask id='m'%3E%3Ccircle cx='10' cy='10' r='9.6' fill='white'/%3E%3Cpath d='M5.2 10.6l3.5 3.5 6.6-6.6' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Crect width='20' height='20' mask='url(%23m)'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+}
+
+/* image cells */
+.checklist .checklist-media {
+  align-self: start;
+  text-align: center;
+
+  p {
+    margin: 0;
+  }
+
+  img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    vertical-align: top;
+  }
+}
+
+.checklist .checklist-list + .checklist-media img {
+  border-radius: 15px;
+}
+
+/* button below the list (source .btn.bg-havoline, centered in the column, 50px below the
+   last item text, 30px end space): #b5121b square, 12px 30px, bold 16px/22px, hover #870d14 */
+.checklist .checklist-list > p:has(> .btn) {
+  margin: 50px 0 0;
+  text-align: center;
+}
+
+main .checklist .checklist-list a.btn:any-link {
+  padding: 12px 30px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background-color: #b5121b;
+  color: var(--color-white);
+  font-size: 16px;
+  line-height: 22px;
+
+  &:hover,
+  &:focus-visible {
+    background-color: #870d14;
+    color: var(--color-white);
+  }
+
+  &:focus-visible {
+    outline-color: #b5121b;
+  }
+}
+
+/* image-check-list: 590px panel, title #0c2e72, two white cards (max 218px, 15px apart,
+   20px 50px padding, content centered; 10px padding / 10px apart below 768px), 100px images
+   (80px below 768px), bold 24px/28.8px navy captions 30px below, then a subtitle and check
+   items 55px in inside 143px side padding (35px in, no side padding below 768px) */
+.checklist:has(.checklist-cards) {
+  max-width: 614px;
+
+  .checklist-row + .checklist-row {
+    margin-top: 0;
+  }
+
+  .checklist-row:first-child .checklist-text {
+    padding-bottom: 0;
+  }
+
+  .checklist-row:first-child .checklist-text > p:last-child {
+    margin-bottom: 20px;
+  }
+
+  .checklist-row:first-child h3 {
+    color: var(--color-chevron-blue);
+  }
+
+  .checklist-cards + .checklist-row .checklist-list {
+    padding-top: 20px;
+  }
+
+  li > strong:first-child {
+    font-weight: 400;
+  }
+}
+
+.checklist .checklist-cards {
+  grid-template-columns: repeat(2, minmax(0, 218px));
+  justify-content: center;
+  gap: 10px;
+  margin-inline: calc(var(--checklist-bleed) * -1);
+  padding-inline: var(--checklist-bleed);
+
+  .checklist-media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    padding: 20px 10px;
+    background-color: var(--color-white);
+  }
+
+  img {
+    width: 80px;
+    border-radius: 50%;
+  }
+
+  p + p {
+    margin-top: 30px;
+    color: var(--color-chevron-dark-blue);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28.8px;
+  }
+}
+
+.checklist.grey .checklist-cards {
+  background-color: var(--color-grey-light-bg);
+}
+
+@media (width >= 768px) {
+  /* col-sm-8: the panel content takes 2/3 of the panel */
+  .checklist:not(:has(.checklist-cards)) :is(.checklist-list, .checklist-text) > :not(p:has(> .btn)) {
+    max-width: calc((100% + var(--checklist-bleed) * 2) * 2 / 3 - var(--checklist-bleed) * 2);
+  }
+
+  .checklist:has(.checklist-cards) {
+    ul {
+      padding-inline: 143px;
+    }
+
+    &.check li {
+      padding-inline-start: 55px;
+    }
+  }
+
+  .checklist .checklist-cards {
+    gap: 15px;
+
+    .checklist-media {
+      padding: 20px 50px;
+    }
+
+    img {
+      width: 100px;
+    }
+  }
+}
+
+@media (width >= 1200px) {
+  .checklist .checklist-row-2:not(.checklist-cards) {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .checklist .checklist-row-2:has(> .checklist-list:first-child + .checklist-media) {
+    grid-template-columns: 2fr 3fr;
+  }
+
+  /* the image-check-list panel is exactly 590px wide on desktop */
+  .checklist:has(.checklist-cards) :is(.checklist-list, .checklist-text, .checklist-cards) {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}

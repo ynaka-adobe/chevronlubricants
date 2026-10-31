@@ -1,0 +1,129 @@
+/* Source .article-hero-carousel-component (lubewatch "Maintenance facts"), measured at 390/1440px:
+   one slide at a time; 200px ring (.c100: track #ccc, 16px arc #307bbb starting at 12 o'clock and
+   running clockwise, inner disc #f5f5f5 168px); value 70px regular #0066b2; caption 16px/19.2px
+   #6b6d6f centred, max 482px, 25px (mobile) / 30px (>= 768px) below the ring; pagination 290px wide,
+   40px tall, space-between, 10px / 15px below the caption: 16px chevrons #6d6d6d either side of
+   "1 of 4" (14px/16.8px #6d6d6d, current slide bold); 30px below the pagination.
+   Ring top sits ~50px below the preceding heading's line box. */
+.stats-carousel {
+  --stats-ring: 200px;
+  --stats-ring-width: 16px;
+  --stats-arc: #307bbb;
+  --stats-track: #ccc;
+  --stats-disc: var(--color-grey-light-bg);
+  --stats-chevron: var(--color-grey-text);
+
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 35px 0 30px;
+  text-align: center;
+}
+
+.stats-carousel .stats-carousel-slides {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats-carousel .stats-carousel-slide {
+  margin: 0;
+}
+
+.stats-carousel .stats-carousel-value {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: var(--stats-ring);
+  height: var(--stats-ring);
+  margin: 0 auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      closest-side,
+      var(--stats-disc) calc(100% - var(--stats-ring-width) - 0.5px),
+      transparent calc(100% - var(--stats-ring-width) + 0.5px)
+    ),
+    conic-gradient(var(--stats-arc) var(--stats-value, 0%), var(--stats-track) 0);
+  color: var(--color-cobalt-blue);
+  font-size: 70px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.stats-carousel .stats-carousel-caption {
+  max-width: 482px;
+  margin: 25px auto 0;
+  color: #6b6d6f;
+  font-size: var(--body-font-size-m);
+  line-height: 19.2px;
+
+  p {
+    margin: 0;
+  }
+}
+
+/* Chevron centres sit 274px apart (source 290px row with 16px glyphs); the 32px buttons keep a
+   larger hit area, so the row is 274px + 32px wide. */
+.stats-carousel .stats-carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 306px;
+  min-height: 40px;
+  margin: 10px auto 0;
+}
+
+.stats-carousel .stats-carousel-counter {
+  margin: 0;
+  color: var(--color-grey-text);
+  font-size: var(--body-font-size-s);
+  line-height: 16.8px;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.stats-carousel :is(.stats-carousel-prev, .stats-carousel-next) {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 0 auto;
+    border-top: 2px solid var(--stats-chevron);
+    border-left: 2px solid var(--stats-chevron);
+    transform: translateX(3px) rotate(-45deg);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-chevron-medium-blue);
+    outline-offset: 2px;
+  }
+}
+
+.stats-carousel .stats-carousel-next::before {
+  transform: translateX(-3px) rotate(135deg);
+}
+
+@media (width >= 768px) {
+  .stats-carousel .stats-carousel-caption {
+    margin-top: 30px;
+  }
+
+  .stats-carousel .stats-carousel-nav {
+    margin-top: 15px;
+  }
+}

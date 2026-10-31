@@ -142,4 +142,10 @@
   .columns-promo .columns-promo-card .columns-promo-image img {
     width: 100%;
   }
+
+  /* four image columns side by side, as on the source (column25: 4 x 25%, no gap) */
+  .columns-promo.columns-promo-4-cols .columns-promo-card {
+    flex-basis: 25%;
+    width: 25%;
+  }
 }
