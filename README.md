@@ -296,12 +296,20 @@ are verified; all 34 shared catalog records match their pre-migration readbacks.
 Actual product fixtures preserve text/links/categories and desktop/mobile
 layout across this batch and all previous brands.
 
-Custom-domain publication for the new products is pending. The new manifest
-contains 97 products and 85 unique generated-media paths; subtract existing
-CDN coverage before adding routes. Fresh Industrial/ISOCLEAN-specific deployment
-approval and current pipeline `60291285` idle confirmation are required before
-the scoped CDN push. No site-wide routing, checkout, prices or listing-page
-changes are included.
+Custom-domain delivery is verified for all 131 available batch products and
+all 118 distinct generated images, including plain and `format=webply`
+responses. The new manifest contained 97 products and 85 unique media;
+one image was already covered by Delo. CDN commit `e0b04a8` therefore adds
+only 181 exact routes (97 products + 84 media), preserving all prior rules,
+after fresh batch-specific deployment approval and user-confirmed pipeline
+`60291285` idle. Renderer code was safely published in `3cc3aad`, retaining
+concurrent EMA and analytics documentation.
+
+The live renderer preserves all freshly verified batch HTML on desktop/mobile,
+and previous-brand live layout/content checks and excluded-path controls pass.
+Final Cloud Manager execution status and deployed revision remain independently
+unverified. No site-wide routing, checkout, prices or listing-page changes are
+included.
 
 ### Credentials and ongoing ingestion
 

@@ -31,9 +31,10 @@
 ### Migrate Industrial and ISOCLEAN product listings
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
-**Status:** 97 new products ingested, 34 existing records preserved unchanged,
-two broken source links excluded. Network and source-aligned renderer verified;
-new custom-domain routes pending scoped deployment approval. No PR requested.
+**Status:** 97 new products published, 34 existing records preserved unchanged,
+two broken source links excluded. All 131 available custom-domain products,
+generated images and source-aligned renderer independently verified.
+No PR requested.
 
 - Actual navigation listings: Industrial `industrial_products.html` (125),
   ISOCLEAN `isoclean.html` (47); 39 shared links yield 133 distinct products.
@@ -66,6 +67,29 @@ new custom-domain routes pending scoped deployment approval. No PR requested.
   text, links and source category with no desktop/mobile overflow. Image zoom,
   section navigation and equipment scrolling work. Focused suite:
   16 browser tests pass; ESLint/Stylelint and diff check pass.
+- Renderer published in `f6d75ca`, safely integrated with concurrent analytics
+  guide `df9c6ce` in `3cc3aad`; custom-domain JavaScript/CSS match committed
+  source after decompression. EMA header/warranty/document changes retained.
+- User specifically approved this batch's scoped deployment and freshly
+  confirmed pipeline `60291285` idle. CDN session published
+  `e0b04a81fcbc19361855e6e2c125134d7c1029d7` after identity/remote/config checks:
+  only 181 uncovered paths (97 products + 84 media), 192 added lines,
+  8442 scope/control cases pass. All prior config preserved byte-for-byte.
+  The 85th batch media path was already covered by Delo and not duplicated.
+- Early post-push checks saw prior routes only; bounded propagation recheck
+  verified all 131 custom products and 236 generated-image responses
+  (118 distinct images, plain and `format=webply`), zero errors.
+  Source content, documents, links, canonical, SKU and expected images match.
+- The live renderer preserves all 131 freshly verified custom HTML bodies
+  on desktop/mobile; the first live product and prior-brand live pages also
+  pass zoom, section navigation and equipment scrolling. Preloading the
+  verified bodies avoided a browser-protocol timeout from sequentially fetching
+  all pages in one browser evaluation; no catalog or source data was substituted.
+  Eleven existing-page/negative-path controls pass, including excluded sources
+  and the invalid HDAX alias remaining 404.
+- Final Cloud Manager execution ID/status and deployed revision are
+  independently inaccessible; live delivery success does not assert pipeline
+  completion.
 
 ---
 
