@@ -28,6 +28,32 @@
 
 ## Open PRs
 
+### Fix the layout shift on ISOCLEAN third-spec and Havoline business pages
+
+**Branch:** `fix-image-cls` → `main` (follow-up agreed when PR #8's check failed on this shift)
+**Status:** Open 2026-10-31, waiting for review. Code only, no content changes.
+
+### Summary
+- Cause: published pages carry no image `width`/`height`. The DA source has them, but the delivered HTML does not (0 of 60 images sized on en-us/home, delo and waste-hauling). So an image has no height until it loads, and the copy below it jumps when the image appears. This hits pages whose first section starts with several default-content images: logo, banner, infographic, or a columns-media photo.
+- `scripts/scripts.js` (`holdForLeadImages`, called from `decorateArea` for the document only): the first section's first 4 images without `height` load eagerly. `body[data-lead-images]` keeps `main` and the footer hidden until they have loaded or failed, for at most 3s.
+- `styles/styles.css`: `body[data-lead-images] :is(main, footer) { display: none; }`.
+- Not changed: the 0.02 header settle (`main` y135→170) seen on every page. A 0.045 columns-media text-column shift on isoclean/construction was seen in one earlier run but not after the hold covered block images.
+
+### Testing
+- [x] Desktop cold-load CLS (1350x940, 3 runs, main → branch):
+  - waste-hauling: 0.32–0.48 → 0.022
+  - construction: up to 0.65 → 0.022
+  - mining: up to 0.38 → ≤0.022
+  - oil-and-gas: up to 0.36 → 0
+  - havoline/business: up to 0.40 → ≤0.022
+- [x] Unchanged on en-us/home, delo, learning-for-you and customer-success (≤0.023).
+- [x] Mobile (390x844): 0 before and after.
+- [x] LCP unchanged or lower (for example, waste-hauling 224–264ms → 152–180ms). The hold was always released, and the page height was identical.
+- [x] ESLint / Stylelint clean.
+- [ ] aem-psi-check on the PR.
+
+---
+
 ### Migrate the 17 linked Havoline products
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
