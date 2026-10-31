@@ -16,6 +16,7 @@
  * beforeTransform (only things the parsers must not see; nothing that changes
  * top-level units, band backgrounds or block-instance matching):
  *   - breadcrumb, slick cloned slides, print-only duplicate lists
+ *   - Salesforce form embeds: the <form> becomes the live-form link (wrapper kept)
  *
  * afterTransform (parsers have replaced the block elements; everything left is
  * default content):
@@ -49,6 +50,10 @@ const KEEP_ABSOLUTE = 'data-excat-keep-absolute';
 const FORM_LINKS = {
   '/en_us/home/services/pro-services/personal-rec-vehicles/xpress-lube-contact-us.html': {
     href: `${ORIGIN}/en_us/home/services/pro-services/personal-rec-vehicles/xpress-lube-contact-us.html`,
+    text: 'Fill out the contact form',
+  },
+  '/en_us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros.html': {
+    href: `${ORIGIN}/en_us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros.html`,
     text: 'Fill out the contact form',
   },
 };
@@ -176,25 +181,80 @@ function convertDistributors(element, doc) {
   });
 }
 
-function convertForms(element, doc, path) {
+// parsers read data-src (lazy-loaded images) before src, so both must change
+function setImgSrc(img, src) {
+  img.setAttribute('src', src);
+  if (img.hasAttribute('data-src')) img.setAttribute('data-src', src);
+}
+
+const FORM_LINK = 'data-excat-form-link';
+
+function formLink(doc, path) {
   const target = FORM_LINKS[path] || DEFAULT_FORM_LINK;
+  const p = doc.createElement('p');
+  const a = doc.createElement('a');
+  a.setAttribute('href', target.href);
+  a.setAttribute(FORM_LINK, 'true');
+  // keep the live URL only when the link would point back to this page itself
+  // (xpress-lube-contact-us, havoline-oil-change-pros); the default /contact-us target is a migrated page
+  if (FORM_LINKS[path]) a.setAttribute(KEEP_ABSOLUTE, 'true');
+  a.textContent = target.text;
+  p.appendChild(a);
+  return p;
+}
+
+// form-only instruction text ("*indicates required field.", "*Required field") has no form to refer to
+function removeRequiredFieldNotes(element) {
+  element.querySelectorAll(`p, ${HEADINGS}`).forEach((el) => {
+    if (!inTable(el) && /^\*\s*(indicates\s+)?required fields?\.?$/i.test(cleanText(el.textContent))) el.remove();
+  });
+}
+
+// beforeTransform: replace only the <form> inside each Salesforce embed, so the embed wrapper
+// (a top-level unit for chevron-expertise-sections.js) stays in place. Without this, a form
+// inside a multi-column (havoline-oil-change-pros) is flattened into text by the parsers.
+function convertFormElements(element, doc, path) {
+  const forms = [...element.querySelectorAll('.salesforce-embed-component form')];
+  if (forms.length) removeRequiredFieldNotes(element);
+  // the embed's own form styles/scripts and its hidden submit messages ("Thank you!",
+  // "Oops! Looks like something went wrong.", loader) would otherwise end up as text
+  element.querySelectorAll('.salesforce-embed-component :is(style, script, [class*="salesforce-embed__form__submit"])')
+    .forEach((el) => el.remove());
+  forms.forEach((f) => f.replaceWith(formLink(doc, path)));
+}
+
+function convertForms(element, doc, path) {
   const forms = [...element.querySelectorAll('.salesforce-embed-component')];
-  if (forms.length) {
-    // form-only instruction text ("*indicates required field.") has no form to refer to
-    element.querySelectorAll(`p, ${HEADINGS}`).forEach((el) => {
-      if (!inTable(el) && /^\*\s*indicates required fields?\.?$/i.test(cleanText(el.textContent))) el.remove();
+  if (forms.length) removeRequiredFieldNotes(element);
+  forms.forEach((f) => {
+    const existing = f.querySelector(`a[${FORM_LINK}]`);
+    f.replaceWith(existing ? existing.closest('p') || existing : formLink(doc, path));
+  });
+  element.querySelectorAll(`a[${FORM_LINK}]`).forEach((a) => a.removeAttribute(FORM_LINK));
+  // links made before the parsers lose their data attributes in cleanup: mark the live form link again
+  if (FORM_LINKS[path]) {
+    element.querySelectorAll('a[href]').forEach((a) => {
+      if (a.getAttribute('href') === FORM_LINKS[path].href) a.setAttribute(KEEP_ABSOLUTE, 'true');
     });
   }
-  forms.forEach((f) => {
-    const p = doc.createElement('p');
-    const a = doc.createElement('a');
-    a.setAttribute('href', target.href);
-    // keep the live URL only when the link would point back to this page itself
-    // (xpress-lube-contact-us); the default /contact-us target is a migrated page
-    if (FORM_LINKS[path]) a.setAttribute(KEEP_ABSOLUTE, 'true');
-    a.textContent = target.text;
-    p.appendChild(a);
-    f.replaceWith(p);
+}
+
+// Default-content .button components (outside blocks) become EDS buttons: <strong><a> is the
+// primary (blue) button; the red Havoline buttons (a.btn.bg-havoline / bg-red) become the
+// accent button (<strong><em><a>). Brand colours (bg-isoclean, bg-delo, bg-blue-2) map to primary.
+function convertButtons(element, doc) {
+  element.querySelectorAll('.button a[href]').forEach((a) => {
+    if (inTable(a) || a.closest('strong, em')) return;
+    const red = /\bbg-(havoline|red)\b/.test(a.getAttribute('class') || '');
+    const strong = doc.createElement('strong');
+    a.replaceWith(strong);
+    if (red) {
+      const em = doc.createElement('em');
+      em.append(a);
+      strong.append(em);
+    } else {
+      strong.append(a);
+    }
   });
 }
 
@@ -256,6 +316,14 @@ function convertTitles(element, doc) {
     if (!main && !sub) {
       // unknown title markup: keep any heading/text it has
       t.querySelectorAll(HEADINGS).forEach((h) => { if (cleanText(h.textContent)) nodes.push(h); });
+      // plain-text title (check-list item title, e.g. lubetek "For current product SDS/PDS visit:")
+      if (!nodes.length && cleanText(t.textContent)) {
+        const p = doc.createElement('p');
+        const target = t.closest('.check-list__list .item') ? p.appendChild(doc.createElement('strong')) : p;
+        moveChildren(t, target);
+        trimEdges(target);
+        nodes.push(p);
+      }
     }
     t.replaceWith(...nodes);
   });
@@ -446,15 +514,25 @@ export default function transform(hookName, element, payload) {
     WebImporter.DOMUtils.remove(element, ['.breadcrumb', 'nav.breadcrumbs']);
     // Carousel duplicates: slick clones and the print-only slide list
     WebImporter.DOMUtils.remove(element, ['.slick-cloned', '.slider-wrapper__print']);
+    // Salesforce forms: swap the <form> for the live-form link before the parsers run
+    convertFormElements(element, doc, pagePath(payload));
     // Collapsed drawers: the desktop adaptive-image servlet rendition can 404 on the source
     // (e.g. isoclean drawer .../adaptive_image.img.PNG). Use the paired original DAM file
     // (<img class="... tablet-up-hidden" src="/content/dam/...">) for the desktop image instead.
-    element.querySelectorAll('.drawer img.commons-adaptive-image.mobile-only-hidden').forEach((img) => {
+    // Everywhere else: a rendition with an upper-case extension (.../adaptive_image.img.JPG|PNG)
+    // always 404s on the source (23/23 on the expertise + services pages; lower-case: 451/452 load).
+    element.querySelectorAll('img.commons-adaptive-image.mobile-only-hidden').forEach((img) => {
       const pair = img.parentElement && img.parentElement.querySelector('img.commons-adaptive-image.tablet-up-hidden');
-      const damSrc = pair && (pair.getAttribute('src') || '');
-      if (damSrc.startsWith('/content/dam/') && /adaptive_image\.img\./.test(img.getAttribute('src') || '')) {
-        img.setAttribute('src', damSrc);
-      }
+      const damSrc = (pair && pair.getAttribute('src')) || '';
+      const src = img.getAttribute('src') || '';
+      const broken = img.closest('.drawer') ? /adaptive_image\.img\./.test(src) : /adaptive_image[^/]*\.img\.[A-Z]+$/.test(src);
+      if (damSrc.startsWith('/content/dam/') && broken) setImgSrc(img, damSrc);
+    });
+    // DAM files with an upper-case extension (.../Hydraulic-shears.PNG) also 404 on the source's
+    // CDN, but their stored original loads: .../Hydraulic-shears.PNG/_jcr_content/renditions/original
+    element.querySelectorAll('img[src^="/content/dam/"]').forEach((img) => {
+      const src = img.getAttribute('src').split('?')[0];
+      if (/\.[A-Z]{3,4}$/.test(src)) setImgSrc(img, `${src}/_jcr_content/renditions/original`);
     });
   }
 
@@ -462,6 +540,7 @@ export default function transform(hookName, element, payload) {
     const path = pagePath(payload);
     convertDistributors(element, doc);
     convertForms(element, doc, path);
+    convertButtons(element, doc);
     convertVideos(element, doc);
     convertTitles(element, doc);
     convertDisplayParagraphs(element, doc);

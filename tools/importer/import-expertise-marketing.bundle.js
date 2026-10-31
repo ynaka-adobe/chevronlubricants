@@ -3002,6 +3002,10 @@ var CustomImportScript = (() => {
     "/en_us/home/services/pro-services/personal-rec-vehicles/xpress-lube-contact-us.html": {
       href: `${ORIGIN15}/en_us/home/services/pro-services/personal-rec-vehicles/xpress-lube-contact-us.html`,
       text: "Fill out the contact form"
+    },
+    "/en_us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros.html": {
+      href: `${ORIGIN15}/en_us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros.html`,
+      text: "Fill out the contact form"
     }
   };
   var DEFAULT_FORM_LINK = { href: `${ORIGIN15}/en_us/home/contact-us.html`, text: "Contact us" };
@@ -3114,22 +3118,60 @@ var CustomImportScript = (() => {
       d.replaceWith(...nodes);
     });
   }
-  function convertForms(element, doc, path) {
+  function setImgSrc(img, src) {
+    img.setAttribute("src", src);
+    if (img.hasAttribute("data-src")) img.setAttribute("data-src", src);
+  }
+  var FORM_LINK = "data-excat-form-link";
+  function formLink(doc, path) {
     const target = FORM_LINKS[path] || DEFAULT_FORM_LINK;
+    const p = doc.createElement("p");
+    const a = doc.createElement("a");
+    a.setAttribute("href", target.href);
+    a.setAttribute(FORM_LINK, "true");
+    if (FORM_LINKS[path]) a.setAttribute(KEEP_ABSOLUTE, "true");
+    a.textContent = target.text;
+    p.appendChild(a);
+    return p;
+  }
+  function removeRequiredFieldNotes(element) {
+    element.querySelectorAll(`p, ${HEADINGS9}`).forEach((el) => {
+      if (!inTable(el) && /^\*\s*(indicates\s+)?required fields?\.?$/i.test(cleanText2(el.textContent))) el.remove();
+    });
+  }
+  function convertFormElements(element, doc, path) {
+    const forms = [...element.querySelectorAll(".salesforce-embed-component form")];
+    if (forms.length) removeRequiredFieldNotes(element);
+    element.querySelectorAll('.salesforce-embed-component :is(style, script, [class*="salesforce-embed__form__submit"])').forEach((el) => el.remove());
+    forms.forEach((f) => f.replaceWith(formLink(doc, path)));
+  }
+  function convertForms(element, doc, path) {
     const forms = [...element.querySelectorAll(".salesforce-embed-component")];
-    if (forms.length) {
-      element.querySelectorAll(`p, ${HEADINGS9}`).forEach((el) => {
-        if (!inTable(el) && /^\*\s*indicates required fields?\.?$/i.test(cleanText2(el.textContent))) el.remove();
+    if (forms.length) removeRequiredFieldNotes(element);
+    forms.forEach((f) => {
+      const existing = f.querySelector(`a[${FORM_LINK}]`);
+      f.replaceWith(existing ? existing.closest("p") || existing : formLink(doc, path));
+    });
+    element.querySelectorAll(`a[${FORM_LINK}]`).forEach((a) => a.removeAttribute(FORM_LINK));
+    if (FORM_LINKS[path]) {
+      element.querySelectorAll("a[href]").forEach((a) => {
+        if (a.getAttribute("href") === FORM_LINKS[path].href) a.setAttribute(KEEP_ABSOLUTE, "true");
       });
     }
-    forms.forEach((f) => {
-      const p = doc.createElement("p");
-      const a = doc.createElement("a");
-      a.setAttribute("href", target.href);
-      if (FORM_LINKS[path]) a.setAttribute(KEEP_ABSOLUTE, "true");
-      a.textContent = target.text;
-      p.appendChild(a);
-      f.replaceWith(p);
+  }
+  function convertButtons(element, doc) {
+    element.querySelectorAll(".button a[href]").forEach((a) => {
+      if (inTable(a) || a.closest("strong, em")) return;
+      const red = /\bbg-(havoline|red)\b/.test(a.getAttribute("class") || "");
+      const strong = doc.createElement("strong");
+      a.replaceWith(strong);
+      if (red) {
+        const em = doc.createElement("em");
+        em.append(a);
+        strong.append(em);
+      } else {
+        strong.append(a);
+      }
     });
   }
   function convertVideos(element, doc) {
@@ -3192,6 +3234,13 @@ var CustomImportScript = (() => {
         t.querySelectorAll(HEADINGS9).forEach((h) => {
           if (cleanText2(h.textContent)) nodes.push(h);
         });
+        if (!nodes.length && cleanText2(t.textContent)) {
+          const p = doc.createElement("p");
+          const target = t.closest(".check-list__list .item") ? p.appendChild(doc.createElement("strong")) : p;
+          moveChildren(t, target);
+          trimEdges(target);
+          nodes.push(p);
+        }
       }
       t.replaceWith(...nodes);
     });
@@ -3345,18 +3394,24 @@ var CustomImportScript = (() => {
     if (hookName === TransformHook2.beforeTransform) {
       WebImporter.DOMUtils.remove(element, [".breadcrumb", "nav.breadcrumbs"]);
       WebImporter.DOMUtils.remove(element, [".slick-cloned", ".slider-wrapper__print"]);
-      element.querySelectorAll(".drawer img.commons-adaptive-image.mobile-only-hidden").forEach((img) => {
+      convertFormElements(element, doc, pagePath(payload));
+      element.querySelectorAll("img.commons-adaptive-image.mobile-only-hidden").forEach((img) => {
         const pair = img.parentElement && img.parentElement.querySelector("img.commons-adaptive-image.tablet-up-hidden");
-        const damSrc = pair && (pair.getAttribute("src") || "");
-        if (damSrc.startsWith("/content/dam/") && /adaptive_image\.img\./.test(img.getAttribute("src") || "")) {
-          img.setAttribute("src", damSrc);
-        }
+        const damSrc = pair && pair.getAttribute("src") || "";
+        const src = img.getAttribute("src") || "";
+        const broken = img.closest(".drawer") ? /adaptive_image\.img\./.test(src) : /adaptive_image[^/]*\.img\.[A-Z]+$/.test(src);
+        if (damSrc.startsWith("/content/dam/") && broken) setImgSrc(img, damSrc);
+      });
+      element.querySelectorAll('img[src^="/content/dam/"]').forEach((img) => {
+        const src = img.getAttribute("src").split("?")[0];
+        if (/\.[A-Z]{3,4}$/.test(src)) setImgSrc(img, `${src}/_jcr_content/renditions/original`);
       });
     }
     if (hookName === TransformHook2.afterTransform) {
       const path = pagePath(payload);
       convertDistributors(element, doc);
       convertForms(element, doc, path);
+      convertButtons(element, doc);
       convertVideos(element, doc);
       convertTitles(element, doc);
       convertDisplayParagraphs(element, doc);
@@ -3660,6 +3715,7 @@ var CustomImportScript = (() => {
     "/": "/en-us/home",
     "/en_us/home": "/en-us/home",
     "/en_us/home.html": "/en-us/home",
+    "/en_us/home/become-distributor.html": "/en-us/home/become-distributor",
     "/en_us/home/contact-us.html": "/en-us/home/contact-us",
     "/en_us/home/learning/about-our-brands/delo.html": "/en-us/home/learning/about-our-brands/delo",
     "/en_us/home/learning/about-our-brands/delo/coolant-landing-page.html": "/en-us/home/learning/about-our-brands/delo/coolant-landing-page",
@@ -3697,6 +3753,7 @@ var CustomImportScript = (() => {
     "/en_us/home/learning/from-chevron/chevron-lubematters-blog-landing.html": "/en-us/home/learning/from-chevron/chevron-lubematters-blog-landing",
     "/en_us/home/learning/from-chevron/heavy-duty-diesel-vehicles-and-equipment/get-more-efficiency-from-the-workhorse-fuel.html": "/en-us/home/learning/from-chevron/heavy-duty-diesel-vehicles-and-equipment/get-more-efficiency-from-the-workhorse-fuel",
     "/en_us/home/learning/from-chevron/industrial-machinery/smaller-eservoirs-and-hotter-operating-temps-change-hydraulic-fluid-selection.html": "/en-us/home/learning/from-chevron/industrial-machinery/smaller-eservoirs-and-hotter-operating-temps-change-hydraulic-fluid-selection",
+    "/en_us/home/lubetek.html": "/en-us/home/lubetek",
     "/en_us/home/products/by_brand/delo.html": "/en-us/home/products/by-brand/delo",
     "/en_us/home/products/by_brand/havoline.html": "/en-us/home/products/by-brand/havoline",
     "/en_us/home/products/by_brand/industrial_products.html": "/en-us/home/products/by-brand/industrial-products",
@@ -3766,7 +3823,30 @@ var CustomImportScript = (() => {
     "/en_us/home/products/product_category/transmission_gear_oils/off_highway_heavy_duty.html": "/en-us/home/products/product-category/transmission-gear-oils/off-highway-heavy-duty",
     "/en_us/home/products/product_category/transmission_gear_oils/on_highway_heavy_duty.html": "/en-us/home/products/product-category/transmission-gear-oils/on-highway-heavy-duty",
     "/en_us/home/products/product_category/transmission_gear_oils/personal_rec_vehicles.html": "/en-us/home/products/product-category/transmission-gear-oils/personal-rec-vehicles",
+    "/en_us/home/services/pro-services/heavy-duty-diesel-vehicles-equipment/delo-warranty-plus.html": "/en-us/home/services/pro-services/heavy-duty-diesel-vehicles-equipment/delo-warranty-plus",
+    "/en_us/home/services/pro-services/heavy-duty-diesel-vehicles-equipment/lubewatch.html": "/en-us/home/services/pro-services/heavy-duty-diesel-vehicles-equipment/lubewatch",
+    "/en_us/home/services/pro-services/industrial-machinery/isoclean-program.html": "/en-us/home/services/pro-services/industrial-machinery/isoclean-program",
+    "/en_us/home/services/pro-services/industrial-machinery/lubewatch-oil-analysis.html": "/en-us/home/services/pro-services/industrial-machinery/lubewatch-oil-analysis",
+    "/en_us/home/services/pro-services/personal-rec-vehicles/havoline-education-learning.html": "/en-us/home/services/pro-services/personal-rec-vehicles/havoline-education-learning",
+    "/en_us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros.html": "/en-us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros",
     "/en_us/home/services/pro-services/personal-rec-vehicles/xpress-lube-contact-us.html": "/en-us/home/services/pro-services/personal-rec-vehicles/xpress-lube-contact-us",
+    "/en_us/home/services/pro-services/preferred-vendors.html": "/en-us/home/services/pro-services/preferred-vendors",
+    "/en_us/home/services/pro-services/preferred-vendors/checkfluid.html": "/en-us/home/services/pro-services/preferred-vendors/checkfluid",
+    "/en_us/home/services/pro-services/preferred-vendors/des-case.html": "/en-us/home/services/pro-services/preferred-vendors/des-case",
+    "/en_us/home/services/pro-services/trade-shows-and-events.html": "/en-us/home/services/pro-services/trade-shows-and-events",
+    "/en_us/home/services/self-services/heavy-duty-diesel/benchmark-calculator.html": "/en-us/home/services/self-services/heavy-duty-diesel/benchmark-calculator",
+    "/en_us/home/services/self-services/heavy-duty-diesel/best-in-class-assessment.html": "/en-us/home/services/self-services/heavy-duty-diesel/best-in-class-assessment",
+    "/en_us/home/services/self-services/heavy-duty-diesel/coolants-freezepoint-calculator.html": "/en-us/home/services/self-services/heavy-duty-diesel/coolants-freezepoint-calculator",
+    "/en_us/home/services/self-services/heavy-duty-diesel/delo-promotions.html": "/en-us/home/services/self-services/heavy-duty-diesel/delo-promotions",
+    "/en_us/home/services/self-services/heavy-duty-diesel/delo-smartchoice.html": "/en-us/home/services/self-services/heavy-duty-diesel/delo-smartchoice",
+    "/en_us/home/services/self-services/heavy-duty-diesel/fuel-economy-calculator.html": "/en-us/home/services/self-services/heavy-duty-diesel/fuel-economy-calculator",
+    "/en_us/home/services/self-services/heavy-duty-diesel/heavy-duty-product-selector.html": "/en-us/home/services/self-services/heavy-duty-diesel/heavy-duty-product-selector",
+    "/en_us/home/services/self-services/industrial-machinery/best-in-class.html": "/en-us/home/services/self-services/industrial-machinery/best-in-class",
+    "/en_us/home/services/self-services/industrial-machinery/coolants-freezepoint-calculator.html": "/en-us/home/services/self-services/industrial-machinery/coolants-freezepoint-calculator",
+    "/en_us/home/services/self-services/industrial-machinery/heavy-duty-product-selector.html": "/en-us/home/services/self-services/industrial-machinery/heavy-duty-product-selector",
+    "/en_us/home/services/self-services/industrial-machinery/isoclean-calculator.html": "/en-us/home/services/self-services/industrial-machinery/isoclean-calculator",
+    "/en_us/home/services/self-services/personal-rec-vehicles/chevron-products-selector.html": "/en-us/home/services/self-services/personal-rec-vehicles/chevron-products-selector",
+    "/en_us/home/services/self-services/personal-rec-vehicles/coolants-freezepoint-calculator.html": "/en-us/home/services/self-services/personal-rec-vehicles/coolants-freezepoint-calculator",
     "/en_us/home/where-to-buy/find-a-distributor.html": "/en-us/home/where-to-buy/find-a-distributor",
     "/en_us/home/where-to-buy/find-a-retailer.html": "/en-us/home/where-to-buy/find-a-retailer",
     "/en_us/home/where-to-buy/find-an-installer.html": "/en-us/home/where-to-buy/find-an-installer"

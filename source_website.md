@@ -151,6 +151,38 @@
   - https://www.chevronlubricants.com/en_us/home/where-to-buy/find-a-retailer.html
   - https://www.chevronlubricants.com/en_us/home/contact-us.html
 
+- Services and Support menu pages (24). Added 2026-10-30. Customer decisions: embedded external tools stay embedded (embed block); the built-in ISOCLEAN calculator is rebuilt as a block; the PitPack sign-up form links to the live form on chevronlubricants.com (same as the Xpress Lube contact page). Already migrated and not repeated here: the Xpress Lube contact page and the two blog articles linked from the menu.
+  - Embedded external tools (iframe):
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/heavy-duty-diesel/heavy-duty-product-selector.html (earlweb.net)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/personal-rec-vehicles/chevron-products-selector.html (earlweb.net)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/industrial-machinery/heavy-duty-product-selector.html (earlweb.net)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/heavy-duty-diesel/delo-smartchoice.html (delosmartchoice.com; its X-Frame-Options asks for chevronlubricants.com only, but browsers ignore ALLOW-FROM)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/heavy-duty-diesel/fuel-economy-calculator.html (delocalculator.com)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/heavy-duty-diesel/benchmark-calculator.html (delocalculator.com)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/heavy-duty-diesel/coolants-freezepoint-calculator.html (delocalculator.com)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/personal-rec-vehicles/coolants-freezepoint-calculator.html (delocalculator.com)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/industrial-machinery/coolants-freezepoint-calculator.html (delocalculator.com)
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/industrial-machinery/best-in-class.html (delocalculator.com)
+  - Built-in tool, rebuilt as a block:
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/industrial-machinery/isoclean-calculator.html
+  - Content pages:
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/heavy-duty-diesel/best-in-class-assessment.html
+    - https://www.chevronlubricants.com/en_us/home/services/self-services/heavy-duty-diesel/delo-promotions.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/heavy-duty-diesel-vehicles-equipment/delo-warranty-plus.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/heavy-duty-diesel-vehicles-equipment/lubewatch.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros.html (PitPack form → live form)
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/personal-rec-vehicles/havoline-education-learning.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/industrial-machinery/isoclean-program.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/industrial-machinery/lubewatch-oil-analysis.html
+    - https://www.chevronlubricants.com/en_us/home/lubetek.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/preferred-vendors.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/preferred-vendors/checkfluid.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/preferred-vendors/des-case.html
+    - https://www.chevronlubricants.com/en_us/home/services/pro-services/trade-shows-and-events.html
+
+- Become a distributor (1). Added 2026-10-31 (customer request; linked from the footer "Work With Us" and "Become a Chevron lubricants distributor"). Imported with the expertise-services template (same AEM components). Requested together with re-imports of havoline/business (expertise-marketing) and havoline-oil-change-pros (expertise-services).
+  - https://www.chevronlubricants.com/en_us/home/become-distributor.html
+
 ### Out of scope (for now)
 
 - Product detail pages (`/en_us/home/products/<product>.html`, 160+). These will be delivered later via Edge Commerce (Product Bus). Product links on migrated listing pages keep pointing to the live site until then.
