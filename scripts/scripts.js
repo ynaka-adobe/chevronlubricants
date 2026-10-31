@@ -26,11 +26,11 @@ const linkBlocks = [
 const components = ['fragment', 'persona', 'schedule'];
 
 // Published images carry no width/height, so an image has no height until it loads and the
-// copy below it jumps down when it appears (ISOCLEAN pages: logo, banner, infographic in the
-// first section). Load the first section's leading images right away and keep the page
-// hidden until they have loaded, for at most 3s.
+// copy below it jumps down when it appears (ISOCLEAN pages: logo, banner, infographic; Havoline
+// business: logo, banner, columns-media photo). Load the first section's leading images right
+// away and keep the page hidden until they have loaded, for at most 3s.
 const holdForLeadImages = () => {
-  const imgs = [...document.querySelectorAll('main > div:first-child > p img:not([height])')].slice(0, 3);
+  const imgs = [...document.querySelectorAll('main > div:first-child img:not([height])')].slice(0, 4);
   if (!imgs.length) return;
   imgs.forEach((img) => img.removeAttribute('loading'));
   document.body.dataset.leadImages = 'loading';
