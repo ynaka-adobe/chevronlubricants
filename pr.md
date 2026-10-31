@@ -85,7 +85,14 @@ tests passed, plus desktop/mobile live-site checks. No PR requested.
   CTR above 100%, focus/scroll/details continuity, floating controls, shortcuts
   and immediate dashboard clearing on revocation. Real-content desktop/mobile
   home, ISOCLEAN FAQs and Delo Syn-Trans XE checks passed with no page errors
-  or panel overflow. Publication/live re-verification pending.
+  or panel overflow.
+- Published normally to `main` as `a422d98` with `@ynakagawa`, preserving
+  concurrent-main protections and opening no PR. Both panel JS/CSS match
+  committed bytes on the live custom domain. Live desktop/mobile checks
+  re-verified the dashboard, rankings, floating toggle/keyboard controls,
+  consent/revocation/reload, scroll/focus/details continuity and commerce PDS
+  events. No instrumentation, collector, consent, DA/commerce content or
+  deployment-configuration changes were made in this follow-up.
 
 ---
 

@@ -662,3 +662,10 @@ figures and opt-in reference benchmarks are omitted because this US build is
 Analytics-only and does not provide those supported live capabilities.
 The heading is "This page," not "This session": counts/rankings/CTR describe the
 bounded 200-event retained window. No Adobe reporting metrics are simulated.
+
+The panel follow-up was published directly to `main` (`a422d98`) with the
+authorized `@ynakagawa` account. Panel JS/CSS live bytes match the committed
+files; 39 targeted tests passed, and live desktop/mobile home, ISOCLEAN FAQs
+and Delo Syn-Trans XE checks passed, including consent/revocation, dashboard
+accuracy, controls and scroll/focus continuity. Existing report-suite and
+processed-reporting verification limitations remain unchanged.
