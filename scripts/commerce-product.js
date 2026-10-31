@@ -39,6 +39,23 @@ const PRODUCT_TYPES = new Map([
   ['delo-torqforce-syn-fd-1', 'Industrial oils'],
   ['delo-xlc-antifreeze-coolant', 'Coolants & antifreezes'],
   ['delo-xli-corrosion-inhibitor-concentrate', 'Coolants & antifreezes'],
+  ['havoline-2-cycle-engine-oil', 'Engine oils'],
+  ['havoline-automatic-transmission-fluid-md-3', 'Transmission/Gear oils'],
+  ['havoline-automatic-transmission-fluid-type-f', 'Transmission/Gear oils'],
+  ['havoline-conventional-antifreezecoolant', 'Coolants & antifreezes'],
+  ['havoline-cvt-plus', 'Transmission/Gear oils'],
+  ['havoline-full-synthetic-multi-vehicle-atf', 'Transmission/Gear oils'],
+  ['havoline-global-multi-vehicle-atf', 'Transmission/Gear oils'],
+  ['havoline-high-mileage-synblend-motor-oil', 'Engine oils'],
+  ['havoline-lifelong-full-synthetic-motor-oil', 'Engine oils'],
+  ['havoline-motor-oil', 'Engine oils'],
+  ['havoline-power-steering-fluid', 'Transmission/Gear oils'],
+  ['havoline-pro-ds-full-synthetic-euro-motor-oil', 'Engine oils'],
+  ['havoline-pro-ds-full-synthetic-motor-oil', 'Engine oils'],
+  ['havoline-synblend-dx-motor-oil', 'Engine oils'],
+  ['havoline-synblend-motor-oil', 'Engine oils'],
+  ['havoline-universal-antifreezecoolant', 'Coolants & antifreezes'],
+  ['havoline-xtended-life-antifreezecoolant', 'Coolants & antifreezes'],
 ]);
 
 export function getProductType(pathname) {
@@ -117,7 +134,7 @@ function addZoom(media, picture, name) {
   media.append(zoom, dialog);
 }
 
-function buildHero(content, type) {
+function buildHero(content, type, havoline) {
   const hero = element('article', 'hero');
   const media = element('div', 'media');
   media.append(content.picture);
@@ -126,8 +143,14 @@ function buildHero(content, type) {
   details.append(element('span', 'category', type), content.heading);
   const intro = element('div', 'intro');
   const distributor = [];
+  const actions = element('div', 'actions');
   for (const node of content.groups.get('intro')) {
-    if (node.querySelector('a') && node.textContent.trim() === 'Find a Distributor') {
+    const action = node.querySelector('a');
+    const label = node.textContent.trim();
+    if (havoline && action && /^(Find a (Distributor|Retailer)|Buy Online|Buy at Walmart)$/i.test(label)) {
+      node.classList.add(label === 'Find a Distributor' ? 'commerce-product-distributor' : 'commerce-product-retailer');
+      actions.append(node);
+    } else if (action && label === 'Find a Distributor') {
       distributor.push(node);
     } else {
       intro.append(node);
@@ -164,6 +187,7 @@ function buildHero(content, type) {
     node.classList.add('commerce-product-distributor');
     details.append(node);
   });
+  if (actions.children.length) details.append(actions);
   hero.append(media, details);
   return hero;
 }
@@ -197,18 +221,27 @@ function decorateEquipment(section) {
   section.insertBefore(controls, list);
 }
 
-function decorateServices(section) {
-  const cards = element('div', 'service-cards');
+function decorateServices(section, grouped) {
+  const container = element('div', grouped ? 'service-groups' : 'service-cards');
+  let cards = container;
   let card;
   for (const node of [...section.children].slice(1)) {
-    if (node.tagName === 'H3' || node.tagName === 'H4') {
+    if (grouped && node.tagName === 'H3') {
+      const group = element('section', 'service-group');
+      cards = element('div', 'service-cards');
+      group.append(node, cards);
+      container.append(group);
+      card = undefined;
+    } else if (node.tagName === 'H3' || node.tagName === 'H4') {
       card = element('article', 'service-card');
       cards.append(card);
     }
-    if (card) card.append(node);
-    else cards.append(node);
+    if (!(grouped && node.tagName === 'H3')) {
+      if (card) card.append(node);
+      else cards.append(node);
+    }
   }
-  section.append(cards);
+  section.append(container);
 }
 
 function buildNavigation(sections) {
@@ -235,12 +268,14 @@ export function decorateCommerceProduct(main, pathname = window.location.pathnam
   if (sku !== slug && !(slug === 'delo-syn-trans-xe' && sku === `${slug}-sae-75w-90`)) return false;
   if (!document.querySelector('script[type="application/ld+json"]')) return false;
   const content = readContent(main);
+  const havoline = slug.startsWith('havoline-');
   const root = element('div');
   root.className = 'commerce-product';
+  if (havoline) root.classList.add('commerce-product-havoline');
   const breadcrumbs = element('nav', 'breadcrumbs');
   breadcrumbs.setAttribute('aria-label', 'Breadcrumb');
   breadcrumbs.append(link('Home', '/en-us/home'), element('span', '', '>'), element('span', '', 'Products'));
-  const hero = buildHero(content, type);
+  const hero = buildHero(content, type, havoline);
   const equipment = buildSection('equipment', 'Equipment Supported', content.groups.get('Equipment Supported'));
   decorateEquipment(equipment);
   const benefits = buildSection('benefits', 'Product Benefits', content.groups.get('Product Benefits'));
@@ -251,7 +286,7 @@ export function decorateCommerceProduct(main, pathname = window.location.pathnam
   const sections = [equipment, benefits, applications];
   if (serviceNodes) {
     const services = buildSection('support', serviceTitle, serviceNodes);
-    decorateServices(services);
+    decorateServices(services, havoline && serviceNodes.some((node) => node.tagName === 'H4'));
     sections.push(services);
   }
   root.append(breadcrumbs, hero, buildNavigation(sections), ...sections);

@@ -191,7 +191,7 @@ products.
 `styles/commerce-product.css` styles only its `.commerce-product` subtree.
 The shared page loader has a small, error-logged hook gated on SKU metadata.
 The renderer additionally requires an exact inventory path, matching catalog
-SKU and structured-data script. Unknown products, categories, other brands and
+SKU and structured-data script. Unknown products, categories, unlisted brands and
 DA-authored pages without that metadata retain their existing rendering.
 No browser ingestion credential, catalog fetch, route rewrite or DA product
 block change is required.
@@ -210,10 +210,32 @@ fonts rather than copying the source's licensed Gotham Narrow fonts; this is
 not a claim of pixel-identical typography. Concurrent EMA accessibility and
 loading fixes must remain in the page loader when this change is integrated.
 
-This code is prepared and locally previewed, **not published to the live
-domain**: normal GitHub access reports `push: false`. The existing Syn-Trans XE
-URL needs the code publication, not another catalog or CDN change. The other
-39 new products also retain the separate CDN deployment requirement above.
+The Delo renderer is present in current repository main, and the exact Delo
+CDN catalog configuration is published. Representative custom-domain Delo
+product/media requests return 200; these checks do not identify the latest
+Cloud Manager execution or establish its current idle state.
+
+### Havoline catalog and detail presentation
+
+The authorized Havoline products tab has 17 distinct available products.
+All 17 records were created after immediate absent-record checks, then read
+back in full. Their 17 product and 17 generated-media paths were merged into
+the existing Helix configuration without changing unrelated settings.
+Network pages preserve the checked source text, documents, actions, links and
+media; all 49 generated/supporting image requests succeeded.
+
+The finite renderer inventory now includes these 17 paths, retaining exact SKU
+and structured-data gating. Havoline uses source red for its title and hero
+actions, source blue benefit cards, and separate Self Services/Pro Services
+groups. Delo presentation and EMA-authored pages remain unchanged.
+LIFELONG retains its source Walmart link; no store checkout is added.
+CVT+ retains the source's malformed distributor URL and self-link labeled
+Buy Online rather than inventing purchase behavior.
+
+Custom-domain Havoline delivery is **not yet complete**: all 17 paths currently
+return 404. The existing CDN session is preparing only the exact 34-path
+manifest; publication requires confirmed pipeline idle state and authorized
+deployment. The Havoline renderer changes also require code publication.
 
 ### Credentials and ongoing ingestion
 

@@ -106,6 +106,43 @@ combined XDM page above preserves its source description, applications and SKUs
 for the grades already documented there. The featured 75W-90 card has no link
 in the source listing; it does not justify another guessed product page.
 
+## Havoline catalog migration
+
+User authorized all products linked from
+`https://www.chevronlubricants.com/en_us/home/products/by_brand/havoline.html?src-tab=products`.
+The products tab contains 17 unique available detail pages, including its
+expanded cards and deduplicated featured links. All 17 catalog and destination
+paths were absent at inventory time; recheck before ingestion.
+
+Each source below is under `/en_us/home/products/`; each destination is under
+`/en-us/home/products/` with no `.html` suffix.
+
+| Source filename | Destination slug |
+| --- | --- |
+| `havoline-2-cycle-engine-oil.html` | `havoline-2-cycle-engine-oil` |
+| `havoline-automatic-transmission-fluid-md-3.html` | `havoline-automatic-transmission-fluid-md-3` |
+| `havoline-automatic-transmission-fluid-type-f.html` | `havoline-automatic-transmission-fluid-type-f` |
+| `havoline-conventional-antifreezecoolant.html` | `havoline-conventional-antifreezecoolant` |
+| `havoline-cvt-plus.html` | `havoline-cvt-plus` |
+| `havoline-full-synthetic-multi-vehicle-atf.html` | `havoline-full-synthetic-multi-vehicle-atf` |
+| `havoline-global-multi-vehicle-atf.html` | `havoline-global-multi-vehicle-atf` |
+| `havoline-high-mileage-synblend-motor-oil.html` | `havoline-high-mileage-synblend-motor-oil` |
+| `havoline-lifelong-full-synthetic-motor-oil.html` | `havoline-lifelong-full-synthetic-motor-oil` |
+| `havoline-motor-oil.html` | `havoline-motor-oil` |
+| `havoline-power-steering-fluid.html` | `havoline-power-steering-fluid` |
+| `havoline-pro-ds-full-synthetic-euro-motor-oil.html` | `havoline-pro-ds-full-synthetic-euro-motor-oil` |
+| `havoline-pro-ds-full-synthetic-motor-oil.html` | `havoline-pro-ds-full-synthetic-motor-oil` |
+| `havoline-synblend-dx-motor-oil.html` | `havoline-synblend-dx-motor-oil` |
+| `havoline-synblend-motor-oil.html` | `havoline-synblend-motor-oil` |
+| `havoline-universal-antifreezecoolant.html` | `havoline-universal-antifreezecoolant` |
+| `havoline-xtended-life-antifreezecoolant.html` | `havoline-xtended-life-antifreezecoolant` |
+
+Preserve real source descriptions, equipment, benefits, application tables,
+packaging identifiers, documents, hero actions, and Self/Pro Services groups.
+Use the established exact-path/SKU-gated detail renderer, adding only Havoline's
+source-specific presentation. Do not add prices, checkout, broad routes, or
+overwrite EMA-authored pages or existing products.
+
 ## Guides document pilot
 
 The user approved a single English Syn-Trans XE PDS conversion demo on
@@ -278,4 +315,4 @@ SDS conversion and bulk document ingestion are not included.
 
 ### Out of scope (for now)
 
-- Other product detail pages (`/en_us/home/products/<product>.html`, 160+ overall), except the 40 explicitly authorized Delo products above. These will be delivered later via Edge Commerce (Product Bus). Listing-page link updates are not part of the Delo detail-template change.
+- Other product detail pages (`/en_us/home/products/<product>.html`, 160+ overall), except the 40 explicitly authorized Delo and 17 Havoline products above. These will be delivered later via Edge Commerce (Product Bus). Listing-page link updates are not part of the product detail-template change.

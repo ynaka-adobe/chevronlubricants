@@ -28,6 +28,40 @@
 
 ## Open PRs
 
+### Migrate the 17 linked Havoline products
+
+**Branch:** `ynaka-adobe-chevron-edge-commerce`
+**Status:** All 17 records ingested and independently verified on Network;
+scoped renderer complete and locally verified. Custom-domain CDN delivery pending.
+No PR requested.
+
+- Scope: all 17 distinct products from the supplied Havoline products tab,
+  including expanded cards; destination `/en-us/home/products/{slug}`.
+- Every source returned 200; all catalog/Network/custom paths returned 404
+  before preparation. Recheck records before full-replacement writes.
+- Preserve documents, equipment, benefits, applications and packaging values.
+  Also preserve both source hero actions and Self Services/Pro Services groups.
+- Source display title whitespace is normalized, not rewritten. Source CVT+
+  contains a malformed `Find%20a%20retailer` link and a self-link labeled
+  `Buy Online`; preserve these source URLs rather than inventing a purchase flow.
+- Only the finite detail renderer and its scoped stylesheet are extended.
+  Havoline titles/actions use source red; benefit cards remain source blue.
+  Existing 40 Delo products and concurrent EMA blocks/pages remain intact.
+- CDN work stays in the existing coordinated CDN session and waits for the
+  exact generated product/media manifest and deployment authorization.
+- All 17 full catalog readbacks match expected records. Helix has 34 added
+  exact product/media routes, with all prior configuration preserved.
+  All 17 Network pages preserve checked source text, links, documents and
+  images; all 49 generated/supporting image responses succeeded.
+- Current loader/renderer preserves every fixture text/link and source category
+  across all 17 Havoline and all 40 Delo products. Responsive hero, zoom,
+  equipment scrolling and section links work. Focused browser suite:
+  13 passed; targeted ESLint and Stylelint pass.
+- All 17 custom-domain Havoline paths still return 404. The CDN session received
+  the verified 34-path manifest; no live Havoline delivery is claimed.
+
+---
+
 ### Prepare an isolated Chevron PDS-to-Guides pilot
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`

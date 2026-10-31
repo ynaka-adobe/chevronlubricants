@@ -82,7 +82,7 @@ describe('Delo Product Bus detail template', () => {
   it('supports all 40 confirmed paths, including the approved THF path and source categories', async () => {
     const response = await fetch('/source_website.md');
     expect(response.ok).to.be.true;
-    const inventory = (await response.text()).split('## Delo catalog migration')[1];
+    const inventory = (await response.text()).split('## Delo catalog migration')[1].split('## Havoline catalog migration')[0];
     const rows = [...inventory.matchAll(/^\| `[^`]+\.html` \| `([^`]+)` \|$/gm)];
     expect(rows).to.have.length(40);
     rows.forEach(([, slug]) => {
@@ -94,6 +94,40 @@ describe('Delo Product Bus detail template', () => {
     });
     expect(getProductType('/en-us/home/products/delo-syn-thf-xc')).to.equal('Transmission/Gear oils');
     expect(getProductType('/en-us/home/products/delo-syn--thf-xc')).to.be.undefined;
+  });
+
+  it('supports all 17 Havoline paths without broadening the product hierarchy', async () => {
+    const response = await fetch('/source_website.md');
+    expect(response.ok).to.be.true;
+    const inventory = (await response.text()).split('## Havoline catalog migration')[1].split('## Guides document pilot')[0];
+    const rows = [...inventory.matchAll(/^\| `[^`]+\.html` \| `([^`]+)` \|$/gm)];
+    expect(rows).to.have.length(17);
+    rows.forEach(([, slug]) => {
+      document.body.innerHTML = fixture;
+      sku.content = slug;
+      const path = `/en-us/home/products/${slug}`;
+      expect(getProductType(path)).to.be.a('string');
+      expect(decorateCommerceProduct(document.querySelector('main'), path)).to.be.true;
+      expect(document.querySelector('.commerce-product-havoline')).to.exist;
+      expect(getProductType(`${path}.html`)).to.be.undefined;
+      expect(getProductType(`${path}/nested`)).to.be.undefined;
+    });
+  });
+
+  it('preserves Havoline hero actions and distinct Self/Pro Services groups', () => {
+    sku.content = 'havoline-lifelong-full-synthetic-motor-oil';
+    const source = main.children[1];
+    source.insertAdjacentHTML('afterbegin', '<p><a href="https://www.walmart.com/search.html?q=havoline+lifelong">Buy at Walmart</a></p>');
+    const oldTitle = source.querySelector('h3');
+    oldTitle.outerHTML = '<h3>Self Services</h3><h4>Product Selector</h4>';
+    source.insertAdjacentHTML('beforeend', '<h3>Pro Services</h3><h4>Havoline eLearning</h4><p>Maintenance tips.</p><p><a href="/learning">Learn More</a></p>');
+    expect(decorateCommerceProduct(main, `/en-us/home/products/${sku.content}`)).to.be.true;
+    expect(main.querySelectorAll('.commerce-product-actions a')).to.have.length(2);
+    expect(main.querySelector('.commerce-product-retailer a').textContent).to.equal('Buy at Walmart');
+    expect([...main.querySelectorAll('.commerce-product-service-group > h3')].map((node) => node.textContent)).to.deep.equal(['Self Services', 'Pro Services']);
+    expect(main.querySelectorAll('.commerce-product-service-card')).to.have.length(2);
+    expect(main.querySelector('.commerce-product-service-card h4').textContent).to.equal('Product Selector');
+    expect(main.textContent).to.include('Maintenance tips.');
   });
 
   it('does not alter DA-authored, unrelated, category, suffix or unknown-product pages', () => {

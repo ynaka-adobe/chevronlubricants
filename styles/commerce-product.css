@@ -348,6 +348,66 @@ main .commerce-product .commerce-product-image-dialog img {
   margin: 16px auto;
 }
 
+main .commerce-product-havoline .commerce-product-details h1 {
+  color: #b5121b;
+}
+
+main .commerce-product-havoline .commerce-product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+main .commerce-product-havoline .commerce-product-actions p {
+  margin: 0;
+}
+
+main .commerce-product-havoline .commerce-product-distributor a,
+main .commerce-product-havoline .commerce-product-retailer a {
+  display: inline-block;
+  margin: 0;
+  border: 1px solid #b5121b;
+  padding: 12px 24px;
+  background: #fff;
+  color: #b5121b;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .commerce-product-havoline .commerce-product-retailer a {
+  background: #b5121b;
+  color: #fff;
+}
+
+main .commerce-product-havoline .commerce-product-service-groups {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+}
+
+main .commerce-product-havoline .commerce-product-service-group > h3 {
+  margin: 0 0 16px;
+  color: #000;
+  font-size: 24px;
+}
+
+main .commerce-product-havoline .commerce-product-service-group .commerce-product-service-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+main .commerce-product-havoline .commerce-product-service-card:only-child {
+  grid-column: 1 / -1;
+}
+
+main .commerce-product-havoline .commerce-product-service-card h4 {
+  margin: 16px 0;
+  color: #000;
+  font-size: 20px;
+  text-align: center;
+}
+
 @media (width < 900px) {
   main > .commerce-product > .default-content {
     width: calc(100% - 32px);
@@ -382,6 +442,14 @@ main .commerce-product .commerce-product-image-dialog img {
 
   main .commerce-product .commerce-product-distributor {
     grid-row: 6;
+  }
+
+  main .commerce-product-havoline .commerce-product-actions {
+    grid-row: 6;
+  }
+
+  main .commerce-product-havoline .commerce-product-service-groups {
+    grid-template-columns: 1fr;
   }
 
   main .commerce-product .commerce-product-details h1 {
@@ -426,5 +494,9 @@ main .commerce-product .commerce-product-image-dialog img {
 
   main .commerce-product .commerce-product-navigation {
     justify-content: flex-start;
+  }
+
+  main .commerce-product-havoline .commerce-product-service-group .commerce-product-service-cards {
+    grid-template-columns: 1fr;
   }
 }
