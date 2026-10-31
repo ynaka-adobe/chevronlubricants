@@ -62,9 +62,113 @@ const PRODUCT_TYPES = new Map([
   ['techron-high-mileage-fuel-system-cleaner', 'Fuel additives'],
 ]);
 
+const INDUSTRIAL_PRODUCT_TYPES = new Map([
+  ['aries', 'Industrial oils'],
+  ['black-pearl-grease-ep-1-2', 'Greases'],
+  ['black-pearl-grease-hm-1', 'Greases'],
+  ['black-pearl-grease-sri-2', 'Greases'],
+  ['bright-cut-metalworking-fluid', 'Industrial oils'],
+  ['capella-p', 'Engine oils, Industrial oils'],
+  ['capella-wf', 'Industrial oils'],
+  ['cetus-advantage', 'Industrial oils'],
+  ['cetus-de', 'Industrial oils'],
+  ['cetus-elitesyn-mgx', 'Industrial oils'],
+  ['cetus-pao-hc', 'Industrial oils'],
+  ['chevron-1000-thf', 'Hydraulic oils, Industrial oils, Transmission/Gear oils'],
+  ['chevron-atf-hd-389', 'Transmission/Gear oils'],
+  ['chevron-compressor-oil', 'Industrial oils'],
+  ['chevron-cylinder-oil-w', 'Industrial oils'],
+  ['chevron-form-oil-22', 'Industrial oils'],
+  ['chevron-gear-oil-gl-1', 'Transmission/Gear oils'],
+  ['chevron-glass-machine-oil-mv', 'Industrial oils'],
+  ['chevron-htf-e-100', 'Coolants & antifreezes'],
+  ['chevron-htf-p-150', 'Coolants & antifreezes'],
+  ['chevron-htf-p-200', 'Coolants & antifreezes'],
+  ['chevron-hydraulic-oil-5606a', 'Industrial oils'],
+  ['chevron-open-gear-grease', 'Greases'],
+  ['chevron-open-gear-lubricant', 'Transmission/Gear oils'],
+  ['chevron-paper-machine-oil-premium', 'Industrial oils'],
+  ['chevron-red-chain-bar-oils', 'Industrial oils'],
+  ['chevron-shingle-oil', 'Industrial oils'],
+  ['chevron-soluble-oil-b', 'Industrial oils'],
+  ['chevron-tmgl-premium', 'Engine oils, Industrial oils'],
+  ['chevron-tractor-fluid', 'Hydraulic oils'],
+  ['chevron-vartech-industrial-system-cleaner', 'System Cleaner'],
+  ['chevron-way-lubricant', 'Industrial oils'],
+  ['clarity-aw', 'Hydraulic oils, Industrial oils'],
+  ['clarity-bio-elitesyn-aw', 'Hydraulic oils, Industrial oils'],
+  ['clarity-elitesyn-aw-sae-32-46-68', 'Hydraulic oils, Industrial oils'],
+  ['clarity-machine-oils', 'Industrial oils'],
+  ['clarity-saw-guide-oils', 'Industrial oils'],
+  ['clarity-synthetic-hydraulic-oil-aw', 'Hydraulic oils, Industrial oils'],
+  ['clarity-synthetic-machine-oil', 'Industrial oils'],
+  ['delo-400-sp-0w-30', 'Engine oils'],
+  ['delo-710-hb-rt-sae-20w-40', 'Industrial oils'],
+  ['delo-gear-ls', 'Transmission/Gear oils'],
+  ['gst-2190-ep', 'Industrial oils'],
+  ['gst-advantage-ep', 'Industrial oils'],
+  ['gst-advantage-ro', 'Industrial oils'],
+  ['gst-oil', 'Industrial oils'],
+  ['hdax-3100-ashless-gas-engine-oils', 'Engine oils'],
+  ['hdax-3200-low-ash-gas-engine-oils', 'Engine oils, Industrial oils'],
+  ['hdax-5100-ashless-gas-engine-oil', 'Engine oils'],
+  ['hdax-5200-low-ash-gas-engine-oils', 'Engine oils'],
+  ['hdax-5300-medium-ash-gas-engine-oil', 'Engine oils, Industrial oils'],
+  ['hdax-6500-lfg', 'Engine oils'],
+  ['hdax-9200-low-ash-gas-engine-oil', 'Engine oils'],
+  ['hdax-9500-gas-engine-oil', 'Industrial oils'],
+  ['hdax-9700', 'Engine oils'],
+  ['hdax-pf-antifreezecoolant-premixed-5050', 'Coolants & antifreezes'],
+  ['meropa', 'Transmission/Gear oils'],
+  ['meropa-elitesyn-wl', 'Industrial oils'],
+  ['meropa-elitesyn-xm', 'Industrial oils'],
+  ['meropa-synthetic-wm', 'Industrial oils'],
+  ['meropa-xl', 'Industrial oils'],
+  ['multifak-cg-grease', 'Greases'],
+  ['multifak-ep-00-0-1-2-greases', 'Greases'],
+  ['paralux-process-oils', 'Industrial oils'],
+  ['rando-hd', 'Hydraulic oils, Industrial oils'],
+  ['rando-hd-premium-oil-mv', 'Industrial oils'],
+  ['rando-hdz', 'Hydraulic oils, Industrial oils'],
+  ['rando-wm-32', 'Industrial oils'],
+  ['regal-hd-57', 'Industrial oils'],
+  ['regal-hh', 'Industrial oils'],
+  ['regal-ro', 'Industrial oils'],
+  ['regal-sgt', 'Industrial oils'],
+  ['rykon-ep-2-grease', 'Greases'],
+  ['rykon-hd-2-grease', 'Greases'],
+  ['rykon-hd-2-m5-grease', 'Greases'],
+  ['starplex-ep-0-00-1-2-greases', 'Greases'],
+  ['starplex-hd-1-2-greases', 'Greases'],
+  ['starplex-hd-1-2-m5-greases', 'Greases'],
+  ['starplex-hd-m3', 'Greases'],
+  ['starplex-syn-grease-ep-1-m5', 'Greases'],
+  ['starplex-syn-grease-hd-15', 'Greases'],
+  ['starplex-syn-grease-xd-15', 'Greases'],
+  ['talcor-ogp-4-gear-oil', 'Industrial oils'],
+  ['talcor-ogp-6-gear-oil', 'Industrial oils'],
+  ['taro-20-dp', 'Engine oils'],
+  ['taro-30-dp', 'Engine oils'],
+  ['taro-40-xl', 'Engine oils'],
+  ['taro-50-xl', 'Engine oils'],
+  ['taro-ultra-20-40-70-100-140', 'Engine oils, Industrial oils'],
+  ['tegra-synthetic-barrier-fluid', 'Industrial oils'],
+  ['texclad-2', 'Greases'],
+  ['ultra-duty-hd-0-1-2-greases', 'Greases'],
+  ['ultra-duty-xd-00', 'Greases'],
+  ['ursa-hydraulic-oil-10w', 'Hydraulic oils'],
+  ['ursa-super-plus-ec-sae-15w-40', 'Engine oils'],
+  ['veritas-800-marine-oil', 'Engine oils'],
+  ['way-oils-vistac', 'Industrial oils'],
+]);
+
+const PRODUCTS_WITHOUT_EQUIPMENT = new Set(['chevron-tmgl-premium', 'regal-hd-57']);
+
 export function getProductType(pathname) {
   const prefix = '/en-us/home/products/';
-  return pathname.startsWith(prefix) ? PRODUCT_TYPES.get(pathname.slice(prefix.length)) : undefined;
+  if (!pathname.startsWith(prefix)) return undefined;
+  const slug = pathname.slice(prefix.length);
+  return PRODUCT_TYPES.get(slug) ?? INDUSTRIAL_PRODUCT_TYPES.get(slug);
 }
 
 function element(tag, className, text) {
@@ -87,7 +191,7 @@ function button(text, label) {
   return control;
 }
 
-function readContent(main) {
+function readContent(main, withoutEquipment) {
   const heading = main.querySelector('h1');
   const picture = main.querySelector('picture');
   const source = [...main.children][1];
@@ -106,9 +210,13 @@ function readContent(main) {
     }
   }
   for (const required of ['Product Details', 'Equipment Supported', 'Product Benefits', 'Applications']) {
-    if (!groups.get(required)?.length) throw new Error(`Delo detail: missing "${required}"`);
+    if (required === 'Equipment Supported' && withoutEquipment) {
+      if (groups.has(required)) throw new Error('Industrial detail: unexpected equipment section');
+    } else if (!groups.get(required)?.length) {
+      throw new Error(`Delo detail: missing "${required}"`);
+    }
   }
-  if (!groups.get('Equipment Supported').some((node) => node.tagName === 'UL')) {
+  if (!withoutEquipment && !groups.get('Equipment Supported').some((node) => node.tagName === 'UL')) {
     throw new Error('Delo detail: missing equipment list');
   }
   const allowed = new Set([
@@ -138,7 +246,7 @@ function addZoom(media, picture, name) {
   media.append(zoom, dialog);
 }
 
-function buildHero(content, type, retailBrand) {
+function buildHero(content, type, retailBrand, industrial) {
   const hero = element('article', 'hero');
   const media = element('div', 'media');
   media.append(content.picture);
@@ -151,7 +259,10 @@ function buildHero(content, type, retailBrand) {
   for (const node of content.groups.get('intro')) {
     const action = node.querySelector('a');
     const label = node.textContent.trim();
-    if (retailBrand && action && /^(Find a (Distributor|Retailer)|Buy Online|Buy at Walmart)$/i.test(label)) {
+    if (industrial && node.tagName === 'P' && node.firstElementChild?.tagName === 'SMALL') {
+      node.classList.add('commerce-product-subtitle');
+      details.append(node);
+    } else if (retailBrand && action && /^(Find a (Distributor|Retailer)|Buy Online|Buy at Walmart)$/i.test(label)) {
       node.classList.add(label === 'Find a Distributor' ? 'commerce-product-distributor' : 'commerce-product-retailer');
       actions.append(node);
     } else if (action && label === 'Find a Distributor') {
@@ -251,9 +362,9 @@ function decorateServices(section, grouped) {
 function buildNavigation(sections) {
   const nav = element('nav', 'navigation');
   nav.setAttribute('aria-label', 'Product sections');
-  const labels = ['Equipment', 'Benefits', 'Applications', 'Services and Support'];
-  sections.forEach((section, index) => {
-    const anchor = link(labels[index], `#${section.id}`);
+  const labels = { equipment: 'Equipment', benefits: 'Benefits', applications: 'Applications', support: 'Services and Support' };
+  sections.forEach((section) => {
+    const anchor = link(labels[section.id], `#${section.id}`);
     anchor.addEventListener('click', () => {
       nav.querySelectorAll('a').forEach((item) => item.removeAttribute('aria-current'));
       anchor.setAttribute('aria-current', 'location');
@@ -271,28 +382,33 @@ export function decorateCommerceProduct(main, pathname = window.location.pathnam
   const slug = pathname.split('/').pop();
   if (sku !== slug && !(slug === 'delo-syn-trans-xe' && sku === `${slug}-sae-75w-90`)) return false;
   if (!document.querySelector('script[type="application/ld+json"]')) return false;
-  const content = readContent(main);
+  const content = readContent(main, PRODUCTS_WITHOUT_EQUIPMENT.has(slug));
   const havoline = slug.startsWith('havoline-');
   const techron = slug.startsWith('techron-');
+  const industrial = INDUSTRIAL_PRODUCT_TYPES.has(slug);
   const root = element('div');
   root.className = 'commerce-product';
   if (havoline) root.classList.add('commerce-product-havoline');
   if (techron) root.classList.add('commerce-product-techron');
+  if (industrial) root.classList.add('commerce-product-industrial');
   const breadcrumbs = element('nav', 'breadcrumbs');
   breadcrumbs.setAttribute('aria-label', 'Breadcrumb');
   breadcrumbs.append(link('Home', '/en-us/home'), element('span', '', '>'), element('span', '', 'Products'));
-  const hero = buildHero(content, type, havoline || techron);
-  const equipment = buildSection('equipment', 'Equipment Supported', content.groups.get('Equipment Supported'));
-  decorateEquipment(equipment);
+  const hero = buildHero(content, type, havoline || techron || industrial, industrial);
+  let equipment;
+  if (content.groups.has('Equipment Supported')) {
+    equipment = buildSection('equipment', 'Equipment Supported', content.groups.get('Equipment Supported'));
+    decorateEquipment(equipment);
+  }
   const benefits = buildSection('benefits', 'Product Benefits', content.groups.get('Product Benefits'));
   benefits.querySelector('ul')?.classList.add('commerce-product-benefit-cards');
   const applications = buildSection('applications', 'Applications', content.groups.get('Applications'));
   const serviceTitle = content.groups.has('Self Services') ? 'Self Services' : 'Services and Support';
   const serviceNodes = content.groups.get(serviceTitle);
-  const sections = [equipment, benefits, applications];
+  const sections = equipment ? [equipment, benefits, applications] : [benefits, applications];
   if (serviceNodes) {
     const services = buildSection('support', serviceTitle, serviceNodes);
-    decorateServices(services, havoline && serviceNodes.some((node) => node.tagName === 'H4'));
+    decorateServices(services, (havoline || industrial) && serviceNodes.some((node) => node.tagName === 'H4'));
     sections.push(services);
   }
   root.append(breadcrumbs, hero, buildNavigation(sections), ...sections);

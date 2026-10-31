@@ -117,7 +117,7 @@ describe('Delo Product Bus detail template', () => {
   it('supports only the four listed Techron paths and preserves retailer actions', async () => {
     const response = await fetch('/source_website.md');
     expect(response.ok).to.be.true;
-    const inventory = (await response.text()).split('## Techron catalog migration')[1].split('## Guides document pilot')[0];
+    const inventory = (await response.text()).split('## Techron catalog migration')[1].split('## Industrial and ISOCLEAN catalog migration')[0];
     const rows = [...inventory.matchAll(/^\| `[^`]+\.html` \| `([^`]+)` \|$/gm)];
     expect(rows).to.have.length(4);
     rows.forEach(([, slug]) => {
@@ -135,6 +135,49 @@ describe('Delo Product Bus detail template', () => {
       expect(getProductType(`${path}/nested`)).to.be.undefined;
     });
     expect(getProductType('/en-us/home/products/techron-unknown')).to.be.undefined;
+  });
+
+  it('supports only the 97 new Industrial paths including the approved HDAX mapping', async () => {
+    const response = await fetch('/source_website.md');
+    expect(response.ok).to.be.true;
+    const inventory = (await response.text()).split('## Industrial and ISOCLEAN catalog migration')[1].split('## Guides document pilot')[0];
+    const rows = [...inventory.matchAll(/^\| `[^`]+\.html` \| `([^`]+)` \|$/gm)];
+    expect(rows).to.have.length(97);
+    rows.forEach(([, slug]) => {
+      document.body.innerHTML = fixture;
+      sku.content = slug;
+      const productMain = document.querySelector('main');
+      if (['chevron-tmgl-premium', 'regal-hd-57'].includes(slug)) {
+        const equipment = [...productMain.querySelectorAll('h2')].find((node) => node.textContent === 'Equipment Supported');
+        equipment.nextElementSibling.remove();
+        equipment.remove();
+      }
+      const path = `/en-us/home/products/${slug}`;
+      expect(getProductType(path)).to.be.a('string');
+      expect(decorateCommerceProduct(productMain, path)).to.be.true;
+      expect(productMain.querySelector('.commerce-product-industrial')).to.exist;
+      expect(getProductType(`${path}.html`)).to.be.undefined;
+      expect(getProductType(`${path}/nested`)).to.be.undefined;
+    });
+    expect(getProductType('/en-us/home/products/hdax-pf-antifreezecoolant--premixed-5050')).to.be.undefined;
+    expect(getProductType('/en-us/home/products/cetus-hipersyn')).to.be.undefined;
+    expect(getProductType('/en-us/home/products/delo-syn-gear-xdm-sae-80w-140')).to.be.undefined;
+  });
+
+  it('keeps source subtitles/badges and correctly labels navigation without equipment', () => {
+    sku.content = 'regal-hd-57';
+    const source = main.children[1];
+    source.insertAdjacentHTML('afterbegin', `<p><small>57 <img src="${IMAGE}" alt="ISOCLEAN Certified Lubricants"></small></p>`);
+    const equipment = [...source.querySelectorAll('h2')].find((node) => node.textContent === 'Equipment Supported');
+    equipment.nextElementSibling.remove();
+    equipment.remove();
+    expect(decorateCommerceProduct(main, `/en-us/home/products/${sku.content}`)).to.be.true;
+    expect(main.querySelector('.commerce-product-subtitle small').textContent).to.include('57');
+    expect(main.querySelector('.commerce-product-subtitle img').alt).to.equal('ISOCLEAN Certified Lubricants');
+    expect(main.querySelector('.commerce-product-intro').textContent).to.include('Heavy duty synthetic AMT fluid');
+    expect(main.querySelector('#equipment')).not.to.exist;
+    expect(main.querySelector('.commerce-product-navigation a').textContent).to.equal('Benefits');
+    expect(main.querySelector('.commerce-product-navigation a').getAttribute('href')).to.equal('#benefits');
   });
 
   it('preserves Havoline hero actions and distinct Self/Pro Services groups', () => {

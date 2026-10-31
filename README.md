@@ -268,6 +268,41 @@ existing-page/negative-path controls pass. Renderer code is published in
 unverified by this session. No prices, checkout, broad routing or listing-page
 changes are included.
 
+### Industrial and ISOCLEAN product catalog
+
+The actual source navigation identifies Industrial Lubricants and ISOCLEAN
+Certified Lubricants product listings. Their 125 and 47 links overlap by 39,
+giving 133 distinct products: 97 new available records, 34 already-migrated Delo
+records preserved unchanged, and two broken source links excluded
+(`cetus-hipersyn.html`, standalone `delo-syn-gear-xdm-sae-80w-140.html`).
+ISOCLEAN service/editorial pages are not included or treated as products.
+
+The user approved HDAX PF's single-hyphen destination
+`/en-us/home/products/hdax-pf-antifreezecoolant-premixed-5050`; the double-hyphen
+source filename is retained in provenance, and affected product links use the
+approved destination. All other mappings remain source slugs without `.html`,
+including the previously approved THF exception.
+
+New records preserve source descriptions, grades, ISOCLEAN badges, equipment,
+benefits, document links, applications/tables, packaging identifiers and
+Self/Pro Services. Source brand tags and both listing memberships are retained.
+Source-empty equipment/support sections and Chevron 1000 THF's prose-only
+benefits remain intentionally absent rather than filled with invented content.
+New default-site product details use the source navy title/actions and blue
+benefit cards. Existing product presentation and EMA pages remain intact.
+
+All 131 available Network pages and 272 supporting/generated image responses
+are verified; all 34 shared catalog records match their pre-migration readbacks.
+Actual product fixtures preserve text/links/categories and desktop/mobile
+layout across this batch and all previous brands.
+
+Custom-domain publication for the new products is pending. The new manifest
+contains 97 products and 85 unique generated-media paths; subtract existing
+CDN coverage before adding routes. Fresh Industrial/ISOCLEAN-specific deployment
+approval and current pipeline `60291285` idle confirmation are required before
+the scoped CDN push. No site-wide routing, checkout, prices or listing-page
+changes are included.
+
 ### Credentials and ongoing ingestion
 
 The Chevron-specific ingestion service token has only `catalog:read` and

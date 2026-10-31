@@ -28,6 +28,47 @@
 
 ## Open PRs
 
+### Migrate Industrial and ISOCLEAN product listings
+
+**Branch:** `ynaka-adobe-chevron-edge-commerce`
+**Status:** 97 new products ingested, 34 existing records preserved unchanged,
+two broken source links excluded. Network and source-aligned renderer verified;
+new custom-domain routes pending scoped deployment approval. No PR requested.
+
+- Actual navigation listings: Industrial `industrial_products.html` (125),
+  ISOCLEAN `isoclean.html` (47); 39 shared links yield 133 distinct products.
+  ISOCLEAN service/editorial pages are not products in this scope.
+- Broken sources: `cetus-hipersyn.html` and standalone
+  `delo-syn-gear-xdm-sae-80w-140.html` return 404. No replacements fabricated.
+- User approved HDAX PF double-hyphen source mapping to
+  `/en-us/home/products/hdax-pf-antifreezecoolant-premixed-5050`, because the
+  source-exact double-hyphen catalog path returns 400.
+- All 34 existing records are kept exactly as read, not re-enriched or replaced.
+  New records retain source brand tags, listing membership, grades/subtitles,
+  ISOCLEAN badge images, documents, equipment, benefits, specifications,
+  packaging identifiers and Self/Pro Services. No invented prices/checkout.
+- Source-empty equipment/support/card sections remain absent only for their
+  exact verified products. New default-site details use source navy title/actions
+  and blue benefit cards. Prior 61 product presentation remains unchanged.
+- Latest EMA header/warranty/document navigation main `2261818` is preserved.
+  Only finite product renderer/scoped CSS and directly related docs/tests change.
+- Existing CDN session will prepare only necessary exact new product/media
+  paths. Fresh ISOCLEAN/Industrial-specific approval and current pipeline
+  `60291285` idle required before any auto-triggering push; no prior approvals
+  reused.
+- All 131 available Network pages preserve checked text/links/documents,
+  canonical and media; 272 image responses pass. All 34 shared stored records
+  exactly match their pre-migration JSON. Only 97 absent records were written.
+- New route manifest: 97 products and 85 unique generated media (182 paths).
+  One media path is already routed; exact uncovered CDN count is checked
+  against current config, not inferred from the source product count.
+- All 131 batch fixtures and previous Delo/Havoline/Techron fixtures preserve
+  text, links and source category with no desktop/mobile overflow. Image zoom,
+  section navigation and equipment scrolling work. Focused suite:
+  16 browser tests pass; ESLint/Stylelint and diff check pass.
+
+---
+
 ### Migrate the four linked Techron products
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`

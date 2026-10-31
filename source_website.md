@@ -167,6 +167,139 @@ No checkout or invented prices. New exact CDN routes need fresh Techron-specific
 deployment approval and pipeline-idle confirmation; Havoline approval is not
 authorization to deploy Techron.
 
+## Industrial and ISOCLEAN catalog migration
+
+User authorized the actual product listings identified in source navigation:
+
+- https://www.chevronlubricants.com/en_us/home/products/by_brand/industrial_products.html?src-tab=products
+- https://www.chevronlubricants.com/en_us/home/products/by_brand/isoclean.html?src-tab=products
+
+Industrial has 125 distinct product links; ISOCLEAN has 47. Their 39 shared
+links yield 133 distinct sources, not separate duplicated ISOCLEAN products.
+Of these, 34 already-migrated Delo records are preserved without enrichment
+or replacement, 97 are new available products, and two source links return 404:
+`cetus-hipersyn.html` and `delo-syn-gear-xdm-sae-80w-140.html`.
+The available combined XDM page is already migrated; do not fabricate a
+replacement for the broken standalone source.
+
+The user explicitly approved source
+`hdax-pf-antifreezecoolant--premixed-5050.html` mapping to single-hyphen
+`hdax-pf-antifreezecoolant-premixed-5050`; the exact double-hyphen path is
+rejected by the catalog API. Retain the previously approved THF mapping too.
+
+New product inventory below uses source `/en_us/home/products/` filenames and
+destination `/en-us/home/products/` slugs without `.html`.
+
+| Source filename | Destination slug |
+| --- | --- |
+| `aries.html` | `aries` |
+| `black-pearl-grease-ep-1-2.html` | `black-pearl-grease-ep-1-2` |
+| `black-pearl-grease-hm-1.html` | `black-pearl-grease-hm-1` |
+| `black-pearl-grease-sri-2.html` | `black-pearl-grease-sri-2` |
+| `bright-cut-metalworking-fluid.html` | `bright-cut-metalworking-fluid` |
+| `capella-p.html` | `capella-p` |
+| `capella-wf.html` | `capella-wf` |
+| `cetus-advantage.html` | `cetus-advantage` |
+| `cetus-de.html` | `cetus-de` |
+| `cetus-elitesyn-mgx.html` | `cetus-elitesyn-mgx` |
+| `cetus-pao-hc.html` | `cetus-pao-hc` |
+| `chevron-1000-thf.html` | `chevron-1000-thf` |
+| `chevron-atf-hd-389.html` | `chevron-atf-hd-389` |
+| `chevron-compressor-oil.html` | `chevron-compressor-oil` |
+| `chevron-cylinder-oil-w.html` | `chevron-cylinder-oil-w` |
+| `chevron-form-oil-22.html` | `chevron-form-oil-22` |
+| `chevron-gear-oil-gl-1.html` | `chevron-gear-oil-gl-1` |
+| `chevron-glass-machine-oil-mv.html` | `chevron-glass-machine-oil-mv` |
+| `chevron-htf-e-100.html` | `chevron-htf-e-100` |
+| `chevron-htf-p-150.html` | `chevron-htf-p-150` |
+| `chevron-htf-p-200.html` | `chevron-htf-p-200` |
+| `chevron-hydraulic-oil-5606a.html` | `chevron-hydraulic-oil-5606a` |
+| `chevron-open-gear-grease.html` | `chevron-open-gear-grease` |
+| `chevron-open-gear-lubricant.html` | `chevron-open-gear-lubricant` |
+| `chevron-paper-machine-oil-premium.html` | `chevron-paper-machine-oil-premium` |
+| `chevron-red-chain-bar-oils.html` | `chevron-red-chain-bar-oils` |
+| `chevron-shingle-oil.html` | `chevron-shingle-oil` |
+| `chevron-soluble-oil-b.html` | `chevron-soluble-oil-b` |
+| `chevron-tmgl-premium.html` | `chevron-tmgl-premium` |
+| `chevron-tractor-fluid.html` | `chevron-tractor-fluid` |
+| `chevron-vartech-industrial-system-cleaner.html` | `chevron-vartech-industrial-system-cleaner` |
+| `chevron-way-lubricant.html` | `chevron-way-lubricant` |
+| `clarity-aw.html` | `clarity-aw` |
+| `clarity-bio-elitesyn-aw.html` | `clarity-bio-elitesyn-aw` |
+| `clarity-elitesyn-aw-sae-32-46-68.html` | `clarity-elitesyn-aw-sae-32-46-68` |
+| `clarity-machine-oils.html` | `clarity-machine-oils` |
+| `clarity-saw-guide-oils.html` | `clarity-saw-guide-oils` |
+| `clarity-synthetic-hydraulic-oil-aw.html` | `clarity-synthetic-hydraulic-oil-aw` |
+| `clarity-synthetic-machine-oil.html` | `clarity-synthetic-machine-oil` |
+| `delo-400-sp-0w-30.html` | `delo-400-sp-0w-30` |
+| `delo-710-hb-rt-sae-20w-40.html` | `delo-710-hb-rt-sae-20w-40` |
+| `delo-gear-ls.html` | `delo-gear-ls` |
+| `gst-2190-ep.html` | `gst-2190-ep` |
+| `gst-advantage-ep.html` | `gst-advantage-ep` |
+| `gst-advantage-ro.html` | `gst-advantage-ro` |
+| `gst-oil.html` | `gst-oil` |
+| `hdax-3100-ashless-gas-engine-oils.html` | `hdax-3100-ashless-gas-engine-oils` |
+| `hdax-3200-low-ash-gas-engine-oils.html` | `hdax-3200-low-ash-gas-engine-oils` |
+| `hdax-5100-ashless-gas-engine-oil.html` | `hdax-5100-ashless-gas-engine-oil` |
+| `hdax-5200-low-ash-gas-engine-oils.html` | `hdax-5200-low-ash-gas-engine-oils` |
+| `hdax-5300-medium-ash-gas-engine-oil.html` | `hdax-5300-medium-ash-gas-engine-oil` |
+| `hdax-6500-lfg.html` | `hdax-6500-lfg` |
+| `hdax-9200-low-ash-gas-engine-oil.html` | `hdax-9200-low-ash-gas-engine-oil` |
+| `hdax-9500-gas-engine-oil.html` | `hdax-9500-gas-engine-oil` |
+| `hdax-9700.html` | `hdax-9700` |
+| `hdax-pf-antifreezecoolant--premixed-5050.html` | `hdax-pf-antifreezecoolant-premixed-5050` |
+| `meropa.html` | `meropa` |
+| `meropa-elitesyn-wl.html` | `meropa-elitesyn-wl` |
+| `meropa-elitesyn-xm.html` | `meropa-elitesyn-xm` |
+| `meropa-synthetic-wm.html` | `meropa-synthetic-wm` |
+| `meropa-xl.html` | `meropa-xl` |
+| `multifak-cg-grease.html` | `multifak-cg-grease` |
+| `multifak-ep-00-0-1-2-greases.html` | `multifak-ep-00-0-1-2-greases` |
+| `paralux-process-oils.html` | `paralux-process-oils` |
+| `rando-hd.html` | `rando-hd` |
+| `rando-hd-premium-oil-mv.html` | `rando-hd-premium-oil-mv` |
+| `rando-hdz.html` | `rando-hdz` |
+| `rando-wm-32.html` | `rando-wm-32` |
+| `regal-hd-57.html` | `regal-hd-57` |
+| `regal-hh.html` | `regal-hh` |
+| `regal-ro.html` | `regal-ro` |
+| `regal-sgt.html` | `regal-sgt` |
+| `rykon-ep-2-grease.html` | `rykon-ep-2-grease` |
+| `rykon-hd-2-grease.html` | `rykon-hd-2-grease` |
+| `rykon-hd-2-m5-grease.html` | `rykon-hd-2-m5-grease` |
+| `starplex-ep-0-00-1-2-greases.html` | `starplex-ep-0-00-1-2-greases` |
+| `starplex-hd-1-2-greases.html` | `starplex-hd-1-2-greases` |
+| `starplex-hd-1-2-m5-greases.html` | `starplex-hd-1-2-m5-greases` |
+| `starplex-hd-m3.html` | `starplex-hd-m3` |
+| `starplex-syn-grease-ep-1-m5.html` | `starplex-syn-grease-ep-1-m5` |
+| `starplex-syn-grease-hd-15.html` | `starplex-syn-grease-hd-15` |
+| `starplex-syn-grease-xd-15.html` | `starplex-syn-grease-xd-15` |
+| `talcor-ogp-4-gear-oil.html` | `talcor-ogp-4-gear-oil` |
+| `talcor-ogp-6-gear-oil.html` | `talcor-ogp-6-gear-oil` |
+| `taro-20-dp.html` | `taro-20-dp` |
+| `taro-30-dp.html` | `taro-30-dp` |
+| `taro-40-xl.html` | `taro-40-xl` |
+| `taro-50-xl.html` | `taro-50-xl` |
+| `taro-ultra-20-40-70-100-140.html` | `taro-ultra-20-40-70-100-140` |
+| `tegra-synthetic-barrier-fluid.html` | `tegra-synthetic-barrier-fluid` |
+| `texclad-2.html` | `texclad-2` |
+| `ultra-duty-hd-0-1-2-greases.html` | `ultra-duty-hd-0-1-2-greases` |
+| `ultra-duty-xd-00.html` | `ultra-duty-xd-00` |
+| `ursa-hydraulic-oil-10w.html` | `ursa-hydraulic-oil-10w` |
+| `ursa-super-plus-ec-sae-15w-40.html` | `ursa-super-plus-ec-sae-15w-40` |
+| `veritas-800-marine-oil.html` | `veritas-800-marine-oil` |
+| `way-oils-vistac.html` | `way-oils-vistac` |
+
+Preserve source grades/subtitles and ISOCLEAN badge imagery where present,
+documents, equipment, benefits, applications/tables and Self/Pro Services.
+Source-empty sections stay absent: TMGL Premium and Regal HD 57 have no
+equipment; Clarity Bio EliteSyn AW, Delo 710 HB RT and HDAX 6500 LFG have no
+support cards; Chevron 1000 THF has benefits prose but no benefit cards.
+Only these finite product paths are added to the renderer. No editorial/service
+page migration, fabricated products/prices/checkout or broad route changes.
+Fresh batch deployment approval and current pipeline idle are mandatory before
+publishing the scoped CDN addition.
+
 ## Guides document pilot
 
 The user approved a single English Syn-Trans XE PDS conversion demo on
@@ -345,4 +478,4 @@ SDS conversion and bulk document ingestion are not included.
 
 ### Out of scope (for now)
 
-- Other product detail pages (`/en_us/home/products/<product>.html`, 160+ overall), except the 40 explicitly authorized Delo, 17 Havoline and four Techron products above. These will be delivered later via Edge Commerce (Product Bus). Listing-page link updates are not part of the product detail-template change.
+- Other product detail pages (`/en_us/home/products/<product>.html`, 160+ overall), except the explicitly authorized Delo, Havoline, Techron and deduplicated Industrial/ISOCLEAN inventories above. These will be delivered later via Edge Commerce (Product Bus). Listing-page link updates are not part of the product detail-template change.

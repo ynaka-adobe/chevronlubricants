@@ -356,11 +356,15 @@ main .commerce-product-techron {
   --commerce-product-accent: #5c5e60;
 }
 
-main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-details h1 {
+main .commerce-product-industrial {
+  --commerce-product-accent: #002d62;
+}
+
+main :is(.commerce-product-havoline, .commerce-product-techron, .commerce-product-industrial) .commerce-product-details h1 {
   color: var(--commerce-product-accent);
 }
 
-main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-actions {
+main :is(.commerce-product-havoline, .commerce-product-techron, .commerce-product-industrial) .commerce-product-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -368,12 +372,12 @@ main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-produc
   margin-top: 16px;
 }
 
-main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-actions p {
+main :is(.commerce-product-havoline, .commerce-product-techron, .commerce-product-industrial) .commerce-product-actions p {
   margin: 0;
 }
 
-main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-distributor a,
-main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-retailer a {
+main :is(.commerce-product-havoline, .commerce-product-techron, .commerce-product-industrial) .commerce-product-distributor a,
+main :is(.commerce-product-havoline, .commerce-product-techron, .commerce-product-industrial) .commerce-product-retailer a {
   display: inline-block;
   margin: 0;
   border: 1px solid var(--commerce-product-accent);
@@ -384,36 +388,52 @@ main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-produc
   text-decoration: none;
 }
 
-main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-retailer a {
+main :is(.commerce-product-havoline, .commerce-product-techron, .commerce-product-industrial) .commerce-product-retailer a {
   background: var(--commerce-product-accent);
   color: #fff;
 }
 
-main .commerce-product-havoline .commerce-product-service-groups {
+main :is(.commerce-product-havoline, .commerce-product-industrial) .commerce-product-service-groups {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
 }
 
-main .commerce-product-havoline .commerce-product-service-group > h3 {
+main :is(.commerce-product-havoline, .commerce-product-industrial) .commerce-product-service-group > h3 {
   margin: 0 0 16px;
   color: #000;
   font-size: 24px;
 }
 
-main .commerce-product-havoline .commerce-product-service-group .commerce-product-service-cards {
+main :is(.commerce-product-havoline, .commerce-product-industrial) .commerce-product-service-group .commerce-product-service-cards {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-main .commerce-product-havoline .commerce-product-service-card:only-child {
+main :is(.commerce-product-havoline, .commerce-product-industrial) .commerce-product-service-card:only-child {
   grid-column: 1 / -1;
 }
 
-main .commerce-product-havoline .commerce-product-service-card h4 {
+main :is(.commerce-product-havoline, .commerce-product-industrial) .commerce-product-service-card h4 {
   margin: 16px 0;
   color: #000;
   font-size: 20px;
   text-align: center;
+}
+
+main .commerce-product-industrial .commerce-product-subtitle {
+  margin-top: -16px;
+}
+
+main .commerce-product-industrial .commerce-product-subtitle small {
+  font-size: 16px;
+}
+
+main .commerce-product-industrial .commerce-product-subtitle img {
+  display: inline-block;
+  width: 140px;
+  height: auto;
+  margin-left: 8px;
+  vertical-align: middle;
 }
 
 @media (width < 900px) {
@@ -452,12 +472,33 @@ main .commerce-product-havoline .commerce-product-service-card h4 {
     grid-row: 6;
   }
 
-  main :is(.commerce-product-havoline, .commerce-product-techron) .commerce-product-actions {
+  main :is(.commerce-product-havoline, .commerce-product-techron, .commerce-product-industrial) .commerce-product-actions {
     grid-row: 6;
   }
 
-  main .commerce-product-havoline .commerce-product-service-groups {
+  main :is(.commerce-product-havoline, .commerce-product-industrial) .commerce-product-service-groups {
     grid-template-columns: 1fr;
+  }
+
+  main .commerce-product-industrial .commerce-product-subtitle {
+    grid-row: 3;
+    margin: 0;
+  }
+
+  main .commerce-product-industrial .commerce-product-media {
+    grid-row: 4;
+  }
+
+  main .commerce-product-industrial .commerce-product-intro {
+    grid-row: 5;
+  }
+
+  main .commerce-product-industrial .commerce-product-documents {
+    grid-row: 6;
+  }
+
+  main .commerce-product-industrial .commerce-product-actions {
+    grid-row: 7;
   }
 
   main .commerce-product .commerce-product-details h1 {
@@ -504,7 +545,7 @@ main .commerce-product-havoline .commerce-product-service-card h4 {
     justify-content: flex-start;
   }
 
-  main .commerce-product-havoline .commerce-product-service-group .commerce-product-service-cards {
+  main :is(.commerce-product-havoline, .commerce-product-industrial) .commerce-product-service-group .commerce-product-service-cards {
     grid-template-columns: 1fr;
   }
 }
