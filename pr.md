@@ -69,6 +69,18 @@ new custom-domain routes pending scoped deployment approval. No PR requested.
 
 ---
 
+### Add the Chevron Analytics build guide
+
+**Branch:** `ynaka-adobe-chevron-analytics-guide`
+**Status:** Document-only direct-main publication; no PR requested.
+
+- Add `docs/chevronlubricants-analytics-build-guide.md` byte-for-byte from the
+  user-supplied attachment, with no analytics implementation changes.
+- Publish using the user-selected `@ynakagawa` account, preserving concurrent
+  main updates and verifying the remote document against the attachment.
+
+---
+
 ### Migrate the four linked Techron products
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
