@@ -1132,7 +1132,8 @@
         "https://www.chevronlubricants.com/en_us/home/services/pro-services/preferred-vendors/des-case.html",
         "https://www.chevronlubricants.com/en_us/home/services/pro-services/preferred-vendors.html",
         "https://www.chevronlubricants.com/en_us/home/services/pro-services/trade-shows-and-events.html",
-        "https://www.chevronlubricants.com/en_us/home/become-distributor.html"
+        "https://www.chevronlubricants.com/en_us/home/become-distributor.html",
+        "https://www.chevronlubricants.com/en_us/home/chevron-warranty.html"
       ],
       "representativeUrl": "https://www.chevronlubricants.com/en_us/home/services/pro-services/heavy-duty-diesel-vehicles-equipment/lubewatch.html",
       "description": "Services and Support menu pages (self services, pro services, LubeTek, preferred vendors, trade shows). Same AEM page structure as the Our Expertise pages, plus embedded external tools.",

@@ -340,6 +340,9 @@ SDS conversion and bulk document ingestion are not included.
 - Become a distributor (1). Added 2026-10-31 (customer request; linked from the footer "Work With Us" and "Become a Chevron lubricants distributor"). Imported with the expertise-services template (same AEM components). Requested together with re-imports of havoline/business (expertise-marketing) and havoline-oil-change-pros (expertise-services).
   - https://www.chevronlubricants.com/en_us/home/become-distributor.html
 
+- Chevron Warranty (1). Added 2026-10-31 (customer request; linked from the header top bar "Chevron Warranty" and the Products menu "Review the Chevron warranty", and the footer "Product Warranty", all relinked). Imported with the expertise-services template (banner image, title, rich text).
+  - https://www.chevronlubricants.com/en_us/home/chevron-warranty.html
+
 ### Out of scope (for now)
 
 - Other product detail pages (`/en_us/home/products/<product>.html`, 160+ overall), except the 40 explicitly authorized Delo, 17 Havoline and four Techron products above. These will be delivered later via Edge Commerce (Product Bus). Listing-page link updates are not part of the product detail-template change.

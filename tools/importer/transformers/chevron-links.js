@@ -46,6 +46,7 @@ const MIGRATED = {
   "/en_us/home": "/en-us/home",
   "/en_us/home.html": "/en-us/home",
   "/en_us/home/become-distributor.html": "/en-us/home/become-distributor",
+  "/en_us/home/chevron-warranty.html": "/en-us/home/chevron-warranty",
   "/en_us/home/contact-us.html": "/en-us/home/contact-us",
   "/en_us/home/learning/about-our-brands/delo.html": "/en-us/home/learning/about-our-brands/delo",
   "/en_us/home/learning/about-our-brands/delo/coolant-landing-page.html": "/en-us/home/learning/about-our-brands/delo/coolant-landing-page",
