@@ -31,11 +31,11 @@
 ### Prepare an isolated Chevron PDS-to-Guides pilot
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
-**Status:** Awaiting user-assisted file upload; no PR requested. The original
-English PDF and validated DITA/map are preserved in session artifacts and an
-import archive. AEM sign-in completed and the isolated folder was created and
-read back successfully. File import and genuine Guides PDF/HTML generation
-remain pending; no output or live-site publication is claimed.
+**Status:** Imported into AEM; PDF/HTML generation queued. No PR requested.
+Original PDF and DITA/map binary checksums match their local sources. Guides
+recognizes the content, and two map-local presets were created without changing
+the shared dealer presets/templates. Both generation jobs remain `Waiting`
+after a bounded recheck; no generated output or live-site publication is claimed.
 
 - User approved one Syn-Trans XE PDS demo and the existing Guides environment
   in program 154856, environment 1944736, with a separate
@@ -53,8 +53,22 @@ remain pending; no output or live-site publication is claimed.
   text units, nine technical-data rows, nine benefits, eight qualification
   entries, source checksum and axle warning were checked against the PDF.
 - Browser tools do not provide local-file upload, and the browser-to-local
-  transfer attempt failed. Use the Assets upload UI for the original PDF and
-  DITA topic/map, keeping their filenames and relative reference intact.
+  transfer attempt failed. The user uploaded the original PDF and DITA topic/map
+  through Assets, keeping filenames and their relative reference intact.
+- PDF preset `Chevron Demo PDF` uses the existing Basic template read-only,
+  writes to `/content/dam/chevron-guides-demo/outputs/pdf` and names its output
+  `delo-syn-trans-xe-demo.pdf`. The map-local preset ID is
+  `3fa8f4a9-fa0e-4c09-ac50-20c348e1cb84`.
+- HTML5/DITA-OT preset `Chevron Demo HTML` (`chevrondemohtml`) writes to
+  `/content/dam/chevron-guides-demo/outputs/html`.
+- A Guides UI application error prevented reliable output-path editing; only
+  these existing map-local nodes were updated through authenticated Sling
+  requests, and saved destinations were independently read back.
+- PDF job `4e60bfb7-faec-45be-8684-6298f36d0168` and HTML job
+  `7571a28e-c3dc-4f9f-bcf5-c5605aeca034` reached the Guides queue. Requests
+  timed out at the browser, so status was checked before any retry; no duplicate
+  generation requests were sent. Both were still waiting after 90 seconds.
+  Inspect these same jobs before retrying or marking either output complete.
 
 ---
 
