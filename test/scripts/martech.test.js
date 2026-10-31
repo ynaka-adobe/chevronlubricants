@@ -313,4 +313,27 @@ describe('Chevron consent-first analytics', () => {
     expect(win.adobeDataLayer).to.have.length(0);
     expect(api.instrument.snapshot().collection).to.include('page excluded');
   });
+
+  it('honors Global Privacy Control without treating it as analytics consent', () => {
+    Object.defineProperty(win.navigator, 'globalPrivacyControl', { configurable: true, value: true });
+    expect(api.consent.getConsent().saleOptOut).to.equal(true);
+    expect(api.consent.getConsent().analytics).to.equal(false);
+    grant();
+    expect(api.consent.getConsent().analytics).to.equal(true);
+    expect(api.consent.getConsent().saleOptOut).to.equal(true);
+    expect(api.consent.getConsent().personalization).to.equal(false);
+  });
+
+  it('keeps a consent choice page-local and reports when persistence fails', () => {
+    const original = win.Storage.prototype.setItem;
+    win.Storage.prototype.setItem = () => { throw new Error('Storage unavailable'); };
+    try {
+      grant();
+      expect(api.consent.getConsent().analytics).to.equal(true);
+      expect(doc.querySelector('[data-consent-status]').textContent).to.include('could not be saved');
+      expect(localStorage.getItem('chevron-consent')).to.equal(null);
+    } finally {
+      win.Storage.prototype.setItem = original;
+    }
+  });
 });

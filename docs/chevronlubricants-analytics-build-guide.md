@@ -634,3 +634,13 @@ enabled, while Appendix A.4 says `list_enabled: false`; an Analytics administrat
 must resolve that contradiction against the actual TEBG configuration before
 applying it. The configured collector is Adobe's confirmed tenant collector,
 not the unconfirmed first-party CNAME placeholder.
+
+Publication verification: the implementation was published normally to `main`
+with the selected `@ynakagawa` account; live integration assets match the
+committed bytes. Thirty-six targeted browser-runner tests passed. Live-site
+desktop (1440x900) and mobile (390x844) checks covered home, ISOCLEAN FAQs and
+Delo Syn-Trans XE, consent/opt-out/persistence/revocation, actual commerce
+boundaries and PDS download mapping. Pre-consent Analytics/Target/RUM requests
+were absent; post-consent Adobe collector requests returned HTTP 200.
+This verifies client integration and collector reachability, **not** Section 2
+configuration or processed reporting.

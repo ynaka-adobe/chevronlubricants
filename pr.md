@@ -31,9 +31,9 @@
 ### Implement Chevron consent and live analytics
 
 **Branch:** `ynaka-adobe-chevron-consent-and-analytics`
-**Status:** Scoped implementation validated with 34 targeted browser-runner
-tests and real-content desktop/mobile checks; direct-main publication and
-live verification pending. No PR requested.
+**Status:** Published directly to `main` using the selected `@ynakagawa`
+account and verified on the live custom domain. 36 targeted browser-runner
+tests passed, plus desktop/mobile live-site checks. No PR requested.
 
 - Read the complete supplied guide and consent screenshot, and inspect Parker's
   actual consent, analytics transport and live-insights implementation read-only.
@@ -57,6 +57,16 @@ live verification pending. No PR requested.
   checks passed for home, ISOCLEAN FAQs and Delo Syn-Trans XE, including all
   seven commerce boundaries and actual PDS download mapping. Adobe collector
   responses were HTTP 200; processed reporting is not thereby verified.
+- Live entry point:
+  `https://chevronlubricants.ynaka-adobe.com/en-us/home?insights=1`.
+  Published integration assets match committed bytes. Live desktop/mobile
+  flows verify no pre-consent Target/RUM/Analytics requests, opt-out, close/
+  Escape, accept, clicks, scroll, reopening, rejection and reload persistence.
+  GPC and storage-failure behavior are also covered by targeted tests.
+- Implementation commit: `65b8b5f`. No changes to Adobe report-suite settings,
+  Tags publishing, DA content, commerce records, CDN or Cloud Manager.
+  Remaining external prerequisite: verify Section 2 suite configuration and
+  processed reporting. Collector responses do not establish those facts.
 
 ---
 
