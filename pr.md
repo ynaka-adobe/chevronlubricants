@@ -28,6 +28,19 @@
 
 ## Open PRs
 
+### Add the Audience Personas PDF
+
+**Branch:** `ynaka-adobe-chevron-analytics-guide`
+**Status:** Document-only direct-main publication; no PR requested.
+
+- Convert the supplied Audience Personas screenshot to
+  `docs/audience-personas.pdf`, with one 16:9 landscape page.
+- Preserve the entire image without cropping; verify exact embedded and rendered
+  pixels, and verify published bytes using the selected `@ynakagawa` account.
+- Leave the analytics guide and concurrent migration changes unchanged.
+
+---
+
 ### Migrate Industrial and ISOCLEAN product listings
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
