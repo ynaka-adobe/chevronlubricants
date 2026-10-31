@@ -28,6 +28,41 @@
 
 ## Open PRs
 
+### Show the SDS/PDS button in the header
+
+**Branch:** `warranty-sds-header` → `main`
+**Status:** Open 2026-10-31. Code change verified in the local preview. No content change: the published nav already has the `<li><p><strong><a href="https://cglapps.chevron.com/">SDS/PDS</a></strong></p></li>` item.
+
+### Summary
+- `blocks/header/header.js`: a main-nav call-to-action is also found when DA wraps it in a paragraph (`li > p > strong > a`). Before, the SDS/PDS item rendered as an empty `<li>`.
+- `blocks/header/header.css`:
+  - Desktop top-level label padding is 16px per side at ≥1200px (source 25px) and 6px at 900–1199px (source 10px). Montserrat labels are ~126px wider than the source's Gotham, so with the button the search box was squeezed to 147px ("Sea").
+  - 16px gap between the button and the search, like the source.
+  - The button is hidden at 900–999px, where the source wraps its labels; the top bar SDS/PDS link remains.
+
+### Testing
+- [x] Desktop: navy 12px pill beside "Products selector" (source: navy, 6px radius, 12px), linking to `https://cglapps.chevron.com/` like the source. Search box 221px at 1440/1280 (source 281), 171px at 1024, 147px at 1000, 213/153px at 960/900 without the button.
+- [x] Mobile 390px: the button appears in the slide-in menu under the main items, as before for CTAs.
+- [x] Products megamenu opens and lines up at 1440; no horizontal scroll at 1024/1440. ESLint / Stylelint clean.
+
+### Migrate the Chevron Warranty page and relink the header and footer
+
+**Branch:** `warranty-sds-header` → `main`
+**Status:** Open 2026-10-31. Page, header and footer imported/edited locally; not uploaded to DA, not previewed or published.
+
+### Summary
+- `chevron-warranty.html` added to the `expertise-services` template (`page-templates.json`, `urls-expertise-services.txt`). The link map now has 139 migrated paths. Page: `/en-us/home/chevron-warranty`.
+- Header (local `content/nav.plain.html`): the top bar "Chevron Warranty" and the Products menu "Review the Chevron warranty" now link to `/en-us/home/chevron-warranty`. Backup: `migration-work/nav.before-relink-warranty-2026-10-31.plain.html`.
+- Footer (local `content/footer.plain.html`): "Product Warranty" now links to `/en-us/home/chevron-warranty` in the same tab, like the other migrated footer links. It was the live page with `#_blank`. Backup: `migration-work/footer.before-relink-warranty-2026-10-31.plain.html`.
+- `styles/styles.css`: default content gets `overflow-wrap: break-word`. The page's plain-text specifications URL made phones scroll sideways (scroll width 470 at 390px); it only affects words longer than a line.
+
+### Testing
+- [x] Imported with no errors, content completeness 99.2%. Source has no links in the body (the specifications URL is plain text there too).
+- [x] Preview at 1440 and 390px: no errors, 0 broken images, no horizontal scroll; both header links resolve to the new page.
+- [ ] Known gaps vs source: site-wide heading sizes (H1 40px left vs source 16px centered); "LIMITED PRODUCT WARRANTY" imports as a centered H2 (source: bold paragraph); no space between the last three paragraphs (site-wide `p` margin 0); banner image hotlinked from chevronlubricants.com until DA upload.
+
+---
+
 ### Migrate the four linked Techron products
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
@@ -77,31 +112,6 @@ No PR requested.
 
 ---
 
-### Fix the layout shift on ISOCLEAN third-spec and Havoline business pages
-
-**Branch:** `fix-image-cls` → `main` (follow-up agreed when PR #8's check failed on this shift)
-**Status:** Open 2026-10-31, waiting for review. Code only, no content changes.
-
-### Summary
-- Cause: published pages carry no image `width`/`height`. The DA source has them, but the delivered HTML does not (0 of 60 images sized on en-us/home, delo and waste-hauling). So an image has no height until it loads, and the copy below it jumps when the image appears. This hits pages whose first section starts with several default-content images: logo, banner, infographic, or a columns-media photo.
-- `scripts/scripts.js` (`holdForLeadImages`, called from `decorateArea` for the document only): the first section's first 4 images without `height` load eagerly. `body[data-lead-images]` keeps `main` and the footer hidden until they have loaded or failed, for at most 3s.
-- `styles/styles.css`: `body[data-lead-images] :is(main, footer) { display: none; }`.
-- Not changed: the 0.02 header settle (`main` y135→170) seen on every page. A 0.045 columns-media text-column shift on isoclean/construction was seen in one earlier run but not after the hold covered block images.
-
-### Testing
-- [x] Desktop cold-load CLS (1350x940, 3 runs, main → branch):
-  - waste-hauling: 0.32–0.48 → 0.022
-  - construction: up to 0.65 → 0.022
-  - mining: up to 0.38 → ≤0.022
-  - oil-and-gas: up to 0.36 → 0
-  - havoline/business: up to 0.40 → ≤0.022
-- [x] Unchanged on en-us/home, delo, learning-for-you and customer-success (≤0.023).
-- [x] Mobile (390x844): 0 before and after.
-- [x] LCP unchanged or lower (for example, waste-hauling 224–264ms → 152–180ms). The hold was always released, and the page height was identical.
-- [x] ESLint / Stylelint clean.
-- [ ] aem-psi-check on the PR.
-
----
 
 ### Migrate the 17 linked Havoline products
 
@@ -866,6 +876,32 @@ product now returns HTTP 200 (independently confirmed 2026-10-30).
 ---
 
 ## Merged PRs
+
+### Fix the layout shift on ISOCLEAN third-spec and Havoline business pages
+
+**Branch:** `fix-image-cls` → `main`, [PR #10](https://github.com/ynaka-adobe/chevronlubricants/pull/10) (follow-up agreed when PR #8's check failed on this shift)
+**Status:** Merged 2026-10-31. Code only, no content changes.
+
+### Summary
+- Cause: published pages carry no image `width`/`height`. The DA source has them, but the delivered HTML does not (0 of 60 images sized on en-us/home, delo and waste-hauling). So an image has no height until it loads, and the copy below it jumps when the image appears. This hits pages whose first section starts with several default-content images: logo, banner, infographic, or a columns-media photo.
+- `scripts/scripts.js` (`holdForLeadImages`, called from `decorateArea` for the document only): the first section's first 4 images without `height` load eagerly. `body[data-lead-images]` keeps `main` and the footer hidden until they have loaded or failed, for at most 3s.
+- `styles/styles.css`: `body[data-lead-images] :is(main, footer) { display: none; }`.
+- Not changed: the 0.02 header settle (`main` y135→170) seen on every page. A 0.045 columns-media text-column shift on isoclean/construction was seen in one earlier run but not after the hold covered block images.
+
+### Testing
+- [x] Desktop cold-load CLS (1350x940, 3 runs, main → branch):
+  - waste-hauling: 0.32–0.48 → 0.022
+  - construction: up to 0.65 → 0.022
+  - mining: up to 0.38 → ≤0.022
+  - oil-and-gas: up to 0.36 → 0
+  - havoline/business: up to 0.40 → ≤0.022
+- [x] Unchanged on en-us/home, delo, learning-for-you and customer-success (≤0.023).
+- [x] Mobile (390x844): 0 before and after.
+- [x] LCP unchanged or lower (for example, waste-hauling 224–264ms → 152–180ms). The hold was always released, and the page height was identical.
+- [x] ESLint / Stylelint clean.
+- [x] aem-psi-check on the PR: success, Lighthouse 100 (desktop CLS 0, mobile 0.037).
+
+---
 
 ### Become a distributor + re-import of havoline/business and havoline-oil-change-pros
 

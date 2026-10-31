@@ -430,7 +430,8 @@ function buildMenu(section, root, labels) {
     const item = createEl('li', 'nav-item');
     if (!info.list) {
       // strong-wrapped link = call-to-action item; plain link = text item
-      const cta = li.querySelector(':scope > strong > a[href], :scope > b > a[href]');
+      // (DA wraps the item's content in a paragraph: <li><p><strong><a>)
+      const cta = li.querySelector(':scope > :is(strong, b) > a[href], :scope > p > :is(strong, b) > a[href]');
       if (cta) {
         cta.className = 'nav-trigger nav-cta';
         item.classList.add('nav-item-cta');

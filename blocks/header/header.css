@@ -1200,9 +1200,11 @@ header {
       margin-top: 15px;
     }
 
+    /* 6px sides (source 10px): Montserrat labels run ~126px wider than the source's Gotham,
+       and the SDS/PDS button must still leave a usable search box */
     .nav-trigger {
       width: auto;
-      padding: 15px 10px 29px;
+      padding: 15px 6px 29px;
       white-space: nowrap;
     }
 
@@ -1263,12 +1265,12 @@ header {
       padding: 0;
     }
 
-    /* source: item offset 15px + 8px button offset */
+    /* source: item offset 15px + 8px button offset; 16px to the search box */
     .nav-trigger.nav-cta {
       box-sizing: border-box;
       display: flex;
       flex: none;
-      margin: 8px 0 0;
+      margin: 8px 16px 0 0;
     }
 
     .nav-search {
@@ -1299,6 +1301,14 @@ header {
   }
 }
 
+/* too narrow for the SDS/PDS button beside a usable search box (the source wraps its labels
+   here); the top bar keeps an SDS/PDS link */
+@media (width >= 900px) and (width < 1000px) {
+  header .nav-sections > .nav-item-cta {
+    display: none;
+  }
+}
+
 @media (width >= 1200px) {
   header {
     .nav-utility-inner {
@@ -1309,8 +1319,9 @@ header {
       padding: 10px 25px 0;
     }
 
+    /* 16px sides (source 25px): see the 900px rule */
     .nav-trigger {
-      padding: 15px 25px 29px;
+      padding: 15px 16px 29px;
     }
 
     .nav-panel-col {
