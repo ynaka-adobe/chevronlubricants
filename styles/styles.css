@@ -1628,6 +1628,12 @@ main > .section[data-status] {
   display: none !important;
 }
 
+/* scripts.js holds the page until the first section's leading images have loaded
+   (they have no width/height); the footer would otherwise show under the header first */
+body[data-lead-images] :is(main, footer) {
+  display: none;
+}
+
 aem-sidekick {
   opacity: 0;
 
