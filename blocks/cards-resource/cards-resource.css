@@ -121,7 +121,12 @@ main .cards-resource.logo-list .cards-resource-cta a.cards-resource-link:any-lin
   font-weight: 700;
   line-height: 22px;
   text-decoration: none;
-  white-space: nowrap;
+
+  /* long labels (lubewatch "Polaris Laboratories program overview - Download") wrap when the
+     card is narrower than the label (phones, two-column tablets); one line wherever they fit */
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: normal;
 }
 
 main .cards-resource .cards-resource-download .cards-resource-cta a.cards-resource-link:hover,
@@ -272,6 +277,60 @@ main .cards-resource.logo-list .cards-resource-cta a.cards-resource-link:hover {
   padding: 15px;
 }
 
+/* brand tiles: image + a bare (non-video) link and nothing else (lubetek
+ * "See our full line of products"). Source .multi-column column20 item: the
+ * 160x200 product shot shown 124px wide, centred, a #0066b2 square button
+ * 5px below (12px 30px, 11px label). The label stays at the 16px button size,
+ * so the inline padding is 15px to keep "ISOCLEAN® Certified Lubricants" on
+ * two lines in the 223px tile */
+.cards-resource .cards-resource-card:has(> .cards-resource-body > a.cards-resource-link:only-child:not([href*="youtube.com"], [href*="youtu.be"])) {
+  .cards-resource-image img {
+    max-width: min(100%, 124px);
+  }
+
+  .cards-resource-body {
+    align-items: center;
+    padding: 5px 0 0;
+  }
+
+  .cards-resource-body a.cards-resource-link:any-link {
+    display: inline-block;
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 12px 15px;
+    border: 1px solid transparent;
+    background-color: var(--color-cobalt-blue);
+    color: var(--color-white);
+    font-size: var(--body-font-size-m);
+    font-weight: 700;
+    line-height: 22px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .cards-resource-body a.cards-resource-link:any-link:hover {
+    background-color: var(--color-chevron-dark-blue);
+    color: var(--color-white);
+  }
+}
+
+/* video tiles: image + a bare YouTube link (best-in-class video series).
+ * Source item: flat (no shadow) on the grey strip, the link in a 15px-padded
+ * .video__container as 14px bold underlined #0066b2 text */
+.cards-resource .cards-resource-card:has(> .cards-resource-body > a.cards-resource-link:only-child:is([href*="youtube.com"], [href*="youtu.be"])) {
+  padding: 0;
+  box-shadow: none;
+
+  .cards-resource-body {
+    padding: 15px;
+  }
+
+  .cards-resource-body a.cards-resource-link {
+    font-size: var(--body-font-size-s);
+    text-decoration: underline;
+  }
+}
+
 @media (width >= 600px) {
   .cards-resource.cards-resource-cols-2 .cards-resource-list,
   .cards-resource.cards-resource-cols-3 .cards-resource-list,
@@ -324,6 +383,12 @@ main .cards-resource.logo-list .cards-resource-cta a.cards-resource-link:hover {
   .cards-resource.logo-list .cards-resource-list {
     grid-template-columns: minmax(0, 1fr);
     row-gap: 15px;
+  }
+
+  /* five brand tiles: one row of five 235px columns, no gap (source column20) */
+  .cards-resource .cards-resource-list:has(> .cards-resource-card:nth-child(5):last-child > .cards-resource-body > a.cards-resource-link:only-child:not([href*="youtube.com"], [href*="youtu.be"])) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: 0;
   }
 }
 
