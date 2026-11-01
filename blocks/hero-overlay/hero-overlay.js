@@ -25,10 +25,46 @@ function classify(cell) {
   return strongText === text ? 'hero-overlay-label' : 'hero-overlay-display';
 }
 
+/* Several overlays (Delo "The Delo difference" heroes): rows [position | text] after the photo,
+ * e.g. "Top center" (tab bar), "Bottom left" (heading), "Bottom right" ("SWITCH TO ..." link).
+ * Each becomes .hero-overlay-area.hero-overlay-at-{vertical}-{horizontal}, placed like the
+ * source on desktop and stacked in authored order under the photo on phones. */
+const POSITION = /^(top|middle|bottom)\s+(left|center|right)$/i;
+
+function decorateAreas(block, mediaRow, rows) {
+  const areaRows = rows.filter((row) => {
+    const cells = [...row.children];
+    return cells.length === 2 && POSITION.test(cells[0].textContent.trim());
+  });
+  if (!areaRows.length) return false;
+  const areas = document.createElement('div');
+  areas.className = 'hero-overlay-content hero-overlay-areas';
+  areaRows.forEach((row) => {
+    const [posCell, textCell] = [...row.children];
+    const [, v, h] = posCell.textContent.trim().toLowerCase().match(POSITION);
+    textCell.className = `hero-overlay-area hero-overlay-at-${v}-${h}`;
+    // short text without links (bold or not) is the large tagline ("REDUCED FUEL EFFICIENCY ...")
+    const variant = classify(textCell);
+    if (variant === 'hero-overlay-display' || variant === 'hero-overlay-label') textCell.classList.add('hero-overlay-area-display');
+    areas.append(textCell);
+  });
+  block.classList.add('hero-overlay-multi');
+  if (mediaRow) {
+    mediaRow.className = 'hero-overlay-media';
+    // the photo row of the [position | text] model has an empty second cell
+    [...mediaRow.children].filter((c) => !c.querySelector('picture, img')).forEach((c) => c.remove());
+    block.prepend(mediaRow);
+  }
+  rows.filter((row) => row !== mediaRow).forEach((row) => row.remove());
+  block.append(areas);
+  return true;
+}
+
 export default function decorate(block) {
   const rows = [...block.querySelectorAll(':scope > div')];
   const isMedia = (row) => row.querySelector('picture, img') && !row.textContent.trim();
   const mediaRow = rows.find(isMedia);
+  if (decorateAreas(block, mediaRow, rows)) return;
   const textRow = rows.find((row) => row !== mediaRow && row.textContent.trim());
 
   if (mediaRow) {

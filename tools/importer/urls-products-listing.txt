@@ -62,3 +62,9 @@ https://www.chevronlubricants.com/en_us/home/products/product_category/transmiss
 https://www.chevronlubricants.com/en_us/home/products/product_category/transmission_gear_oils/off_highway_heavy_duty.html
 https://www.chevronlubricants.com/en_us/home/products/product_category/transmission_gear_oils/on_highway_heavy_duty.html
 https://www.chevronlubricants.com/en_us/home/products/product_category/transmission_gear_oils/personal_rec_vehicles.html
+https://www.chevronlubricants.com/en_us/home/products.html
+https://www.chevronlubricants.com/en_us/home/products/equipment_type/gasoline_fleets_oil_change_service_centers.html
+https://www.chevronlubricants.com/en_us/home/products/equipment_type/industrial_equipment_machinery.html
+https://www.chevronlubricants.com/en_us/home/products/equipment_type/off_highway_heavy_duty.html
+https://www.chevronlubricants.com/en_us/home/products/equipment_type/on_highway_heavy_duty.html
+https://www.chevronlubricants.com/en_us/home/products/equipment_type/personal_rec_vehicles.html

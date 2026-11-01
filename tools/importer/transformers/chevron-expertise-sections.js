@@ -105,6 +105,22 @@ function bgToken(el) {
   return [...el.classList].find((c) => c.startsWith('bg-') || c === 'defaultBackground') || null;
 }
 
+// inline background colours authored on a rich text's inner <div style="background-color: ...">
+// (Delo "The Delo difference" quote panels: rgb(0, 55, 100) above the bg-strong-blue attribution)
+const INLINE_TO_STYLE = {
+  'rgb(0, 55, 100)': 'blue-bg',
+  '#003764': 'blue-bg',
+};
+
+function inlineBgStyle(band) {
+  // .richtext__container > div.lubricantsFontColorWhite > div[style="... background-color: ..."]
+  const div = safeQuery(band, 'div[style*="background"]');
+  const m = div && (div.getAttribute('style') || '').match(/background(?:-color)?\s*:\s*(#[0-9a-f]{3,6}|rgba?\([^)]*\))/i);
+  if (!m) return null;
+  const key = m[1].toLowerCase().replace(/\s*,\s*/g, ', ');
+  return INLINE_TO_STYLE[key] || null;
+}
+
 function bgStyle(unit) {
   for (const o of OVERRIDES) {
     if (safeMatches(unit, o.unit) && safeQuery(unit, o.band)) return o.style;
@@ -113,7 +129,8 @@ function bgStyle(unit) {
     const band = safeQuery(unit, sel);
     if (band) {
       const tok = bgToken(band);
-      return tok && Object.prototype.hasOwnProperty.call(CLASS_TO_STYLE, tok) ? CLASS_TO_STYLE[tok] : null;
+      const style = tok && Object.prototype.hasOwnProperty.call(CLASS_TO_STYLE, tok) ? CLASS_TO_STYLE[tok] : null;
+      return style || (safeMatches(band, '.richtext__container') ? inlineBgStyle(band) : null);
     }
   }
   return null;

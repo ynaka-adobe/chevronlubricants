@@ -71,6 +71,30 @@ function promoImage(document, cmp) {
   return p;
 }
 
+// text laid over the image (.adaptive-image__container > [class*="overlay"] .richtext__container),
+// e.g. Delo "Why oil matters" tiles: "Premium hydraulic fluids >" caption links. One paragraph
+// per source paragraph; a paragraph whose text is a single link stays that link.
+function overlayNodes(document, cmp) {
+  const out = [];
+  cmp.querySelectorAll('[class*="overlay"] .richtext__container p, [class*="Overlay"] .richtext__container p').forEach((srcP) => {
+    const text = promoClean(srcP.textContent);
+    if (!text) return;
+    const p = document.createElement('p');
+    const link = srcP.querySelector('a[href]');
+    const href = link && (link.getAttribute('href') || '').trim();
+    if (href && href !== '#' && promoClean(link.textContent) === text) {
+      const a = document.createElement('a');
+      a.href = href.startsWith('#') ? href : absUrl(href);
+      a.textContent = text;
+      p.append(a);
+    } else {
+      p.textContent = text;
+    }
+    out.push(p);
+  });
+  return out;
+}
+
 function parseExpertise(element, document) {
   const items = [...element.querySelectorAll(':scope > .multi-column__container > .multi-column__content > .multi-column__item')]
     .filter((item) => promoClean(item.textContent) || item.querySelector('img'));
@@ -80,6 +104,7 @@ function parseExpertise(element, document) {
       if (c.matches('.cmp-image')) {
         const p = promoImage(document, c);
         if (p) cell.push(p);
+        cell.push(...overlayNodes(document, c));
       } else if (c.matches('.richtext')) {
         c.querySelectorAll('p').forEach((srcP) => {
           const text = promoClean(srcP.textContent);

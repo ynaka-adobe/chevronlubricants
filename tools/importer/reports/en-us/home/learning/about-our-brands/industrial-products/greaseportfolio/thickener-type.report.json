@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "url": "https://www.chevronlubricants.com/en_us/home/learning/about-our-brands/industrial-products/greaseportfolio/thickener-type.html",
+  "path": "en-us/home/learning/about-our-brands/industrial-products/greaseportfolio/thickener-type",
+  "timestamp": "2026-11-01T00:36:23.744Z",
+  "title": "Thickener Type | Chevron Lubricants (US)",
+  "template": "expertise-services",
+  "blocks": [
+    "hero-overlay",
+    "columns-cta",
+    "columns-cta",
+    "cards-resource",
+    "cards-resource",
+    "cards-resource",
+    "cards-resource",
+    "cards-resource",
+    "cards-resource",
+    "cards-resource"
+  ]
+}

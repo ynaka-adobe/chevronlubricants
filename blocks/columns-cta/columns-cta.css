@@ -130,6 +130,28 @@ main .columns-cta a.columns-cta-button:any-link:focus-visible {
   object-fit: contain;
 }
 
+/* image cells whose label is part of the image (greasethickeners "Let's talk shop": Reach a Rep,
+   Contact a Distributor, Chat with an Expert; source 231x231): image at its own size, no pill */
+.columns-cta .columns-cta-image :is(picture, img, .columns-cta-icon, .columns-cta-icon img) {
+  display: block;
+  width: 100%;
+  max-width: 231px;
+  height: auto;
+}
+
+main .columns-cta .columns-cta-image a.columns-cta-image-link:any-link {
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+main .columns-cta .columns-cta-image a.columns-cta-image-link:any-link:focus-visible {
+  outline: 2px solid var(--brand-link-color);
+  outline-offset: 2px;
+}
+
 /* text + icon links (e.g. grease portfolio "Let's talk shop"): icon pill */
 main .columns-cta a.columns-cta-has-icon:any-link {
   display: inline-flex;

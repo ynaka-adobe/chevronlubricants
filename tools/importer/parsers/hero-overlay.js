@@ -218,6 +218,16 @@ function joinWrapped(document, nodes) {
   return out;
 }
 
+// overlayTopMiddle -> "Top center", overlayBottomLeft -> "Bottom left", overlayMiddleLeft ->
+// "Middle left" (block hero-overlay position rows); '' when the class names no position
+function overlayPosition(el) {
+  const m = ((el && el.className) || '').match(/overlay(Top|Middle|Center|Bottom)(Left|Middle|Center|Right)/i);
+  if (!m) return '';
+  const v = m[1].toLowerCase() === 'center' ? 'middle' : m[1].toLowerCase();
+  const h = { middle: 'center', center: 'center' }[m[2].toLowerCase()] || m[2].toLowerCase();
+  return `${v[0].toUpperCase()}${v.slice(1)} ${h}`;
+}
+
 export default function parse(element, { document }) {
   const container = element.querySelector('.adaptive-image__container') || element;
   const imgSrc = [...container.querySelectorAll(':scope > img.mobile-only-hidden, :scope > img')][0]
@@ -225,8 +235,18 @@ export default function parse(element, { document }) {
   const img = makeImg(document, imgSrc);
 
   const content = [];
-  const overlay = container.querySelector('[class*="overlay"] .richtext__container, [class*="Overlay"] .richtext__container');
-  if (overlay) content.push(...joinWrapped(document, richNodes(document, overlay)));
+  // every overlay text area, in source order (Delo "The Delo difference" heroes carry three:
+  // top-middle tab bar, bottom-left heading, bottom-right "SWITCH TO ..." link)
+  const areas = [...container.querySelectorAll('[class*="overlay"] .richtext__container, [class*="Overlay"] .richtext__container')]
+    .map((overlay) => ({
+      position: overlayPosition(overlay.closest('[class*="overlay"], [class*="Overlay"]')),
+      nodes: joinWrapped(document, richNodes(document, overlay)),
+    }))
+    .filter((a) => a.nodes.length);
+  // several overlays: one row per overlay, [position | text], so the block can place each
+  // one where the source does. A single overlay keeps the 2-row model (row 2 = text).
+  const multi = areas.length > 1 && areas.every((a) => a.position);
+  if (!multi) areas.forEach((a) => content.push(...a.nodes));
 
   // a.btn; after the importer's same-href anchor merge the label sits in the preceding
   // (formerly empty) overlay <a>, so any labelled link in .buttonOverlay counts (deduped)
@@ -245,8 +265,10 @@ export default function parse(element, { document }) {
   });
 
   const cells = [];
-  if (img) cells.push([[img]]);
-  if (content.length) cells.push([content]);
+  if (img) cells.push(multi ? [[img], ''] : [[img]]);
+  if (multi) areas.forEach((a) => cells.push([a.position, a.nodes]));
+  // .buttonOverlay links sit bottom-left on the source
+  if (content.length) cells.push(multi ? ['Bottom left', content] : [content]);
   const block = WebImporter.Blocks.createBlock(document, { name: 'hero-overlay', cells });
   element.replaceWith(block);
 }

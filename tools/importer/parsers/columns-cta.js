@@ -67,8 +67,25 @@ function ctaImg(document, container) {
 }
 
 // one cell paragraph: [icon] + link (or plain text when there is no href)
+// "find-a-distributor.html" -> "Find a distributor" (accessible name for a label-less icon link)
+function pageName(href) {
+  const last = (href.split(/[?#]/)[0].replace(/\.html?$/, '').split('/').filter(Boolean).pop() || '');
+  const words = last.replace(/[-_]+/g, ' ').trim();
+  return words ? words[0].toUpperCase() + words.slice(1) : '';
+}
+
 function ctaCell(document, href, text, icon) {
   const p = document.createElement('p');
+  // icon link with no label anywhere (greasethickeners "Let's talk shop": the text is in the
+  // image, alt=""): link the icon itself; its alt names the destination
+  if (icon && href && !text) {
+    if (!icon.alt) icon.alt = pageName(href);
+    const a = document.createElement('a');
+    a.href = href;
+    a.append(icon);
+    p.append(a);
+    return [p];
+  }
   if (icon) p.append(icon);
   if (href) {
     const a = document.createElement('a');

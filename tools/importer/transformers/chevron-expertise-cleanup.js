@@ -56,6 +56,16 @@ const FORM_LINKS = {
     href: `${ORIGIN}/en_us/home/services/pro-services/personal-rec-vehicles/havoline-oil-change-pros.html`,
     text: 'Fill out the contact form',
   },
+  // remaining pages (2026-10-31): untitled Salesforce forms; each links to its own live page
+  ...Object.fromEntries([
+    '/en_us/home/landing-pages/selecting-lubricants.html',
+    '/en_us/home/learning/about-our-brands/isoclean/construction-looking-ahead-to-isoclean.html',
+    '/en_us/home/learning/about-our-brands/isoclean/construction-start-clean-stay-clean.html',
+    '/en_us/home/learning/about-our-brands/isoclean/waste-hauling-elevate-your-maintenance-program-with-isoclean-lubricants.html',
+    '/en_us/home/learning/from-chevron/heavy-duty-diesel-vehicles-and-equipment.html',
+    '/en_us/home/learning/from-chevron/industrial-machinery.html',
+    '/en_us/home/learning/from-chevron/personal-rec-vechicles-and-equipment.html',
+  ].map((path) => [path, { href: `${ORIGIN}${path}`, text: 'Fill out the form' }])),
 };
 const DEFAULT_FORM_LINK = { href: `${ORIGIN}/en_us/home/contact-us.html`, text: 'Contact us' };
 
@@ -258,6 +268,24 @@ function convertButtons(element, doc) {
   });
 }
 
+// Blog articles (learning/from-chevron/<category>/<article>): the byline banner's topic tags and
+// the post tags are one element per tag and per comma; keep each list as one line of text
+// ("Synthetics, Cold Climate" / "Tags: Heavy Duty, Synthetics"). The post tag <a> have no href.
+function joinArticleTags(element, doc) {
+  const names = (els) => els.map((t) => cleanText(t.textContent)).filter(Boolean);
+  element.querySelectorAll('.author-faq-banner__container__tags').forEach((box) => {
+    const tags = names([...box.querySelectorAll('.author-faq-banner__container__tags__tag')]);
+    if (tags.length) box.replaceChildren(doc.createTextNode(tags.join(', ')));
+  });
+  element.querySelectorAll('.post_tags__container').forEach((box) => {
+    const tags = names([...box.querySelectorAll('.post_tags__container__tag')]);
+    const p = doc.createElement('p');
+    p.textContent = tags.length ? `Tags: ${tags.join(', ')}` : '';
+    if (tags.length) box.replaceWith(p);
+    else box.remove();
+  });
+}
+
 function convertVideos(element, doc) {
   element.querySelectorAll('.video').forEach((v) => {
     if (inTable(v)) return;
@@ -274,7 +302,9 @@ function convertVideos(element, doc) {
       try { href = new URL(src, ORIGIN).href; } catch (e) { href = src; }
     }
     const label = cleanText(v.textContent);
-    const textLink = holder.classList.contains('video__container-textlink') && label;
+    // the data-video-src holder may be the text-link container or an element inside it
+    // (Delo customer stories: "Watch the video >")
+    const textLink = (holder.closest('.video__container-textlink') || v.querySelector('.video__container-textlink, .videoLinkText')) && label;
     // text-link videos stay links (#_dnb); player-style videos become YouTube embeds
     if (textLink && m) href += '#_dnb';
     const p = doc.createElement('p');
@@ -516,6 +546,7 @@ export default function transform(hookName, element, payload) {
     WebImporter.DOMUtils.remove(element, ['.slick-cloned', '.slider-wrapper__print']);
     // Salesforce forms: swap the <form> for the live-form link before the parsers run
     convertFormElements(element, doc, pagePath(payload));
+    joinArticleTags(element, doc);
     // Collapsed drawers: the desktop adaptive-image servlet rendition can 404 on the source
     // (e.g. isoclean drawer .../adaptive_image.img.PNG). Use the paired original DAM file
     // (<img class="... tablet-up-hidden" src="/content/dam/...">) for the desktop image instead.
@@ -530,9 +561,17 @@ export default function transform(hookName, element, payload) {
     });
     // DAM files with an upper-case extension (.../Hydraulic-shears.PNG) also 404 on the source's
     // CDN, but their stored original loads: .../Hydraulic-shears.PNG/_jcr_content/renditions/original
-    element.querySelectorAll('img[src^="/content/dam/"]').forEach((img) => {
-      const src = img.getAttribute('src').split('?')[0];
+    // (lazy knowledge-center thumbnails carry the DAM path in data-src: isoclean-program/start-clean)
+    element.querySelectorAll('img[src^="/content/dam/"], img[data-src^="/content/dam/"]').forEach((img) => {
+      const raw = img.getAttribute('data-src') || img.getAttribute('src');
+      const src = raw.startsWith('/content/dam/') ? raw.split('?')[0] : img.getAttribute('src').split('?')[0];
       if (/\.[A-Z]{3,4}$/.test(src)) setImgSrc(img, `${src}/_jcr_content/renditions/original`);
+    });
+    // same for background images (square-carousel slides: style="background-image: url( /content/dam/.../Steel.JPG )")
+    element.querySelectorAll('[style*="/content/dam/"]').forEach((el) => {
+      const style = el.getAttribute('style');
+      const fixed = style.replace(/url\(\s*(['"]?)(\/content\/dam\/[^'")\s]+\.[A-Z]{3,4})\1\s*\)/g, (m, q, p) => `url(${q}${p}/_jcr_content/renditions/original${q})`);
+      if (fixed !== style) el.setAttribute('style', fixed);
     });
   }
 
