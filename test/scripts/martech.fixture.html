@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="template" content="home">
+    <title>Consent and analytics fixture</title>
+  </head>
+  <body>
+    <main>
+      <div class="section">
+        <div class="block-content">
+          <div class="hero wide" data-block-name="hero">
+            <a href="/products?email=visitor@example.com#private">Learn more</a>
+            <a class="download" href="/docs/delo.pdf?token=secret#private">PDS</a>
+          </div>
+          <div class="hero wide" data-block-name="hero"><button type="button">View details</button></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="cards-product block"><a href="/products">Products</a></div>
+      </div>
+    </main>
+    <script type="module">
+      window.requests = [];
+      window.testObservers = [];
+      window.Image = class {
+        set src(value) {
+          window.requests.push(value);
+          queueMicrotask(() => this.onload?.());
+        }
+        removeAttribute() {}
+      };
+      window.IntersectionObserver = class {
+        constructor(callback, options) {
+          this.callback = callback;
+          this.options = options;
+          this.nodes = new Set();
+          window.testObservers.push(this);
+        }
+        observe(node) { this.nodes.add(node); }
+        unobserve(node) { this.nodes.delete(node); }
+        disconnect() { this.nodes.clear(); }
+        trigger(node, ratio) {
+          if (this.nodes.has(node)) {
+            this.callback([{ target: node, isIntersecting: ratio > 0, intersectionRatio: ratio }], this);
+          }
+        }
+      };
+      const [integration, consent, instrument, analytics, media, booklet, ak] = await Promise.all([
+        import('../../scripts/martech/index.js'),
+        import('../../scripts/martech/consent.js'),
+        import('../../scripts/martech/instrument.js'),
+        import('../../scripts/martech/analytics.js'),
+        import('../../scripts/martech/media.js'),
+        import('../../scripts/martech/booklet.js'),
+        import('../../scripts/ak.js'),
+      ]);
+      integration.default();
+      window.testAPI = { integration, consent, instrument, analytics, media, booklet, ak };
+      document.addEventListener('click', (event) => {
+        if (event.target.closest('main a')) event.preventDefault();
+      });
+    </script>
+  </body>
+</html>

@@ -298,10 +298,13 @@ function directionsUrl(origin, r) {
 /* ---------- analytics ---------- */
 
 function track(fields) {
-  if (!Array.isArray(window.dataLayer)) return;
+  if (document.documentElement.dataset.consent !== 'analytics' || !Array.isArray(window.dataLayer)) return;
   const event = { event: 'e_locator' };
-  Object.entries(fields).forEach(([k, v]) => { if (v) event[k] = v; });
+  Object.entries(fields).forEach(([k, v]) => {
+    if (v && !['locSearchTerm', 'locPrevSearchTerm'].includes(k)) event[k] = v;
+  });
   window.dataLayer.push(event);
+  if (window.dataLayer.length > 200) window.dataLayer.splice(0, window.dataLayer.length - 200);
 }
 
 /* ---------- Google Maps (lazy, key only) ---------- */

@@ -1,6 +1,61 @@
 # Author Kit
 For projects that want a few more batteries. Built by the team who brought you da.live and adobe.com.
 
+## Chevron consent and live analytics booklet
+
+[Open the live booklet](https://chevronlubricants.ynaka-adobe.com/en-us/home?insights=1).
+It uses the same sanitized, consented `window.adobeDataLayer` events as Adobe
+collection, not fabricated metrics or an Analytics reporting API. `?insights=1`
+enables the booklet for the current tab; `?insights=0` disables it.
+Shift+Alt+I toggles the panel. Normal visitors do not see it.
+
+The panel follows Parker's live Insights presentation: a floating Insights
+button, slide-over with fixed header/footer, four summary tiles, observations,
+ranked component/link bars, event categories and timestamped feed. Consent and
+collector details are expandable. Live updates preserve reader scroll, focus
+and expanded details; revocation clears the dashboard immediately. Chevron
+colors, event names, duplicate-component positions and bounded retention are
+preserved. Parker's CJA/persona previews, bot heuristics and reference benchmarks
+are intentionally omitted: they are not supported live Chevron Analytics data.
+
+Optional measurement is off until an explicit choice. Accept All enables
+analytics and external media; Reject All disables both. The advertising/sale
+opt-out saves necessary-only consent. Close/Escape saves nothing and grants
+nothing. Cookie preferences is available below the footer on every page and
+inside the booklet. Choices expire after 180 days, and cross-tab changes apply
+immediately. Global Privacy Control is an advertising/sale opt-out, never an
+analytics grant. Target and RUM are not loaded by this Analytics-only build.
+Videos and tool embeds require the separate external-media preference;
+functional locator services and form anti-abuse protection remain unchanged.
+
+The user confirmed `acsmarketingb2bcontentexperiences` and Parker's
+`acsmarketing.sc.omtrdc.net`, and selected Parker's direct Adobe collection
+pattern instead of providing Tags or an official AppMeasurement library.
+There is no AEP/datastream integration. A collector response does **not**
+prove report-suite configuration or processed Analytics reporting. These
+remain explicitly unverified in the booklet. See the
+[build guide](docs/chevronlubricants-analytics-build-guide.md) for the required
+suite variables, events and calculated metrics.
+
+`scripts/martech/` is the shared integration, loaded in the lazy phase. It
+discovers both Author Kit's `data-block-name` boundaries and standard EDS
+`.block` boundaries, including later fragments and Edge Commerce sections.
+Impressions require 50% visibility and are counted once per component/page;
+scroll milestones are 25/50/75/100. Future form providers can call
+`track('form-start', { form: { name } })` and `track('form-submit', ...)` from
+their first-focus and confirmed-success callbacks; no form inputs are read.
+Other locales and pages with `<meta name="analytics" content="off">` are excluded.
+
+Pre-consent events are never queued. Revocation clears the retained event
+window and stops new requests; it cannot retract a request already received
+by Adobe. URLs omit queries, fragments and user-info; email addresses, phone
+numbers and opaque path identifiers are redacted. No form values, search
+terms, referrers or persistent visitor IDs are collected. The visitor ID is
+page-scoped, so this privacy-bounded demo does not provide production-comparable
+visit/visitor metrics. Retention is at most 200 in-memory events (60 in the
+booklet feed), cleared on revocation/navigation. Booklet counts and CTR apply
+to that retained window, not all traffic or lifetime session totals.
+
 ## Chevron Edge Commerce pilot
 
 Production Edge Commerce access is provisioned for org `ynaka-adobe`, site
@@ -296,12 +351,20 @@ are verified; all 34 shared catalog records match their pre-migration readbacks.
 Actual product fixtures preserve text/links/categories and desktop/mobile
 layout across this batch and all previous brands.
 
-Custom-domain publication for the new products is pending. The new manifest
-contains 97 products and 85 unique generated-media paths; subtract existing
-CDN coverage before adding routes. Fresh Industrial/ISOCLEAN-specific deployment
-approval and current pipeline `60291285` idle confirmation are required before
-the scoped CDN push. No site-wide routing, checkout, prices or listing-page
-changes are included.
+Custom-domain delivery is verified for all 131 available batch products and
+all 118 distinct generated images, including plain and `format=webply`
+responses. The new manifest contained 97 products and 85 unique media;
+one image was already covered by Delo. CDN commit `e0b04a8` therefore adds
+only 181 exact routes (97 products + 84 media), preserving all prior rules,
+after fresh batch-specific deployment approval and user-confirmed pipeline
+`60291285` idle. Renderer code was safely published in `3cc3aad`, retaining
+concurrent EMA and analytics documentation.
+
+The live renderer preserves all freshly verified batch HTML on desktop/mobile,
+and previous-brand live layout/content checks and excluded-path controls pass.
+Final Cloud Manager execution status and deployed revision remain independently
+unverified. No site-wide routing, checkout, prices or listing-page changes are
+included.
 
 ### Credentials and ongoing ingestion
 

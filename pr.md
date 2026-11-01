@@ -30,8 +30,20 @@
 
 ### Migrate the remaining site pages (160) + site search
 
-**Branch:** not committed yet (working tree on `main`)
-**Status:** Imported locally 2026-10-31. Not committed, not uploaded to DA, not previewed or published.
+**Branch:** `aem-20261031-2052`, [PR #13](https://github.com/ynaka-adobe/chevronlubricants/pull/13)
+**Status:** PR open. Conflicts resolved against `main` at `75f9be4`; migration remains
+in progress. This merge does not upload, preview or publish DA content.
+
+- Conflict resolution preserves this migration entry and the consent/live
+  Insights entry from `main`, without changing either implementation.
+- Existing Edge Commerce product rendering and inventories are retained.
+- Focused commerce, consent/Insights and migration browser suite: 43 passing
+  tests. Added coverage for positional heroes, image CTAs, button text
+  preservation, search pagination and consent-gated migration instrumentation.
+  Test ESLint and whitespace checks pass.
+- Original `aem-psi-check` failed with "Lighthouse Score: n/a": ten PSI
+  requests reported "Unable to process request. Please wait a while and try
+  again." A fresh check is required before merging; no check override.
 
 ### Summary
 - **Scope** (`source_website.md`, "Remaining site pages (160)"):
@@ -101,6 +113,74 @@
 
 ---
 
+### Implement Chevron consent and live analytics
+
+**Branch:** `ynaka-adobe-chevron-consent-and-analytics`
+**Status:** Published directly to `main` using the selected `@ynakagawa`
+account and verified on the live custom domain. 36 targeted browser-runner
+tests passed, plus desktop/mobile live-site checks. No PR requested.
+
+- Read the complete supplied guide and consent screenshot, and inspect Parker's
+  actual consent, analytics transport and live-insights implementation read-only.
+- User confirmed RSID `acsmarketingb2bcontentexperiences`, collector
+  `acsmarketing.sc.omtrdc.net`, and Parker's direct collector instead of Tags/
+  AppMeasurement. Suite configuration and processed reporting remain unverified.
+- User-selected consent behavior: close/Escape saves/grants nothing;
+  advertising/sale opt-out saves necessary-only. Explicit analytics/media
+  choices, expiry, persistence, cross-tab revocation and accessible preferences.
+- Shared lazy-phase discovery for DA/Author Kit and Edge Commerce boundaries;
+  exact guide event/variable mapping, 50% impressions and scroll milestones.
+  No pre-consent queue, persistent visitor ID, raw queries or form/search data.
+- Remove pre-consent Target/RUM bootstrap, including 404 RUM. Gate external
+  video/tool iframes; gate legacy locator measurement and omit search terms.
+  Preserve functional location lookup, form protection and migration rendering.
+- Real opt-in booklet at `/en-us/home?insights=1`, subscribed to the same
+  consented event stream, with bounded local counts and honest collector status.
+- Targeted browser-runner regression coverage includes consent, threshold,
+  mapping, deduplication, late blocks, revocation, retention, booklet/media,
+  commerce rendering, scripts and DA preview. Desktop/mobile live-content
+  checks passed for home, ISOCLEAN FAQs and Delo Syn-Trans XE, including all
+  seven commerce boundaries and actual PDS download mapping. Adobe collector
+  responses were HTTP 200; processed reporting is not thereby verified.
+- Live entry point:
+  `https://chevronlubricants.ynaka-adobe.com/en-us/home?insights=1`.
+  Published integration assets match committed bytes. Live desktop/mobile
+  flows verify no pre-consent Target/RUM/Analytics requests, opt-out, close/
+  Escape, accept, clicks, scroll, reopening, rejection and reload persistence.
+  GPC and storage-failure behavior are also covered by targeted tests.
+- Implementation commit: `65b8b5f`. No changes to Adobe report-suite settings,
+  Tags publishing, DA content, commerce records, CDN or Cloud Manager.
+  Remaining external prerequisite: verify Section 2 suite configuration and
+  processed reporting. Collector responses do not establish those facts.
+
+#### Parker live-panel alignment follow-up
+
+- User directed alignment with Parker's current `scripts/insights.js`.
+  Inspected GitHub main, related `styles/insights.css` and delayed/
+  analytics subscription wiring read-only; reference revision `742ada8`.
+- Replace the plain booklet list with Parker-style summary tiles, observations,
+  component/link ranking bars, event categories and timestamped feed. Add the
+  floating Insights toggle, fixed header/footer, responsive slide-over and
+  reduced-motion support, using Chevron colors and current real events.
+- Preserve existing consent/revocation, approved collector/RSID, AA event names,
+  repeated component positions, 200-event retention and reporting limitations.
+  No CJA/persona previews, bot scores or reference benchmarks copied into this
+  Analytics-only build. No instrumentation or migration-owned rendering changes.
+- Local targeted suite: 39 passing tests, including rank/count accuracy,
+  CTR above 100%, focus/scroll/details continuity, floating controls, shortcuts
+  and immediate dashboard clearing on revocation. Real-content desktop/mobile
+  home, ISOCLEAN FAQs and Delo Syn-Trans XE checks passed with no page errors
+  or panel overflow.
+- Published normally to `main` as `a422d98` with `@ynakagawa`, preserving
+  concurrent-main protections and opening no PR. Both panel JS/CSS match
+  committed bytes on the live custom domain. Live desktop/mobile checks
+  re-verified the dashboard, rankings, floating toggle/keyboard controls,
+  consent/revocation/reload, scroll/focus/details continuity and commerce PDS
+  events. No instrumentation, collector, consent, DA/commerce content or
+  deployment-configuration changes were made in this follow-up.
+
+---
+
 ### Add the Audience Personas PDF
 
 **Branch:** `ynaka-adobe-chevron-analytics-guide`
@@ -117,9 +197,10 @@
 ### Migrate Industrial and ISOCLEAN product listings
 
 **Branch:** `ynaka-adobe-chevron-edge-commerce`
-**Status:** 97 new products ingested, 34 existing records preserved unchanged,
-two broken source links excluded. Network and source-aligned renderer verified;
-new custom-domain routes pending scoped deployment approval. No PR requested.
+**Status:** 97 new products published, 34 existing records preserved unchanged,
+two broken source links excluded. All 131 available custom-domain products,
+generated images and source-aligned renderer independently verified.
+No PR requested.
 
 - Actual navigation listings: Industrial `industrial_products.html` (125),
   ISOCLEAN `isoclean.html` (47); 39 shared links yield 133 distinct products.
@@ -152,6 +233,29 @@ new custom-domain routes pending scoped deployment approval. No PR requested.
   text, links and source category with no desktop/mobile overflow. Image zoom,
   section navigation and equipment scrolling work. Focused suite:
   16 browser tests pass; ESLint/Stylelint and diff check pass.
+- Renderer published in `f6d75ca`, safely integrated with concurrent analytics
+  guide `df9c6ce` in `3cc3aad`; custom-domain JavaScript/CSS match committed
+  source after decompression. EMA header/warranty/document changes retained.
+- User specifically approved this batch's scoped deployment and freshly
+  confirmed pipeline `60291285` idle. CDN session published
+  `e0b04a81fcbc19361855e6e2c125134d7c1029d7` after identity/remote/config checks:
+  only 181 uncovered paths (97 products + 84 media), 192 added lines,
+  8442 scope/control cases pass. All prior config preserved byte-for-byte.
+  The 85th batch media path was already covered by Delo and not duplicated.
+- Early post-push checks saw prior routes only; bounded propagation recheck
+  verified all 131 custom products and 236 generated-image responses
+  (118 distinct images, plain and `format=webply`), zero errors.
+  Source content, documents, links, canonical, SKU and expected images match.
+- The live renderer preserves all 131 freshly verified custom HTML bodies
+  on desktop/mobile; the first live product and prior-brand live pages also
+  pass zoom, section navigation and equipment scrolling. Preloading the
+  verified bodies avoided a browser-protocol timeout from sequentially fetching
+  all pages in one browser evaluation; no catalog or source data was substituted.
+  Eleven existing-page/negative-path controls pass, including excluded sources
+  and the invalid HDAX alias remaining 404.
+- Final Cloud Manager execution ID/status and deployed revision are
+  independently inaccessible; live delivery success does not assert pipeline
+  completion.
 
 ---
 
