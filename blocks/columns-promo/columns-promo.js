@@ -13,6 +13,7 @@ export default function decorate(block) {
 
   cols.forEach((col) => {
     col.classList.add('columns-promo-card');
+    if (col.querySelector('.columns-promo-media .columns-promo-cta')) return;
 
     const media = col.querySelector('picture, img');
     if (!media) return;
@@ -43,10 +44,10 @@ export default function decorate(block) {
     const title = col.querySelector('h1, h2, h3, h4, h5, h6, p > strong')?.textContent.trim()
       || media.querySelector?.('img')?.alt || media.getAttribute('alt');
     if (title) cta.setAttribute('aria-label', `Learn More: ${title}`);
-    const ctaContainer = document.createElement('p');
-    ctaContainer.className = 'columns-promo-cta-container';
-    ctaContainer.append(cta);
-    col.append(ctaContainer);
+    const mediaContainer = document.createElement('div');
+    mediaContainer.className = 'columns-promo-media';
+    imgContainer.replaceWith(mediaContainer);
+    mediaContainer.append(imgContainer, cta);
   });
 
   if (linkRow) linkRow.classList.add('columns-promo-link-row-hidden');

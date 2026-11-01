@@ -28,11 +28,12 @@
 
 ## Open PRs
 
-### Square-corner homepage promo images and accessible CTA buttons
+### Homepage promo images and accessible CTA overlays
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Published directly to `main` as `e3679fb` using `@ynakagawa`;
-DA homepage previewed/published and verified live. No PR requested.
+**Status:** Initial treatment published directly to `main` as `e3679fb` using
+`@ynakagawa`; user-directed rounded-image/overlay revision verified locally
+and ready for publication. No PR requested.
 
 - Remove image rounding and dark-band card clipping in `columns-promo` only;
   retain image sizing, card layout, links, text and alt attributes.
@@ -67,6 +68,24 @@ DA homepage previewed/published and verified live. No PR requested.
   decompression. Approved CTA-free uploaded images are pixel-identical to the
   prepared edits; both image and real CTA links use their previous destinations.
   Existing card copy/layout, consent/analytics, commerce and EMA code are retained.
+
+#### Rounded image / overlay revision
+
+- User superseded the square-corner/below-copy treatment: round the images and
+  overlay a white pill Learn More CTA near the bottom center, matching the
+  supplied Delo reference. Keep the approved CTA-free uploaded images.
+- Scope is block JS/CSS and directly related documentation/regressions only.
+  The generated overlay is a sibling of the original image link in a positioned
+  media wrapper, never a nested anchor. Titles/copy stay below the image;
+  existing authored buttons and unlinked cards retain their previous behavior.
+- Image-relative corners, 64% overlay width and 7% bottom offset scale with
+  the image. White/blue styling, a 44px minimum height and a two-color keyboard
+  focus ring preserve readability and operability.
+- 48 focused promo/migration, commerce, consent/analytics and DA regressions
+  pass; scoped ESLint/Stylelint pass. Actual homepage with local block assets
+  checked at 1440px, 390px and 320px: overlay remains inside each image below
+  its headline/tagline, correct destinations/alt, visible Tab focus, no nested
+  anchors, no horizontal overflow or page errors. No DA or image edits needed.
 
 ### Migrate the remaining site pages (160) + site search
 

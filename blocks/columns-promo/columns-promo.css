@@ -26,6 +26,14 @@
   text-align: center;
 }
 
+.columns-promo .columns-promo-card .columns-promo-media {
+  position: relative;
+  width: 450px;
+  max-width: 100%;
+  margin: 0 auto 5px;
+  container-type: inline-size;
+}
+
 /* Image (p > a > picture, h3 > a > picture, a > picture...) */
 .columns-promo .columns-promo-card .columns-promo-image {
   display: block;
@@ -48,11 +56,15 @@
   margin: 0 auto;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 0;
+  border-radius: 4.5%;
+}
+
+.columns-promo .columns-promo-media .columns-promo-image {
+  margin-bottom: 0;
 }
 
 /* Text: black, centered, 10px under each text group */
-.columns-promo .columns-promo-card > :not(.columns-promo-image) {
+.columns-promo .columns-promo-card > :not(.columns-promo-image, .columns-promo-media) {
   margin: 0;
   padding: 0;
   color: var(--color-black);
@@ -96,12 +108,37 @@
   color: inherit;
 }
 
-.columns-promo .columns-promo-card > .columns-promo-cta-container {
-  margin-top: 10px;
+.columns-promo .columns-promo-card a.columns-promo-cta:any-link {
+  position: absolute;
+  bottom: 7%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64%;
+  min-height: 44px;
+  height: 10.5cqw;
+  margin: 0;
+  padding: 0 8px;
+  border: 2px solid var(--color-white);
+  border-radius: 999px;
+  background-color: var(--color-white);
+  color: var(--color-chevron-blue);
+  font-size: clamp(12px, 3.6cqw, 16px);
+  line-height: 1.2;
+  transform: translateX(-50%);
 }
 
-.columns-promo .columns-promo-card a.columns-promo-cta:any-link {
-  color: var(--button-color);
+.columns-promo .columns-promo-card a.columns-promo-cta:hover {
+  border-color: var(--color-chevron-light-blue);
+  background-color: var(--color-chevron-light-blue);
+  color: var(--color-chevron-blue);
+}
+
+.columns-promo .columns-promo-card a.columns-promo-cta:focus-visible {
+  outline: 3px solid var(--color-chevron-blue);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--color-white);
 }
 
 /* On dark section bands (landing-page fragments) keep the white card
@@ -114,7 +151,7 @@
   background-color: var(--color-white);
 }
 
-:is(.full-width-bg, .blue-bg) .columns-promo .columns-promo-card > :not(.columns-promo-image) {
+:is(.full-width-bg, .blue-bg) .columns-promo .columns-promo-card > :not(.columns-promo-image, .columns-promo-media) {
   padding-inline: var(--spacing-l);
 }
 

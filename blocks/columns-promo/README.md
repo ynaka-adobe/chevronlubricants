@@ -1,9 +1,13 @@
 # Columns Promo
 
 Author one row of cards with a linked image and title/description copy.
-Images retain their existing links and alt text and render with square corners.
-The block adds a **Learn More** button after each card's copy, using the image
-link's destination and preserving its target/rel attributes. Cards without an
+Images retain their existing links and alt text and render with rounded corners.
+The block overlays a white pill **Learn More** link near the bottom center of
+each image, using the image link's destination and preserving its target/rel
+attributes. The overlay and image link are siblings, not nested anchors; card
+titles and descriptions remain below the image. The overlay scales with image
+width, retains a 44px minimum height and has a visible keyboard focus ring.
+Cards without an
 image destination do not receive a button; existing authored buttons are kept
 without adding a duplicate.
 

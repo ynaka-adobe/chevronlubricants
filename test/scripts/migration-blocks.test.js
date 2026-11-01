@@ -105,7 +105,7 @@ describe('EMA migration block regressions', () => {
     expect(block.querySelector('.columns-cta-text').textContent).to.equal('Let us help');
   });
 
-  it('adds promo buttons after copy without changing image links, alt text or authored nodes', () => {
+  it('overlays promo links without changing image links, alt text or authored nodes', () => {
     document.body.innerHTML = `<div class="columns-promo"><div>
       <div><a href="/delo" target="_blank" rel="noopener"><picture><img src="${IMAGE}" alt="Delo products"></picture></a>
         <p><strong>Total Vehicle Protection</strong></p><p>Protect critical engines.</p></div>
@@ -129,11 +129,17 @@ describe('EMA migration block regressions', () => {
     expect(images.map((img) => img.alt)).to.deep.equal(['Delo products', 'Clarity']);
     copy.forEach((p) => expect(block.contains(p)).to.be.true);
     [...block.querySelectorAll('.columns-promo-card')].forEach((card) => {
-      expect(card.firstElementChild.classList.contains('columns-promo-image')).to.be.true;
-      expect(card.lastElementChild.classList.contains('columns-promo-cta-container')).to.be.true;
+      const mediaContainer = card.firstElementChild;
+      expect(mediaContainer.classList.contains('columns-promo-media')).to.be.true;
+      expect(mediaContainer.firstElementChild.classList.contains('columns-promo-image')).to.be.true;
+      expect(mediaContainer.lastElementChild.classList.contains('columns-promo-cta')).to.be.true;
+      expect(card.lastElementChild.tagName).to.equal('P');
+      expect(card.lastElementChild.querySelector('img, .columns-promo-cta')).to.equal(null);
     });
+    expect(block.querySelector('a a')).to.equal(null);
     decoratePromo(block);
     expect(block.querySelectorAll('.columns-promo-cta')).to.have.length(2);
+    expect(block.querySelectorAll('.columns-promo-media')).to.have.length(2);
   });
 
   it('does not invent promo destinations or duplicate an authored button', () => {
@@ -151,7 +157,7 @@ describe('EMA migration block regressions', () => {
     expect(authoredCTA.getAttribute('href')).to.equal('/offers');
   });
 
-  it('keeps promo image and dark-band card corners square and button labels legible', async () => {
+  it('rounds promo images and keeps white pill overlays legible and inside the image', async () => {
     const stylesheets = ['/styles/styles.css', '/blocks/columns-promo/columns-promo.css'].map((href) => {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
@@ -173,12 +179,22 @@ describe('EMA migration block regressions', () => {
       const image = block.querySelector('img');
       const card = block.querySelector('.columns-promo-card');
       const button = block.querySelector('.columns-promo-cta');
-      expect(getComputedStyle(image).borderRadius).to.equal('0px');
+      expect(getComputedStyle(image).borderRadius).to.equal('4.5%');
       expect(getComputedStyle(card).borderRadius).to.equal('0px');
-      expect(getComputedStyle(button).color).to.equal('rgb(255, 255, 255)');
-      expect(getComputedStyle(button).backgroundColor).to.equal('rgb(12, 46, 114)');
+      expect(getComputedStyle(button).color).to.equal('rgb(12, 46, 114)');
+      expect(getComputedStyle(button).backgroundColor).to.equal('rgb(255, 255, 255)');
+      const imageRect = image.getBoundingClientRect();
+      const buttonRect = button.getBoundingClientRect();
+      expect(buttonRect.height).to.be.at.least(44);
+      expect(buttonRect.top).to.be.greaterThan(imageRect.top + imageRect.height * 0.78);
+      expect(buttonRect.bottom).to.be.lessThan(imageRect.bottom);
+      expect(buttonRect.left).to.be.greaterThan(imageRect.left);
+      expect(buttonRect.right).to.be.lessThan(imageRect.right);
+      expect(buttonRect.width / imageRect.width).to.be.closeTo(0.64, 0.01);
+      button.focus();
+      expect(document.activeElement).to.equal(button);
       document.querySelector('.blue-bg').classList.remove('blue-bg');
-      expect(getComputedStyle(image).borderRadius).to.equal('0px');
+      expect(getComputedStyle(image).borderRadius).to.equal('4.5%');
     } finally {
       stylesheets.forEach((link) => link.remove());
     }
