@@ -1,0 +1,106 @@
+/* Blog article (Lube Matters, /learning/from-chevron/<category>/<article>; metadata
+ * "Template: blog-article"). Source at 1440px:
+ *   byline   .author-faq-banner: #f5f5f5 band across the 1176px column, padding 15px 0,
+ *            centred avatar (60px) + "By <author>" + topic tags
+ *   article  890px centred column; title 24px centred navy; subtitle centred navy;
+ *            body 16px/19.2px #6d6d6d, one empty line between paragraphs
+ *   bio      .author-bio: 40px gap, #f5f5f5 box 890px, padding 0 54px 23px, italic centred
+ * Content order in the first section: byline (everything before the h1), h1, subtitle, article,
+ * date, tags, author photo + bio (the last two paragraphs). Site-wide heading sizes are kept. */
+
+.blog-article-template main > .section:first-child > .default-content {
+  --article-muted: #6d6d6d;
+  --article-panel: #f5f5f5;
+
+  /* byline band */
+  > :has(~ h1) {
+    margin: 0;
+    padding-inline: 16px;
+    background: var(--article-panel);
+    text-align: center;
+  }
+
+  > :first-child:has(~ h1) {
+    padding-top: 15px;
+  }
+
+  > :has(+ h1) {
+    padding-bottom: 15px;
+  }
+
+  > :has(~ h1) img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  > :has(~ h1) a:any-link {
+    color: var(--brand-link-color);
+  }
+
+  > h1 {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  /* subtitle: centred navy */
+  > h1 + p {
+    margin-top: 4px;
+    color: var(--brand-copy-color);
+    text-align: center;
+  }
+
+  /* article column */
+  > h1 ~ * {
+    box-sizing: border-box;
+    max-width: 890px;
+    margin-inline: auto;
+  }
+
+  > h1 ~ :is(p, ul, ol):not(h1 + p) {
+    color: var(--article-muted);
+  }
+
+  > h1 ~ :is(p, ul, ol, h2, h3) + :is(p, ul, ol, h2, h3) {
+    margin-top: 19px;
+  }
+
+  > h1 ~ p > picture img {
+    width: 100%;
+    max-width: 890px;
+  }
+
+  > h1 + p + p:has(> picture) {
+    margin-top: 24px;
+  }
+
+  /* author photo + bio: the last two paragraphs */
+  > p:has(> picture):nth-last-child(2) {
+    margin-top: 40px;
+    padding-top: 23px;
+    background: var(--article-panel);
+    text-align: center;
+  }
+
+  > p:has(> picture):nth-last-child(2) img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  > p:has(> picture):nth-last-child(2) + p:last-child {
+    margin-top: 0;
+    padding: 12px 54px 23px;
+    background: var(--article-panel);
+    font-style: italic;
+    text-align: center;
+  }
+}
+
+@media (width < 600px) {
+  .blog-article-template main > .section:first-child > .default-content > p:has(> picture):nth-last-child(2) + p:last-child {
+    padding-inline: 16px;
+  }
+}

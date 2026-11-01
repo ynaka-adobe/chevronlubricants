@@ -96,11 +96,16 @@ function staticRows(element, document) {
 
 // The hidden config <p hidden> may already be stripped by the importer's preprocessing,
 // so also detect blog lists from the rendered items (all link into /learning/from-chevron/).
+// Product lists (isoclean-program/start-clean: search path .../en_us/home/products, filtered
+// by category tag) are page-specific too and get the same static rows.
+const STATIC_PATHS = ['/from-chevron/', '/en_us/home/products'];
+const STATIC_LINKS = ['/learning/from-chevron/', '/en_us/home/products/'];
 function isBlogList(element) {
   const cfg = element.querySelector('.knowledge-center__container__hidden');
-  if (cfg && (cfg.getAttribute('data-page-search-path') || '').includes('/from-chevron/')) return true;
+  const searchPath = (cfg && cfg.getAttribute('data-page-search-path')) || '';
+  if (STATIC_PATHS.some((p) => searchPath.includes(p))) return true;
   const links = [...element.querySelectorAll('.knowledge-center__results .item .item__header__title a[href]')];
-  return links.length > 0 && links.every((a) => (a.getAttribute('href') || '').includes('/learning/from-chevron/'));
+  return links.length > 0 && STATIC_LINKS.some((p) => links.every((a) => (a.getAttribute('href') || '').includes(p)));
 }
 
 export default function parse(element, { document }) {

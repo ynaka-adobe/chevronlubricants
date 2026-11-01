@@ -343,6 +343,27 @@ function executeTransformers(hookName, element, payload) {
   });
 }
 
+// Blog articles (/en_us/home/learning/from-chevron/<category>/<article>.html) get
+// "Template: blog-article" in their metadata (templates/blog-article: article column, byline
+// and author bio boxes). Category and landing pages are one level up and are not affected.
+function addArticleTemplate(main, document, originalURL) {
+  const path = new URL(originalURL).pathname.toLowerCase();
+  if (!/^\/en_us\/home\/learning\/from-chevron\/[^/]+\/[^/]+\.html$/.test(path)) return;
+  const table = [...main.querySelectorAll('table')].find((t) => {
+    const first = t.querySelector('tr > th, tr > td');
+    return first && /^metadata$/i.test(first.textContent.trim());
+  });
+  if (!table) return;
+  const tr = document.createElement('tr');
+  const key = document.createElement('td');
+  // lower-case key: EDS lower-cases metadata names anyway; the local preview keeps the case
+  key.textContent = 'template';
+  const value = document.createElement('td');
+  value.textContent = 'blog-article';
+  tr.append(key, value);
+  (table.querySelector('tbody') || table).append(tr);
+}
+
 function findBlocksOnPage(document, template) {
   const pageBlocks = [];
   template.blocks.forEach((blockDef) => {
@@ -375,6 +396,7 @@ export default {
 
     main.appendChild(document.createElement('hr'));
     WebImporter.rules.createMetadata(main, document);
+    addArticleTemplate(main, document, params.originalURL);
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
 

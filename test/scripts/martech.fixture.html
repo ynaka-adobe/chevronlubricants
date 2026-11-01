@@ -47,16 +47,17 @@
           }
         }
       };
-      const [integration, consent, instrument, analytics, media, booklet] = await Promise.all([
+      const [integration, consent, instrument, analytics, media, booklet, ak] = await Promise.all([
         import('../../scripts/martech/index.js'),
         import('../../scripts/martech/consent.js'),
         import('../../scripts/martech/instrument.js'),
         import('../../scripts/martech/analytics.js'),
         import('../../scripts/martech/media.js'),
         import('../../scripts/martech/booklet.js'),
+        import('../../scripts/ak.js'),
       ]);
       integration.default();
-      window.testAPI = { integration, consent, instrument, analytics, media, booklet };
+      window.testAPI = { integration, consent, instrument, analytics, media, booklet, ak };
       document.addEventListener('click', (event) => {
         if (event.target.closest('main a')) event.preventDefault();
       });

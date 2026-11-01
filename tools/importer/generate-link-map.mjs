@@ -24,7 +24,8 @@ export function toEdsPath(pathname) {
   let p = decodeURI(pathname).replace(/\/+$/, '');
   p = p.replace(/\.html?$/i, '');
   if (!p) return '/en-us/home';
-  return p.replace(/_/g, '-').toLowerCase();
+  // the importer saves "--" as "-" (johnston-trucking--inc-pdf -> johnston-trucking-inc-pdf)
+  return p.replace(/_/g, '-').replace(/-{2,}/g, '-').toLowerCase();
 }
 
 const templates = JSON.parse(fs.readFileSync(templatesPath, 'utf8')).templates || [];

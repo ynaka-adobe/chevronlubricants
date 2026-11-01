@@ -23,9 +23,16 @@ export default function decorate(block) {
     const links = [...cell.querySelectorAll('a[href]')];
     const icons = [...cell.querySelectorAll('picture, img')]
       .filter((pic) => !pic.closest('a') && !(pic.tagName === 'IMG' && pic.closest('picture')));
-    if (!links.length && !cell.textContent.trim()) return;
     const li = document.createElement('li');
     li.className = 'columns-cta-item';
+    /* image-only cell without a link (greasethickeners "Reach a Rep": label in the image) */
+    if (!links.length && !cell.textContent.trim()) {
+      if (!icons.length) return;
+      li.classList.add('columns-cta-image');
+      li.append(...icons);
+      list.append(li);
+      return;
+    }
     if (links.length) {
       links.forEach((a, i) => {
         a.classList.add('columns-cta-button');
@@ -43,6 +50,11 @@ export default function decorate(block) {
           block.classList.add('columns-cta-has-icon');
           if (a.textContent.trim()) pic.querySelectorAll?.('img').forEach((img) => { img.alt = ''; });
         });
+        /* image link with no text: the label is in the image (alt = accessible name) */
+        if (!a.textContent.trim() && a.querySelector('img')) {
+          a.classList.add('columns-cta-image-link');
+          li.classList.add('columns-cta-image');
+        }
         /* icons option: the label stays the link's accessible name, visually hidden */
         if (block.classList.contains('icons')) {
           const label = document.createElement('span');

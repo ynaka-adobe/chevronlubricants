@@ -1,6 +1,7 @@
 /* eslint-disable */
 /* global WebImporter */
 
+import searchParser from './parsers/search.js';
 import checklistParser from './parsers/checklist.js';
 import statsCarouselParser from './parsers/stats-carousel.js';
 import toolEmbedParser from './parsers/tool-embed.js';
@@ -58,6 +59,7 @@ const PAGE_TEMPLATE = {
   "representativeUrl": "https://www.chevronlubricants.com/en_us/home/services/pro-services/heavy-duty-diesel-vehicles-equipment/lubewatch.html",
   "description": "Services and Support menu pages (self services, pro services, LubeTek, preferred vendors, trade shows). Same AEM page structure as the Our Expertise pages, plus embedded external tools.",
   "blocks": [
+    {"name":"search","instances":["#main-content .search-results"]},
     {
       "name": "checklist",
       "instances": [
@@ -162,7 +164,7 @@ const PAGE_TEMPLATE = {
       "name": "cards-service",
       "instances": [
         "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .multi-column:only-child > .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image)",
-        "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext:last-child):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + .cmp-image))",
+        "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext:last-child):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + .cmp-image)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > .multi-column))",
         "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext + .divider + .cmp-image:last-child)"
       ]
     },
@@ -181,7 +183,7 @@ const PAGE_TEMPLATE = {
     {
       "name": "columns-media",
       "instances": [
-        "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.cmp-image:only-child, .video:only-child, .divider:first-child + .cmp-image + .divider:last-child)):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.richtext, .title)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item.column20))"
+        "#main-content div.multi-column:not(.multi-column__item *, .drawer *):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.cmp-image:only-child, .video:only-child, .divider:first-child + .cmp-image + .divider:last-child, .divider:first-child + .video:last-child)):has(> .multi-column__container > .multi-column__content > .multi-column__item > :is(.richtext, .title)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item > .cmp-image + .richtext)):not(:has(> .multi-column__container > .multi-column__content > .multi-column__item.column20))"
       ]
     }
   ],
@@ -340,6 +342,7 @@ const PAGE_TEMPLATE = {
 };
 
 const parsers = {
+  search: searchParser,
   'checklist': checklistParser,
   'stats-carousel': statsCarouselParser,
   'tool-embed': toolEmbedParser,

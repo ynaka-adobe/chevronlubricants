@@ -63,7 +63,7 @@ const KNOWN_BLOCKS = new Set([
   'carousel-banner', 'carousel-square', 'columns', 'columns-brands', 'columns-cta',
   'columns-media', 'columns-products', 'columns-promo', 'footer', 'fragment', 'header', 'hero',
   'hero-callout', 'hero-overlay', 'isoclean-calculator', 'locator', 'persona', 'product', 'product-metadata', 'quote-testimonial',
-  'schedule', 'section-metadata', 'stats-carousel', 'table', 'tool-embed', 'youtube',
+  'schedule', 'search', 'section-metadata', 'stats-carousel', 'table', 'tool-embed', 'youtube',
 ]);
 
 export async function loadBlock(block) {
@@ -118,6 +118,10 @@ function decorateButton(link) {
   if (!(isEm || isStrong || isStrike || isUnder)) return;
   const trueParent = link.closest('p, li, div');
   if (!trueParent) return;
+  // emphasis around a whole sentence that contains a link is not a button: replacing the
+  // wrapper with the link would drop the sentence (blog "Hear Shawn discuss ... LandlineNow.com")
+  const wrappers = [isEm, isStrong, isStrike].filter((el) => el && trueParent.contains(el));
+  if (wrappers.some((el) => el.textContent.trim() !== link.textContent.trim())) return;
   const siblings = [...trueParent.childNodes];
 
   const hasSibling = siblings.every(

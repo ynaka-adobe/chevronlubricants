@@ -33,6 +33,9 @@
   font-size: var(--brand-copy-size);
   line-height: 1.2;
   text-align: left;
+
+  /* source underscore rules ("LEARNING CENTER ______") wrap instead of widening phones */
+  overflow-wrap: break-word;
 }
 
 .hero-overlay .hero-overlay-content p {
@@ -147,6 +150,86 @@ main .hero-overlay.hero-overlay-cta .hero-overlay-content a:any-link:focus-visib
     text-shadow: none;
     transform: none;
   }
+
+  /* several overlays (Delo "The Delo difference", 1176x480 photo at 1440px): the layer covers
+   * the photo and each area sits where the source puts it:
+   *   top center   tab bar   top 8px, centred, 454px wide, 14px/16.8px, centred text
+   *   bottom left  heading   left 16px, bottom 8px, 507px wide, 50px/60px
+   *   bottom right link      right 16px, bottom 8px, 11px/13.2px */
+  .hero-overlay.hero-overlay-multi .hero-overlay-content {
+    /* the text scrims stay on the photo (top-center tab bar sits 8px from its top edge) */
+    overflow: hidden;
+    inset: 0;
+    width: auto;
+    padding: 0;
+    transform: none;
+    pointer-events: none;
+  }
+
+  /* (beats the scrim rule's position: relative on .hero-overlay-content > div) */
+  .hero-overlay.hero-overlay-multi .hero-overlay-content > .hero-overlay-area {
+    position: absolute;
+    max-width: 48cqi;
+    font-size: max(12px, 1.1905cqi);
+    line-height: 1.2;
+    pointer-events: auto;
+  }
+
+  .hero-overlay .hero-overlay-at-top-left,
+  .hero-overlay .hero-overlay-at-top-center,
+  .hero-overlay .hero-overlay-at-top-right {
+    top: 0.6803cqi;
+  }
+
+  .hero-overlay .hero-overlay-at-middle-left,
+  .hero-overlay .hero-overlay-at-middle-center,
+  .hero-overlay .hero-overlay-at-middle-right {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .hero-overlay .hero-overlay-at-bottom-left,
+  .hero-overlay .hero-overlay-at-bottom-center,
+  .hero-overlay .hero-overlay-at-bottom-right {
+    bottom: 0.6803cqi;
+  }
+
+  .hero-overlay [class*='hero-overlay-at-'][class*='-left'] {
+    left: 1.3605cqi;
+    text-align: left;
+  }
+
+  .hero-overlay [class*='hero-overlay-at-'][class*='-right'] {
+    right: 1.3605cqi;
+    text-align: right;
+  }
+
+  .hero-overlay [class*='hero-overlay-at-'][class*='-center'] {
+    left: 50%;
+    width: 38.6054cqi;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+  .hero-overlay .hero-overlay-at-middle-center {
+    transform: translate(-50%, -50%);
+  }
+
+  /* short tagline in an area (bottom-left heading): source 50px/60px in 507px, 3 lines;
+   * Montserrat runs wider than the source face, so 44px keeps the 3-line break */
+  .hero-overlay.hero-overlay-multi .hero-overlay-content > .hero-overlay-area-display {
+    max-width: 43.1122cqi;
+    font-size: 3.7415cqi;
+  }
+
+  .hero-overlay.hero-overlay-multi .hero-overlay-content > .hero-overlay-at-bottom-right {
+    font-size: max(11px, 0.9354cqi);
+  }
+}
+
+/* phones: the areas stack under the photo in authored order */
+.hero-overlay.hero-overlay-multi .hero-overlay-area + .hero-overlay-area {
+  margin-top: 12px;
 }
 
 @media (width >= 1200px) {

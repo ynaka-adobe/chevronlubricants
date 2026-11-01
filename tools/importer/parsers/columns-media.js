@@ -212,9 +212,11 @@ function components(item) {
   return [...item.children].filter((c) => !c.matches('.divider, .anchor-tag, .repeating-image-overlay, script, style') && hasContent(c));
 }
 
-// non-spacer items (spacers: empty or only .divider)
+// non-spacer items (spacers: empty or only .divider). A nested multi-column may have a
+// wrapper (class="") before its container (Delo "True cost of oil": PDF button row).
 function items(element) {
-  return [...element.querySelectorAll(':scope > .multi-column__container > .multi-column__content > .multi-column__item')]
+  const path = '.multi-column__container > .multi-column__content > .multi-column__item';
+  return [...element.querySelectorAll(`:scope > ${path}, :scope > div > ${path}`)]
     .filter((item) => components(item).length);
 }
 
@@ -279,8 +281,10 @@ function videoNodes(document, video) {
   if (!id) return img ? [img] : [];
   const a = document.createElement('a');
   a.href = `https://www.youtube.com/watch?v=${id}#_dnb`;
+  // text-link videos keep their label (Delo customer stories: "Watch the video >")
+  const label = clean((video.querySelector('.videoLinkText') || {}).textContent);
   if (img) a.append(img);
-  else a.textContent = a.href;
+  else a.textContent = label || a.href;
   return [a];
 }
 

@@ -128,6 +128,47 @@ describe('Chevron consent-first analytics', () => {
     expect(api.instrument.describeBlock(late).id).to.equal('quote-testimonial--featured');
   });
 
+  it('integrates migrated heroes, image CTAs and search without collecting before consent', async () => {
+    const image = 'data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E';
+    const content = doc.querySelector('.block-content');
+    content.insertAdjacentHTML('beforeend', `
+      <div class="hero-overlay">
+        <div><div><img src="${image}" alt="Delo"></div><div></div></div>
+        <div><div>Bottom right</div><div><a href="/products?q=private">Choose Delo</a></div></div>
+      </div>
+      <div class="columns-cta"><div><div>
+        <a href="/docs/delo.pdf?token=private"><img src="${image}" alt="PDS"></a>
+      </div></div></div>
+      <div class="search"></div>
+    `);
+    api.ak.setConfig({ locales: { '': {} }, components: [] });
+    const migrated = [...content.children].slice(-3);
+    for (const block of migrated) await api.ak.loadBlock(block);
+    await tick();
+    impressions(1);
+    content.querySelector('.hero-overlay a').click();
+    expect(win.adobeDataLayer).to.have.length(0);
+    expect(win.requests).to.have.length(0);
+    grant();
+    impressions(1);
+    expect(win.adobeDataLayer.filter((entry) => entry.event === 'component-impression'
+      && ['hero-overlay', 'columns-cta', 'search'].includes(entry.component.block))
+      .map((entry) => entry.component.block))
+      .to.deep.equal(['hero-overlay', 'columns-cta', 'search']);
+    content.querySelector('.hero-overlay a').click();
+    content.querySelector('.columns-cta a').click();
+    expect(win.adobeDataLayer.at(-2).link.url).to.equal('/products');
+    expect(win.adobeDataLayer.at(-1).event).to.equal('download');
+    expect(win.adobeDataLayer.at(-1).component.block).to.equal('columns-cta');
+    expect(JSON.stringify(win.adobeDataLayer)).not.to.include('private');
+    await render();
+    expect(doc.querySelector('.chevron-booklet').textContent).to.include('hero-overlay');
+    expect(doc.querySelector('.chevron-booklet').textContent).to.include('search');
+    api.consent.setConsent({});
+    content.querySelector('.hero-overlay a').click();
+    expect(win.adobeDataLayer).to.have.length(0);
+  });
+
   it('maps page, impression, CTA, download, scroll and dormant form events exactly', () => {
     grant();
     impressions();

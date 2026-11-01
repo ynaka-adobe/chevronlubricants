@@ -756,6 +756,14 @@ main > .section.blue-bg > .default-content :is(h1, h2, h3, p) {
   color: var(--color-white);
 }
 
+/* quote panel split over two headings (Delo "The Delo difference": "…save 2% of the cost of
+   the fuel" + "(relative to 15W-40).”"): the source sets both lines at the same 30px/36px */
+main > .section.blue-bg > .default-content > h1 + h2 {
+  margin-top: 0;
+  font-size: 30px;
+  line-height: 36px;
+}
+
 main > .section.blue-bg.centered > .default-content h2,
 main > .section.grey-bg.centered > .default-content h2 {
   font-size: var(--brand-heading-size-h2-band);

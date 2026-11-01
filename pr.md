@@ -28,6 +28,94 @@
 
 ## Open PRs
 
+### Migrate the remaining site pages (160) + site search
+
+**Branch:** `aem-20261031-2052`, [PR #13](https://github.com/ynaka-adobe/chevronlubricants/pull/13)
+**Status:** PR open, conflicts resolved and pushed as `286ad1b` against `main`
+at `75f9be4`. Merge blocked by external `aem-psi-check` failures; migration
+remains in progress. No DA content was uploaded, previewed or published.
+
+- Conflict resolution preserves this migration entry and the consent/live
+  Insights entry from `main`, without changing either implementation.
+- Existing Edge Commerce product rendering and inventories are retained.
+- Focused commerce, consent/Insights and migration browser suite: 43 passing
+  tests. Added coverage for positional heroes, image CTAs, button text
+  preservation, search pagination and consent-gated migration instrumentation.
+  Test/runtime ESLint, affected Stylelint and whitespace checks pass.
+- Both the original and fresh `aem-psi-check` failed with "Lighthouse Score:
+  n/a": ten PSI requests in each run reported "Unable to process request.
+  Please wait a while and try again." Failing requests vary across runs,
+  including unchanged library pages. Rerequesting check `124744211117`
+  via GitHub returned HTTP 404. No check override or merge was performed.
+
+### Summary
+- **Scope** (`source_website.md`, "Remaining site pages (160)"):
+  - Found by crawling the US-English site (no sitemap): 498 unique pages, minus 137 already migrated and 180 product detail pages (out of scope).
+  - Not migrated: 6 duplicate or mangled addresses, 14 source redirects, 4 not found.
+  - Added: the 3 Lube Matters category pages (only reached through mangled links).
+- **Templates** (existing ones reused; the classifier's 16 groups use the same AEM components):
+  - `expertise-marketing` +79: blog articles and landing pages.
+  - `expertise-services` +70: brand pages, utility pages, tools and the search results page.
+  - `products-listing` +6: Products overview and 5 equipment-type pages.
+  - `expertise-blog-landing` +3: blog category pages.
+  - `expertise-where-to-buy` +2: Find a product (locator, installer/Havoline) and the Where to buy landing.
+  - Link map: 299 migrated paths.
+- **Site search** (customer decision):
+  - New block `blocks/search` reads `/query-index.json`. Results are titles with bold matches, a description or text snippet, and the URL, 8 per page, with "1 - 8 of N results" and Prev / numbers / Next, matching the source page design.
+  - New `helix-query.yaml` index `site`: `/en-us/**` with title, description, image, lastModified and the first 600 words of page text.
+  - Parser `parsers/search.js` (library convention: one row with the index link). `search-results.html` was imported as `/en-us/home/search-results`. `scripts/ak.js` `KNOWN_BLOCKS` now includes `search`.
+  - The header's search link now points to `/en-us/home/search-results?q=` (local nav).
+- **Importer fixes** (found by the line-level text check; they also apply to earlier pages on their next re-import):
+  - `columns-media`: a nested multi-column behind a `class=""` wrapper is read; the Delo "True cost of oil" PDF buttons were dropped. Text-link videos keep their label ("Watch the video >").
+  - `hero-overlay`: every overlay text area is kept, not only the first (Delo difference heroes: tab bar, heading, "SWITCH TO ..." link).
+  - `columns-promo`: overlay captions and links over images are kept (Delo "Why oil matters" tiles).
+  - `cards-filterable`: product knowledge-center lists (search path `/en_us/home/products`) become static rows like blog lists (ISOCLEAN program "Start clean": 11 product links), instead of the resources-sheet link.
+  - `chevron-expertise-cleanup`:
+    - Text-link video detection also looks inside the holder.
+    - `FORM_LINKS`: 7 pages with untitled Salesforce forms link to their live form ("Fill out the form").
+  - `generate-link-map.mjs`: `--` collapses to `-` like the importer's saved paths (johnston-trucking-inc-pdf).
+- **Local nav and footer:** 12 links relinked to the new pages (products selector, accessibility, subscribe, where to buy, promotions, emissions control center, special offers). Backups: `migration-work/{nav,footer}.before-relink-remaining-2026-10-31.plain.html`, `migration-work/nav.before-site-search-2026-10-31.plain.html`.
+
+### Testing
+- [x] 160/160 imported, 0 errors.
+- [x] Line-level text check vs the rendered source (every line of 4+ words): no real gaps left. Remaining hits are:
+  - Superscript ®, and product names that are now links (text present).
+  - "*All fields are required" (form notes).
+  - The menu and footer rendered inside `#main-content` on the 6 product overview pages; those source pages only hold the equipment-type links and "Connect with us".
+- [x] Site search tested in the local preview with an index built from the 297 local pages: "delo" gives 131 results over 17 pages; page 2, no results and the empty query all work; no horizontal scroll at 390px; the header form submits to the new page.
+- [x] Render check of the 160 pages in the local preview at 1440 and 390px: no script errors, no sections stuck loading, no horizontal scroll. One broken image left, the power-generation-solutions "Environmental icon": both its source renditions are an upper-case `.JPG` that 404s on chevronlubricants.com too, and there is no DAM original.
+  - Fixed along the way:
+    - Long underscore rules in `hero-overlay` text widened phones by 50px on the 6 industrial engine-oil pages: `overflow-wrap: break-word`.
+    - `columns-cta` icon links with no label or alt (greasethickeners, thickener-type "Let's talk shop") had the URL as their text and widened phones by 98–122px. The icon is now the link, with alt text from the target page name.
+    - Upper-case DAM files used as lazy `data-src` or as carousel background images (isoclean-program/start-clean Steel/Waste/Power) now use `/_jcr_content/renditions/original`.
+- [x] **Design pass (2026-11-01):** source-measured, verified side by side at 1440 and 390.
+  - **Blog articles** (77 pages): new `templates/blog-article/blog-article.css`, applied through `template: blog-article` metadata, which `import-expertise-marketing.js` adds for `/learning/from-chevron/<category>/<article>`.
+    - Layout from the source: #f5f5f5 byline band (60px round avatar, "By …", topic tags); centred title and subtitle; 890px article column in #6d6d6d with one line between paragraphs; #f5f5f5 author-bio box (italic, centred, 100px avatar).
+    - `chevron-expertise-cleanup` joins the byline topic tags and the post tags into one line each ("Tags: Heavy Duty, Synthetics, …"; the post tag links had no href).
+    - The metadata key is lower-case because the local preview keeps the case.
+    - The 2 articles migrated earlier are not re-imported; they get the template on their next re-import.
+  - **`hero-overlay`, several overlays** (12 Delo difference pages):
+    - The parser writes one `[position | text]` row per overlay ("Top center", "Bottom left", "Bottom right"; `.buttonOverlay` links are "Bottom left").
+    - The block places each where the source does: tab bar top centre 14px, tagline bottom left (44px, 3 lines like the source's 50px Gotham), link bottom right 11px. The scrim is clipped to the photo; areas stack under the photo on phones.
+    - Single-overlay heroes keep the 2-row model and code path (gf-7, coolant, techron unchanged).
+  - **Quote panels:** an inline `background-color: rgb(0,55,100)` on a rich text maps to `blue-bg` (`chevron-expertise-sections`), so the quote and its attribution share one blue band like the source. A `blue-bg` `h1 + h2` (quote split over two headings) uses 30px/36px for both lines.
+  - **Delo difference video band:** the `columns-media` selector also takes a divider + video media column; the band shows text beside the video photo, as on the source (was text plus an empty blue area).
+  - **`cards-service`:** a multi-column whose item contains a nested multi-column is not a card grid. The industrial engine-oil "Coolants count too" column was one heading-sized link in a narrow card; it is regular content now.
+  - **`columns-cta`:** image-only cells are kept and image links with no text are shown at their own size, max 231px (greasethickeners "Let's talk shop": Reach a Rep / Contact a Distributor / Chat with an Expert were 28px or missing).
+  - **`search`:** heading 24px, #6d6d6d text, 1.2 line height, matching the source.
+  - **`scripts/ak.js` `decorateButton`:** emphasis around a whole sentence that contains a link no longer turns the link into a button. It dropped the sentence; blog articles end with an italic "Hear Shawn discuss … on LandlineNow.com" paragraph. Buttons on en-us/home, havoline/business and havoline-oil-change-pros are identical to the live site.
+  - All 69 expertise-services and 79 expertise-marketing new pages were re-imported with the final code.
+- [ ] Known gaps:
+  - Delo difference "A small gain in every engine" band: text plus a nested 2-tile image grid stays stacked (no block for that shape); images are large.
+  - Industrial engine-oil "What's the right lubricant?": a 2-column text grid on the source, one column here (text-only multi-columns are flattened).
+  - Delo customer stories: the source centres the title and shows "Buy Now" as a button.
+  - Approximate match at 1440: blog article ~90%, Delo customer story ~85%, Delo difference ~80%, greasethickeners ~85%, industrial engine oil ~75%, search ~90%; Products overview matches (the source page is empty too).
+  - Pages that were already migrated still link to the live versions of these pages until they are re-imported or relinked.
+  - The search index fills only as pages are previewed or published after this change is on `main`.
+  - Source redirects (14) are not yet in the redirects sheet.
+
+---
+
 ### Implement Chevron consent and live analytics
 
 **Branch:** `ynaka-adobe-chevron-consent-and-analytics`
