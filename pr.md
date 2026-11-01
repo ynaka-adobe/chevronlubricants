@@ -32,8 +32,8 @@
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
 **Status:** Initial treatment published directly to `main` as `e3679fb` using
-`@ynakagawa`; user-directed rounded-image/overlay revision verified locally
-and ready for publication. No PR requested.
+`@ynakagawa`; user-directed rounded-image/overlay revision published as
+`09fd5a5` and verified live. No PR requested.
 
 - Remove image rounding and dark-band card clipping in `columns-promo` only;
   retain image sizing, card layout, links, text and alt attributes.
@@ -86,6 +86,12 @@ and ready for publication. No PR requested.
   checked at 1440px, 390px and 320px: overlay remains inside each image below
   its headline/tagline, correct destinations/alt, visible Tab focus, no nested
   anchors, no horizontal overflow or page errors. No DA or image edits needed.
+- Published live custom domain rechecked at 1440px, 390px and 320px with no
+  local overrides: all overlays remain within the image, below the source
+  taglines, with 44px minimum height and visible keyboard focus. The shared
+  preview browser also confirms rounded corners, correct hrefs and no nested
+  anchors. Decompressed live JS/CSS match committed bytes and homepage authored
+  HTML is byte-identical to the pre-revision snapshot. No composite images.
 
 ### Migrate the remaining site pages (160) + site search
 
