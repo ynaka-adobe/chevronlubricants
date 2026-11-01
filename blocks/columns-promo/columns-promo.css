@@ -48,7 +48,7 @@
   margin: 0 auto;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 15px;
+  border-radius: 0;
 }
 
 /* Text: black, centered, 10px under each text group */
@@ -96,22 +96,26 @@
   color: inherit;
 }
 
+.columns-promo .columns-promo-card > .columns-promo-cta-container {
+  margin-top: 10px;
+}
+
+.columns-promo .columns-promo-card a.columns-promo-cta:any-link {
+  color: var(--button-color);
+}
+
 /* On dark section bands (landing-page fragments) keep the white card
  * treatment so black copy stays legible. */
 :is(.full-width-bg, .blue-bg) .columns-promo .columns-promo-card {
   overflow: hidden;
   padding-bottom: var(--spacing-l);
   border: 1px solid #d8d8d8;
-  border-radius: 4px;
+  border-radius: 0;
   background-color: var(--color-white);
 }
 
 :is(.full-width-bg, .blue-bg) .columns-promo .columns-promo-card > :not(.columns-promo-image) {
   padding-inline: var(--spacing-l);
-}
-
-:is(.full-width-bg, .blue-bg) .columns-promo .columns-promo-card .columns-promo-image img {
-  border-radius: 0;
 }
 
 @media (width >= 900px) {

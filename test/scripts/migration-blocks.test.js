@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { decorateLink, loadBlock, setConfig } from '../../scripts/ak.js';
 import decorateHero from '../../blocks/hero-overlay/hero-overlay.js';
 import decorateColumns from '../../blocks/columns-cta/columns-cta.js';
+import decoratePromo from '../../blocks/columns-promo/columns-promo.js';
 import decorateSearch from '../../blocks/search/search.js';
 
 const IMAGE = 'data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E';
@@ -102,6 +103,85 @@ describe('EMA migration block regressions', () => {
     expect(links[0].querySelector('img').alt).to.equal('Contact a Distributor');
     expect(block.querySelectorAll('a')[1]).to.equal(links[1]);
     expect(block.querySelector('.columns-cta-text').textContent).to.equal('Let us help');
+  });
+
+  it('adds promo buttons after copy without changing image links, alt text or authored nodes', () => {
+    document.body.innerHTML = `<div class="columns-promo"><div>
+      <div><a href="/delo" target="_blank" rel="noopener"><picture><img src="${IMAGE}" alt="Delo products"></picture></a>
+        <p><strong>Total Vehicle Protection</strong></p><p>Protect critical engines.</p></div>
+      <div><p>Hydraulic protection.</p><p><a href="/clarity"><img src="${IMAGE}" alt="Clarity"></a></p>
+        <p><strong>Perform without Compromise</strong></p></div>
+    </div></div>`;
+    const block = document.querySelector('.columns-promo');
+    const links = [...block.querySelectorAll('a')];
+    const images = [...block.querySelectorAll('img')];
+    const copy = [...block.querySelectorAll('p')].filter((p) => !p.querySelector('img'));
+    decoratePromo(block);
+    const buttons = [...block.querySelectorAll('.columns-promo-cta')];
+    expect(buttons.map((a) => a.getAttribute('href'))).to.deep.equal(['/delo', '/clarity']);
+    expect(buttons.map((a) => a.textContent)).to.deep.equal(['Learn More', 'Learn More']);
+    expect(buttons[0].getAttribute('aria-label')).to.equal('Learn More: Total Vehicle Protection');
+    expect(buttons[1].getAttribute('aria-label')).to.equal('Learn More: Perform without Compromise');
+    expect(buttons[0].target).to.equal('_blank');
+    expect(buttons[0].rel).to.equal('noopener');
+    expect([...block.querySelectorAll('.columns-promo-image a, a.columns-promo-image')]).to.deep.equal(links);
+    expect([...block.querySelectorAll('img')]).to.deep.equal(images);
+    expect(images.map((img) => img.alt)).to.deep.equal(['Delo products', 'Clarity']);
+    copy.forEach((p) => expect(block.contains(p)).to.be.true);
+    [...block.querySelectorAll('.columns-promo-card')].forEach((card) => {
+      expect(card.firstElementChild.classList.contains('columns-promo-image')).to.be.true;
+      expect(card.lastElementChild.classList.contains('columns-promo-cta-container')).to.be.true;
+    });
+    decoratePromo(block);
+    expect(block.querySelectorAll('.columns-promo-cta')).to.have.length(2);
+  });
+
+  it('does not invent promo destinations or duplicate an authored button', () => {
+    document.body.innerHTML = `<div class="columns-promo"><div>
+      <div><picture><img src="${IMAGE}" alt="Unlinked artwork"></picture><p>Information only.</p></div>
+      <div><a href="/havoline"><img src="${IMAGE}" alt="Havoline"></a>
+        <p><a class="btn btn-primary" href="/offers">View offers</a></p></div>
+    </div></div>`;
+    const block = document.querySelector('.columns-promo');
+    const authoredCTA = block.querySelector('.btn');
+    decoratePromo(block);
+    expect(block.querySelectorAll('.columns-promo-cta')).to.have.length(0);
+    expect(block.querySelector('.btn')).to.equal(authoredCTA);
+    expect(authoredCTA.textContent).to.equal('View offers');
+    expect(authoredCTA.getAttribute('href')).to.equal('/offers');
+  });
+
+  it('keeps promo image and dark-band card corners square and button labels legible', async () => {
+    const stylesheets = ['/styles/styles.css', '/blocks/columns-promo/columns-promo.css'].map((href) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      return link;
+    });
+    try {
+      await Promise.all(stylesheets.map((link) => new Promise((resolve, reject) => {
+        link.onload = resolve;
+        link.onerror = reject;
+        document.head.append(link);
+      })));
+      document.body.innerHTML = `<div class="blue-bg"><div class="columns-promo"><div>
+        <div><a href="/delo"><picture><img src="${IMAGE}" alt="Delo"></picture></a>
+        <p><strong>Total Vehicle Protection</strong></p></div>
+      </div></div></div>`;
+      const block = document.querySelector('.columns-promo');
+      decoratePromo(block);
+      const image = block.querySelector('img');
+      const card = block.querySelector('.columns-promo-card');
+      const button = block.querySelector('.columns-promo-cta');
+      expect(getComputedStyle(image).borderRadius).to.equal('0px');
+      expect(getComputedStyle(card).borderRadius).to.equal('0px');
+      expect(getComputedStyle(button).color).to.equal('rgb(255, 255, 255)');
+      expect(getComputedStyle(button).backgroundColor).to.equal('rgb(12, 46, 114)');
+      document.querySelector('.blue-bg').classList.remove('blue-bg');
+      expect(getComputedStyle(image).borderRadius).to.equal('0px');
+    } finally {
+      stylesheets.forEach((link) => link.remove());
+    }
   });
 
   it('loads search through author-kit without fetching an index for an empty query', async () => {

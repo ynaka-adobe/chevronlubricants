@@ -26,6 +26,27 @@ export default function decorate(block) {
     imgContainer.classList.add('columns-promo-image');
     /* Image always renders first, even if authored after the title */
     if (imgContainer !== col.firstElementChild) col.prepend(imgContainer);
+
+    const imageLink = media.closest('a[href]');
+    const existingCTA = [...col.querySelectorAll('a.btn, a.button, a.columns-promo-cta')]
+      .find((a) => !imgContainer.contains(a) && a !== imgContainer);
+    if (!imageLink || existingCTA) return;
+
+    const cta = document.createElement('a');
+    cta.className = 'btn btn-primary columns-promo-cta';
+    ['href', 'target', 'rel', 'hreflang'].forEach((attribute) => {
+      if (imageLink.hasAttribute(attribute)) {
+        cta.setAttribute(attribute, imageLink.getAttribute(attribute));
+      }
+    });
+    cta.textContent = 'Learn More';
+    const title = col.querySelector('h1, h2, h3, h4, h5, h6, p > strong')?.textContent.trim()
+      || media.querySelector?.('img')?.alt || media.getAttribute('alt');
+    if (title) cta.setAttribute('aria-label', `Learn More: ${title}`);
+    const ctaContainer = document.createElement('p');
+    ctaContainer.className = 'columns-promo-cta-container';
+    ctaContainer.append(cta);
+    col.append(ctaContainer);
   });
 
   if (linkRow) linkRow.classList.add('columns-promo-link-row-hidden');
