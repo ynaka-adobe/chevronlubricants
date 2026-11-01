@@ -31,8 +31,9 @@
 ### Migrate the remaining site pages (160) + site search
 
 **Branch:** `aem-20261031-2052`, [PR #13](https://github.com/ynaka-adobe/chevronlubricants/pull/13)
-**Status:** PR open. Conflicts resolved against `main` at `75f9be4`; migration remains
-in progress. This merge does not upload, preview or publish DA content.
+**Status:** PR open, conflicts resolved and pushed as `286ad1b` against `main`
+at `75f9be4`. Merge blocked by external `aem-psi-check` failures; migration
+remains in progress. No DA content was uploaded, previewed or published.
 
 - Conflict resolution preserves this migration entry and the consent/live
   Insights entry from `main`, without changing either implementation.
@@ -40,10 +41,12 @@ in progress. This merge does not upload, preview or publish DA content.
 - Focused commerce, consent/Insights and migration browser suite: 43 passing
   tests. Added coverage for positional heroes, image CTAs, button text
   preservation, search pagination and consent-gated migration instrumentation.
-  Test ESLint and whitespace checks pass.
-- Original `aem-psi-check` failed with "Lighthouse Score: n/a": ten PSI
-  requests reported "Unable to process request. Please wait a while and try
-  again." A fresh check is required before merging; no check override.
+  Test/runtime ESLint, affected Stylelint and whitespace checks pass.
+- Both the original and fresh `aem-psi-check` failed with "Lighthouse Score:
+  n/a": ten PSI requests in each run reported "Unable to process request.
+  Please wait a while and try again." Failing requests vary across runs,
+  including unchanged library pages. Rerequesting check `124744211117`
+  via GitHub returned HTTP 404. No check override or merge was performed.
 
 ### Summary
 - **Scope** (`source_website.md`, "Remaining site pages (160)"):
