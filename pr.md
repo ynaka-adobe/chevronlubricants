@@ -31,8 +31,8 @@
 ### Square-corner homepage promo images and accessible CTA buttons
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Approved and verified locally; code publication in progress using
-`@ynakagawa`. No PR requested.
+**Status:** Published directly to `main` as `e3679fb` using `@ynakagawa`;
+DA homepage previewed/published and verified live. No PR requested.
 
 - Remove image rounding and dark-band card clipping in `columns-promo` only;
   retain image sizing, card layout, links, text and alt attributes.
@@ -62,6 +62,11 @@
   Real homepage with local block assets verified at 1440px and 390px: three
   matching image/button destinations, square images, readable keyboard-focusable
   buttons, no horizontal overflow or page errors. Root copies are untouched.
+- Published preview and live custom domain rechecked at 1440px/390px without
+  local asset overrides. Live JS/CSS match committed bytes after HTTP
+  decompression. Approved CTA-free uploaded images are pixel-identical to the
+  prepared edits; both image and real CTA links use their previous destinations.
+  Existing card copy/layout, consent/analytics, commerce and EMA code are retained.
 
 ### Migrate the remaining site pages (160) + site search
 
