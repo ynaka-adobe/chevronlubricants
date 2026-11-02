@@ -31,9 +31,9 @@
 ### Unify persona query aliases and selected persona
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Validated and ready for user-authorized direct publication using
-`@ynakagawa`. The user will reauthor content persona keys; no DA edits or
-invented legacy-name mapping. No PR requested.
+**Status:** Published directly to `main` as `bf59923` using `@ynakagawa` and
+verified on the actual live custom domain. The user will reauthor content
+persona keys; no DA edits or invented legacy-name mapping. No PR requested.
 
 - Live published bytes and requests confirm `p=3` already sets the Target
   persona to Procurement and Sourcing Manager, including query-free navigation.
@@ -70,7 +70,20 @@ invented legacy-name mapping. No PR requested.
   cross-tab changes/revocation and no evaluation without a current selection.
   Numeric authored content is fixture-verified; live schedules remain
   user-owned and currently use content fallback for numeric selections.
-  Published-byte and no-override live verification follow publication.
+- All seven deployed runtime assets now byte-match the committed code.
+  Six existing assets initially remained stale on the custom domain; successful
+  exact-asset EDS cache refreshes restored parity. No broad purge, CDN config
+  deployment or cache-busting code was used.
+- No-override live verification covered every role and actual profile values
+  `3,3,3,4,4,4,2,2,2,2,1,1,1`, all HTTP 200 with the same Target visitor.
+  Both aliases, precedence, navigation/reload, cross-tab content/trait changes,
+  numeric local analytics context, invalid inputs, revocation and no-selection
+  safeguards passed without page errors. Desktop/mobile screenshots show a
+  single selected role instead of "Content persona: Default."
+- This confirms live profile parameter delivery and identity continuity, not
+  independently verified audience membership, Adobe Analytics report-suite
+  persona configuration or CJA/AEP profile ingestion. Server retention and
+  browser session-restore limitations remain as documented.
 
 ### Persist numeric Target personas across the browser session
 
