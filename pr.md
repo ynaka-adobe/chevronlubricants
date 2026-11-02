@@ -156,9 +156,27 @@ verified on the live custom domain. No PR requested.
 ### Migrate the remaining site pages (160) + site search
 
 **Branch:** `aem-20261031-2052`, [PR #13](https://github.com/ynaka-adobe/chevronlubricants/pull/13)
-**Status:** PR open, conflicts resolved and pushed as `286ad1b` against `main`
-at `75f9be4`. Merge blocked by external `aem-psi-check` failures; migration
-remains in progress. No DA content was uploaded, previewed or published.
+**Status:** Merged into `main` (`be32c37`). Code is live.
+- **Content sync incident and repair, 2026-11-01:**
+  - The app's Sync → Content (03:57 GMT) uploaded and published every local page (454). It rewrote image names (an extra `-xxxxxxxx` suffix, files never created) and links:
+    - absolute chevronlubricants.com links became site paths, including pages that are not migrated
+    - `#author-bio` became `/`
+    - `resources.json` became `resources-json`
+  - Homepage: all 37 images broken. 89 pages had broken images.
+  - Repair: DA was checked against the local copies (299 /en-us pages + nav + footer). 281 differed only by those rewrites and 18 were identical; there were no content edits.
+    - Re-uploaded and published from the local copies: the homepage and the 281 pages.
+    - 7 older pages had `about:error` in their local copy (techron, isoclean, isoclean/customer-success, how-hydraulic-oils-impact-efficiency, vartech-isc, and 2 blog articles). They were re-imported from the source (backups in `migration-work/before-reimport-2026-11-01/`), uploaded and published.
+  - Result: 0 broken images on /en-us pages except the power-generation-solutions icon, which 404s on the source.
+  - `query-index.json` holds 280 pages; live search for "delo" returns 132 results. The blog template and positioned hero overlays are live.
+  - Not touched: the pre-restructure copies (`/index`, `/learning/…`, `/products/…`) and Author Kit samples (`/docs`, `/fragments`). They were live before the sync and still have old broken images.
+  - Avoid Sync → Content until the image renaming is fixed in the app.
+- **Local content re-synced from DA (2026-11-01):**
+  - 337 pages and 10 sheets were pulled into `content/`; the previous local content is backed up in `migration-work/content-backup-2026-11-01/` (456 pages, 7 sheets).
+  - /en-us pages, nav and footer changed only in formatting. 15 fragments and Author Kit sample pages took the newer DA versions, and 7 DA-only sheets were added.
+  - 119 local-only pages (pre-restructure copies and test pages) and 4 local-only sheets remain, because the workspace cannot delete content files.
+- **ISOCLEAN calculator data sheet (2026-11-02):** `isoclean-calculator-data.json` had never been added to DA, so the live calculator got a 404 for its data.
+  - Uploaded and published (components 321, scenarios 12, targets 6).
+  - Verified live on the custom domain: Construction → Backhoe Loader → Engine → Extreme gives target 20/18/15 and current 28/26/23, as on the source.
 
 - Conflict resolution preserves this migration entry and the consent/live
   Insights entry from `main`, without changing either implementation.
