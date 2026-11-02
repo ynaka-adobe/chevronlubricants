@@ -28,6 +28,45 @@
 
 ## Open PRs
 
+### Persist numeric Target personas across the browser session
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** User approved publishing the consent-gated integration; final
+validation before direct publication using `@ynakagawa`. No PR requested.
+
+- Exact string digits `p=1..4` populate Target visitor profile `persona`,
+  separate from UI labels and the named `?persona=fleet-managers` content
+  selector. Invalid values preserve the last valid choice.
+- Use a host-only Secure/SameSite=Lax session cookie with no expiry, shared
+  across same-origin tabs; no localStorage/sessionStorage persona fallback.
+  Synchronize open tabs and serialize same-origin profile requests, including
+  older in-flight requests when another tab changes the selection.
+- Add explicit Personalization consent without upgrading existing choices;
+  honor GPC/sale opt-out, independent analytics permission and cross-tab
+  revocation. No Target library or request before permission or without a
+  current browser-session persona.
+- Use the unchanged canonical `acsmarketing` embed, not the pre-existing
+  unused bundle for a different tenant. Disable automatic requests, views,
+  body hiding and third-party cookies. Send the numeric profile attribute on
+  the initial manual request and expose it for subsequent SDK requests.
+  Target identity cookies are hostname-scoped. Do not edit audiences or
+  activities, apply offers, change DA content or modify existing layouts.
+- Target can retain server-side profile attributes beyond browser-session
+  lifetime; no client-only expiry or deletion is claimed. Without the session
+  selection this integration makes no evaluation; no sentinel value is sent.
+  Browser session-restore may restore session cookies. These limitations were
+  explained before the user approved publication.
+- Actual consented Target delivery with local assets verified initial `3`,
+  query-free second-tab/reload `3`, same hostname-scoped Target visitor identity, `4` across three
+  tabs, invalid-value preservation, cross-tab revocation and no evaluation
+  without a selection. All observed delivery responses were HTTP 200.
+  This verifies parameter delivery/identity, not audience membership.
+- 70 focused tests pass across Target/browser-session persona, fragment
+  styling, consent/analytics, migration/promo, commerce and DA preview.
+  Target cases share the martech test file's sequential execution because
+  consent is intentionally shared across same-origin tabs. Scoped ESLint and
+  whitespace checks pass. No authored content, audiences or activities changed.
+
 ### Add live analytics User Traits
 
 **Branch:** `ynaka-adobe-chevron-promo-images`

@@ -1,4 +1,4 @@
-import { getConsent, reportError } from './consent.js';
+import { clearCookies, getConsent, reportError } from './consent.js';
 
 export const CONFIG = Object.freeze({
   reportSuiteId: 'acsmarketingb2bcontentexperiences',
@@ -107,16 +107,8 @@ export function revokeAnalytics() {
     image.removeAttribute('src');
   });
   pending.clear();
-  // Remove cookies left by a previous Analytics/Target implementation, not essential site cookies.
-  document.cookie.split(';').forEach((cookie) => {
-    const name = cookie.split('=')[0].trim();
-    if (!/^(s_(fid|vi|sq|cc)|mbox|at_check|AMCVS?_.+)$/.test(name)) return;
-    const parts = window.location.hostname.split('.');
-    const domains = ['', ...parts.slice(0, -1).map((_, index) => `; Domain=.${parts.slice(index).join('.')}`)];
-    domains.forEach((domain) => {
-      document.cookie = `${name}=; Path=/; Max-Age=0${domain}; SameSite=Lax`;
-    });
-  });
+  // Target has independent consent and cookie cleanup.
+  clearCookies(/^(s_(fid|vi|sq|cc)|AMCVS?_.+)$/);
 }
 
 export function send(entry, onResult) {

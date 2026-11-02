@@ -15,16 +15,19 @@ ranked component/link bars, event categories and timestamped feed. Consent and
 collector details are expandable. Live updates preserve reader scroll, focus
 and expanded details; revocation clears the dashboard immediately. Chevron
 colors, event names, duplicate-component positions and bounded retention are
-preserved. Parker's CJA/persona previews, bot heuristics and reference benchmarks
-are intentionally omitted: they are not supported live Chevron Analytics data.
+preserved. User Traits distinguishes the numeric Target persona from the named
+content persona, with a browser-only CJA preview (no CJA/AEP connection).
+Bot heuristics and reference benchmarks are omitted.
 
 Optional measurement is off until an explicit choice. Accept All enables
-analytics and external media; Reject All disables both. The advertising/sale
+analytics, external media and personalization; Reject All disables all three. The advertising/sale
 opt-out saves necessary-only consent. Close/Escape saves nothing and grants
 nothing. Cookie preferences is available below the footer on every page and
 inside the booklet. Choices expire after 180 days, and cross-tab changes apply
 immediately. Global Privacy Control is an advertising/sale opt-out, never an
-analytics grant. Target and RUM are not loaded by this Analytics-only build.
+analytics grant. Target additionally requires personalization consent and a
+valid browser-session persona. Existing consent records do not automatically
+gain personalization permission. RUM remains disabled.
 Videos and tool embeds require the separate external-media preference;
 functional locator services and form anti-abuse protection remain unchanged.
 
@@ -50,11 +53,55 @@ Pre-consent events are never queued. Revocation clears the retained event
 window and stops new requests; it cannot retract a request already received
 by Adobe. URLs omit queries, fragments and user-info; email addresses, phone
 numbers and opaque path identifiers are redacted. No form values, search
-terms, referrers or persistent visitor IDs are collected. The visitor ID is
-page-scoped, so this privacy-bounded demo does not provide production-comparable
+terms, referrers or persistent visitor IDs are collected by Analytics. Its visitor ID is
+page-scoped for Analytics, so this privacy-bounded demo does not provide production-comparable
 visit/visitor metrics. Retention is at most 200 in-memory events (60 in the
 booklet feed), cleared on revocation/navigation. Booklet counts and CTR apply
 to that retained window, not all traffic or lifetime session totals.
+
+### Target B2B persona profile
+
+After **Personalization** consent, `?p=1`, `?p=2`, `?p=3` or `?p=4` sets the
+Target visitor profile attribute `persona` to that exact string digit. Labels
+are UI-only: 1 Technical Evaluator, 2 Business Decision Maker,
+3 Procurement and Sourcing Manager, 4 Industry Researcher. This matches
+audiences such as **Visitor Profile: persona equals 3**.
+
+The host-only `chevron-target-persona` session cookie has `Path=/`,
+`SameSite=Lax`, `Secure` on HTTPS and no `Expires`/`Max-Age`. It is shared by
+same-origin tabs; query-free navigation/reload reuses it, and a new valid `p`
+replaces it. Invalid values never overwrite an established choice. There is
+no localStorage or per-tab sessionStorage persona fallback. BroadcastChannel
+updates open tabs, with focus/visibility refresh and a polling fallback where
+BroadcastChannel is unavailable. Web Locks serialize same-origin profile
+requests; browsers without Web Locks reconcile changes after responses.
+
+The consent-gated client uses the unchanged `acsmarketing` embed from
+`ynaka-adobe/da-demo-kit` (`deps/at/vendor-at.js`). Automatic pageLoad/views and
+body hiding are disabled. The first manual delivery request includes
+`execute.pageLoad.profileParameters.persona`; `targetPageParamsAll` exposes
+`profile.persona` for subsequent SDK requests. The client sends the stored
+numeric selection on every eligible page and resynchronizes changed tabs.
+Target identity cookies are scoped to this hostname; third-party Target
+cookies are disabled. The older `deps/at/at.js` belongs to a different tenant
+and is not loaded. No audiences/activities or page offers are created/applied.
+
+Target's standard request includes page URL (including its query), referrer,
+browser context and Target identity, unlike the separately sanitized Analytics
+events. Form fields are not read. Avoid personal information in page URLs.
+Personalization/GPC/sale opt-out is independent of analytics permission.
+Revocation clears this host's session choice and accessible Target cookies,
+stops new delivery and ignores late responses; it cannot retract server data.
+
+**Lifetime limitation:** a session cookie normally ends with the browser
+session, but browser session-restore can restore it. Target can retain the
+server-side `persona` attribute longer than that cookie. This integration
+does not claim to delete or expire that remote attribute at browser close:
+without a current session selection it makes no Target evaluation, and it
+sends a new valid selection before the next evaluation. No sentinel profile
+value is written. Closing one tab does not end a shared browser session;
+preview/custom domains are different origins and do not share the choice.
+User Traits reports delivery status, not verified audience membership.
 
 ## Chevron Edge Commerce pilot
 

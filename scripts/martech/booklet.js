@@ -1,6 +1,7 @@
 import { addStyle, element, openConsent, reportError } from './consent.js';
 import { cleanText, CONFIG } from './analytics.js';
 import { subscribe } from './instrument.js';
+import { PERSONAS, targetState } from '../target.js';
 
 const CATEGORIES = {
   'page-view': 'Page',
@@ -108,15 +109,19 @@ function userTraits(events, open) {
   const heading = element('summary', 'User Traits ');
   heading.append(element('span', 'CJA preview', 'chevron-booklet-badge'));
   traits.append(heading, element('p', 'A preview of person-level traits, computed in this browser from the '
-    + 'rendered persona and consented page events. No CJA API or unified profile is connected.'));
+    + 'rendered persona and consented page events. No CJA API or unified CJA/AEP profile is connected.'));
   const list = element('dl', undefined, 'chevron-booklet-observations');
   const personas = [...new Set([...document.querySelectorAll('main .persona-fragment-content[data-persona]')]
     .map((node) => cleanText(node.dataset.persona)).filter(Boolean))];
   const labels = { default: 'Default', 'fleet-managers': 'Fleet Managers', oem: 'OEM' };
   const names = personas.map((id) => labels[id] || id.replaceAll('-', ' '));
   const lastForm = events.findLast((entry) => entry.event === 'form-submit');
+  const target = targetState();
   const rows = [
-    ['Persona', names.join(', ') || 'No persona active',
+    ['Persona (Target)', PERSONAS[target.persona] || 'No Target persona selected',
+      `${target.persona ? `Profile persona: ${target.persona} - ` : ''}${target.status}`,
+      target.consented ? 'Browser-session selection' : 'Personalization consent required'],
+    ['Content persona', names.join(', ') || 'No persona active',
       personas.length ? `Persona id: ${personas.join(', ')} - resolved from the rendered schedule fragment`
         : 'No resolved persona fragment on this page', 'Measured in this browser'],
     ['Last form submit', lastForm?.form?.name || 'None yet',
@@ -256,11 +261,14 @@ export default function initBooklet() {
     const traitsOpen = live.querySelector('.chevron-booklet-traits')?.open ?? true;
     const traitsFocused = document.activeElement === live.querySelector('.chevron-booklet-traits > summary');
     live.replaceChildren(current.consent.analytics ? dashboard(current.events, traitsOpen)
-      : element('p', 'Nothing is captured or sent until analytics consent is granted.', 'chevron-booklet-empty'));
-    if (traitsFocused && current.consent.analytics) {
+      : element('p', 'No analytics events are captured or sent until analytics consent is granted.', 'chevron-booklet-empty'));
+    if (!current.consent.analytics && current.consent.personalization) {
+      live.append(userTraits([], traitsOpen));
+    }
+    if (traitsFocused && (current.consent.analytics || current.consent.personalization)) {
       live.querySelector('.chevron-booklet-traits > summary').focus({ preventScroll: true });
     }
-    body.scrollTop = current.consent.analytics ? scrollTop : 0;
+    body.scrollTop = current.consent.analytics || current.consent.personalization ? scrollTop : 0;
   };
   function setOpen(open) {
     panel.hidden = !open;
@@ -286,17 +294,22 @@ export default function initBooklet() {
       renderFrame = requestAnimationFrame(render);
     }
   });
+  window.addEventListener('chevron:target-persona-changed', () => {
+    if (current && !panel.hidden && !renderFrame) renderFrame = requestAnimationFrame(render);
+  });
   subscribe((next) => {
     const changed = !current || next.events.length !== current.events.length
       || next.events[0] !== current.events[0] || next.events.at(-1) !== current.events.at(-1)
-      || next.consent.analytics !== current.consent.analytics;
+      || next.consent.analytics !== current.consent.analytics
+      || next.consent.personalization !== current.consent.personalization;
     current = next;
     const text = next.consent.analytics ? 'Analytics consent granted' : 'Waiting for analytics consent';
     if (status.textContent !== text) status.textContent = text;
     count.textContent = String(next.consent.analytics ? next.events.length : 0);
     toggle.dataset.analytics = String(next.consent.analytics);
     consentText.textContent = `Advertising/sale opt-out: ${next.consent.saleOptOut ? 'on' : 'not selected'}. `
-      + `External media: ${next.consent.externalMedia ? 'on' : 'off'}. Personalization: not enabled.`;
+      + `External media: ${next.consent.externalMedia ? 'on' : 'off'}. `
+      + `Personalization: ${next.consent.personalization ? 'on' : 'off'}.`;
     collection.textContent = next.collection;
     if (!next.consent.analytics) {
       cancelAnimationFrame(renderFrame);

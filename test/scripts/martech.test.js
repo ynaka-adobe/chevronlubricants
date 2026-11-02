@@ -1,4 +1,6 @@
 import { expect } from '@esm-bundle/chai';
+// These cases share consent storage, so they must not run in a parallel test-file context.
+import './target.cases.js';
 
 describe('Chevron consent-first analytics', () => {
   let frame;
@@ -297,7 +299,7 @@ describe('Chevron consent-first analytics', () => {
     expect(traits.textContent).not.to.include('unknown-private-value');
     expect(traits.textContent).to.include('No CJA API');
     expect(traits.textContent).to.include('Personal form field values are not collected');
-    expect(traits.querySelectorAll('dt').length).to.equal(5);
+    expect(traits.querySelectorAll('dt').length).to.equal(6);
     api.consent.setConsent({});
     expect(doc.querySelector('.chevron-booklet-traits')).to.equal(null);
   });

@@ -23,6 +23,19 @@
     </main>
     <script type="module">
       window.requests = [];
+      window.targetCalls = [];
+      if (new URLSearchParams(location.search).get('target') === '1') {
+        const meta = document.createElement('meta');
+        meta.name = 'target';
+        meta.content = '1';
+        document.head.append(meta);
+        window.adobe = { target: {
+          async getOffers(request) {
+            window.targetCalls.push(structuredClone(request));
+            return { execute: { pageLoad: {} } };
+          },
+        } };
+      }
       window.testObservers = [];
       window.Image = class {
         set src(value) {
@@ -47,7 +60,7 @@
           }
         }
       };
-      const [integration, consent, instrument, analytics, media, booklet, ak] = await Promise.all([
+      const [integration, consent, instrument, analytics, media, booklet, ak, target] = await Promise.all([
         import('../../scripts/martech/index.js'),
         import('../../scripts/martech/consent.js'),
         import('../../scripts/martech/instrument.js'),
@@ -55,9 +68,10 @@
         import('../../scripts/martech/media.js'),
         import('../../scripts/martech/booklet.js'),
         import('../../scripts/ak.js'),
+        import('../../scripts/target.js'),
       ]);
       integration.default();
-      window.testAPI = { integration, consent, instrument, analytics, media, booklet, ak };
+      window.testAPI = { integration, consent, instrument, analytics, media, booklet, ak, target };
       document.addEventListener('click', (event) => {
         if (event.target.closest('main a')) event.preventDefault();
       });

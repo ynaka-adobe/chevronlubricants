@@ -663,9 +663,21 @@ comes from the successfully rendered schedule fragment, including default and
 fetch fallbacks, not an unverified query parameter. Late fragment rendering
 refreshes the panel. Last form submit uses only sanitized confirmed
 `form-submit` events in the retained page window; Name, Email and Company are
-marked not instrumented and their field values are not collected. Traits are
-hidden before analytics consent and cleared from the panel on revocation.
-Persona is not added to collector variables or persistent analytics storage.
+marked not instrumented and their field values are not collected. Traits require analytics or personalization consent and clear when both are
+revoked. Persona is not added to Analytics collector variables.
+
+The later user-approved Target profile step adds separate Personalization
+consent. Numeric `?p=1..4` selects a host-only browser-session cookie shared by
+same-origin tabs and is sent as `execute.pageLoad.profileParameters.persona`
+to the `acsmarketing` Target tenant, before the first eligible evaluation.
+Labels stay separate from the string numeric audience values. The named
+`?persona=fleet-managers` content selector remains independent. User Traits
+now shows both Target persona/delivery status and the rendered content persona.
+Target may retain its server profile longer than the browser-session cookie;
+no client-only storage mechanism expires that remote attribute. Without a
+current session selection, this client makes no Target evaluation. See
+[README](../README.md#target-b2b-persona-profile) for cross-tab synchronization,
+session-restore caveats, consent/revocation, request context and retention.
 
 Bot heuristics, illustrative invisible-traffic figures and opt-in reference
 benchmarks remain omitted because this US build is Analytics-only and does not
