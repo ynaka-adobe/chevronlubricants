@@ -31,8 +31,8 @@
 ### Add live analytics User Traits
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Validated locally; pending direct publication using `@ynakagawa`.
-No PR requested.
+**Status:** Published directly to `main` as `f935240` using `@ynakagawa` and
+verified on the live custom domain. No PR requested.
 
 - Add Parker-style User Traits / CJA preview below Observations. Show the
   successfully rendered Chevron persona, including schedule/default fallbacks,
@@ -52,6 +52,9 @@ No PR requested.
   OEM, default and unknown-persona fallback: correct resolved labels, no traits
   or collection before consent, immediate clearing on revocation, no overflow
   or page errors. Desktop/mobile screenshots reviewed.
+- Repeated those desktop/mobile cases against published assets with no local
+  overrides after deployment propagation. All resolved labels, consent gates
+  and revocation behavior pass; live JS/CSS bytes match committed assets.
 
 ### Preserve section metadata styling in included fragments
 
