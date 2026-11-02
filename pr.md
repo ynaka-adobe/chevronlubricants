@@ -31,8 +31,8 @@
 ### Preserve section metadata styling in included fragments
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Validated locally against the live site; pending direct publication
-to `main` using `@ynakagawa`. No PR requested.
+**Status:** Published directly to `main` as `446b421` using `@ynakagawa` and
+verified on the live custom domain. No PR requested.
 
 - The fleet-managers fragment keeps its `centered` section metadata when
   included, but shared `main > .section` selectors do not match the fragment
@@ -54,6 +54,11 @@ to `main` using `@ynakagawa`. No PR requested.
   and section metadata/background styles. Standalone fragment and default
   homepage computed styles remain unchanged; no page errors or horizontal
   overflow. Desktop/mobile screenshots reviewed.
+- Rechecked both live URLs without local overrides at 1440px and 390px:
+  included H1 typography and section styles match the standalone fragment.
+  Decompressed deployed CSS matches committed bytes. Existing homepage promo
+  overlays, image links, alt text and visible keyboard focus remain intact at
+  1440px, 390px and 320px, with no overflow or page errors.
 
 ### Homepage promo images and accessible CTA overlays
 
