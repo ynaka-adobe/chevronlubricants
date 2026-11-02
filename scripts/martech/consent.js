@@ -3,6 +3,7 @@ const VERSION = 1;
 const LIFETIME = 180 * 24 * 60 * 60 * 1000;
 const listeners = new Set();
 let state = null;
+let restored = false;
 let initialized = false;
 let banner;
 let preferences;
@@ -47,6 +48,10 @@ function restore() {
 }
 
 export function getConsent() {
+  if (!restored) {
+    state = restore();
+    restored = true;
+  }
   return {
     necessary: true,
     analytics: state?.analytics === true,
@@ -72,6 +77,7 @@ function notify() {
 export function setConsent({
   analytics = false, externalMedia = false, personalization = false, saleOptOut = false,
 }) {
+  restored = true;
   state = {
     version: VERSION,
     updatedAt: Date.now(),
@@ -207,6 +213,7 @@ export function initConsent() {
   if (initialized) return;
   initialized = true;
   state = restore();
+  restored = true;
   build();
   banner.hidden = state !== null;
   notify();

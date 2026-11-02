@@ -28,6 +28,50 @@
 
 ## Open PRs
 
+### Unify persona query aliases and selected persona
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** Validated and ready for user-authorized direct publication using
+`@ynakagawa`. The user will reauthor content persona keys; no DA edits or
+invented legacy-name mapping. No PR requested.
+
+- Live published bytes and requests confirm `p=3` already sets the Target
+  persona to Procurement and Sourcing Manager, including query-free navigation.
+  The confusing second trait was `Content persona: Default / Persona id:
+  default`, independently resolved from the named schedule selector.
+- User explicitly rejected keeping separate Target/content personas.
+  Treat numeric `?persona=1..4` and `?p=1..4` as one selection consistently
+  across content, Insights and Target, preserving permission gates.
+- Current live schedules have no numeric 1-4 rows or explicit mapping.
+  Landing selectors are `default`, `fleet-managers`, `oem`, `b2c`, `smart`,
+  `safety`, `efficiency`; product selectors additionally include fleet/OEM
+  subsegments. Preserve named deep links and authored sheets; do not infer
+  that any particular B2B role equals `fleet-managers` or `oem`.
+- Share one numeric selection and existing session cookie across both
+  aliases, content schedules, User Traits and consented local analytics
+  `page.persona`. A valid `p` wins conflicts; invalid aliases do not erase a
+  valid alias or stored role. No unrelated URL parameters are rewritten.
+- Use numeric schedule keys `1` Technical Evaluator, `2` Business Decision
+  Maker, `3` Procurement and Sourcing Manager, `4` Industry Researcher.
+  Update content on cross-tab changes/revocation; default/fallback fragments
+  never change the visitor's role. Explicit legacy named content links remain
+  compatible without setting/inventing numeric B2B roles.
+- Preserve separate consent permissions, GPC/revocation, session-cookie
+  lifetime caveats, numeric Target profile delivery and server-retention
+  safeguards. No audience/activity or collector-variable configuration edits.
+- The superseded separate-label patch was withdrawn. 76 focused tests pass
+  with scoped lint and whitespace checks, including early content selection,
+  numeric authored rows, missing-content recovery, cross-tab rerender and
+  consent/commerce regressions.
+- Real SDK delivery with local assets on live content verified profile values
+  `3,3,3,4,4,4,2,2,2,2`, all HTTP 200, with the same Target visitor identity.
+  Desktop/mobile User Traits show one role, including analytics-only consent,
+  query-free navigation/reload, conflicting aliases, invalid preservation,
+  cross-tab changes/revocation and no evaluation without a current selection.
+  Numeric authored content is fixture-verified; live schedules remain
+  user-owned and currently use content fallback for numeric selections.
+  Published-byte and no-override live verification follow publication.
+
 ### Persist numeric Target personas across the browser session
 
 **Branch:** `ynaka-adobe-chevron-promo-images`

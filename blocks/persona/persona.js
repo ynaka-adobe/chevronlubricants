@@ -1,6 +1,7 @@
 import { getConfig, localizeUrl } from '../../scripts/ak.js';
 import ENV from '../../scripts/utils/env.js';
 import { loadFragment } from '../fragment/fragment.js';
+import { getContentPersona, initPersona } from '../../scripts/persona.js';
 
 const config = getConfig();
 
@@ -43,24 +44,15 @@ function getReplaceEl(a) {
   return current;
 }
 
-async function loadPersonaFragment(a, event, defEvent) {
-  if (!event.fragment) {
-    a.remove();
-    return;
-  }
-
+async function createPersonaFragment(event, defEvent) {
   let resolvedEvent = event;
   let fragment = await loadLocalizedFragment(event);
   if (!fragment && defEvent) {
     resolvedEvent = defEvent;
     fragment = await loadLocalizedFragment(defEvent);
   }
-  if (!fragment) {
-    removePersona(a);
-    return;
-  }
+  if (!fragment) return null;
 
-  const elToReplace = getReplaceEl(a);
   const sections = fragment.querySelectorAll(':scope > .section');
   const children = sections.length === 1
     ? fragment.querySelectorAll(':scope > *')
@@ -72,9 +64,7 @@ async function loadPersonaFragment(a, event, defEvent) {
   for (const child of children) {
     wrapper.appendChild(child);
   }
-  elToReplace.insertAdjacentElement('afterend', wrapper);
-  elToReplace.remove();
-  window.dispatchEvent(new Event('chevron:persona-changed'));
+  return wrapper;
 }
 
 function getDate() {
@@ -92,6 +82,7 @@ function getDate() {
 }
 
 export default async function init(a) {
+  initPersona();
   const personaUrl = new URL(a.href);
   const pageParams = new URLSearchParams(window.location.search);
 
@@ -106,44 +97,49 @@ export default async function init(a) {
   const { data } = await resp.json();
   data.reverse();
 
-  // No persona in URL = equivalent to persona=default
-  const persona = pageParams.get('persona') || 'default';
-  const now = getDate();
-
   // Global default: prefer row with name/persona "default", else first undated entry
   const defaultMatch = (evt) => (evt.name === 'default' || evt.persona === 'default');
   const undated = (evt) => !(evt.start && evt.end);
   const defEvent = data.find((evt) => defaultMatch(evt) && undated(evt))
     || data.find(undated);
 
-  // Match persona param against name or persona column (sheet headers vary)
-  const personaMatch = (evt) => (evt.name === persona || evt.persona === persona);
-
-  // Narrow to persona-named rows (default when no param)
-  const activeData = data.filter(personaMatch);
-
-  // Find the first date-matched entry in the persona set
-  const found = activeData.find((evt) => {
-    if (!(evt.start && evt.end)) return false;
-    try {
+  let slot = getReplaceEl(a);
+  let revision = 0;
+  const render = async () => {
+    revision += 1;
+    const version = revision;
+    const persona = getContentPersona();
+    const now = getDate();
+    const activeData = data.filter((evt) => evt.name === persona || evt.persona === persona);
+    const found = activeData.find((evt) => {
+      if (!(evt.start && evt.end)) return false;
       const start = Date.parse(evt.start);
       const end = Date.parse(evt.end);
       return now > start && now < end;
-    } catch {
-      config.log(`Could not evaluate persona event: ${evt.name || evt.persona}`);
-      return false;
+    });
+    const event = found || activeData.find(undated) || defEvent;
+    const wrapper = event?.fragment ? await createPersonaFragment(event, defEvent) : null;
+    if (version !== revision || !slot.isConnected) return;
+    if (!wrapper) {
+      await removePersona(a);
+      if (version !== revision || !slot.isConnected) return;
+      const placeholder = document.createComment('Persona content unavailable');
+      slot.replaceWith(placeholder);
+      slot = placeholder;
+      return;
     }
-  });
-
-  // Persona-specific default (undated entry for this persona)
-  const activeDefault = activeData.find(undated);
-
-  const event = found || activeDefault || defEvent;
-
-  if (!event) {
-    await removePersona(a);
-    return;
-  }
-
-  await loadPersonaFragment(a, event, defEvent);
+    wrapper.dataset.selectedPersona = persona;
+    slot.replaceWith(wrapper);
+    slot = wrapper;
+    window.dispatchEvent(new Event('chevron:persona-changed'));
+  };
+  const changed = () => {
+    if (!slot.isConnected) {
+      window.removeEventListener('chevron:persona-selection-changed', changed);
+      return;
+    }
+    render().catch((error) => config.log('Could not update persona content', error));
+  };
+  window.addEventListener('chevron:persona-selection-changed', changed);
+  await render();
 }

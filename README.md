@@ -15,8 +15,10 @@ ranked component/link bars, event categories and timestamped feed. Consent and
 collector details are expandable. Live updates preserve reader scroll, focus
 and expanded details; revocation clears the dashboard immediately. Chevron
 colors, event names, duplicate-component positions and bounded retention are
-preserved. User Traits distinguishes the numeric Target persona from the named
-content persona, with a browser-only CJA preview (no CJA/AEP connection).
+preserved. User Traits shows one selected B2B **Persona**, shared by content,
+local analytics events and the consent-gated Target profile. An authored
+content fallback never changes this visitor trait to "Default." The CJA
+preview is browser-only (no CJA/AEP connection).
 Bot heuristics and reference benchmarks are omitted.
 
 Optional measurement is off until an explicit choice. Accept All enables
@@ -59,22 +61,58 @@ visit/visitor metrics. Retention is at most 200 in-memory events (60 in the
 booklet feed), cleared on revocation/navigation. Booklet counts and CTR apply
 to that retained window, not all traffic or lifetime session totals.
 
-### Target B2B persona profile
+### Shared B2B persona and Target profile
 
-After **Personalization** consent, `?p=1`, `?p=2`, `?p=3` or `?p=4` sets the
-Target visitor profile attribute `persona` to that exact string digit. Labels
-are UI-only: 1 Technical Evaluator, 2 Business Decision Maker,
-3 Procurement and Sourcing Manager, 4 Industry Researcher. This matches
-audiences such as **Visitor Profile: persona equals 3**.
+`?p=1..4` and `?persona=1..4` are aliases for one canonical selection in
+`scripts/persona.js`. If both are valid but different, **`p` wins**; an invalid
+alias cannot override another valid alias or a stored valid choice. Other URL
+parameters are not rewritten. Use these exact string keys in the schedule's
+`persona` (or `name`) column:
+
+| Schedule key / Target profile value | Role |
+|---|---|
+| `1` | Technical Evaluator |
+| `2` | Business Decision Maker |
+| `3` | Procurement and Sourcing Manager |
+| `4` | Industry Researcher |
+
+An explicit numeric URL selects functional content immediately, but it is not
+stored or sent to Target before **Personalization** consent. After permission,
+the same numeric selection sets Target visitor profile attribute `persona`.
+This matches audiences such as **Visitor Profile: persona equals 3**.
 
 The host-only `chevron-target-persona` session cookie has `Path=/`,
 `SameSite=Lax`, `Secure` on HTTPS and no `Expires`/`Max-Age`. It is shared by
-same-origin tabs; query-free navigation/reload reuses it, and a new valid `p`
-replaces it. Invalid values never overwrite an established choice. There is
+same-origin tabs; query-free navigation/reload reuses it, and either new valid
+numeric alias replaces it. Invalid values never overwrite an established choice. There is
 no localStorage or per-tab sessionStorage persona fallback. BroadcastChannel
 updates open tabs, with focus/visibility refresh and a polling fallback where
 BroadcastChannel is unavailable. Web Locks serialize same-origin profile
 requests; browsers without Web Locks reconcile changes after responses.
+
+Persona schedule blocks use the shared numeric key before initial rendering,
+including query-free pages with saved permission, and rerender when another
+tab changes the role or personalization is revoked. Date matching, per-role
+undated fallbacks and global fallback behavior are preserved. A fallback
+fragment is content only: it never overwrites the selected visitor persona.
+The user owns reauthoring the sheets for keys `1`-`4`; this integration does not
+rewrite schedules or fragments.
+
+**Transition:** explicit legacy named links such as
+`?persona=fleet-managers`, `?persona=oem` and `?persona=b2c` still select their
+existing authored content when neither numeric alias is valid. These names
+do not set or invent a numeric B2B role, and do not clear a saved B2B choice.
+Numeric aliases override legacy selectors. User Traits displays only the
+canonical B2B role, not a second visitor persona inferred from legacy/default
+content.
+
+After **Analytics** consent, local `adobeDataLayer` events carry the current
+numeric selection in `page.persona` (omitted if no role is selected). Historical
+events keep their original value; subsequent events follow cross-tab changes.
+The existing Adobe Analytics collector variable mapping is unchanged: no
+unconfirmed persona eVar or report-suite processing rule is invented. Target
+transmission separately requires Personalization consent, regardless of
+Analytics permission.
 
 The consent-gated client uses the unchanged `acsmarketing` embed from
 `ynaka-adobe/da-demo-kit` (`deps/at/vendor-at.js`). Automatic pageLoad/views and

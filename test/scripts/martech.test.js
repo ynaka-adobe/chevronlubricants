@@ -285,7 +285,7 @@ describe('Chevron consent-first analytics', () => {
     expect(doc.querySelector('.chevron-booklet').hidden).to.equal(false);
   });
 
-  it('shows resolved persona traits, not an unverified URL persona, after consent only', async () => {
+  it('does not present a legacy or fallback fragment as a B2B visitor persona', async () => {
     await load('?insights=1&persona=unknown-private-value');
     const wrapper = doc.createElement('div');
     wrapper.className = 'persona-fragment-content';
@@ -295,11 +295,12 @@ describe('Chevron consent-first analytics', () => {
     grant();
     await render();
     const traits = doc.querySelector('.chevron-booklet-traits');
-    expect(traits.textContent).to.include('Default');
+    expect(traits.textContent).to.include('No B2B persona selected');
+    expect(traits.textContent).not.to.include('Default');
     expect(traits.textContent).not.to.include('unknown-private-value');
     expect(traits.textContent).to.include('No CJA API');
     expect(traits.textContent).to.include('Personal form field values are not collected');
-    expect(traits.querySelectorAll('dt').length).to.equal(6);
+    expect(traits.querySelectorAll('dt').length).to.equal(5);
     api.consent.setConsent({});
     expect(doc.querySelector('.chevron-booklet-traits')).to.equal(null);
   });
@@ -307,7 +308,7 @@ describe('Chevron consent-first analytics', () => {
   it('refreshes traits for late persona rendering and preserves collapsed state', async () => {
     grant();
     await render();
-    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('No persona active');
+    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('No B2B persona selected');
     doc.querySelector('.chevron-booklet-traits').open = false;
     doc.querySelector('.chevron-booklet-traits > summary').focus();
     const wrapper = doc.createElement('div');
@@ -316,7 +317,8 @@ describe('Chevron consent-first analytics', () => {
     doc.querySelector('main').append(wrapper);
     win.dispatchEvent(new win.Event('chevron:persona-changed'));
     await render();
-    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('Fleet Managers');
+    expect(doc.querySelector('.chevron-booklet-traits').textContent).not.to.include('Fleet Managers');
+    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('No B2B persona selected');
     expect(doc.querySelector('.chevron-booklet-traits').open).to.equal(false);
     expect(doc.activeElement.matches('.chevron-booklet-traits > summary')).to.equal(true);
     api.instrument.track('cta-click', { link: { text: 'Products', url: '/products' } });

@@ -2,6 +2,7 @@ import { getConsent, onConsentChange, reportError } from './consent.js';
 import {
   cleanText, cleanURL, EVENTS, isUSPage, revokeAnalytics, send,
 } from './analytics.js';
+import { getPersonaState } from '../persona.js';
 
 const SELECTOR = '[data-block-name], .block, .block-content > div[class], '
   + '.commerce-product > :not(.default-content):not(.block-content), '
@@ -36,9 +37,11 @@ export function subscribe(listener) {
 
 export function pageContext() {
   const path = cleanURL(window.location.pathname);
+  const persona = getPersonaState().id;
   return {
     path,
     locale: 'us',
+    ...(persona ? { persona } : {}),
     template: cleanText(document.body.dataset.template
       || document.querySelector('meta[name="template"]')?.content
       || document.querySelector('main')?.dataset.template

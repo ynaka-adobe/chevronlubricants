@@ -60,7 +60,7 @@
           }
         }
       };
-      const [integration, consent, instrument, analytics, media, booklet, ak, target] = await Promise.all([
+      const [integration, consent, instrument, analytics, media, booklet, ak, target, persona] = await Promise.all([
         import('../../scripts/martech/index.js'),
         import('../../scripts/martech/consent.js'),
         import('../../scripts/martech/instrument.js'),
@@ -69,9 +69,40 @@
         import('../../scripts/martech/booklet.js'),
         import('../../scripts/ak.js'),
         import('../../scripts/target.js'),
+        import('../../scripts/persona.js'),
       ]);
+      async function renderPersonaSchedule(ids = ['default', '1', '2', '3', '4'], dates = {}) {
+        ak.setConfig({ locales: { '': {} }, hostnames: [], linkBlocks: [], components: [] });
+        const originalFetch = window.fetch;
+        window.fetch = async (input, ...options) => {
+          const url = new URL(input, location.origin);
+          if (url.pathname === '/test-persona-schedule.json') {
+            return new Response(JSON.stringify({ data: ids.map((id) => ({
+              name: 'Fallback', persona: id, fragment: `${location.origin}/test-persona-fragment/${id}`,
+              ...dates,
+            })) }));
+          }
+          if (url.pathname.startsWith('/test-persona-fragment/')) {
+            const id = url.pathname.split('/').pop();
+            return new Response(`<main><div><h1>Content for ${id}</h1></div></main>`);
+          }
+          return originalFetch(input, ...options);
+        };
+        const section = document.createElement('div');
+        section.className = 'section';
+        section.innerHTML = '<p><a href="/test-persona-schedule.json">Schedule</a></p>';
+        document.querySelector('main').append(section);
+        const { default: decorate } = await import('../../blocks/persona/persona.js');
+        await decorate(section.querySelector('a'));
+      }
+      if (new URLSearchParams(location.search).get('earlyPersona') === '1') {
+        await renderPersonaSchedule();
+      }
       integration.default();
-      window.testAPI = { integration, consent, instrument, analytics, media, booklet, ak, target };
+      window.testAPI = {
+        integration, consent, instrument, analytics, media, booklet, ak, target, persona,
+        renderPersonaSchedule,
+      };
       document.addEventListener('click', (event) => {
         if (event.target.closest('main a')) event.preventDefault();
       });

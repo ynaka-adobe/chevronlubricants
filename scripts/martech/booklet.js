@@ -1,7 +1,8 @@
 import { addStyle, element, openConsent, reportError } from './consent.js';
-import { cleanText, CONFIG } from './analytics.js';
+import { CONFIG } from './analytics.js';
 import { subscribe } from './instrument.js';
-import { PERSONAS, targetState } from '../target.js';
+import { targetState } from '../target.js';
+import { getPersonaState } from '../persona.js';
 
 const CATEGORIES = {
   'page-view': 'Page',
@@ -109,21 +110,20 @@ function userTraits(events, open) {
   const heading = element('summary', 'User Traits ');
   heading.append(element('span', 'CJA preview', 'chevron-booklet-badge'));
   traits.append(heading, element('p', 'A preview of person-level traits, computed in this browser from the '
-    + 'rendered persona and consented page events. No CJA API or unified CJA/AEP profile is connected.'));
+    + 'selected persona and consented page events. No CJA API or unified CJA/AEP profile is connected.'));
   const list = element('dl', undefined, 'chevron-booklet-observations');
-  const personas = [...new Set([...document.querySelectorAll('main .persona-fragment-content[data-persona]')]
-    .map((node) => cleanText(node.dataset.persona)).filter(Boolean))];
-  const labels = { default: 'Default', 'fleet-managers': 'Fleet Managers', oem: 'OEM' };
-  const names = personas.map((id) => labels[id] || id.replaceAll('-', ' '));
+  const persona = getPersonaState();
+  const fragments = [...document.querySelectorAll('main .persona-fragment-content[data-persona]')];
+  const fallback = persona.id && fragments.some((node) => (
+    node.dataset.selectedPersona === persona.id && node.dataset.persona !== persona.id
+  ));
   const lastForm = events.findLast((entry) => entry.event === 'form-submit');
   const target = targetState();
   const rows = [
-    ['Persona (Target)', PERSONAS[target.persona] || 'No Target persona selected',
-      `${target.persona ? `Profile persona: ${target.persona} - ` : ''}${target.status}`,
-      target.consented ? 'Browser-session selection' : 'Personalization consent required'],
-    ['Content persona', names.join(', ') || 'No persona active',
-      personas.length ? `Persona id: ${personas.join(', ')} - resolved from the rendered schedule fragment`
-        : 'No resolved persona fragment on this page', 'Measured in this browser'],
+    ['Persona', persona.label || 'No B2B persona selected',
+      `${persona.id ? `Persona id: ${persona.id}. ` : ''}${target.status}`,
+      `${persona.saved ? 'Browser-session selection' : 'Not saved for the browser session'}`
+        + `${fallback ? '. Content fallback displayed; no matching authored fragment is active.' : ''}`],
     ['Last form submit', lastForm?.form?.name || 'None yet',
       lastForm ? `Submitted at ${new Date(lastForm.timestamp).toLocaleTimeString()}`
         : 'Confirmed form submissions in the retained page events', 'Measured in this browser'],
@@ -295,6 +295,9 @@ export default function initBooklet() {
     }
   });
   window.addEventListener('chevron:target-persona-changed', () => {
+    if (current && !panel.hidden && !renderFrame) renderFrame = requestAnimationFrame(render);
+  });
+  window.addEventListener('chevron:persona-selection-changed', () => {
     if (current && !panel.hidden && !renderFrame) renderFrame = requestAnimationFrame(render);
   });
   subscribe((next) => {
