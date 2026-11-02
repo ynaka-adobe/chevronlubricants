@@ -31,9 +31,9 @@
 ### Format rendered page navigation with .html extensions
 
 **Branch:** `ynaka-adobe-chevron-html-url-support`
-**Status:** Prepared and verified locally; user requested consistent outgoing
-`.html` page links and authorized safe runtime publication using `@ynakagawa`.
-Publication in progress; no PR requested.
+**Status:** Live as runtime commit `8497966`, published nonforce using the
+user-approved `@ynakagawa` account after a fresh remote-parent check.
+No PR requested; no CDN deployment was needed.
 
 - Use one shared destination-aware formatter after decoration and for dynamic
   DOM additions/href changes. Cover header/footer, authored/EMA blocks, scheduled
@@ -53,8 +53,23 @@ Publication in progress; no PR requested.
   links normalize automatically. A real header click retains tab persona and
   reaches the `.html` Contact page. Encoded product paths keep encoding while
   preserving exact product/SKU rendering and extensionless Analytics identity.
-  Targeted 93-test suite, changed-file lint and whitespace checks pass. Actual
-  deployed-byte and no-override link checks remain pending until publication.
+  Targeted 93-test suite, changed-file lint and whitespace checks pass.
+- All five changed runtime assets byte-match committed code on the custom
+  domain, `.aem.page` and `.aem.network`. Actual no-local-override verification
+  repeats the 5,028-anchor desktop/mobile/preview audit with zero unformatted
+  eligible destinations or invalid suffixes. Dynamic schedule replacements,
+  persona counts, native header click/search submission and encoded product
+  navigation remain correct; no page errors or pre-consent Analytics events.
+- Actual B2B page exposes 264 internal `.html` page links and zero remaining
+  extensionless page destinations. Example header link:
+  `/en-us/home/contact-us.html`; resource CTA:
+  `/en-us/home/learning/from-chevron/heavy-duty-diesel-vehicles-and-equipment/just-what-does-viscosity-mean.html`;
+  footer link: `/en-us/home/become-distributor.html`. Canonical remains the
+  extensionless B2B URL; no public persona controls or horizontal overflow.
+- A current authored image for "Dirt, Dust and Moisture Drive Hidden Equipment
+  Costs" has `src="about:error"` in both untouched extensionless and `.html`
+  server responses. This pre-existing source issue is unrelated to navigation;
+  no DA draft or image was modified as part of this change.
 
 ### Publish the approved per-persona landing cards
 
