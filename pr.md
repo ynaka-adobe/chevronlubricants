@@ -28,6 +28,25 @@
 
 ## Open PRs
 
+### Restore extension-injected Sidekick visibility on the custom domain
+
+**Branch:** `ynaka-adobe-chevron-sidekick-visibility`
+**Status:** Validated for direct publication using `@ynakagawa`; no PR requested.
+
+- Global CSS required both `open="true"` and `.is-ready`, but the custom-domain
+  production environment never runs the preview-only Sidekick initializer.
+  An extension-injected toolbar could therefore load and remain transparent.
+- Make visibility depend on the toolbar's open state, not preview decoration.
+  Leave production/preview JavaScript gates unchanged: no automatic Sidekick,
+  scheduler or quick-edit loading for ordinary production visitors.
+- Add browser CSS regressions for immediate/delayed injection, the ready event,
+  preview decoration and open/closed state. All three pass, with scoped JS/CSS
+  lint and whitespace checks passing.
+- Before publication, the actual custom-domain page reproduced opacity `0`
+  for an injected open Sidekick; ordinary visitors loaded no Sidekick,
+  scheduler or quick-edit resources. Real extension authentication and injection
+  in the user's browser remain independently unverified.
+
 ### Implement the authoritative two-tier persona-filter backlog
 
 **Branch:** `ynaka-adobe-chevron-promo-images`

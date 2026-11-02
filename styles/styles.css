@@ -1660,7 +1660,7 @@ body[data-lead-images] :is(main, footer) {
 aem-sidekick {
   opacity: 0;
 
-  &[open="true"].is-ready {
+  &[open="true"] {
     opacity: 1;
   }
 }
