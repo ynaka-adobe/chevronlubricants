@@ -108,25 +108,17 @@ describe('PF1-14 two-tier content and collection filtering', () => {
     expect(api.persona.matchesPersona(card, roles[0])).to.equal(true);
   });
 
-  it('keeps repeated selector changes idempotent, updates only persona URL parameters and synchronizes controls', async () => {
+  it('keeps automatic state changes idempotent and preserves unrelated URL parameters', async () => {
     await load('&keep=abc#anchor');
-    const first = await api.renderCollection('persona-filter', '');
-    const second = await api.renderCollection('persona-filter', '');
-    const select = first.querySelector('select');
-    expect(first.querySelector('label').htmlFor).to.equal(select.id);
-    expect(select.options.length).to.equal(5);
     let changes = 0;
     win.document.addEventListener('persona:change', () => { changes += 1; });
-    select.value = roles.at(2);
-    select.dispatchEvent(new win.Event('change'));
-    select.dispatchEvent(new win.Event('change'));
+    api.persona.setActivePersona(roles[2], { updateURL: true });
+    api.persona.setActivePersona(roles[2], { updateURL: true });
     expect(changes).to.equal(1);
-    expect(second.querySelector('select').value).to.equal(roles[2]);
     expect(new URLSearchParams(win.location.search).get('p')).to.equal(roles[2]);
     expect(win.location.search).to.include('keep=abc');
     expect(win.location.hash).to.equal('#anchor');
-    select.value = '';
-    select.dispatchEvent(new win.Event('change'));
+    api.persona.setActivePersona(null, { updateURL: true });
     expect(api.persona.getB2bPersona()).to.equal(null);
     expect(sessionStorage.getItem('b2bPersona')).to.equal(null);
     expect(new URLSearchParams(win.location.search).has('p')).to.equal(false);
@@ -150,7 +142,8 @@ describe('PF1-14 two-tier content and collection filtering', () => {
     expect(block.querySelector('.cards-filterable-body').textContent).to.equal(copy);
     expect(block.querySelector('a[href="/buy"]')).to.equal(cta);
     expect(block.querySelector('.cards-filterable-panel')).to.equal(null);
-    expect(block.querySelectorAll('.persona-filter select option').length).to.equal(5);
+    expect(block.querySelector('.persona-filter')).to.equal(null);
+    expect(block.querySelector('select')).to.equal(null);
     api.persona.setActivePersona(roles[1]);
     expect(visible(block, '.cards-filterable-list > li').length).to.equal(2);
     expect(block.querySelector('.cards-filterable-status').textContent).to.equal('Showing 2 of 3 resources');
@@ -158,14 +151,17 @@ describe('PF1-14 two-tier content and collection filtering', () => {
     expect(visible(block, '.cards-filterable-list > li').length).to.equal(3);
   });
 
-  it('loads an authored Persona Filter through the registered block loader', async () => {
+  it('removes legacy authored Persona Filter controls instead of exposing a public selector', async () => {
     api.ak.setConfig({ locales: { '': {} }, hostnames: [], linkBlocks: [], components: [] });
     const block = win.document.createElement('div');
     block.className = 'persona-filter';
+    block.innerHTML = '<select><option>Legacy persona</option></select>';
     win.document.querySelector('main').append(block);
     await api.ak.loadBlock(block);
     expect(block.dataset.blockName).to.equal('persona-filter');
-    expect(block.querySelector('select').disabled).to.equal(false);
+    expect(block.isConnected).to.equal(false);
+    expect(block.children.length).to.equal(0);
+    expect(win.document.querySelector('.persona-filter select')).to.equal(null);
   });
 
   ['cards-resource', 'cards-insights'].forEach((name) => {
@@ -193,19 +189,23 @@ describe('PF1-14 two-tier content and collection filtering', () => {
   });
 
   ['cards-service', 'cards-products'].forEach((name) => {
-    it(`preserves ${name} without a selector and enables filtering when a selector is authored`, async () => {
+    it(`automatically personalizes ${name} without requiring or exposing a selector`, async () => {
       api.persona.setActivePersona(roles[0]);
       const block = await api.renderCollection(
         name,
         row('Technical', '/article', roles[0]) + row('Decision', '/article', roles[1]),
       );
-      expect(visible(block).length).to.equal(2);
-      await api.renderCollection('persona-filter', '');
       expect(visible(block).length).to.equal(1);
       api.persona.setActivePersona(roles[1]);
       expect(visible(block).length).to.equal(1);
       expect(visible(block)[0].textContent).to.include('Decision');
       expect(block.textContent).not.to.include('persona:');
+      api.persona.setActivePersona(null);
+      expect(visible(block).length).to.equal(2);
+      api.persona.setActivePersona(roles[3]);
+      expect(visible(block).length).to.equal(0);
+      expect(block.querySelector('[role="status"]').hidden).to.equal(false);
+      expect(block.querySelector('select')).to.equal(null);
     });
   });
 
@@ -221,6 +221,7 @@ describe('PF1-14 two-tier content and collection filtering', () => {
       '<div><div><a href="/test-resources.json">Resources</a></div></div>',
     );
     api.persona.setActivePersona(roles[0]);
+    expect(block.querySelector('.persona-filter')).to.equal(null);
     expect(visible(block, '.cards-filterable-list > li').length).to.equal(3);
     block.querySelector('input[value="Delo"]').checked = true;
     block.querySelector('input[value="Guide"]').checked = true;
@@ -265,11 +266,10 @@ describe('PF1-14 two-tier content and collection filtering', () => {
     expect(only.querySelector('.carousel-square-stage').hidden).to.equal(true);
   });
 
-  it('preserves product-grid See all limits while filtering only when a selector exists', async () => {
+  it('preserves product-grid See all limits during automatic persona personalization', async () => {
     const block = await api.renderCollection('cards-products', [...Array(6)]
       .map((_, i) => row(`Product ${i}`, '/article', i === 0 ? roles[1] : roles[0])).join(''), 'grid');
     expect(visible(block).length).to.equal(4);
-    await api.renderCollection('persona-filter', '');
     api.persona.setActivePersona(roles[0]);
     expect(visible(block).length).to.equal(4);
     expect(block.querySelector('.cards-products-seeall-count').textContent).to.equal('(5)');

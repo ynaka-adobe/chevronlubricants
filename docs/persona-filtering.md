@@ -20,20 +20,22 @@ coarse `persona` column. Numeric values remain supported as visitor URL aliases
 and are sent only at the existing, separately consented Target boundary.
 Do not use numeric keys instead of the canonical labels in new authored content.
 
-## Select a visitor persona
+## Automatic visitor personalization
 
-Add a **Persona Filter** block in DA. Its accessible dropdown offers All and
-the four labels; an empty block is sufficient. Multiple controls on one page
-reflect the same selection. The control preserves unrelated URL parameters
-and the fragment identifier.
+Persona is resolved automatically from the URL and the current tab's saved
+preferences. There is **no public persona dropdown, segmented control or All
+button**. This user-directed behavior supersedes the original backlog's
+selector requirement and service/product selector-presence guard. Do not add a
+Persona Filter table: existing copies are removed during decoration, including
+their child controls, rather than CSS-hiding focusable UI.
 
 - `?p=oem` selects a marketing slug and its B2B parent from the author map.
 - `?p=Technical%20Evaluator` selects the coarse role only, retaining the current
-  marketing slug. Dropdown changes behave the same way.
+  marketing slug.
 - `?persona=Technical%20Evaluator`, `?p=1` and `?persona=1` are compatibility
   aliases. When both parameters exist, the first valid `p` wins; otherwise a
   valid `persona` is used.
-- All clears both preferences and removes only `p` and `persona` from the URL.
+- No saved role means unrestricted content, not a visitor-facing All control.
 - Without either parameter, the current tab's saved preferences are restored.
   Without a preference, all collection items remain eligible.
 - Unknown inputs log a diagnostic and leave the current page unfiltered without
@@ -104,7 +106,7 @@ The resolved labels are available as `data-persona` on the rendered item.
 
 An empty `persona:` cell explicitly makes a card unrestricted, even when its
 link points to a tagged page. A misspelled nonempty label does not match a
-canonical role; it does not crash the block. All still shows that card.
+canonical role; it does not crash the block. An unrestricted visitor still sees that card.
 
 External PDFs, videos and other sites cannot inherit. Use the final cell to
 tag them, or leave them unrestricted. Inheritance uses the primary text link,
@@ -135,15 +137,16 @@ and actual indexed row when inheritance is missing. Do not guess its role.
 ## Collection-specific behavior
 
 **cards-filterable** reads the persona column directly from its configured JSON
-source and includes the shared selector. Persona is AND-combined with existing
-brand/type facets; All removes only the persona constraint, not checked facets.
+source. Automatic persona matching is AND-combined with existing visitor-selectable
+brand/type facets; an unrestricted persona removes only the persona constraint,
+not checked facets.
 Multiple labels in one row are comma-separated. A missing persona is unrestricted.
 This block does not inherit from linked pages.
 
 **DA naming compatibility:** a table headed `Cards (filterable)` produces
 `cards filterable` classes rather than the hyphenated block name. The loader
 routes that exact variant to `cards-filterable`. Its inline rows retain their
-full headings, descriptions, bullet lists and CTAs, include the shared selector,
+full headings, descriptions, bullet lists and CTAs, expose no persona selector,
 and use explicit-cell/internal-index inheritance. Descriptive copy is not
 interpreted as brand/type tags. A JSON-linked table continues to use the
 sheet-driven brand/type facets described above. Other Cards variants are not
@@ -155,8 +158,8 @@ and correctly authored labels. Adding a property to `helix-query.yaml` does not
 tag these rows, especially external links.
 
 **cards-resource/cards-insights** apply the active role and show a status message
-when no items match. **cards-service/cards-products** remain unfiltered unless
-a Persona Filter is present on the page. Product-grid See all limits still apply
+when no items match. **cards-service/cards-products** automatically personalize
+from the same state without a selector-presence requirement. Product-grid See all limits still apply
 to the eligible items. **carousel-square** excludes nonmatches from navigation,
 recounts its dots and preserves keyboard/swipe behavior; unrestricted slides
 remain eligible. No automatic rotation is introduced.
@@ -176,7 +179,7 @@ Within each tier, the existing date-window rules and undated fallback apply.
 
 A coarse-only choice intentionally leaves the marketing tier unchanged:
 an earlier `oem` campaign can therefore continue to win fragment selection even
-after a coarse dropdown change. All clears that campaign choice. A rendered
+after a coarse role change. Clearing both session preferences clears that campaign choice. A rendered
 default or fetch-fallback fragment never changes the selected visitor role.
 Existing legacy sheets without a marketing column can still match their named
 rows through the saved marketing slug.
@@ -189,7 +192,7 @@ After **Analytics** permission, a real selection change emits one local event:
 { event: 'persona-filter', persona: 'Technical Evaluator', page: location.pathname }
 ```
 
-All uses `persona: null`. Unchanged selections and query-free restoration do not
+A cleared role uses `persona: null`. Unchanged selections and query-free restoration do not
 emit another selection event. Pre-consent changes are not queued or replayed.
 The existing consent-gated instrumentation owns this hook; blocks do not call
 AppMeasurement. Normal local events distinguish actual `page.persona` metadata

@@ -20,7 +20,6 @@ import {
   getB2bPersona, initPersona, matchesPersona, preparePersonaCards,
   resolveCardPersona, setCardPersona,
 } from '../../scripts/persona.js';
-import decoratePersonaFilter from '../persona-filter/persona-filter.js';
 
 const GROUPS = [
   { key: 'brands', label: 'Brands', aliases: ['brand', 'brands'] },
@@ -362,7 +361,7 @@ function buildFilters(id, items, onApply) {
   };
 }
 
-async function render(block, items, preselected, personaSelector) {
+function render(block, items, preselected) {
   instance += 1;
   const id = `cards-filterable-${instance}`;
   const list = document.createElement('ul');
@@ -397,15 +396,9 @@ async function render(block, items, preselected, personaSelector) {
       ? `Showing ${shown} of ${cards.length} resources`
       : 'No resources match the selected filters.';
     status.classList.toggle('is-empty', !shown);
-    status.hidden = !hasTags && !personaSelector && shown === cards.length;
+    status.hidden = !hasTags && shown === cards.length;
   };
 
-  if (personaSelector) {
-    const selector = document.createElement('div');
-    selector.className = 'persona-filter';
-    block.append(selector);
-    await decoratePersonaFilter(selector);
-  }
   if (hasTags) {
     const filters = buildFilters(id, items, apply);
     block.append(filters.el, status, list);
@@ -434,7 +427,7 @@ export default async function decorate(block) {
     if (authoredVariant) await preparePersonaCards(rows);
     else rows.forEach((row) => resolveCardPersona(row));
     const items = itemsFromRows(rows, authoredVariant);
-    await render(block, items, parsePreselected(null), authoredVariant);
+    render(block, items, parsePreselected(null));
     return;
   }
 
@@ -447,5 +440,5 @@ export default async function decorate(block) {
     return;
   }
   const items = sheet.data.map((row) => itemFromRow(row, sheet.base)).filter((item) => item.title);
-  await render(block, items, preselected, true);
+  render(block, items, preselected);
 }

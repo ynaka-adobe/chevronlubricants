@@ -380,8 +380,9 @@ attribute — reproducing the TEBG Form Start → Form Submit funnel.
 ### 9.1 Selected visitor preferences
 
 The functional per-tab preferences are `b2bPersona` (canonical role) and
-`marketingPersona` (author-mapped campaign slug). URL inputs and the shared
-dropdown use the same resolver. See [authoring and exact role labels](persona-filtering.md).
+`marketingPersona` (author-mapped campaign slug). URL inputs and saved tab state
+use the same automatic resolver; there is no public persona selector.
+See [authoring and exact role labels](persona-filtering.md).
 Optional Analytics and Target transmissions remain independently consent-gated.
 
 ### 9.2 Page taxonomy is not the visitor preference

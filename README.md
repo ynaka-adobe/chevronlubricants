@@ -88,11 +88,14 @@ is not a guaranteed expiry boundary.
 Collection blocks use the coarse label. Inline cards resolve a final
 `persona:` cell first, then internal linked-page metadata from the once-per-page
 query index, then unrestricted fail-open. `cards-filterable` instead uses its
-own JSON source's persona column. Service/product cards filter only when a
-Persona Filter is present. Schedules use marketing, then coarse, then default,
+own JSON source's persona column. All six collection blocks personalize
+automatically from URL/session state, without public persona controls or
+service/product selector-presence guards. Ordinary resource brand/type facets
+remain visitor-selectable. Legacy authored Persona Filter blocks are removed
+during decoration, not CSS-hidden. Schedules use marketing, then coarse, then default,
 preserving date windows. Defaults never overwrite the selected visitor trait.
 See [Persona filtering](docs/persona-filtering.md) for authoring examples,
-sheet/index dependencies, selector behavior and transition details.
+sheet/index dependencies, automatic matching and transition details.
 
 After **Analytics** consent, `persona-filter` emits once per selection change
 with a canonical label (or null for All) and the page path. Normal local events

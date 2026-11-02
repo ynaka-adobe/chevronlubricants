@@ -266,7 +266,7 @@ export function matchesPersona(card, persona = getB2bPersona()) {
     || parsePersonas(card.dataset.persona).includes(persona);
 }
 
-export function bindPersonaFilter(block, cards, { selectorRequired = false, onChange } = {}) {
+export function bindPersonaFilter(block, cards, { onChange } = {}) {
   const empty = document.createElement('p');
   empty.className = 'persona-filter-empty';
   empty.setAttribute('role', 'status');
@@ -274,8 +274,7 @@ export function bindPersonaFilter(block, cards, { selectorRequired = false, onCh
   empty.hidden = true;
   block.append(empty);
   const applyFilter = () => {
-    const active = !selectorRequired || document.querySelector('.persona-filter')
-      ? getB2bPersona() : null;
+    const active = getB2bPersona();
     let shown = 0;
     cards.forEach((card) => {
       const matches = matchesPersona(card, active);
@@ -290,10 +289,8 @@ export function bindPersonaFilter(block, cards, { selectorRequired = false, onCh
     if (block.isConnected) applyFilter();
     else {
       document.removeEventListener('persona:change', changed);
-      document.removeEventListener('persona:selector-ready', changed);
     }
   };
   document.addEventListener('persona:change', changed);
-  document.addEventListener('persona:selector-ready', changed);
   applyFilter();
 }

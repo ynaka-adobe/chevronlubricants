@@ -258,5 +258,5 @@ export default async function decorate(block) {
   block.textContent = '';
   block.append(track);
   const update = block.classList.contains('grid') ? buildGrid(block, track) : buildCarousel(block, track);
-  bindPersonaFilter(block, [...track.children], { selectorRequired: true, onChange: update });
+  bindPersonaFilter(block, [...track.children], { onChange: update });
 }

@@ -82,5 +82,5 @@ export default async function decorate(block) {
   block.textContent = '';
   block.append(list);
   normalizeTitleLevels(block);
-  bindPersonaFilter(block, [...list.children], { selectorRequired: true });
+  bindPersonaFilter(block, [...list.children]);
 }

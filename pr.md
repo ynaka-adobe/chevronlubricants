@@ -28,6 +28,26 @@
 
 ## Open PRs
 
+### Personalize collections automatically without public persona controls
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** Implementing the user's behavior correction; not yet published.
+
+- Persona is automatic URL/tab-session personalization, not a visitor-selectable
+  filter. This explicitly supersedes earlier dropdown and PF7/8 selector guards.
+- Remove injected persona controls from cards-filterable; legacy authored
+  Persona Filter blocks remove their DOM/controls during decoration.
+  No CSS-hidden focusable controls or new debug switches.
+- Service/product cards now use the same automatic persona binding as the other
+  collections. Preserve ordinary brand/type filters, untagged/unknown fail-open,
+  rich copy/links, empty-state status, scheduler, Insights, analytics and Target.
+- All 85 repository tests and changed-file lint pass, including actual loader
+  coverage for legacy control removal, automatic service/product matching and
+  preserving brand/type facets. Exact preview content with local runtime assets
+  shows zero persona controls at1440/390px: eight cards with no persona and seven
+  for `p=2`, with source copy/links intact. Actual Target requests retain numeric
+  values and identity/consent behavior.
+
 ### Render the authored Cards (filterable) B2B landing variant
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
