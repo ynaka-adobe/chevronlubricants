@@ -86,7 +86,7 @@ function apply(coarse, marketing, { store = true, telemetry = true } = {}) {
   }
 }
 
-function canonical(value) {
+export function resolveB2bPersona(value) {
   if (PERSONAS.includes(value)) return value;
   return /^[1-4]$/.test(value || '') ? PERSONAS[Number(value) - 1] : null;
 }
@@ -123,7 +123,7 @@ export function initPersona() {
       return;
     }
     for (const value of inputs) {
-      const role = canonical(value);
+      const role = resolveB2bPersona(value);
       if (role) {
         if (version === revision) apply(role, marketing);
         return;

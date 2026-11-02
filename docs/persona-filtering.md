@@ -167,7 +167,62 @@ remain eligible. No automatic rotation is introduced.
 Filtering progressively enhances authored inline cards: without JavaScript,
 no persona code hides them. JSON-fed grids retain their pre-existing source-link
 fallback; loading and rendering those remote rows still requires JavaScript.
-Single-item blocks and non-US experiences are outside this change.
+Other single-item blocks and non-US experiences are outside this change, except
+the explicitly user-approved hero-banner extension below.
+
+## Hero banner variations (user-approved extension)
+
+Author a **hero-banner (filterable)** table. Each row is a complete variation:
+the first cell contains the heading, paragraph and any existing links; the final
+cell contains the B2B ID. This is automatic personalization, not a public filter.
+The loader recognizes the delivered `hero-banner filterable` classes directly,
+without using the unrelated hero-overlay layout.
+
+| Complete variation content | Final metadata cell |
+| --- | --- |
+| H1 and paragraph for Technical Evaluator | `1` |
+| H1 and paragraph for Business Decision Maker | `2` |
+| H1 and paragraph for Procurement & Sourcing Manager | `3` |
+| H1 and paragraph for Industry Researcher | `4` |
+| Populated general-purpose H1 and paragraph | Empty, or omit the metadata cell |
+
+Bare comma-separated IDs such as `1, 3` and the optional `persona: 1, 3` form
+also work. The numeric mapping uses the same canonical persona resolver as URL
+selection; there is no separate persona store. Metadata cells are removed during
+decoration and never become part of the rendered heading/body.
+
+The renderer shows the first **populated** row matching the current B2B role,
+otherwise the first populated untagged default. Empty cells, blank paragraphs
+and empty headings do not make a variation populated. With no selected role
+and no default, the first populated row is shown as a fail-open fallback.
+With a selected role but neither a populated match nor a populated default,
+the hero is hidden and an explicit authoring diagnostic is logged; it never
+substitutes a different role's targeted copy. Add an untagged default if the hero
+must remain visible for every visitor.
+
+Saved DA edits can differ from preview content. Populate and Preview the desired
+rows before expecting their role-specific copy. This code deployment does not
+publish the draft or fill in the suggestions below. Existing heading/link nodes remain
+intact, and only the active variation participates in keyboard navigation and
+the accessibility tree. Without JavaScript the authored content remains visible;
+metadata removal and variation selection require JavaScript.
+
+### Suggested copy for author review
+
+| ID / role | Suggested H1 | Suggested paragraph |
+| --- | --- | --- |
+| 1 / Technical Evaluator | Find the Right Lubricant for Your Equipment | Explore product specifications, performance data, and technical resources to assess lubricant suitability for your equipment and operating conditions. |
+| 2 / Business Decision Maker | Keep Your Business Moving Forward | Explore lubrication solutions and expert insights to support equipment reliability, manage operating costs, and plan for long-term performance. |
+| 3 / Procurement & Sourcing Manager | Source Lubricants with Greater Confidence | Compare product information, review supporting documentation, and find supply options that meet your operational and procurement requirements. |
+| 4 / Industry Researcher | Explore Lubrication Insights for Your Industry | Discover articles, application guidance, and product information to understand lubrication technologies and industry challenges. |
+| Untagged default | Lubricant Solutions Built for Your Business | Explore product information, technical resources, and expert insights for your equipment, operations, and industry. |
+
+Keep the existing industry links in each variation if useful, preserving their
+real destinations. The current `href="#"` entries are placeholders: the hero does
+not implement industry filtering or turn them into real destination pages.
+Suggested replacement for the separate introductory sentence "Select a persona
+above..." is: **"Explore lubrication solutions and resources for your equipment,
+operations, and industry."** This is copy for review, not an automatic DA edit.
 
 ## Fragment schedules
 

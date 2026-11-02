@@ -164,6 +164,80 @@ describe('PF1-14 two-tier content and collection filtering', () => {
     expect(win.document.querySelector('.persona-filter select')).to.equal(null);
   });
 
+  it('loads numeric hero-banner variations through the actual loader and preserves authored headings and links', async () => {
+    api.ak.setConfig({ locales: { '': {} }, hostnames: [], linkBlocks: [], components: [] });
+    const block = win.document.createElement('div');
+    block.className = 'hero-banner filterable';
+    block.innerHTML = `${roles.map((role, i) => `<div><div><h1>${role}</h1>
+      <p>Copy for ${role}</p><ul><li><a href="#">Industry</a></li></ul></div><div>${i + 1}</div></div>`).join('')
+       }<div><div><h1>Default hero</h1></div><div></div></div>`;
+    const headings = [...block.querySelectorAll('h1')];
+    const links = [...block.querySelectorAll('a')];
+    win.document.querySelector('main').append(block);
+    await api.ak.loadBlock(block);
+    expect(block.dataset.blockName).to.equal('hero-banner');
+    expect([...block.querySelectorAll('h1')]).to.deep.equal(headings);
+    expect([...block.querySelectorAll('a')]).to.deep.equal(links);
+    const shown = () => [...block.children].filter((item) => !item.hidden);
+    expect(shown().map((item) => item.querySelector('h1').textContent)).to.deep.equal(['Default hero']);
+    roles.forEach((role) => {
+      api.persona.setActivePersona(role);
+      expect(shown().length).to.equal(1);
+      expect(shown()[0].querySelector('h1').textContent).to.equal(role);
+      expect(shown()[0].children.length).to.equal(1);
+      expect(shown()[0].querySelector('a').getAttribute('href')).to.equal('#');
+      expect(block.hidden).to.equal(false);
+    });
+    expect(block.querySelector('select')).to.equal(null);
+  });
+
+  it('resolves hero comma-separated numeric IDs, skips blank rows and uses a populated untagged fallback', async () => {
+    await load('&p=safety');
+    const block = await api.renderCollection('hero-banner', `
+      <div><div><h1>Technical or procurement</h1></div><div><p>persona: 1, 3</p></div></div>
+      <div><div><p><br></p><h1></h1></div><div>2</div></div>
+      <div><div><h1>Default hero</h1></div></div>`, 'filterable');
+    const shown = () => [...block.children].filter((item) => !item.hidden);
+    expect(shown().length).to.equal(1);
+    expect(shown()[0].textContent).to.equal('Technical or procurement');
+    expect(block.textContent).not.to.include('persona:');
+    api.persona.setActivePersona(roles[1]);
+    expect(shown().length).to.equal(1);
+    expect(shown()[0].textContent).to.equal('Default hero');
+    api.persona.setActivePersona(null);
+    expect(shown()[0].textContent).to.equal('Default hero');
+    const bare = await api.renderCollection('hero-banner', `
+      <div><div><h1>Business or research</h1></div><div>2, 4</div></div>
+      <div><div><h1>Default</h1></div></div>`, 'filterable');
+    api.persona.setActivePersona(roles[3]);
+    expect(bare.firstElementChild.hidden).to.equal(false);
+    expect(bare.lastElementChild.hidden).to.equal(true);
+    const mediaDefault = await api.renderCollection('hero-banner', `
+      <div><div><h1>Default with image</h1></div>
+      <div><img alt="Equipment" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"></div></div>`, 'filterable');
+    expect(mediaDefault.hidden).to.equal(false);
+    expect(mediaDefault.querySelector('img').alt).to.equal('Equipment');
+    expect(mediaDefault.firstElementChild.children.length).to.equal(2);
+  });
+
+  it('keeps hero defaults visible without a role, but never substitutes another role for an unmatched selected visitor', async () => {
+    const block = await api.renderCollection('hero-banner', `
+      <div><div><h1>Only populated variation</h1></div><div>1</div></div>
+      <div><div></div><div>2</div></div>
+      <div><div></div><div>3</div></div>`, 'filterable');
+    expect(block.hidden).to.equal(false);
+    expect(block.firstElementChild.hidden).to.equal(false);
+    api.persona.setActivePersona(roles[1]);
+    expect(block.hidden).to.equal(true);
+    expect([...block.children].every((item) => item.hidden)).to.equal(true);
+    api.persona.setActivePersona(roles[0]);
+    expect(block.hidden).to.equal(false);
+    expect(block.firstElementChild.hidden).to.equal(false);
+    const standard = await api.renderCollection('hero-banner', '<div><div><h1>Unfiltered</h1></div><div>4</div></div>');
+    expect(standard.hidden).to.equal(false);
+    expect(standard.firstElementChild.children.length).to.equal(2);
+  });
+
   ['cards-resource', 'cards-insights'].forEach((name) => {
     it(`filters ${name} with inherited and explicit values, untagged fail-open and an empty state`, async () => {
       win.testIndexRows = [{ path: '/article', persona: roles[0] }];

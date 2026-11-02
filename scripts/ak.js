@@ -62,7 +62,7 @@ const KNOWN_BLOCKS = new Set([
   'cards-industry', 'cards-insights', 'cards-products', 'cards-resource', 'checklist', 'cards-service',
   'carousel-banner', 'carousel-square', 'columns', 'columns-brands', 'columns-cta',
   'columns-media', 'columns-products', 'columns-promo', 'footer', 'fragment', 'header', 'hero',
-  'hero-callout', 'hero-overlay', 'isoclean-calculator', 'locator', 'persona', 'persona-filter',
+  'hero-banner', 'hero-callout', 'hero-overlay', 'isoclean-calculator', 'locator', 'persona', 'persona-filter',
   'product', 'product-metadata', 'quote-testimonial',
   'schedule', 'search', 'section-metadata', 'stats-carousel', 'table', 'tool-embed', 'youtube',
 ]);

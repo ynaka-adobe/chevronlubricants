@@ -43,7 +43,9 @@ describe('Two-tier personas at the existing Target boundary', () => {
     expect(win.adobeDataLayer.length).to.equal(0);
     expect(win.document.querySelector('script[src="/deps/at/vendor-at.js"]')).to.equal(null);
     api.consent.setConsent({ analytics: true });
-    await tick();
+    for (let attempt = 0; !win.document.querySelector('.chevron-booklet-traits') && attempt < 100; attempt += 1) {
+      await tick();
+    }
     expect(win.targetCalls.length).to.equal(0);
     expect(win.document.querySelector('.chevron-booklet-traits').textContent)
       .to.include('Procurement & Sourcing Manager');

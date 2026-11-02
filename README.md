@@ -97,6 +97,12 @@ preserving date windows. Defaults never overwrite the selected visitor trait.
 See [Persona filtering](docs/persona-filtering.md) for authoring examples,
 sheet/index dependencies, automatic matching and transition details.
 
+The user-approved `hero-banner (filterable)` extension also personalizes
+automatically: one complete variation per row, final cell `1`-`4` (or comma-separated
+IDs), with an optional populated untagged default. It reuses the same persona
+resolver, removes metadata cells, and exposes no selector. See the author guide
+for matching/default rules and suggested per-role copy.
+
 After **Analytics** consent, `persona-filter` emits once per selection change
 with a canonical label (or null for All) and the page path. Normal local events
 keep actual metadata in `page.persona` and visitor preferences in `visitor`;

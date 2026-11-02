@@ -28,6 +28,36 @@
 
 ## Open PRs
 
+### Support numeric persona variations in the authored hero banner
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** Implementation validated; authorized publication pending.
+
+- New explicit extension to the earlier single-item non-goal: register
+  `hero-banner filterable` and render one populated variation per canonical B2B
+  role. Support final bare IDs1-4, comma-separated IDs and optional `persona:`
+  prefix; remove metadata cells before rendering. Reuse shared numeric/canonical
+  resolver, session state and change events. No public controls or industry facet.
+- Match populated role row, then populated untagged default. With no selected
+  role/no default, fail open to first populated row. A selected unmatched role
+  with no default hides the hero with an explicit diagnostic, never substitutes
+  another role's content. Blank variations do not count as content.
+- The screenshot/current preview contains only populated row1; rows2-4 are blank.
+  Authenticated DA read shows ongoing authoring: row2 now has "Keep Your Business
+  Moving Forward" plus an empty H1, not yet in preview. No DA edits or draft
+  publication were performed. During validation, the author subsequently previewed
+  populated copy for all four roles. The initial incomplete-state note is
+  historical, not a remaining role2-4 publication blocker. No untagged default
+  is currently authored; no-role falls back to the first populated variation.
+- Suggested safe per-role/default copy and numeric authoring examples are in
+  `docs/persona-filtering.md`. Preserve existing links and do not claim placeholder
+  `#` links perform industry filtering. Existing hero/hero-overlay implementations
+  are unchanged. All 88 repository tests and changed-file lint pass.
+- Local runtime on actual updated preview content verifies p1-4, legacy alias,
+  marketing `oem`, query-free restoration and no-role/unknown fallback at
+  1440/390px. Exactly one populated H1 is visible and metadata cells/hidden
+  links/public selectors do not leak into the active experience.
+
 ### Personalize collections automatically without public persona controls
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
