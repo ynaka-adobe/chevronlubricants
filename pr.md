@@ -31,7 +31,8 @@
 ### Personalize collections automatically without public persona controls
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Implementing the user's behavior correction; not yet published.
+**Status:** Published directly to `main` as `e8f64c2` using `@ynakagawa`;
+verified on the exact preview page and actual custom-domain runtime.
 
 - Persona is automatic URL/tab-session personalization, not a visitor-selectable
   filter. This explicitly supersedes earlier dropdown and PF7/8 selector guards.
@@ -47,6 +48,14 @@
   shows zero persona controls at1440/390px: eight cards with no persona and seven
   for `p=2`, with source copy/links intact. Actual Target requests retain numeric
   values and identity/consent behavior.
+- No-override desktop/mobile preview verification confirms zero persona controls:
+  no role shows eight cards; `p=2` automatically shows seven. Published browser
+  fixtures confirm service/product matching without a selector and removal of
+  authored legacy controls. No page overflow or JavaScript errors.
+- Real custom-domain requests still pass two-tier/tab isolation, navigation,
+  consent/GPC/revocation and once-per-change Analytics checks; ten actual Target
+  responses returned200 with continuous identity before revocation. No audience
+  configuration or membership claims. Only proven-stale exact assets refreshed.
 
 ### Render the authored Cards (filterable) B2B landing variant
 
