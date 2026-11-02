@@ -1,7 +1,7 @@
 import { getConfig, localizeUrl } from '../../scripts/ak.js';
 import ENV from '../../scripts/utils/env.js';
 import { loadFragment } from '../fragment/fragment.js';
-import { getContentPersona, initPersona } from '../../scripts/persona.js';
+import { getB2bPersona, getMarketingPersona, initPersona } from '../../scripts/persona.js';
 
 const config = getConfig();
 
@@ -82,7 +82,7 @@ function getDate() {
 }
 
 export default async function init(a) {
-  initPersona();
+  await initPersona();
   const personaUrl = new URL(a.href);
   const pageParams = new URLSearchParams(window.location.search);
 
@@ -98,7 +98,8 @@ export default async function init(a) {
   data.reverse();
 
   // Global default: prefer row with name/persona "default", else first undated entry
-  const defaultMatch = (evt) => (evt.name === 'default' || evt.persona === 'default');
+  const defaultMatch = (evt) => (evt.marketingPersona === 'default'
+    || evt.name === 'default' || evt.persona === 'default');
   const undated = (evt) => !(evt.start && evt.end);
   const defEvent = data.find((evt) => defaultMatch(evt) && undated(evt))
     || data.find(undated);
@@ -108,16 +109,18 @@ export default async function init(a) {
   const render = async () => {
     revision += 1;
     const version = revision;
-    const persona = getContentPersona();
+    const coarse = getB2bPersona();
+    const marketing = getMarketingPersona();
     const now = getDate();
-    const activeData = data.filter((evt) => evt.name === persona || evt.persona === persona);
-    const found = activeData.find((evt) => {
-      if (!(evt.start && evt.end)) return false;
-      const start = Date.parse(evt.start);
-      const end = Date.parse(evt.end);
-      return now > start && now < end;
-    });
-    const event = found || activeData.find(undated) || defEvent;
+    const choose = (activeData) => activeData.find((evt) => (
+      evt.start && evt.end && now > Date.parse(evt.start) && now < Date.parse(evt.end)
+    )) || activeData.find(undated);
+    const fine = marketing && choose(data.filter((evt) => (
+      evt.marketingPersona === marketing
+      || (!evt.marketingPersona && (evt.persona === marketing || evt.name === marketing))
+    )));
+    const broad = coarse && choose(data.filter((evt) => evt.persona === coarse));
+    const event = fine || broad || choose(data.filter(defaultMatch)) || defEvent;
     const wrapper = event?.fragment ? await createPersonaFragment(event, defEvent) : null;
     if (version !== revision || !slot.isConnected) return;
     if (!wrapper) {
@@ -128,7 +131,10 @@ export default async function init(a) {
       slot = placeholder;
       return;
     }
-    wrapper.dataset.selectedPersona = persona;
+    wrapper.dataset.selectedPersona = coarse || 'default';
+    wrapper.dataset.marketingPersona = marketing || '';
+    wrapper.dataset.personaFallback = String(Boolean((coarse || marketing)
+      && !fine && !broad) || wrapper.dataset.persona !== (event.persona || event.name));
     slot.replaceWith(wrapper);
     slot = wrapper;
     window.dispatchEvent(new Event('chevron:persona-changed'));

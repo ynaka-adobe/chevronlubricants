@@ -174,8 +174,9 @@ function build() {
   preferences.append(element('h2', 'Cookie preferences'));
   preferences.querySelector('h2').id = 'chevron-preferences-title';
   preferences.append(element('p', 'Strictly necessary storage remembers your choice. '
-    + 'Adobe Target uses a separate personalization choice to store a demo persona for this browser session '
-    + 'and send it to your Target visitor profile, along with page URL, referrer and browser context. '
+    + 'A functional persona filter preference uses this tab\'s session storage. '
+    + 'Separate Personalization consent lets Adobe Target send its numeric audience value '
+    + 'to your Target visitor profile, along with page URL, referrer and browser context. '
     + 'Form field values are not collected. '
     + 'Global Privacy Control is honored as an advertising/sale opt-out, not analytics consent.'));
   [

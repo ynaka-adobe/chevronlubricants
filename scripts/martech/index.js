@@ -4,10 +4,10 @@ import initBooklet from './booklet.js';
 import initTarget from '../target.js';
 import { initPersona } from '../persona.js';
 
-export default function initMartech() {
+export default async function initMartech() {
   initConsent();
-  initPersona();
+  await initPersona();
   instrument();
-  initTarget();
+  await initTarget();
   initBooklet();
 }

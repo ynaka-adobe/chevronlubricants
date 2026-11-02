@@ -18,6 +18,8 @@
  * below the closest preceding heading in <main>. Titles are styled by .cards-service-title
  * (size, weight, spacing, margins), so the visual result does not change.
  */
+import { bindPersonaFilter, copyCardPersona, preparePersonaCards } from '../../scripts/persona.js';
+
 function normalizeTitleLevels(block) {
   const titles = [...block.querySelectorAll('.cards-service-title')].filter((t) => /^H[1-6]$/.test(t.tagName));
   if (!titles.length) return;
@@ -36,14 +38,17 @@ function normalizeTitleLevels(block) {
   });
 }
 
-export default function decorate(block) {
+export default async function decorate(block) {
+  const rows = [...block.children];
+  await preparePersonaCards(rows);
   const list = document.createElement('ul');
   list.className = 'cards-service-list';
   let hasDescription = false;
 
-  [...block.children].forEach((row) => {
+  rows.forEach((row) => {
     const li = document.createElement('li');
     li.className = 'cards-service-card';
+    copyCardPersona(row, li);
     [...row.children].forEach((cell) => {
       const isIcon = cell.querySelector('picture, img') && !cell.textContent.trim();
       if (isIcon && !li.querySelector('.cards-service-icon')) {
@@ -77,4 +82,5 @@ export default function decorate(block) {
   block.textContent = '';
   block.append(list);
   normalizeTitleLevels(block);
+  bindPersonaFilter(block, [...list.children], { selectorRequired: true });
 }

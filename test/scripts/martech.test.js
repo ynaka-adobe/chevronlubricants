@@ -1,6 +1,7 @@
 import { expect } from '@esm-bundle/chai';
 // These cases share consent storage, so they must not run in a parallel test-file context.
 import './target.cases.js';
+import './persona.cases.js';
 
 describe('Chevron consent-first analytics', () => {
   let frame;
@@ -43,6 +44,8 @@ describe('Chevron consent-first analytics', () => {
   beforeEach(async () => {
     localStorage.removeItem('chevron-consent');
     sessionStorage.removeItem('chevron-insights');
+    sessionStorage.removeItem('b2bPersona');
+    sessionStorage.removeItem('marketingPersona');
     await load();
   });
 
@@ -51,6 +54,8 @@ describe('Chevron consent-first analytics', () => {
     frame.remove();
     localStorage.removeItem('chevron-consent');
     sessionStorage.removeItem('chevron-insights');
+    sessionStorage.removeItem('b2bPersona');
+    sessionStorage.removeItem('marketingPersona');
   });
 
   it('does not capture, queue, identify or transmit before consent', () => {
@@ -295,7 +300,7 @@ describe('Chevron consent-first analytics', () => {
     grant();
     await render();
     const traits = doc.querySelector('.chevron-booklet-traits');
-    expect(traits.textContent).to.include('No B2B persona selected');
+    expect(traits.textContent).to.include('All personas');
     expect(traits.textContent).not.to.include('Default');
     expect(traits.textContent).not.to.include('unknown-private-value');
     expect(traits.textContent).to.include('No CJA API');
@@ -308,7 +313,7 @@ describe('Chevron consent-first analytics', () => {
   it('refreshes traits for late persona rendering and preserves collapsed state', async () => {
     grant();
     await render();
-    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('No B2B persona selected');
+    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('All personas');
     doc.querySelector('.chevron-booklet-traits').open = false;
     doc.querySelector('.chevron-booklet-traits > summary').focus();
     const wrapper = doc.createElement('div');
@@ -318,7 +323,7 @@ describe('Chevron consent-first analytics', () => {
     win.dispatchEvent(new win.Event('chevron:persona-changed'));
     await render();
     expect(doc.querySelector('.chevron-booklet-traits').textContent).not.to.include('Fleet Managers');
-    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('No B2B persona selected');
+    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('All personas');
     expect(doc.querySelector('.chevron-booklet-traits').open).to.equal(false);
     expect(doc.activeElement.matches('.chevron-booklet-traits > summary')).to.equal(true);
     api.instrument.track('cta-click', { link: { text: 'Products', url: '/products' } });

@@ -2,7 +2,7 @@ import { isUSPage } from './martech/analytics.js';
 import {
   clearCookies, getConsent, onConsentChange, reportError,
 } from './martech/consent.js';
-import { getPersistedPersona, getPersonaState, initPersona } from './persona.js';
+import { PERSONAS, getB2bPersona, initPersona } from './persona.js';
 
 let initialized = false;
 let active = '';
@@ -12,9 +12,14 @@ let generation = 0;
 let granted;
 let queue = Promise.resolve();
 
+function currentProfilePersona() {
+  const index = PERSONAS.indexOf(getB2bPersona());
+  return getConsent().personalization && index >= 0 ? String(index + 1) : '';
+}
+
 export function targetState() {
   const consented = getConsent().personalization;
-  return { persona: getPersonaState().id, status, consented };
+  return { persona: currentProfilePersona(), status, consented };
 }
 
 function announce() {
@@ -33,8 +38,8 @@ function loadLibrary() {
     script.src = '/deps/at/vendor-at.js';
     script.async = true;
     script.onload = () => {
-      if (!getPersistedPersona()) {
-        clearTargetCookies();
+      if (!currentProfilePersona()) {
+        if (!getConsent().personalization) clearTargetCookies();
         resolve();
       } else if (window.adobe?.target?.getOffers) resolve();
       else reject(new Error('Target library loaded without getOffers'));
@@ -49,21 +54,21 @@ function loadLibrary() {
 }
 
 async function deliverProfile(version) {
-  if (!getPersistedPersona() || version !== generation) return;
+  if (!currentProfilePersona() || version !== generation) return;
   await loadLibrary();
-  if (!getPersistedPersona() || version !== generation) return;
-  const selected = getPersistedPersona();
+  if (!currentProfilePersona() || version !== generation) return;
+  const selected = currentProfilePersona();
   await window.adobe.target.getOffers({
     request: {
       execute: { pageLoad: { profileParameters: { persona: selected } } },
     },
   });
-  if (!getPersistedPersona()) {
-    clearTargetCookies();
+  if (!currentProfilePersona()) {
+    if (!getConsent().personalization) clearTargetCookies();
     return;
   }
-  // Reconcile a cross-tab change even when its notification arrived during the request.
-  if (selected !== getPersistedPersona()) {
+  // Reconcile a selection change that arrived during the request.
+  if (selected !== currentProfilePersona()) {
     await deliverProfile(generation);
     return;
   }
@@ -89,25 +94,24 @@ function syncProfile(version) {
 
 function refresh() {
   const consented = getConsent().personalization;
-  const latest = getPersistedPersona();
+  const latest = currentProfilePersona();
   if (granted === consented && active === latest) return;
   granted = consented;
   active = latest;
   generation += 1;
   window.targetGlobalSettings.enabled = Boolean(active);
   if (!granted) status = 'Personalization off; no Target profile transmission';
-  else if (getPersonaState().saveFailed) status = 'Browser-session persona could not be saved; Target inactive';
-  else status = active ? 'Synchronizing Target profile' : 'No browser-session persona; Target inactive';
+  else status = active ? 'Synchronizing Target profile' : 'No tab persona; Target inactive';
   announce();
   if (active) syncProfile(generation);
-  else clearTargetCookies();
+  else if (!granted) clearTargetCookies();
 }
 
-export default function initTarget() {
+export default async function initTarget() {
   if (initialized || document.querySelector('meta[name="target"]')?.content !== '1'
     || !isUSPage() || /\.(?:stage-ue|ue)\.da\.live$/.test(window.location.hostname)) return;
   initialized = true;
-  initPersona();
+  await initPersona();
   window.targetGlobalSettings = {
     ...window.targetGlobalSettings,
     enabled: false,
@@ -121,7 +125,7 @@ export default function initTarget() {
     deviceDetectionEnabled: false,
   };
   window.targetPageParamsAll = () => {
-    const current = getPersistedPersona();
+    const current = currentProfilePersona();
     return current ? { 'profile.persona': current } : {};
   };
   window.addEventListener('chevron:persona-selection-changed', refresh);

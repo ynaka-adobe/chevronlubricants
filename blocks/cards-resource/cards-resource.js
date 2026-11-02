@@ -16,6 +16,8 @@
  * Tip: append #_dnb to a YouTube link so it stays a link instead of an inline embed.
  */
 
+import { bindPersonaFilter, copyCardPersona, preparePersonaCards } from '../../scripts/persona.js';
+
 const BTN_CLASSES = ['btn', 'btn-primary', 'btn-secondary', 'btn-outline', 'btn-accent', 'btn-negative'];
 
 function columnCount(count) {
@@ -61,15 +63,18 @@ function decorateBody(body) {
   return null;
 }
 
-export default function decorate(block) {
+export default async function decorate(block) {
+  const rows = [...block.children];
+  await preparePersonaCards(rows);
   const list = document.createElement('ul');
   list.className = 'cards-resource-list';
   const ctas = [];
   let linkedImages = 0;
 
-  [...block.children].forEach((row) => {
+  rows.forEach((row) => {
     const li = document.createElement('li');
     li.className = 'cards-resource-card';
+    copyCardPersona(row, li);
     let cta = null;
     [...row.children].forEach((cell) => {
       const isImage = cell.querySelector('picture, img, .video') && !cell.textContent.trim();
@@ -114,4 +119,5 @@ export default function decorate(block) {
   block.classList.add(`cards-resource-cols-${columnCount(count)}`);
   block.textContent = '';
   block.append(list);
+  bindPersonaFilter(block, [...list.children]);
 }

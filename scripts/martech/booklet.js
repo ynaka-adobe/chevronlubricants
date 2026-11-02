@@ -5,6 +5,7 @@ import { targetState } from '../target.js';
 import { getPersonaState } from '../persona.js';
 
 const CATEGORIES = {
+  'persona-filter': 'Persona',
   'page-view': 'Page',
   'component-impression': 'Impressions',
   'cta-click': 'Engagement',
@@ -114,15 +115,14 @@ function userTraits(events, open) {
   const list = element('dl', undefined, 'chevron-booklet-observations');
   const persona = getPersonaState();
   const fragments = [...document.querySelectorAll('main .persona-fragment-content[data-persona]')];
-  const fallback = persona.id && fragments.some((node) => (
-    node.dataset.selectedPersona === persona.id && node.dataset.persona !== persona.id
-  ));
+  const fallback = fragments.some((node) => node.dataset.personaFallback === 'true');
   const lastForm = events.findLast((entry) => entry.event === 'form-submit');
   const target = targetState();
   const rows = [
-    ['Persona', persona.label || 'No B2B persona selected',
-      `${persona.id ? `Persona id: ${persona.id}. ` : ''}${target.status}`,
-      `${persona.saved ? 'Browser-session selection' : 'Not saved for the browser session'}`
+    ['Persona', persona.b2bPersona || 'All personas',
+      `${target.persona ? `Target profile persona: ${target.persona}. ` : ''}${target.status}`,
+      `${persona.saved ? 'Per-tab session preference' : 'Page-only preference; tab storage unavailable'}`
+        + `${persona.marketingPersona ? `. Marketing selection: ${persona.marketingPersona}` : ''}`
         + `${fallback ? '. Content fallback displayed; no matching authored fragment is active.' : ''}`],
     ['Last form submit', lastForm?.form?.name || 'None yet',
       lastForm ? `Submitted at ${new Date(lastForm.timestamp).toLocaleTimeString()}`
@@ -178,7 +178,8 @@ function dashboard(events, traitsOpen) {
   const feed = element('ol', undefined, 'chevron-booklet-feed');
   events.slice(-60).reverse().forEach((entry) => {
     const detail = entry.link?.text || entry.link?.file || entry.form?.name || entry.component?.id
-      || (entry.depth ? `${entry.depth}%` : entry.page.path);
+      || (entry.depth ? `${entry.depth}%` : entry.persona
+        || (typeof entry.page === 'string' ? entry.page : entry.page.path));
     const item = element('li');
     const time = element('time', entry.timestamp.slice(11, 19));
     time.dateTime = entry.timestamp;

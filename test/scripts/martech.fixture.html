@@ -71,19 +71,58 @@
         import('../../scripts/target.js'),
         import('../../scripts/persona.js'),
       ]);
-      async function renderPersonaSchedule(ids = ['default', '1', '2', '3', '4'], dates = {}) {
+      const params = new URLSearchParams(location.search);
+      if (params.get('pagePersona')) {
+        const meta = document.createElement('meta');
+        meta.name = 'persona';
+        meta.content = params.get('pagePersona');
+        document.head.append(meta);
+      }
+      window.personaFetchCounts = { map: 0, index: 0 };
+      window.testIndexRows = [];
+      window.testResourceRows = [];
+      const originalFetch = window.fetch;
+      window.fetch = async (input, ...options) => {
+        const url = new URL(input, location.origin);
+        if (url.pathname === '/en-us/home/schedules/persona-map.json') {
+          window.personaFetchCounts.map += 1;
+          if (params.get('mapMissing')) return new Response('', { status: 503 });
+          return new Response(JSON.stringify({ data: [
+            { marketingPersona: 'oem', b2bPersona: params.get('mapRole') || persona.PERSONAS[0] },
+            { marketingPersona: 'smart', b2bPersona: persona.PERSONAS[0] },
+            { marketingPersona: 'fleet-managers', b2bPersona: persona.PERSONAS[1] },
+            { marketingPersona: 'efficiency', b2bPersona: persona.PERSONAS[1] },
+            { marketingPersona: 'safety', b2bPersona: persona.PERSONAS[2] },
+            { marketingPersona: 'default', b2bPersona: 'default' },
+            { marketingPersona: 'b2b', b2bPersona: 'default' },
+          ] }));
+        }
+        if (url.pathname === '/query-index.json') {
+          window.personaFetchCounts.index += 1;
+          if (params.get('indexMissing')) return new Response('', { status: 503 });
+          return new Response(JSON.stringify({
+            total: window.testIndexRows.length, data: window.testIndexRows,
+          }));
+        }
+        if (url.pathname === '/test-resources.json') {
+          return new Response(JSON.stringify({ data: window.testResourceRows }));
+        }
+        return originalFetch(input, ...options);
+      };
+      async function renderPersonaSchedule(items = ['default', ...persona.PERSONAS]) {
         ak.setConfig({ locales: { '': {} }, hostnames: [], linkBlocks: [], components: [] });
         const originalFetch = window.fetch;
         window.fetch = async (input, ...options) => {
           const url = new URL(input, location.origin);
           if (url.pathname === '/test-persona-schedule.json') {
-            return new Response(JSON.stringify({ data: ids.map((id) => ({
-              name: 'Fallback', persona: id, fragment: `${location.origin}/test-persona-fragment/${id}`,
-              ...dates,
-            })) }));
+            return new Response(JSON.stringify({ data: items.map((item) => typeof item === 'string'
+              ? { name: 'Fallback', persona: item,
+                  fragment: `${location.origin}/test-persona-fragment/${encodeURIComponent(item)}` }
+              : { ...item, fragment: new URL(item.fragment, location.origin).href }) }));
           }
           if (url.pathname.startsWith('/test-persona-fragment/')) {
-            const id = url.pathname.split('/').pop();
+            const id = decodeURIComponent(url.pathname.split('/').pop());
+            if (window.testFragmentFailures?.includes(id)) return new Response('', { status: 503 });
             return new Response(`<main><div><h1>Content for ${id}</h1></div></main>`);
           }
           return originalFetch(input, ...options);
@@ -98,10 +137,24 @@
       if (new URLSearchParams(location.search).get('earlyPersona') === '1') {
         await renderPersonaSchedule();
       }
-      integration.default();
+      if (params.get('storageBlocked')) {
+        Object.defineProperty(window, 'sessionStorage', {
+          configurable: true, get() { throw new Error('Storage blocked'); },
+        });
+      }
+      await integration.default();
+      async function renderCollection(name, html, variant = '') {
+        const block = document.createElement('div');
+        block.className = `${name} ${variant}`.trim();
+        block.innerHTML = html;
+        document.querySelector('main').append(block);
+        const { default: decorate } = await import(`/blocks/${name}/${name}.js`);
+        await decorate(block);
+        return block;
+      }
       window.testAPI = {
         integration, consent, instrument, analytics, media, booklet, ak, target, persona,
-        renderPersonaSchedule,
+        renderPersonaSchedule, renderCollection,
       };
       document.addEventListener('click', (event) => {
         if (event.target.closest('main a')) event.preventDefault();

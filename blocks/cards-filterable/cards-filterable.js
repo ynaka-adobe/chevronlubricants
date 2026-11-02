@@ -16,6 +16,10 @@
  */
 
 import { createPicture } from '../../scripts/utils/picture.js';
+import {
+  getB2bPersona, initPersona, matchesPersona, resolveCardPersona, setCardPersona,
+} from '../../scripts/persona.js';
+import decoratePersonaFilter from '../persona-filter/persona-filter.js';
 
 const GROUPS = [
   { key: 'brands', label: 'Brands', aliases: ['brand', 'brands'] },
@@ -86,6 +90,7 @@ function itemFromRow(row, base) {
     video: abs(pick(row, ['video'])),
     brands: splitValues(pick(row, GROUPS[0].aliases)),
     types: splitValues(pick(row, GROUPS[1].aliases)),
+    persona: pick(row, ['persona']),
   };
 }
 
@@ -106,6 +111,7 @@ function itemsFromRows(rows) {
       video: mediaLink && isVideoUrl(mediaLink.href) ? mediaLink.href : '',
       brands: tags.slice(0, 1),
       types: tags.slice(1),
+      persona: row.dataset.persona,
     };
   }).filter((item) => item.title);
 }
@@ -140,6 +146,7 @@ function guardImage(thumb, pic) {
 function renderCard(item) {
   const li = document.createElement('li');
   li.className = 'cards-filterable-card';
+  setCardPersona(li, item.persona);
 
   const body = document.createElement('div');
   body.className = 'cards-filterable-body';
@@ -348,7 +355,7 @@ function buildFilters(id, items, onApply) {
   };
 }
 
-function render(block, items, preselected) {
+async function render(block, items, preselected, personaSelector) {
   instance += 1;
   const id = `cards-filterable-${instance}`;
   const list = document.createElement('ul');
@@ -361,43 +368,62 @@ function render(block, items, preselected) {
 
   const hasTags = items.some((item) => GROUPS.some((g) => item[g.key].length));
   block.textContent = '';
-  if (!hasTags) {
-    block.classList.add('is-static');
-    block.append(list);
-    return;
-  }
+  if (!hasTags) block.classList.add('is-static');
 
   const status = document.createElement('p');
   status.className = 'cards-filterable-status';
   status.setAttribute('role', 'status');
 
-  const apply = (selected) => {
+  let selection = preselected;
+  const apply = (selected = selection) => {
+    selection = selected;
     let shown = 0;
     cards.forEach(({ card, item }) => {
-      const match = GROUPS.every((g) => !selected[g.key].length
+      const match = matchesPersona(card, getB2bPersona())
+        && GROUPS.every((g) => !selected[g.key].length
         || item[g.key].some((v) => selected[g.key].includes(v)));
       card.hidden = !match;
+      card.classList.toggle('persona-filtered-out', !match);
       if (match) shown += 1;
     });
     status.textContent = shown
       ? `Showing ${shown} of ${cards.length} resources`
       : 'No resources match the selected filters.';
     status.classList.toggle('is-empty', !shown);
+    status.hidden = !hasTags && !personaSelector && shown === cards.length;
   };
 
-  const filters = buildFilters(id, items, apply);
-  block.append(filters.el, status, list);
-  filters.preselect(preselected);
+  if (personaSelector) {
+    const selector = document.createElement('div');
+    selector.className = 'persona-filter';
+    block.append(selector);
+    await decoratePersonaFilter(selector);
+  }
+  if (hasTags) {
+    const filters = buildFilters(id, items, apply);
+    block.append(filters.el, status, list);
+    filters.preselect(preselected);
+  } else {
+    block.append(status, list);
+    apply();
+  }
+  const changed = () => {
+    if (block.isConnected) apply();
+    else document.removeEventListener('persona:change', changed);
+  };
+  document.addEventListener('persona:change', changed);
 }
 
 export default async function decorate(block) {
+  await initPersona();
   const rows = [...block.querySelectorAll(':scope > div')];
   const sheetLink = rows[0]?.querySelector('a[href]');
   const href = sheetLink?.getAttribute('href') || '';
   const isSheet = rows.length <= 2 && /\.json(\?|#|$)/.test(href);
 
   if (!isSheet) {
-    render(block, itemsFromRows(rows), parsePreselected(null));
+    rows.forEach((row) => resolveCardPersona(row));
+    await render(block, itemsFromRows(rows), parsePreselected(null), false);
     return;
   }
 
@@ -410,5 +436,5 @@ export default async function decorate(block) {
     return;
   }
   const items = sheet.data.map((row) => itemFromRow(row, sheet.base)).filter((item) => item.title);
-  render(block, items, preselected);
+  await render(block, items, preselected, true);
 }

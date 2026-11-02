@@ -16,6 +16,10 @@
  * the tab order; arrows and dots are labelled buttons with >= 24px targets.
  */
 
+import {
+  bindPersonaFilter, copyCardPersona, matchesPersona, preparePersonaCards,
+} from '../../scripts/persona.js';
+
 let carouselCount = 0;
 
 function createArrow(dir, label, controls) {
@@ -34,6 +38,7 @@ function createArrow(dir, label, controls) {
 function buildSlide(row, index, total) {
   const slide = document.createElement('div');
   slide.className = 'carousel-square-slide';
+  copyCardPersona(row, slide);
   slide.setAttribute('role', 'group');
   slide.setAttribute('aria-roledescription', 'slide');
 
@@ -84,10 +89,11 @@ function buildSlide(row, index, total) {
   return slide;
 }
 
-export default function decorate(block) {
+export default async function decorate(block) {
   carouselCount += 1;
   const rows = [...block.querySelectorAll(':scope > div')];
   if (!rows.length) return;
+  await preparePersonaCards(rows);
 
   const trackId = `carousel-square-${carouselCount}-slides`;
   block.setAttribute('role', 'region');
@@ -113,7 +119,8 @@ export default function decorate(block) {
   stage.append(viewport);
   block.append(stage);
 
-  const slides = [...track.children];
+  const allSlides = [...track.children];
+  let slides = allSlides;
   const caption = document.createElement('p');
   caption.className = 'carousel-square-caption';
   caption.setAttribute('aria-live', 'polite');
@@ -121,12 +128,16 @@ export default function decorate(block) {
   /* without captions the source uses its side-by-side strip (equal tiles, no scaling) */
   if (!hasCaptions) block.classList.add('side-by-side');
 
-  const total = slides.length;
-  const half = Math.floor(total / 2);
+  let total = slides.length;
+  let half = Math.floor(total / 2);
   let active = 0;
   let dotButtons = [];
 
   const setActive = (index) => {
+    if (!total) {
+      caption.textContent = '';
+      return;
+    }
     active = (index + total) % total;
     slides.forEach((slide, i) => {
       /* circular offset from the active slide: -half .. +half */
@@ -135,6 +146,8 @@ export default function decorate(block) {
       if (pos < -half) pos += total;
       const dist = Math.abs(pos);
       slide.style.setProperty('--pos', pos);
+      const label = slide.querySelector('.carousel-square-body')?.textContent.trim();
+      slide.setAttribute('aria-label', `${i + 1} of ${total}${label ? `: ${label}` : ''}`);
       slide.classList.toggle('is-center', dist === 0);
       slide.classList.toggle('is-adjacent', dist === 1);
       slide.classList.toggle('is-distant', dist === 2);
@@ -166,7 +179,7 @@ export default function decorate(block) {
       if (!e.target.closest('button')) return;
       e.preventDefault();
       setActive(active + (e.key === 'ArrowRight' ? 1 : -1));
-      if (e.target.classList.contains('carousel-square-dot')) dotButtons[active].focus();
+      if (e.target.classList.contains('carousel-square-dot')) dotButtons[active]?.focus();
     });
 
     /* swipe (touch / pen / mouse drag) */
@@ -209,9 +222,10 @@ export default function decorate(block) {
 
   if (hasCaptions) block.append(caption);
 
-  if (total > 1) {
-    const dots = document.createElement('div');
-    dots.className = 'carousel-square-dots';
+  const dots = document.createElement('div');
+  dots.className = 'carousel-square-dots';
+  const renderDots = () => {
+    dots.replaceChildren();
     dotButtons = slides.map((_, i) => {
       const dot = document.createElement('button');
       dot.type = 'button';
@@ -222,8 +236,26 @@ export default function decorate(block) {
       dots.append(dot);
       return dot;
     });
-    block.append(dots);
-  }
-
-  setActive(0);
+    dots.hidden = total <= 1;
+  };
+  block.append(dots);
+  bindPersonaFilter(block, allSlides, {
+    onChange: (persona) => {
+      const previous = slides[active];
+      slides = allSlides.filter((slide) => matchesPersona(slide, persona));
+      total = slides.length;
+      half = Math.floor(total / 2);
+      stage.hidden = !total;
+      caption.hidden = !total;
+      block.classList.toggle('is-single', total <= 1);
+      stage.querySelectorAll('button').forEach((button) => { button.hidden = total <= 1; });
+      allSlides.filter((slide) => !slides.includes(slide)).forEach((slide) => {
+        slide.classList.remove('is-center', 'is-adjacent', 'is-distant', 'is-hidden');
+        slide.setAttribute('aria-hidden', 'true');
+        slide.querySelectorAll('a[href]').forEach((link) => { link.tabIndex = -1; });
+      });
+      renderDots();
+      setActive(Math.max(0, slides.indexOf(previous)));
+    },
+  });
 }

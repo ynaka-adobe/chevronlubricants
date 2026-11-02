@@ -10,6 +10,10 @@
  * @param {Element} block
  */
 
+import {
+  bindPersonaFilter, copyCardPersona, matchesPersona, preparePersonaCards,
+} from '../../scripts/persona.js';
+
 const GRID_VISIBLE = 4;
 
 function decorateImageCell(cell) {
@@ -99,7 +103,7 @@ function buildCarousel(block, track) {
 
   // one card per step (source carousel advances a single tile at a time)
   const step = () => {
-    const first = slides[0];
+    const first = slides.find((slide) => !slide.hidden);
     if (!first) return track.clientWidth || 1;
     const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
     return first.getBoundingClientRect().width + gap || 1;
@@ -168,6 +172,10 @@ function buildCarousel(block, track) {
   nav.append(prev, dots, next);
   block.append(nav);
   update();
+  return () => {
+    track.scrollTo({ left: 0, behavior: 'auto' });
+    update();
+  };
 }
 
 let gridCount = 0;
@@ -180,12 +188,12 @@ function buildGrid(block, track) {
   });
 
   const cards = [...track.children];
-  if (cards.length <= GRID_VISIBLE) return;
+  if (cards.length <= GRID_VISIBLE) return () => {};
 
   gridCount += 1;
   track.id = track.id || `cards-products-grid-${gridCount}`;
-  const extra = cards.slice(GRID_VISIBLE);
-  extra.forEach((card) => { card.hidden = true; });
+  let expanded = false;
+  let eligible = cards;
 
   const toggle = document.createElement('button');
   toggle.type = 'button';
@@ -194,10 +202,11 @@ function buildGrid(block, track) {
   toggle.setAttribute('aria-controls', track.id);
   toggle.innerHTML = `See all <span class="cards-products-seeall-count">(${cards.length})</span><span aria-hidden="true"> &gt;</span>`;
   toggle.addEventListener('click', () => {
-    extra.forEach((card) => { card.hidden = false; });
+    expanded = true;
+    eligible.forEach((card) => { card.hidden = false; });
     toggle.setAttribute('aria-expanded', 'true');
     // source removes the toggle once expanded; keep keyboard focus on the new content
-    const focusTarget = extra[0].querySelector('a[href]');
+    const focusTarget = eligible[GRID_VISIBLE]?.querySelector('a[href]');
     toggle.hidden = true;
     if (focusTarget) focusTarget.focus();
   });
@@ -208,21 +217,33 @@ function buildGrid(block, track) {
   if (heading && /^H[2-4]$/.test(heading.tagName)) {
     heading.classList.add('cards-products-heading');
     heading.append(' ', toggle);
-    return;
+  } else {
+    const wrap = document.createElement('div');
+    wrap.className = 'cards-products-seeall-wrap';
+    wrap.append(toggle);
+    block.append(wrap);
   }
-  const wrap = document.createElement('div');
-  wrap.className = 'cards-products-seeall-wrap';
-  wrap.append(toggle);
-  block.append(wrap);
+  return (active) => {
+    eligible = cards.filter((card) => matchesPersona(card, active));
+    cards.forEach((card) => {
+      const position = eligible.indexOf(card);
+      card.hidden = position < 0 || (!expanded && position >= GRID_VISIBLE);
+    });
+    toggle.hidden = expanded || eligible.length <= GRID_VISIBLE;
+    toggle.querySelector('.cards-products-seeall-count').textContent = `(${eligible.length})`;
+  };
 }
 
-export default function decorate(block) {
+export default async function decorate(block) {
+  const rows = [...block.children];
+  await preparePersonaCards(rows);
   const track = document.createElement('ul');
   track.className = 'cards-products-track';
 
-  [...block.children].forEach((row) => {
+  rows.forEach((row) => {
     const li = document.createElement('li');
     li.className = 'cards-products-card';
+    copyCardPersona(row, li);
     while (row.firstElementChild) li.append(row.firstElementChild);
     [...li.children].forEach((cell) => {
       if (cell.querySelector('picture, img') && !cell.querySelector('h1, h2, h3, h4, h5, h6, ul')) {
@@ -236,6 +257,6 @@ export default function decorate(block) {
 
   block.textContent = '';
   block.append(track);
-  if (block.classList.contains('grid')) buildGrid(block, track);
-  else buildCarousel(block, track);
+  const update = block.classList.contains('grid') ? buildGrid(block, track) : buildCarousel(block, track);
+  bindPersonaFilter(block, [...track.children], { selectorRequired: true, onChange: update });
 }

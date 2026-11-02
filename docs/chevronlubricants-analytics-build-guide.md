@@ -659,25 +659,30 @@ and deferred while closed, with reduced-motion support.
 
 The User Traits section now follows Parker's CJA-preview presentation, but is
 explicitly browser-only: no CJA API or unified profile is connected. Persona
-comes from the successfully rendered schedule fragment, including default and
-fetch fallbacks, not an unverified query parameter. Late fragment rendering
-refreshes the panel. Last form submit uses only sanitized confirmed
+comes from the canonical per-tab B2B selection, never an authored default
+fragment. The marketing campaign is shown as context, not a competing role.
+Last form submit uses only sanitized confirmed
 `form-submit` events in the retained page window; Name, Email and Company are
 marked not instrumented and their field values are not collected. Traits require analytics or personalization consent and clear when both are
 revoked. Persona is not added to Analytics collector variables.
 
 The later user-approved Target profile step adds separate Personalization
-consent. Numeric `?p=1..4` selects a host-only browser-session cookie shared by
-same-origin tabs and is sent as `execute.pageLoad.profileParameters.persona`
-to the `acsmarketing` Target tenant, before the first eligible evaluation.
-Labels stay separate from the string numeric audience values. The named
-`?persona=fleet-managers` content selector remains independent. User Traits
-now shows both Target persona/delivery status and the rendered content persona.
-Target may retain its server profile longer than the browser-session cookie;
+consent. The authoritative two-tier backlog stores canonical `b2bPersona` and
+the author-mapped `marketingPersona` in per-tab sessionStorage. Both `?p=` and
+`?persona=` support canonical labels, mapped slugs and legacy numeric inputs.
+Target receives the existing string digit `1`-`4` as
+`execute.pageLoad.profileParameters.persona` before the first eligible evaluation.
+The exact role3 label is `Procurement & Sourcing Manager`; Target remains `"3"`.
+User Traits shows the selected role and Target delivery status.
+Target may retain its shared server profile longer than the tab storage;
 no client-only storage mechanism expires that remote attribute. Without a
 current session selection, this client makes no Target evaluation. See
-[README](../README.md#target-b2b-persona-profile) for cross-tab synchronization,
-session-restore caveats, consent/revocation, request context and retention.
+[author guide](persona-filtering.md) for per-tab behavior, shared Target-identity
+limitations, session restore, consent/revocation and metadata/index dependencies.
+After Analytics consent, the local `persona-filter` event carries the canonical
+`persona` and string page path once per change. Normal local events distinguish
+page taxonomy (`page.persona`) from selected visitor preferences (`visitor`).
+This hook does not configure eVar7 or send an unconfigured collector event.
 
 Bot heuristics, illustrative invisible-traffic figures and opt-in reference
 benchmarks remain omitted because this US build is Analytics-only and does not

@@ -28,7 +28,7 @@ nothing. Cookie preferences is available below the footer on every page and
 inside the booklet. Choices expire after 180 days, and cross-tab changes apply
 immediately. Global Privacy Control is an advertising/sale opt-out, never an
 analytics grant. Target additionally requires personalization consent and a
-valid browser-session persona. Existing consent records do not automatically
+valid tab-session persona. Existing consent records do not automatically
 gain personalization permission. RUM remains disabled.
 Videos and tool embeds require the separate external-media preference;
 functional locator services and form anti-abuse protection remain unchanged.
@@ -63,63 +63,49 @@ to that retained window, not all traffic or lifetime session totals.
 
 ### Shared B2B persona and Target profile
 
-`?p=1..4` and `?persona=1..4` are aliases for one canonical selection in
-`scripts/persona.js`. If both are valid but different, **`p` wins**; an invalid
-alias cannot override another valid alias or a stored valid choice. Other URL
-parameters are not rewritten. Use these exact string keys in the schedule's
-`persona` (or `name`) column:
+The authoritative PF-1..14 backlog supersedes the earlier numeric, cross-tab
+cookie model. `scripts/persona.js` holds **two per-tab sessionStorage values**:
+`b2bPersona` (canonical role) and `marketingPersona` (campaign slug).
+`?p=oem` sets both from the published author-editable
+`/en-us/home/schedules/persona-map.json`. A canonical role changes only the
+coarse value, retaining marketing. `?persona=` and numeric `1`-`4` inputs
+remain aliases; the first valid `p` wins. Unknown inputs fail open for the
+current page without overwriting a saved valid choice.
 
-| Schedule key / Target profile value | Role |
+| Authored B2B label | Existing Target profile value |
 |---|---|
-| `1` | Technical Evaluator |
-| `2` | Business Decision Maker |
-| `3` | Procurement and Sourcing Manager |
-| `4` | Industry Researcher |
+| Technical Evaluator | `1` |
+| Business Decision Maker | `2` |
+| Procurement & Sourcing Manager | `3` |
+| Industry Researcher | `4` |
 
-An explicit numeric URL selects functional content immediately, but it is not
-stored or sent to Target before **Personalization** consent. After permission,
-the same numeric selection sets Target visitor profile attribute `persona`.
-This matches audiences such as **Visitor Profile: persona equals 3**.
+Functional preferences persist before optional consent, survive same-tab
+navigation/reload and are not synchronized across tabs. There is no persona
+localStorage fallback; the old shared cookie is cleared rather than migrated.
+Browser restore or tab duplication can restore/copy tab storage; browser close
+is not a guaranteed expiry boundary.
 
-The host-only `chevron-target-persona` session cookie has `Path=/`,
-`SameSite=Lax`, `Secure` on HTTPS and no `Expires`/`Max-Age`. It is shared by
-same-origin tabs; query-free navigation/reload reuses it, and either new valid
-numeric alias replaces it. Invalid values never overwrite an established choice. There is
-no localStorage or per-tab sessionStorage persona fallback. BroadcastChannel
-updates open tabs, with focus/visibility refresh and a polling fallback where
-BroadcastChannel is unavailable. Web Locks serialize same-origin profile
-requests; browsers without Web Locks reconcile changes after responses.
+Collection blocks use the coarse label. Inline cards resolve a final
+`persona:` cell first, then internal linked-page metadata from the once-per-page
+query index, then unrestricted fail-open. `cards-filterable` instead uses its
+own JSON source's persona column. Service/product cards filter only when a
+Persona Filter is present. Schedules use marketing, then coarse, then default,
+preserving date windows. Defaults never overwrite the selected visitor trait.
+See [Persona filtering](docs/persona-filtering.md) for authoring examples,
+sheet/index dependencies, selector behavior and transition details.
 
-Persona schedule blocks use the shared numeric key before initial rendering,
-including query-free pages with saved permission, and rerender when another
-tab changes the role or personalization is revoked. Date matching, per-role
-undated fallbacks and global fallback behavior are preserved. A fallback
-fragment is content only: it never overwrites the selected visitor persona.
-The user owns reauthoring the sheets for keys `1`-`4`; this integration does not
-rewrite schedules or fragments.
-
-**Transition:** explicit legacy named links such as
-`?persona=fleet-managers`, `?persona=oem` and `?persona=b2c` still select their
-existing authored content when neither numeric alias is valid. These names
-do not set or invent a numeric B2B role, and do not clear a saved B2B choice.
-Numeric aliases override legacy selectors. User Traits displays only the
-canonical B2B role, not a second visitor persona inferred from legacy/default
-content.
-
-After **Analytics** consent, local `adobeDataLayer` events carry the current
-numeric selection in `page.persona` (omitted if no role is selected). Historical
-events keep their original value; subsequent events follow cross-tab changes.
-The existing Adobe Analytics collector variable mapping is unchanged: no
-unconfirmed persona eVar or report-suite processing rule is invented. Target
-transmission separately requires Personalization consent, regardless of
-Analytics permission.
+After **Analytics** consent, `persona-filter` emits once per selection change
+with a canonical label (or null for All) and the page path. Normal local events
+keep actual metadata in `page.persona` and visitor preferences in `visitor`;
+no report-suite variable mapping or eVar7 configuration is invented. Pre-consent
+events are not replayed. Target has a separate Personalization permission.
 
 The consent-gated client uses the unchanged `acsmarketing` embed from
 `ynaka-adobe/da-demo-kit` (`deps/at/vendor-at.js`). Automatic pageLoad/views and
 body hiding are disabled. The first manual delivery request includes
 `execute.pageLoad.profileParameters.persona`; `targetPageParamsAll` exposes
 `profile.persona` for subsequent SDK requests. The client sends the stored
-numeric selection on every eligible page and resynchronizes changed tabs.
+numeric projection of the current tab's canonical role on every eligible page.
 Target identity cookies are scoped to this hostname; third-party Target
 cookies are disabled. The older `deps/at/at.js` belongs to a different tenant
 and is not loaded. No audiences/activities or page offers are created/applied.
@@ -128,17 +114,18 @@ Target's standard request includes page URL (including its query), referrer,
 browser context and Target identity, unlike the separately sanitized Analytics
 events. Form fields are not read. Avoid personal information in page URLs.
 Personalization/GPC/sale opt-out is independent of analytics permission.
-Revocation clears this host's session choice and accessible Target cookies,
+Revocation preserves functional preferences, clears accessible Target cookies,
 stops new delivery and ignores late responses; it cannot retract server data.
 
-**Lifetime limitation:** a session cookie normally ends with the browser
-session, but browser session-restore can restore it. Target can retain the
-server-side `persona` attribute longer than that cookie. This integration
+**Lifetime limitation:** browser restore can restore per-tab storage. Target can retain the
+server-side `persona` attribute longer than local storage. This integration
 does not claim to delete or expire that remote attribute at browser close:
 without a current session selection it makes no Target evaluation, and it
 sends a new valid selection before the next evaluation. No sentinel profile
-value is written. Closing one tab does not end a shared browser session;
-preview/custom domains are different origins and do not share the choice.
+value is written. Target identity cookies are shared across same-origin tabs,
+so different per-tab selections still write the same server profile: the
+retained attribute is last-writer-wins, not a separate durable persona per tab.
+Preview/custom domains are different origins and do not share preferences.
 User Traits reports delivery status, not verified audience membership.
 
 ## Chevron Edge Commerce pilot

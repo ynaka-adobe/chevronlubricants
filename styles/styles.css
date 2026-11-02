@@ -1,5 +1,15 @@
 @import url("brand.css");
 
+.persona-filtered-out,
+.persona-filter-empty[hidden],
+.cards-filterable-status[hidden],
+.carousel-square .carousel-square-stage[hidden],
+.carousel-square .carousel-square-caption[hidden],
+.carousel-square .carousel-square-dots[hidden],
+.carousel-square button[hidden] {
+  display: none !important;
+}
+
 /* Chevron Lubricants - Design System
  *
  * Font mapping: Gotham Narrow → Montserrat (closest geometric sans-serif match)

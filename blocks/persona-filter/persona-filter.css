@@ -1,0 +1,27 @@
+.persona-filter {
+  display: grid;
+  gap: 8px;
+  min-height: 88px;
+  margin-bottom: 24px;
+}
+
+.persona-filter label {
+  font-weight: 700;
+}
+
+.persona-filter select {
+  box-sizing: border-box;
+  width: min(100%, 34rem);
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid currentcolor;
+  border-radius: 0;
+  background: white;
+  color: inherit;
+  font: inherit;
+}
+
+.persona-filter select:focus-visible {
+  outline: 3px solid #0074b8;
+  outline-offset: 3px;
+}

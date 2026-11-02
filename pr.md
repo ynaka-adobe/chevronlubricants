@@ -28,6 +28,47 @@
 
 ## Open PRs
 
+### Implement the authoritative two-tier persona-filter backlog
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** Implementation validated and ready for authorized publication.
+Direct publication as `@ynakagawa` is authorized after validation. No PR requested.
+This explicitly supersedes the historical cross-tab persona entries below.
+
+- PF-1..14: shared canonical role/marketing helpers, per-tab sessionStorage,
+  author-map resolution, shared selector, locked explicit-cell/index inheritance,
+  all six collection blocks, tiered fragment scheduling and consented local
+  selection events. Preserve numeric Target delivery at the existing boundary.
+- Exact role3 is `Procurement & Sourcing Manager`. Authored content uses canonical
+  labels, not numeric keys. Coarse choices retain marketing; All clears both.
+  No new Target/AEP integration, audience changes or eVar7 provisioning.
+- The user confirmed publication of both saved sheets. Their preview, live and
+  custom-domain endpoints now expose the expected two-tier columns. No coworker
+  source content was edited. Earlier authenticated Admin preview attempts
+  returned401; subsequent user DA UI publication was verified by actual GETs.
+- Learning-page publication remains coworker-owned. The previously checked
+  live index had178 learning paths but no persona values; three sampled live
+  pages had no persona metadata. YAML deployment cannot publish saved drafts.
+  Do not claim all179 learning pages inherit until live metadata/index confirm it.
+- The existing45-row resources sheet is separately authored and has no persona
+  column. Its rows remain unrestricted until authors tag that source; the site
+  query-index change does not populate it.
+- Authoring, compatibility, consent, per-tab restore and shared Target server
+  identity/retention limitations are documented in `docs/persona-filtering.md`.
+- All80 repository tests pass. Changed JS/CSS and whitespace checks pass.
+  Repository-wide JS lint still reports12 pre-existing violations in unchanged
+  fragment, hero and legacy product files; those are outside this change.
+- Real published content with local runtime assets verified independent browser
+  tabs, map-driven rollup, same-tab reload/navigation, canonical/numeric aliases,
+  coarse-retains-marketing, All, invalid-input fail-open, once-per-change
+  consented events, revocation and GPC. Ten actual Target responses were200,
+  with numeric values `3,3,3,3,4,2,2,1,4,2` and one continuous Target identity.
+  A no-selection tab must not erase the identity shared with selected tabs.
+- Desktop/mobile User Traits show the canonical role and per-tab provenance.
+  Inline cards retain progressive no-JS visibility; pre-existing JSON-fed
+  grids retain their source-link fallback rather than a server-rendered grid.
+  No audience membership or report-suite configuration is claimed verified.
+
 ### Unify persona query aliases and selected persona
 
 **Branch:** `ynaka-adobe-chevron-promo-images`

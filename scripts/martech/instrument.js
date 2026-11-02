@@ -2,7 +2,7 @@ import { getConsent, onConsentChange, reportError } from './consent.js';
 import {
   cleanText, cleanURL, EVENTS, isUSPage, revokeAnalytics, send,
 } from './analytics.js';
-import { getPersonaState } from '../persona.js';
+import { PERSONAS, getB2bPersona, getMarketingPersona, getPagePersonas } from '../persona.js';
 
 const SELECTOR = '[data-block-name], .block, .block-content > div[class], '
   + '.commerce-product > :not(.default-content):not(.block-content), '
@@ -37,7 +37,7 @@ export function subscribe(listener) {
 
 export function pageContext() {
   const path = cleanURL(window.location.pathname);
-  const persona = getPersonaState().id;
+  const persona = getPagePersonas().join(', ');
   return {
     path,
     locale: 'us',
@@ -73,13 +73,25 @@ export function describeBlock(block) {
 }
 
 export function track(event, payload = {}) {
-  if (!getConsent().analytics || !isUSPage() || (!EVENTS[event] && event !== 'page-view')) return;
+  if (!getConsent().analytics || !isUSPage()
+    || (!EVENTS[event] && !['page-view', 'persona-filter'].includes(event))) return;
+  if (event === 'persona-filter' && payload.persona !== null
+    && !PERSONAS.includes(payload.persona)) {
+    reportError('Invalid persona analytics event discarded', new Error('Expected canonical persona'));
+    return;
+  }
   if ((event === 'scroll' && ![25, 50, 75, 100].includes(payload.depth))
     || (event.startsWith('form-') && !cleanText(payload.form?.name))) {
     reportError('Invalid analytics event discarded', new Error(event));
     return;
   }
   const entry = { event, page: pageContext(), timestamp: new Date().toISOString() };
+  if (event === 'persona-filter') {
+    entry.persona = payload.persona;
+    entry.page = cleanURL(payload.path || window.location.pathname);
+  } else if (getB2bPersona() || getMarketingPersona()) {
+    entry.visitor = { b2bPersona: getB2bPersona(), marketingPersona: getMarketingPersona() };
+  }
   const { component } = payload;
   if (component) {
     entry.component = {
@@ -103,6 +115,10 @@ export function track(event, payload = {}) {
   window.adobeDataLayer.push(entry);
   if (window.adobeDataLayer.length > LIMIT) {
     window.adobeDataLayer.splice(0, window.adobeDataLayer.length - LIMIT);
+  }
+  if (event === 'persona-filter') {
+    notify();
+    return;
   }
   send(entry, (result) => {
     collection = result;
