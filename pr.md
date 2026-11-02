@@ -28,6 +28,31 @@
 
 ## Open PRs
 
+### Add live analytics User Traits
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** Validated locally; pending direct publication using `@ynakagawa`.
+No PR requested.
+
+- Add Parker-style User Traits / CJA preview below Observations. Show the
+  successfully rendered Chevron persona, including schedule/default fallbacks,
+  rather than asserting that an arbitrary URL parameter is active.
+- Show the latest sanitized confirmed form submission from retained page
+  events. Name, Email and Company are explicitly not instrumented; no personal
+  field values are captured. No CJA API, unified profile, extra collector
+  variables or persistent traits storage.
+- Preserve consent gating, synchronous revocation, late persona refresh,
+  collapsed-state continuity and existing analytics/reporting limitations.
+- 57 focused regressions pass, including selected/default/fetch-fallback
+  persona resolution, late rendering, consent/regrant/revocation, sanitized
+  form events, collapsed state and summary focus. Scoped ESLint/Stylelint and
+  whitespace checks pass. Fixed the coupled dashboard refresh on regrant with
+  an empty retained event window.
+- Actual homepage with local assets checked at 1440px/390px for Fleet Managers,
+  OEM, default and unknown-persona fallback: correct resolved labels, no traits
+  or collection before consent, immediate clearing on revocation, no overflow
+  or page errors. Desktop/mobile screenshots reviewed.
+
 ### Preserve section metadata styling in included fragments
 
 **Branch:** `ynaka-adobe-chevron-promo-images`

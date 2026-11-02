@@ -49,8 +49,12 @@ async function loadPersonaFragment(a, event, defEvent) {
     return;
   }
 
+  let resolvedEvent = event;
   let fragment = await loadLocalizedFragment(event);
-  if (!fragment) fragment = await loadLocalizedFragment(defEvent);
+  if (!fragment && defEvent) {
+    resolvedEvent = defEvent;
+    fragment = await loadLocalizedFragment(defEvent);
+  }
   if (!fragment) {
     removePersona(a);
     return;
@@ -64,11 +68,13 @@ async function loadPersonaFragment(a, event, defEvent) {
 
   const wrapper = document.createElement('div');
   wrapper.className = 'persona-fragment-content';
+  wrapper.dataset.persona = resolvedEvent.persona || resolvedEvent.name || 'default';
   for (const child of children) {
     wrapper.appendChild(child);
   }
   elToReplace.insertAdjacentElement('afterend', wrapper);
   elToReplace.remove();
+  window.dispatchEvent(new Event('chevron:persona-changed'));
 }
 
 function getDate() {

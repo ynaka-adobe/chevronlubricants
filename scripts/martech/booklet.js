@@ -1,5 +1,5 @@
 import { addStyle, element, openConsent, reportError } from './consent.js';
-import { CONFIG } from './analytics.js';
+import { cleanText, CONFIG } from './analytics.js';
 import { subscribe } from './instrument.js';
 
 const CATEGORIES = {
@@ -102,7 +102,45 @@ function observations(summary) {
   return list;
 }
 
-function dashboard(events) {
+function userTraits(events, open) {
+  const traits = element('details', undefined, 'chevron-booklet-details chevron-booklet-traits');
+  traits.open = open;
+  const heading = element('summary', 'User Traits ');
+  heading.append(element('span', 'CJA preview', 'chevron-booklet-badge'));
+  traits.append(heading, element('p', 'A preview of person-level traits, computed in this browser from the '
+    + 'rendered persona and consented page events. No CJA API or unified profile is connected.'));
+  const list = element('dl', undefined, 'chevron-booklet-observations');
+  const personas = [...new Set([...document.querySelectorAll('main .persona-fragment-content[data-persona]')]
+    .map((node) => cleanText(node.dataset.persona)).filter(Boolean))];
+  const labels = { default: 'Default', 'fleet-managers': 'Fleet Managers', oem: 'OEM' };
+  const names = personas.map((id) => labels[id] || id.replaceAll('-', ' '));
+  const lastForm = events.findLast((entry) => entry.event === 'form-submit');
+  const rows = [
+    ['Persona', names.join(', ') || 'No persona active',
+      personas.length ? `Persona id: ${personas.join(', ')} - resolved from the rendered schedule fragment`
+        : 'No resolved persona fragment on this page', 'Measured in this browser'],
+    ['Last form submit', lastForm?.form?.name || 'None yet',
+      lastForm ? `Submitted at ${new Date(lastForm.timestamp).toLocaleTimeString()}`
+        : 'Confirmed form submissions in the retained page events', 'Measured in this browser'],
+    ...['Name', 'Email', 'Company'].map((name) => [name, '--',
+      'Personal form field values are not collected', 'Not instrumented']),
+  ];
+  rows.forEach(([label, value, note, provenance]) => {
+    const row = element('div');
+    const detail = element('dd');
+    detail.append(
+      element('strong', value),
+      element('span', note, 'chevron-booklet-note'),
+      element('span', provenance, 'chevron-booklet-trait-source'),
+    );
+    row.append(element('dt', label), detail);
+    list.append(row);
+  });
+  traits.append(list);
+  return traits;
+}
+
+function dashboard(events, traitsOpen) {
   const summary = summarize(events);
   const content = document.createDocumentFragment();
   const stats = element('div', undefined, 'chevron-booklet-stats');
@@ -117,7 +155,7 @@ function dashboard(events) {
     stat.append(element('strong', String(value)), element('span', label));
     stats.append(stat);
   });
-  content.append(stats, section('Observations', observations(summary)));
+  content.append(stats, section('Observations', observations(summary)), userTraits(events, traitsOpen));
   const viewed = summary.components.filter((row) => row.impressions);
   content.append(section('Component impressions', viewed.length
     ? bars(viewed, (row) => row.impressions, (row) => {
@@ -215,8 +253,13 @@ export default function initBooklet() {
   const render = () => {
     renderFrame = 0;
     const { scrollTop } = body;
-    live.replaceChildren(current.consent.analytics ? dashboard(current.events)
+    const traitsOpen = live.querySelector('.chevron-booklet-traits')?.open ?? true;
+    const traitsFocused = document.activeElement === live.querySelector('.chevron-booklet-traits > summary');
+    live.replaceChildren(current.consent.analytics ? dashboard(current.events, traitsOpen)
       : element('p', 'Nothing is captured or sent until analytics consent is granted.', 'chevron-booklet-empty'));
+    if (traitsFocused && current.consent.analytics) {
+      live.querySelector('.chevron-booklet-traits > summary').focus({ preventScroll: true });
+    }
     body.scrollTop = current.consent.analytics ? scrollTop : 0;
   };
   function setOpen(open) {
@@ -238,9 +281,15 @@ export default function initBooklet() {
     } else if (event.key === 'Escape' && !panel.hidden
       && !document.querySelector('.chevron-consent-preferences[open]')) setOpen(false);
   });
+  window.addEventListener('chevron:persona-changed', () => {
+    if (current?.consent.analytics && !panel.hidden && !renderFrame) {
+      renderFrame = requestAnimationFrame(render);
+    }
+  });
   subscribe((next) => {
     const changed = !current || next.events.length !== current.events.length
-      || next.events[0] !== current.events[0] || next.events.at(-1) !== current.events.at(-1);
+      || next.events[0] !== current.events[0] || next.events.at(-1) !== current.events.at(-1)
+      || next.consent.analytics !== current.consent.analytics;
     current = next;
     const text = next.consent.analytics ? 'Analytics consent granted' : 'Waiting for analytics consent';
     if (status.textContent !== text) status.textContent = text;

@@ -18,7 +18,8 @@ describe('Chevron consent-first analytics', () => {
     await new Promise((resolve) => { frame.onload = resolve; });
     win = frame.contentWindow;
     doc = win.document;
-    while (!win.testAPI) await tick();
+    for (let attempt = 0; !win.testAPI && attempt < 250; attempt += 1) await tick();
+    expect(win.testAPI, `Fixture did not initialize: ${frame.src}`).to.exist;
     api = win.testAPI;
   }
 
@@ -282,6 +283,62 @@ describe('Chevron consent-first analytics', () => {
     expect(doc.querySelector('.chevron-booklet').hidden).to.equal(false);
   });
 
+  it('shows resolved persona traits, not an unverified URL persona, after consent only', async () => {
+    await load('?insights=1&persona=unknown-private-value');
+    const wrapper = doc.createElement('div');
+    wrapper.className = 'persona-fragment-content';
+    wrapper.dataset.persona = 'default';
+    doc.querySelector('main').append(wrapper);
+    expect(doc.querySelector('.chevron-booklet-traits')).to.equal(null);
+    grant();
+    await render();
+    const traits = doc.querySelector('.chevron-booklet-traits');
+    expect(traits.textContent).to.include('Default');
+    expect(traits.textContent).not.to.include('unknown-private-value');
+    expect(traits.textContent).to.include('No CJA API');
+    expect(traits.textContent).to.include('Personal form field values are not collected');
+    expect(traits.querySelectorAll('dt').length).to.equal(5);
+    api.consent.setConsent({});
+    expect(doc.querySelector('.chevron-booklet-traits')).to.equal(null);
+  });
+
+  it('refreshes traits for late persona rendering and preserves collapsed state', async () => {
+    grant();
+    await render();
+    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('No persona active');
+    doc.querySelector('.chevron-booklet-traits').open = false;
+    doc.querySelector('.chevron-booklet-traits > summary').focus();
+    const wrapper = doc.createElement('div');
+    wrapper.className = 'persona-fragment-content';
+    wrapper.dataset.persona = 'fleet-managers';
+    doc.querySelector('main').append(wrapper);
+    win.dispatchEvent(new win.Event('chevron:persona-changed'));
+    await render();
+    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('Fleet Managers');
+    expect(doc.querySelector('.chevron-booklet-traits').open).to.equal(false);
+    expect(doc.activeElement.matches('.chevron-booklet-traits > summary')).to.equal(true);
+    api.instrument.track('cta-click', { link: { text: 'Products', url: '/products' } });
+    await render();
+    expect(doc.querySelector('.chevron-booklet-traits').open).to.equal(false);
+    expect(win.requests.join(' ')).not.to.include('fleet-managers');
+  });
+
+  it('uses only sanitized confirmed form events for the last submission trait', async () => {
+    grant();
+    api.instrument.track('form-submit', {
+      form: { name: 'Contact visitor@example.com', email: 'visitor@example.com', company: 'Private company' },
+    });
+    await render();
+    const traits = doc.querySelector('.chevron-booklet-traits').textContent;
+    expect(traits).to.include('Contact [redacted]');
+    expect(traits).not.to.include('visitor@example.com');
+    expect(traits).not.to.include('Private company');
+    api.consent.setConsent({});
+    api.consent.setConsent({ analytics: true });
+    await render();
+    expect(doc.querySelector('.chevron-booklet-traits').textContent).to.include('None yet');
+  });
+
   it('gates external media independently and removes frames on revocation', () => {
     const container = doc.createElement('div');
     doc.querySelector('main').append(container);
@@ -408,7 +465,7 @@ describe('Chevron consent-first analytics', () => {
     expect(panel.textContent).to.include('CTR 200.0%');
     expect(panel.querySelectorAll('.chevron-booklet-bars')).to.have.length(3);
     expect(panel.querySelector('.chevron-booklet-count').textContent).to.equal('9');
-    expect(panel.textContent).not.to.include('CJA preview');
+    expect(panel.textContent).to.include('CJA preview');
     expect(panel.textContent).not.to.include('Bot Detection');
   });
 
@@ -422,7 +479,7 @@ describe('Chevron consent-first analytics', () => {
       await Promise.resolve();
     }
     await render();
-    const details = doc.querySelector('.chevron-booklet-details');
+    const details = doc.querySelector('.chevron-booklet-details:not(.chevron-booklet-traits)');
     details.open = true;
     details.querySelector('summary').focus();
     const body = doc.querySelector('.chevron-booklet-body');

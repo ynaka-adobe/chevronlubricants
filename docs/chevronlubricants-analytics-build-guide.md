@@ -657,9 +657,19 @@ by position. Scroll, focus and expanded consent/collection details survive live
 updates. Revocation clears the dashboard synchronously; rendering is batched
 and deferred while closed, with reduced-motion support.
 
-Parker's CJA/persona previews, bot heuristics, illustrative invisible-traffic
-figures and opt-in reference benchmarks are omitted because this US build is
-Analytics-only and does not provide those supported live capabilities.
+The User Traits section now follows Parker's CJA-preview presentation, but is
+explicitly browser-only: no CJA API or unified profile is connected. Persona
+comes from the successfully rendered schedule fragment, including default and
+fetch fallbacks, not an unverified query parameter. Late fragment rendering
+refreshes the panel. Last form submit uses only sanitized confirmed
+`form-submit` events in the retained page window; Name, Email and Company are
+marked not instrumented and their field values are not collected. Traits are
+hidden before analytics consent and cleared from the panel on revocation.
+Persona is not added to collector variables or persistent analytics storage.
+
+Bot heuristics, illustrative invisible-traffic figures and opt-in reference
+benchmarks remain omitted because this US build is Analytics-only and does not
+provide those supported live capabilities.
 The heading is "This page," not "This session": counts/rankings/CTR describe the
 bounded 200-event retained window. No Adobe reporting metrics are simulated.
 
