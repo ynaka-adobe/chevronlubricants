@@ -31,7 +31,8 @@
 ### Support numeric persona variations in the authored hero banner
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Implementation validated; authorized publication pending.
+**Status:** Published directly to `main` as `@ynakagawa` in `6ba8153`;
+exact preview verified on desktop/mobile. No PR requested.
 
 - New explicit extension to the earlier single-item non-goal: register
   `hero-banner filterable` and render one populated variation per canonical B2B
@@ -42,7 +43,7 @@
   role/no default, fail open to first populated row. A selected unmatched role
   with no default hides the hero with an explicit diagnostic, never substitutes
   another role's content. Blank variations do not count as content.
-- The screenshot/current preview contains only populated row1; rows2-4 are blank.
+- The initial screenshot/preview contained only populated row1; rows2-4 were blank.
   Authenticated DA read shows ongoing authoring: row2 now has "Keep Your Business
   Moving Forward" plus an empty H1, not yet in preview. No DA edits or draft
   publication were performed. During validation, the author subsequently previewed
@@ -53,10 +54,20 @@
   `docs/persona-filtering.md`. Preserve existing links and do not claim placeholder
   `#` links perform industry filtering. Existing hero/hero-overlay implementations
   are unchanged. All 88 repository tests and changed-file lint pass.
-- Local runtime on actual updated preview content verifies p1-4, legacy alias,
+- Both local runtime and actual deployed preview (no overrides) verify p1-4, legacy alias,
   marketing `oem`, query-free restoration and no-role/unknown fallback at
   1440/390px. Exactly one populated H1 is visible and metadata cells/hidden
   links/public selectors do not leak into the active experience.
+- Verified exact page:
+  `https://main--chevronlubricants--ynaka-adobe.aem.page/en-us/b2b-landing?p=2`.
+  All four changed runtime assets match committed bytes after HTTP decompression
+  on preview and `chevronlubricants.ynaka-adobe.com`. Without JavaScript, the four
+  authored variations remain readable; automatic selection needs JavaScript.
+- Live landing-card regression remains 8/8 with no role and 7/8 for p=2 at both
+  widths, preserving source copy/links and zero public persona controls. Existing
+  real-SDK consent/session regression again returns ten 200 Target responses with
+  expected numeric profiles and continuous identity before revocation; no
+  pre-consent requests/telemetry. No Target audience-membership claim.
 
 ### Personalize collections automatically without public persona controls
 
