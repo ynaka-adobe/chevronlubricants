@@ -31,7 +31,8 @@
 ### Restore extension-injected Sidekick visibility on the custom domain
 
 **Branch:** `ynaka-adobe-chevron-sidekick-visibility`
-**Status:** Validated for direct publication using `@ynakagawa`; no PR requested.
+**Status:** Published directly to `main` as `7ac4a58` using `@ynakagawa`;
+verified on the actual custom domain. No PR requested.
 
 - Global CSS required both `open="true"` and `.is-ready`, but the custom-domain
   production environment never runs the preview-only Sidekick initializer.
@@ -46,6 +47,11 @@
   for an injected open Sidekick; ordinary visitors loaded no Sidekick,
   scheduler or quick-edit resources. Real extension authentication and injection
   in the user's browser remain independently unverified.
+- Deployed preview and canonical custom-domain CSS byte-match the committed
+  stylesheet. No cache purge was needed. After reloading the actual home page,
+  an injected toolbar has opacity `1` when open, including after the ready event
+  or preview-style decoration, and `0` when closed. No author resources load
+  before or after injection on production; the deployed lazy loader is unchanged.
 
 ### Implement the authoritative two-tier persona-filter backlog
 
