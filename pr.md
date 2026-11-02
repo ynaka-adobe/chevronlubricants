@@ -31,7 +31,8 @@
 ### Render the authored Cards (filterable) B2B landing variant
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Fix validated; authorized direct publication pending. No PR requested.
+**Status:** Published directly to `main` as `35509b5` using `@ynakagawa`;
+verified on the exact reported preview page without overrides. No PR requested.
 
 - Exact reported page: preview `/en-us/b2b-landing?p=2`. It authors
   `Cards (filterable)`, delivered as `class="cards filterable"`, while the loader
@@ -50,6 +51,13 @@
 - All source body text, headings and CTA URLs match rendered cards, with no
   invented brand/type options or page overflow. Existing header/footer404s on
   this newly authored page are unrelated and remain unchanged.
+- Post-publication desktop/mobile checks confirm eight rendered cards, seven
+  visible for `p=2`, and all eight restored by All on the exact user URL.
+  Both changed assets byte-match preview and custom domain after successful
+  exact-path cache refreshes; no broad purge or configuration deployment.
+- The existing live Industrial Products learning-for-you resource library
+  still renders45/45 untagged cards with all10 brand/type checkbox options for
+  `p=2`. No DA content, metadata or sheet sources were edited.
 
 ### Restore extension-injected Sidekick visibility on the custom domain
 
