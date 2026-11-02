@@ -132,6 +132,42 @@ describe('PF1-14 two-tier content and collection filtering', () => {
     expect(new URLSearchParams(win.location.search).has('p')).to.equal(false);
   });
 
+  it('loads DA Cards (filterable) through the real block loader without losing rich content or inventing facets', async () => {
+    api.ak.setConfig({ locales: { '': {} }, hostnames: [], linkBlocks: [], components: [] });
+    win.testIndexRows = [{ path: '/article', persona: roles[0] }];
+    const block = win.document.createElement('div');
+    block.className = 'cards filterable';
+    block.innerHTML = row('Inherited') + row('Decision', '/article', roles[1])
+      + row('Unrestricted', 'https://example.com');
+    const body = block.firstElementChild.children[1];
+    body.insertAdjacentHTML('beforeend', '<ul><li>Extended drain intervals</li></ul><p><a href="/buy">Buy now</a></p>');
+    const copy = body.textContent;
+    const cta = body.querySelector('a[href="/buy"]');
+    win.document.querySelector('main').append(block);
+    await api.ak.loadBlock(block);
+    expect(block.dataset.blockName).to.equal('cards-filterable');
+    expect(block.querySelectorAll('.cards-filterable-card').length).to.equal(3);
+    expect(block.querySelector('.cards-filterable-body').textContent).to.equal(copy);
+    expect(block.querySelector('a[href="/buy"]')).to.equal(cta);
+    expect(block.querySelector('.cards-filterable-panel')).to.equal(null);
+    expect(block.querySelectorAll('.persona-filter select option').length).to.equal(5);
+    api.persona.setActivePersona(roles[1]);
+    expect(visible(block, '.cards-filterable-list > li').length).to.equal(2);
+    expect(block.querySelector('.cards-filterable-status').textContent).to.equal('Showing 2 of 3 resources');
+    api.persona.setActivePersona(null);
+    expect(visible(block, '.cards-filterable-list > li').length).to.equal(3);
+  });
+
+  it('loads an authored Persona Filter through the registered block loader', async () => {
+    api.ak.setConfig({ locales: { '': {} }, hostnames: [], linkBlocks: [], components: [] });
+    const block = win.document.createElement('div');
+    block.className = 'persona-filter';
+    win.document.querySelector('main').append(block);
+    await api.ak.loadBlock(block);
+    expect(block.dataset.blockName).to.equal('persona-filter');
+    expect(block.querySelector('select').disabled).to.equal(false);
+  });
+
   ['cards-resource', 'cards-insights'].forEach((name) => {
     it(`filters ${name} with inherited and explicit values, untagged fail-open and an empty state`, async () => {
       win.testIndexRows = [{ path: '/article', persona: roles[0] }];

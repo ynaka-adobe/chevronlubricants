@@ -62,13 +62,17 @@ const KNOWN_BLOCKS = new Set([
   'cards-industry', 'cards-insights', 'cards-products', 'cards-resource', 'checklist', 'cards-service',
   'carousel-banner', 'carousel-square', 'columns', 'columns-brands', 'columns-cta',
   'columns-media', 'columns-products', 'columns-promo', 'footer', 'fragment', 'header', 'hero',
-  'hero-callout', 'hero-overlay', 'isoclean-calculator', 'locator', 'persona', 'product', 'product-metadata', 'quote-testimonial',
+  'hero-callout', 'hero-overlay', 'isoclean-calculator', 'locator', 'persona', 'persona-filter',
+  'product', 'product-metadata', 'quote-testimonial',
   'schedule', 'search', 'section-metadata', 'stats-carousel', 'table', 'tool-embed', 'youtube',
 ]);
 
 export async function loadBlock(block) {
   const { codeBase, log, components } = getConfig();
   const { classList } = block;
+  if (classList.contains('cards') && classList.contains('filterable')) {
+    classList.add('cards-filterable');
+  }
   const toLoad = [...classList].filter((c) => KNOWN_BLOCKS.has(c));
   block.dataset.blockName = toLoad[0] ?? classList[0];
   const stylePromises = [];

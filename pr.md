@@ -28,6 +28,29 @@
 
 ## Open PRs
 
+### Render the authored Cards (filterable) B2B landing variant
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** Fix validated; authorized direct publication pending. No PR requested.
+
+- Exact reported page: preview `/en-us/b2b-landing?p=2`. It authors
+  `Cards (filterable)`, delivered as `class="cards filterable"`, while the loader
+  only registered `cards-filterable`. No cards module was loaded, leaving eight
+  raw rows in a roughly10,000px stack. This is not a missing persona-sheet error.
+- Normalize only that Cards variant to the existing block and register the
+  authored Persona Filter block. Preserve inline headings, descriptions,
+  benefit bullets and CTA nodes instead of interpreting them as brand/type tags.
+  Keep JSON source/facet behavior unchanged. Inline variant uses locked explicit
+  metadata/index inheritance and a shared accessible selector.
+- Full85-test suite and changed-file lint pass. Exact preview content with the
+  two changed runtime assets locally overridden renders all eight items for All
+  and seven for Business Decision Maker, at1440px and390px. Three linked pages
+  now have indexed persona data; Power Generation is Technical Evaluator only
+  and correctly excluded for p=2. Untagged items remain visible.
+- All source body text, headings and CTA URLs match rendered cards, with no
+  invented brand/type options or page overflow. Existing header/footer404s on
+  this newly authored page are unrelated and remain unchanged.
+
 ### Restore extension-injected Sidekick visibility on the custom domain
 
 **Branch:** `ynaka-adobe-chevron-sidekick-visibility`

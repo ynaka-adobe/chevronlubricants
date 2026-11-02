@@ -140,6 +140,15 @@ brand/type facets; All removes only the persona constraint, not checked facets.
 Multiple labels in one row are comma-separated. A missing persona is unrestricted.
 This block does not inherit from linked pages.
 
+**DA naming compatibility:** a table headed `Cards (filterable)` produces
+`cards filterable` classes rather than the hyphenated block name. The loader
+routes that exact variant to `cards-filterable`. Its inline rows retain their
+full headings, descriptions, bullet lists and CTAs, include the shared selector,
+and use explicit-cell/internal-index inheritance. Descriptive copy is not
+interpreted as brand/type tags. A JSON-linked table continues to use the
+sheet-driven brand/type facets described above. Other Cards variants are not
+remapped.
+
 The existing `/en-us/home/learning/resources.json` is a separately authored
 resource sheet, not the site query index. It needs its **own** `persona` column
 and correctly authored labels. Adding a property to `helix-query.yaml` does not

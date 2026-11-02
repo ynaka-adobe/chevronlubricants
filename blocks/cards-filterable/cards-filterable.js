@@ -17,7 +17,8 @@
 
 import { createPicture } from '../../scripts/utils/picture.js';
 import {
-  getB2bPersona, initPersona, matchesPersona, resolveCardPersona, setCardPersona,
+  getB2bPersona, initPersona, matchesPersona, preparePersonaCards,
+  resolveCardPersona, setCardPersona,
 } from '../../scripts/persona.js';
 import decoratePersonaFilter from '../persona-filter/persona-filter.js';
 
@@ -94,7 +95,7 @@ function itemFromRow(row, base) {
   };
 }
 
-function itemsFromRows(rows) {
+function itemsFromRows(rows, preserveContent = false) {
   return rows.map((row) => {
     const [mediaCell, bodyCell] = [...row.children];
     const picture = mediaCell?.querySelector('picture, img');
@@ -103,7 +104,7 @@ function itemsFromRows(rows) {
     /* tags = a text-only child (not the title link or its wrapper) */
     const tagsEl = [...(bodyCell?.children || [])].find((el) => el.tagName !== 'A'
       && !el.querySelector('a') && el.textContent.trim());
-    const tags = splitValues(tagsEl?.textContent);
+    const tags = preserveContent ? [] : splitValues(tagsEl?.textContent);
     return {
       title: (titleLink || bodyCell)?.textContent.trim() || '',
       link: titleLink?.href || '',
@@ -112,6 +113,7 @@ function itemsFromRows(rows) {
       brands: tags.slice(0, 1),
       types: tags.slice(1),
       persona: row.dataset.persona,
+      body: preserveContent ? bodyCell : null,
     };
   }).filter((item) => item.title);
 }
@@ -150,11 +152,16 @@ function renderCard(item) {
 
   const body = document.createElement('div');
   body.className = 'cards-filterable-body';
-  const title = document.createElement(item.link ? 'a' : 'span');
-  title.className = 'cards-filterable-title';
-  title.textContent = item.title;
-  if (item.link) title.href = item.link;
-  body.append(title);
+  if (item.body) {
+    body.append(...item.body.childNodes);
+    body.querySelector('h2 a, h3 a, h4 a, a')?.classList.add('cards-filterable-title');
+  } else {
+    const title = document.createElement(item.link ? 'a' : 'span');
+    title.className = 'cards-filterable-title';
+    title.textContent = item.title;
+    if (item.link) title.href = item.link;
+    body.append(title);
+  }
   li.append(body);
 
   const pic = thumbnail(item);
@@ -422,8 +429,12 @@ export default async function decorate(block) {
   const isSheet = rows.length <= 2 && /\.json(\?|#|$)/.test(href);
 
   if (!isSheet) {
-    rows.forEach((row) => resolveCardPersona(row));
-    await render(block, itemsFromRows(rows), parsePreselected(null), false);
+    const authoredVariant = block.classList.contains('cards')
+      && block.classList.contains('filterable');
+    if (authoredVariant) await preparePersonaCards(rows);
+    else rows.forEach((row) => resolveCardPersona(row));
+    const items = itemsFromRows(rows, authoredVariant);
+    await render(block, items, parsePreselected(null), authoredVariant);
     return;
   }
 
