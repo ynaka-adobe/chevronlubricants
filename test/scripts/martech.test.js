@@ -121,6 +121,32 @@ describe('Chevron consent-first analytics', () => {
     expect(entries[2].component.sectionIndex).to.equal(2);
   });
 
+  it('uses extensionless analytics paths without changing html URLs, queries or fragments', async () => {
+    win.history.replaceState(null, '', '/en-us/home.html?p=2&persona=oem&insights=1#benefits');
+    expect(api.instrument.pageContext().path).to.equal('/en-us/home');
+    expect(win.requests).to.have.length(0);
+    grant();
+    expect(win.adobeDataLayer[0].page.path).to.equal('/en-us/home');
+    const request = new URL(win.requests[0]);
+    expect(request.searchParams.get('pageName')).to.equal('/en-us/home');
+    expect(request.searchParams.get('g')).to.equal(`${win.location.origin}/en-us/home`);
+    api.instrument.track('cta-click', { link: { text: 'Product', url: '/en-us/home/products/delo-syn-trans-xe.html?p=2#benefits' } });
+    expect(win.adobeDataLayer.at(-1).link.url).to.equal('/en-us/home/products/delo-syn-trans-xe');
+    api.persona.setActivePersona(api.persona.PERSONAS[1]);
+    await tick();
+    expect(win.adobeDataLayer.filter((entry) => entry.event === 'persona-filter')).to.have.length(1);
+    expect(win.adobeDataLayer.at(-1).page).to.equal('/en-us/home');
+    [
+      '/en-us/home.plain.html', '/en-us/home.html.html', '/docs/guide.pdf',
+      'https://example.com/en-us/home.html',
+    ].forEach((url) => expect(api.analytics.cleanURL(url)).to.equal(url));
+    expect(win.location.pathname).to.equal('/en-us/home.html');
+    expect(win.location.search).to.equal('?p=2&persona=oem&insights=1');
+    expect(win.location.hash).to.equal('#benefits');
+    api.consent.setConsent({});
+    expect(win.adobeDataLayer).to.have.length(0);
+  });
+
   it('auto-discovers later author-kit blocks and retains stable identity', async () => {
     grant();
     const late = doc.createElement('div');

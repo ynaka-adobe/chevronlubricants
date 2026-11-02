@@ -90,7 +90,10 @@ describe('Delo Product Bus detail template', () => {
       sku.content = slug;
       const path = `/en-us/home/products/${slug}`;
       expect(getProductType(path)).to.be.a('string');
+      expect(getProductType(`${path}.html`)).to.equal(getProductType(path));
       expect(decorateCommerceProduct(document.querySelector('main'), path)).to.be.true;
+      document.body.innerHTML = fixture;
+      expect(decorateCommerceProduct(document.querySelector('main'), `${path}.html`)).to.be.true;
     });
     expect(getProductType('/en-us/home/products/delo-syn-thf-xc')).to.equal('Transmission/Gear oils');
     expect(getProductType('/en-us/home/products/delo-syn--thf-xc')).to.be.undefined;
@@ -109,7 +112,7 @@ describe('Delo Product Bus detail template', () => {
       expect(getProductType(path)).to.be.a('string');
       expect(decorateCommerceProduct(document.querySelector('main'), path)).to.be.true;
       expect(document.querySelector('.commerce-product-havoline')).to.exist;
-      expect(getProductType(`${path}.html`)).to.be.undefined;
+      expect(getProductType(`${path}.html`)).to.equal(getProductType(path));
       expect(getProductType(`${path}/nested`)).to.be.undefined;
     });
   });
@@ -131,7 +134,7 @@ describe('Delo Product Bus detail template', () => {
       expect(productMain.querySelector('.commerce-product-techron')).to.exist;
       expect(productMain.querySelectorAll('.commerce-product-actions a')).to.have.length(2);
       expect(productMain.querySelector('.commerce-product-retailer a').getAttribute('href')).to.equal('/find-a-retailer');
-      expect(getProductType(`${path}.html`)).to.be.undefined;
+      expect(getProductType(`${path}.html`)).to.equal(getProductType(path));
       expect(getProductType(`${path}/nested`)).to.be.undefined;
     });
     expect(getProductType('/en-us/home/products/techron-unknown')).to.be.undefined;
@@ -156,7 +159,7 @@ describe('Delo Product Bus detail template', () => {
       expect(getProductType(path)).to.be.a('string');
       expect(decorateCommerceProduct(productMain, path)).to.be.true;
       expect(productMain.querySelector('.commerce-product-industrial')).to.exist;
-      expect(getProductType(`${path}.html`)).to.be.undefined;
+      expect(getProductType(`${path}.html`)).to.equal(getProductType(path));
       expect(getProductType(`${path}/nested`)).to.be.undefined;
     });
     expect(getProductType('/en-us/home/products/hdax-pf-antifreezecoolant--premixed-5050')).to.be.undefined;
@@ -196,13 +199,42 @@ describe('Delo Product Bus detail template', () => {
     expect(main.textContent).to.include('Maintenance tips.');
   });
 
+  it('renders html aliases with the same SKU gate, links and metadata as extensionless pages', () => {
+    const url = window.location.href;
+    const canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    canonical.href = `https://chevronlubricants.ynaka-adobe.com${PATH}`;
+    document.head.append(canonical);
+    try {
+      window.history.replaceState(null, '', `${PATH}.html?p=2&persona=oem&insights=1#benefits`);
+      const links = [...main.querySelectorAll('a')].map((node) => node.href);
+      expect(decorateCommerceProduct(main)).to.be.true;
+      expect(main.querySelector('.commerce-product-navigation a[href="#benefits"]')).to.exist;
+      links.forEach((href) => {
+        expect([...main.querySelectorAll('a')].some((node) => node.href === href)).to.be.true;
+      });
+      expect(canonical.href).to.equal(`https://chevronlubricants.ynaka-adobe.com${PATH}`);
+      expect(window.location.pathname).to.equal(`${PATH}.html`);
+      expect(window.location.search).to.equal('?p=2&persona=oem&insights=1');
+      expect(window.location.hash).to.equal('#benefits');
+      document.body.innerHTML = fixture;
+      sku.content = 'unrelated-product';
+      expect(decorateCommerceProduct(document.querySelector('main'))).to.be.false;
+    } finally {
+      canonical.remove();
+      window.history.replaceState(null, '', url);
+    }
+  });
+
   it('does not alter DA-authored, unrelated, category, suffix or unknown-product pages', () => {
     const original = main.innerHTML;
     const paths = [
       '/home', '/en-us/home', '/en-us/home/products/by-brand/delo',
       '/en-us/home/products/by_brand/delo',
       '/en-us/home/products/havoline-synblend-dx-motor-oil',
-      '/en-us/home/products/delo-unknown', `${PATH}.html`, `${PATH}/nested`, `${PATH}/`,
+      '/en-us/home/products/delo-unknown', '/en-us/home/products/delo-unknown.html',
+      `${PATH}.html.html`, `${PATH}.plain.html`, `${PATH}.pdf.html`,
+      `${PATH}.HTML`, `${PATH}/nested`, `${PATH}/`,
     ];
     paths.forEach((path) => expect(decorateCommerceProduct(main, path)).to.be.false);
     sku.remove();

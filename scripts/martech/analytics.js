@@ -1,4 +1,5 @@
 import { clearCookies, getConsent, reportError } from './consent.js';
+import normalizePagePath from '../utils/page-path.js';
 
 export const CONFIG = Object.freeze({
   reportSuiteId: 'acsmarketingb2bcontentexperiences',
@@ -43,7 +44,9 @@ export function cleanURL(value) {
     return '';
   }
   if (!['http:', 'https:'].includes(url.protocol)) return '';
-  const path = url.pathname.split('/').map((part) => {
+  const pathname = url.origin === window.location.origin
+    ? normalizePagePath(url.pathname) : url.pathname;
+  const path = pathname.split('/').map((part) => {
     let decoded;
     try {
       decoded = decodeURIComponent(part);

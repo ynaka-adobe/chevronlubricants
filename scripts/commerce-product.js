@@ -1,3 +1,5 @@
+import normalizePagePath from './utils/page-path.js';
+
 const PRODUCT_TYPES = new Map([
   ['delo-100-motor-oils', 'Engine oils'],
   ['delo-1000-marine', 'Engine oils'],
@@ -167,7 +169,7 @@ const PRODUCTS_WITHOUT_EQUIPMENT = new Set(['chevron-tmgl-premium', 'regal-hd-57
 export function getProductType(pathname) {
   const prefix = '/en-us/home/products/';
   if (!pathname.startsWith(prefix)) return undefined;
-  const slug = pathname.slice(prefix.length);
+  const slug = normalizePagePath(pathname).slice(prefix.length);
   return PRODUCT_TYPES.get(slug) ?? INDUSTRIAL_PRODUCT_TYPES.get(slug);
 }
 
@@ -379,7 +381,7 @@ export function decorateCommerceProduct(main, pathname = window.location.pathnam
   const type = getProductType(pathname);
   if (!type || !main || main.querySelector('.commerce-product')) return false;
   const sku = document.querySelector('meta[name="sku"]')?.content;
-  const slug = pathname.split('/').pop();
+  const slug = normalizePagePath(pathname).split('/').pop();
   if (sku !== slug && !(slug === 'delo-syn-trans-xe' && sku === `${slug}-sae-75w-90`)) return false;
   if (!document.querySelector('script[type="application/ld+json"]')) return false;
   const content = readContent(main, PRODUCTS_WITHOUT_EQUIPMENT.has(slug));

@@ -1,6 +1,29 @@
 # Author Kit
 For projects that want a few more batteries. Built by the team who brought you da.live and adobe.com.
 
+## Chevron .html page aliases
+
+The selected behavior is to render `.html` page aliases without redirecting the
+browser, retaining existing extensionless canonical URLs and internal links.
+Runtime support normalizes a single lowercase `.html` suffix on page paths under
+`/en-us/` (and `/content/en-us/` for local runtime comparisons). Commerce retains
+its exact product inventory, SKU and structured-data gates. Same-origin Analytics
+page/link paths use the extensionless identity; external links and document URLs
+are unchanged. Persona index inheritance already recognizes `.html` aliases.
+Queries such as `p`, `persona` and `insights`, fragments, tab preferences and
+consent behavior are not rewritten.
+
+**Deployment dependency:** runtime code cannot fix an initial server 404.
+The custom domain needs a separately approved Adobe Managed CDN internal path
+rewrite plus exact `.html` product-origin aliases; the product selectors match
+immutable `originalPath`, not the rewritten path. Do not broaden product routing.
+Keep `.plain.html`, double/compound suffixes, assets and tool/code endpoints
+unchanged. No DA documents, query-index entries or commerce records need copies.
+The custom-domain CDN does not control `.aem.page`/`.aem.live`/`.aem.network`
+hostnames. Authored extensionless preview URLs remain available; commerce
+extensionless previews use `.aem.network`, not `.aem.page`. Direct `.html`
+preview URLs remain unsupported without separate hosting changes.
+
 ## Chevron consent and live analytics booklet
 
 [Open the live booklet](https://chevronlubricants.ynaka-adobe.com/en-us/home?insights=1).

@@ -108,6 +108,28 @@ describe('PF1-14 two-tier content and collection filtering', () => {
     expect(api.persona.matchesPersona(card, roles[0])).to.equal(true);
   });
 
+  it('inherits the same index personas from html aliases without rewriting card links', async () => {
+    win.testIndexRows = [
+      { path: '/en-us/home/learning/article', persona: roles[0] },
+      { path: '/en-us/home/products/delo-syn-trans-xe.html', persona: roles[1] },
+    ];
+    const block = await api.renderCollection(
+      'cards-resource',
+      row('Authored page', '/en-us/home/learning/article.html?p=2#details')
+      + row('Product', '/en-us/home/products/delo-syn-trans-xe?insights=1#benefits')
+      + row('External', 'https://example.com/en-us/home/learning/article.html')
+      + row('Document', '/en-us/home/learning/article.pdf'),
+    );
+    const links = [...block.querySelectorAll('a')].map((link) => link.getAttribute('href'));
+    api.persona.setActivePersona(roles[0]);
+    expect(visible(block).map((card) => card.textContent).join(' ')).to.include('Authored page');
+    expect(visible(block).map((card) => card.textContent).join(' ')).not.to.include('Product');
+    api.persona.setActivePersona(roles[1]);
+    expect(visible(block).map((card) => card.textContent).join(' ')).to.include('Product');
+    expect(visible(block)).to.have.length(3);
+    expect([...block.querySelectorAll('a')].map((link) => link.getAttribute('href'))).to.deep.equal(links);
+  });
+
   it('keeps automatic state changes idempotent and preserves unrelated URL parameters', async () => {
     await load('&keep=abc#anchor');
     let changes = 0;
@@ -357,6 +379,7 @@ describe('PF1-14 two-tier content and collection filtering', () => {
 
   it('prefers a valid fine schedule match, then coarse, then default while preserving date windows', async () => {
     await load('&p=oem&start=2026-03-15');
+    win.history.replaceState(null, '', '/en-us/home.html?p=oem&start=2026-03-15&insights=1#hero');
     const rows = [
       { persona: 'default', fragment: '/test-persona-fragment/default' },
       { persona: roles[0], fragment: '/test-persona-fragment/coarse' },
@@ -372,6 +395,9 @@ describe('PF1-14 two-tier content and collection filtering', () => {
     let wrapper = win.document.querySelector('.persona-fragment-content');
     expect(wrapper.textContent).to.include('oem-march');
     expect(wrapper.dataset.persona).to.equal(roles[0]);
+    expect(win.location.pathname).to.equal('/en-us/home.html');
+    expect(win.location.hash).to.equal('#hero');
+    expect(api.persona.getMarketingPersona()).to.equal('oem');
     api.persona.setActivePersona(roles[1]);
     await tick();
     // PF13 deliberately retains the fine tier on a coarse-only change.

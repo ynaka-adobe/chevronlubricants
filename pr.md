@@ -53,6 +53,36 @@
   No-persona visitors deliberately see the full 29-card union, as approved;
   no public All control was introduced. Other authored content was not revised.
 
+### Support visible .html page aliases without changing canonical URLs
+
+**Branch:** `ynaka-adobe-chevron-html-url-support`
+**Status:** User approved runtime publication and the scoped CDN deployment
+using `@ynakagawa`. Publication in progress; no PR requested.
+
+- User selected rendering with `.html` visible, not a redirect or SEO migration.
+  Custom-domain authored home/B2B and commerce `.html` requests currently return
+  server 404; extensionless equivalents return 200. Product previews use
+  `.aem.network`; the representative product is not served on `.aem.page`.
+- Normalize only single page suffixes for exact-inventory, SKU-gated commerce
+  decoration and same-origin Analytics identity. Preserve queries/fragments,
+  existing extensionless links/canonicals, external/doc links and consent/persona
+  behavior; no authored content, catalog or query-index edits.
+- Existing CDN session is preparing a host-scoped `/en-us/` internal rewrite and
+  exact product aliases because origin selectors use immutable `originalPath`.
+  This does not add direct `.html` support to Adobe preview hostnames.
+- Preserve `.plain.html`, compound/double extensions, assets and code/tool routes.
+  Targeted browser suite: 73 passing tests; changed-file lint and whitespace
+  checks pass. Local server-side rewrite simulation against real custom-domain
+  HTML passes at 1440/390px for home, B2B landing and Delo/Havoline/Techron/
+  Industrial products, preserving rendered text/links, extensionless canonicals,
+  persona state/scheduling, raw queries/fragments and consented Analytics identity.
+- Existing CDN session prepared an uncommitted `config-eds/cdn.yaml` addition:
+  one Chevron `/en-us/` page-path rewrite and 158 exact product `.html` aliases.
+  Prior configuration/other hosts remain unchanged. Actual Adobe CDN schema and
+  live alias/canonical checks remain pending, not proven by local simulation.
+  Live completion requires separately approved runtime publication/CDN deployment
+  and real custom-domain authored/product verification.
+
 ### Support numeric persona variations in the authored hero banner
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
