@@ -31,8 +31,8 @@
 ### Persist numeric Target personas across the browser session
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** User approved publishing the consent-gated integration; final
-validation before direct publication using `@ynakagawa`. No PR requested.
+**Status:** Published directly to `main` as `db12380` using `@ynakagawa`,
+with user approval, and verified on the live custom domain. No PR requested.
 
 - Exact string digits `p=1..4` populate Target visitor profile `persona`,
   separate from UI labels and the named `?persona=fleet-managers` content
@@ -66,6 +66,21 @@ validation before direct publication using `@ynakagawa`. No PR requested.
   Target cases share the martech test file's sequential execution because
   consent is intentionally shared across same-origin tabs. Scoped ESLint and
   whitespace checks pass. No authored content, audiences or activities changed.
+- Preserved concurrent `main` PR-log repair `30713e3` before publication.
+  Custom-domain `scripts/martech/index.js` initially remained cached while
+  preview/live origin tiers had the new code. Exact-asset refresh via
+  `POST https://admin.hlx.page/cache/ynaka-adobe/chevronlubricants/main/scripts/martech/index.js`
+  returned HTTP 200 and restored committed-byte parity; no config deployment,
+  broad purge or cache-busting code was used.
+- All seven deployed runtime assets now match committed bytes. Actual live
+  requests without local overrides verified numeric values `3,3,3,4,4,4,4`
+  across initial selection, query-free new tab/reload, cross-tab change and
+  invalid-value preservation, all with the same Target visitor identity and
+  HTTP 200 responses. Verified session-only cookie attributes, no preconsent
+  SDK/delivery, cross-tab revocation and no evaluation after regrant without a
+  current selection. Audience membership remains unverified. Existing
+  `/content/nav.plain.html` and `/content/footer.plain.html` fallback 404s were
+  observed but are unrelated to this change; no page JavaScript errors.
 
 ### Add live analytics User Traits
 
