@@ -28,6 +28,31 @@
 
 ## Open PRs
 
+### Publish the approved per-persona landing cards
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** Content-only DA update, previewed and published. No code change or PR.
+
+- User approved replacing only the existing eight-row Cards (filterable) block
+  in `/en-us/b2b-landing.html` with the reviewed 29 unique resources, including
+  one card shared by Business Decision Maker and Procurement & Sourcing Manager.
+  Final canonical `persona:` cells explicitly override linked-page inheritance.
+- Created DA version "Before approved 29-card persona replacement"; authenticated
+  re-read was byte-identical to the captured baseline before editing. Saved
+  readback confirms every byte outside the target block is unchanged, including
+  all four hero variations, industry links, CTA, Insights and brand sections.
+  DA normalized only new image markup into pictures.
+- Actual published preview, AEM live and custom-domain browser checks at
+  1440/390px confirm visible counts: no persona 29; p=1 8; p=2 6; p=3 7; p=4 9.
+  All approved card titles/descriptions/CTA links match the proposal, all 29
+  images load, metadata cells are removed, no public persona controls or
+  horizontal overflow appear, and the matching single hero remains visible.
+  No pre-consent Target requests or page errors occurred.
+- DA editor: `https://da.live/edit#/ynaka-adobe/chevronlubricants/en-us/b2b-landing`.
+  Live example: `https://chevronlubricants.ynaka-adobe.com/en-us/b2b-landing?p=2`.
+  No-persona visitors deliberately see the full 29-card union, as approved;
+  no public All control was introduced. Other authored content was not revised.
+
 ### Support numeric persona variations in the authored hero banner
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
