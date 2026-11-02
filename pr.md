@@ -56,18 +56,19 @@
 ### Support visible .html page aliases without changing canonical URLs
 
 **Branch:** `ynaka-adobe-chevron-html-url-support`
-**Status:** User approved runtime publication and the scoped CDN deployment
-using `@ynakagawa`. Publication in progress; no PR requested.
+**Status:** Live on the custom domain. Runtime `49ec674` and scoped CDN
+`ynaka-adobe/AEM-p154856` commit `341e0c1` were published nonforce using the
+user-approved `@ynakagawa` account. No PR requested.
 
 - User selected rendering with `.html` visible, not a redirect or SEO migration.
-  Custom-domain authored home/B2B and commerce `.html` requests currently return
-  server 404; extensionless equivalents return 200. Product previews use
+  Initial custom-domain authored home/B2B and commerce `.html` requests returned
+  server 404; extensionless equivalents returned 200. Product previews use
   `.aem.network`; the representative product is not served on `.aem.page`.
 - Normalize only single page suffixes for exact-inventory, SKU-gated commerce
   decoration and same-origin Analytics identity. Preserve queries/fragments,
   existing extensionless links/canonicals, external/doc links and consent/persona
   behavior; no authored content, catalog or query-index edits.
-- Existing CDN session is preparing a host-scoped `/en-us/` internal rewrite and
+- Existing CDN session published a host-scoped `/en-us/` internal rewrite and
   exact product aliases because origin selectors use immutable `originalPath`.
   This does not add direct `.html` support to Adobe preview hostnames.
 - Preserve `.plain.html`, compound/double extensions, assets and code/tool routes.
@@ -76,12 +77,27 @@ using `@ynakagawa`. Publication in progress; no PR requested.
   HTML passes at 1440/390px for home, B2B landing and Delo/Havoline/Techron/
   Industrial products, preserving rendered text/links, extensionless canonicals,
   persona state/scheduling, raw queries/fragments and consented Analytics identity.
-- Existing CDN session prepared an uncommitted `config-eds/cdn.yaml` addition:
+- Existing CDN session published only the approved `config-eds/cdn.yaml` addition:
   one Chevron `/en-us/` page-path rewrite and 158 exact product `.html` aliases.
-  Prior configuration/other hosts remain unchanged. Actual Adobe CDN schema and
-  live alias/canonical checks remain pending, not proven by local simulation.
-  Live completion requires separately approved runtime publication/CDN deployment
-  and real custom-domain authored/product verification.
+  Prior configuration/other hosts remain unchanged. Publication waited for runtime
+  readiness, fresh user-confirmed pipeline `60291285` idle, selected identity and
+  exact remote-parent/config checks. No extra pipeline was manually started.
+- Actual no-local-override custom-domain browser checks at 1440/390px pass for
+  home, B2B landing and Delo/Havoline/Techron/Industrial products: `.html` stays
+  visible, content/links and extensionless canonicals match existing routes,
+  persona/schedules and consented Analytics paths remain correct, and raw
+  duplicate/encoded queries plus fragments are preserved. B2B `p=2` retains
+  six visible cards from the concurrently published 29-card authoring update.
+  No public persona selectors, pre-consent telemetry or page errors occurred.
+- All 158 product aliases return 200 with correct extensionless canonicals and
+  SKU metadata; 65 representative same-origin media URLs return 200 and resolve
+  identically from both URL forms. `.plain.html` remains 200; double/compound
+  suffixes and unknown-product aliases remain 404. All three runtime assets
+  byte-match committed code on custom domain and EDS preview.
+- Pipeline execution/completion was not independently observed in Cloud Manager;
+  actual live alias delivery was independently verified after propagation.
+  Direct `.aem.page` authored and `.aem.network` product `.html` URLs still return
+  404 as expected; their existing extensionless URLs remain 200.
 
 ### Support numeric persona variations in the authored hero banner
 

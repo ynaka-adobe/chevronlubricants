@@ -3,8 +3,8 @@ For projects that want a few more batteries. Built by the team who brought you d
 
 ## Chevron .html page aliases
 
-The selected behavior is to render `.html` page aliases without redirecting the
-browser, retaining existing extensionless canonical URLs and internal links.
+The custom domain renders `.html` page aliases without redirecting the browser,
+retaining existing extensionless canonical URLs and internal links.
 Runtime support normalizes a single lowercase `.html` suffix on page paths under
 `/en-us/` (and `/content/en-us/` for local runtime comparisons). Commerce retains
 its exact product inventory, SKU and structured-data gates. Same-origin Analytics
@@ -13,12 +13,14 @@ are unchanged. Persona index inheritance already recognizes `.html` aliases.
 Queries such as `p`, `persona` and `insights`, fragments, tab preferences and
 consent behavior are not rewritten.
 
-**Deployment dependency:** runtime code cannot fix an initial server 404.
-The custom domain needs a separately approved Adobe Managed CDN internal path
-rewrite plus exact `.html` product-origin aliases; the product selectors match
+**Delivery:** runtime code alone cannot fix an initial server 404.
+The custom domain uses the approved Adobe Managed CDN internal path
+rewrite plus 158 exact `.html` product-origin aliases; the product selectors match
 immutable `originalPath`, not the rewritten path. Do not broaden product routing.
 Keep `.plain.html`, double/compound suffixes, assets and tool/code endpoints
 unchanged. No DA documents, query-index entries or commerce records need copies.
+The deployed CDN configuration is commit `341e0c1` in
+[`ynaka-adobe/AEM-p154856`](https://github.com/ynaka-adobe/AEM-p154856).
 The custom-domain CDN does not control `.aem.page`/`.aem.live`/`.aem.network`
 hostnames. Authored extensionless preview URLs remain available; commerce
 extensionless previews use `.aem.network`, not `.aem.page`. Direct `.html`
