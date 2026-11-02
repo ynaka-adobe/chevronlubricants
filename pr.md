@@ -28,6 +28,33 @@
 
 ## Open PRs
 
+### Preserve section metadata styling in included fragments
+
+**Branch:** `ynaka-adobe-chevron-promo-images`
+**Status:** Validated locally against the live site; pending direct publication
+to `main` using `@ynakagawa`. No PR requested.
+
+- The fleet-managers fragment keeps its `centered` section metadata when
+  included, but shared `main > .section` selectors do not match the fragment
+  wrappers. Its H1 consequently fell back to regular, start-aligned typography;
+  section background styling also failed.
+- Recognize `.fragment-content` and `.persona-fragment-content` as section
+  roots alongside `main`. Use `:where` inside `:is` to preserve the original
+  selector specificity and limit the fix to actual section roots, not arbitrary
+  nested blocks. Apply the same scope to shared section typography, metadata
+  variants, layouts, hero styling and loading visibility.
+- Retain existing persona spacing, templates, block logic, CTA overlays, images,
+  destinations and descriptive alt text. No DA source or asset changes.
+- 51 focused fragment, promo/migration, commerce, consent/analytics and DA
+  preview regressions pass; scoped ESLint, Stylelint and whitespace checks pass.
+  Added coverage for plain fragments, both persona wrapper shapes, metadata
+  colors/alignment, unrelated nested containers and hidden loading sections.
+- Real fleet fragment and included homepage checked at 1440px and 390px with
+  local shared CSS: identical H1 typography (30px, bold, centered, Chevron navy)
+  and section metadata/background styles. Standalone fragment and default
+  homepage computed styles remain unchanged; no page errors or horizontal
+  overflow. Desktop/mobile screenshots reviewed.
+
 ### Homepage promo images and accessible CTA overlays
 
 **Branch:** `ynaka-adobe-chevron-promo-images`

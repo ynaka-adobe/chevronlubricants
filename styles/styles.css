@@ -280,7 +280,7 @@ a {
 }
 
 /* Section variant: blue background (Chevron brand blue) */
-main > .section.blue-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg {
   background-color: var(--color-chevron-blue);
   color: var(--color-white);
   padding: var(--spacing-xxl) 0;
@@ -329,7 +329,7 @@ main > .section.blue-bg {
 }
 
 /* Section variant: banner - contained experience on #0c2e72 */
-main > .section.banner {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.banner {
   display: flex;
   flex-direction: column;
   background-color: #0c2e72;
@@ -395,7 +395,7 @@ main > .section.banner {
 }
 
 /* Section variant: grey background */
-main > .section.grey-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-bg {
   background-color: var(--color-grey-light-bg);
   padding: var(--spacing-xxl) 0;
 
@@ -409,13 +409,13 @@ main > .section.grey-bg {
 }
 
 /* Section variant: light blue background */
-main > .section.light-blue-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.light-blue-bg {
   background-color: var(--color-accent-light);
 }
 
 /* Section variant: full-width background
  * Background extends edge-to-edge using viewport breakout */
-main > .section.full-width-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.full-width-bg {
   --section-full-width-bg-color: #003653;
 
   width: 100vw;
@@ -429,14 +429,14 @@ main > .section.full-width-bg {
 /* First hero section: full-width dark blue (#0b2d71) band, top 600px
  * Applies to any section containing a hero - no account-based variant needed */
 main .persona-fragment-content > div:has(.hero):first-child,
-main > div.section:has(.hero),
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero),
 main > div:has(> .hero) {
   position: relative;
   overflow: visible;
 }
 
 main .persona-fragment-content > div:has(.hero):first-child::before,
-main > div.section:has(.hero)::before,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero)::before,
 main > div:has(> .hero)::before {
   content: '';
   position: absolute;
@@ -451,7 +451,7 @@ main > div:has(> .hero)::before {
 }
 
 main .persona-fragment-content > div:has(.hero):first-child .hero,
-main > div.section:has(.hero) .hero,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero,
 main > div:has(> .hero) .hero {
   position: relative;
   z-index: 1;
@@ -459,20 +459,20 @@ main > div:has(> .hero) .hero {
 }
 
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-background img,
-main > div.section:has(.hero) .hero .hero-background img,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-background img,
 main > div:has(> .hero) .hero .hero-background img {
   opacity: 0.75;
 }
 
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-foreground,
-main > div.section:has(.hero) .hero .hero-foreground,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-foreground,
 main > div:has(> .hero) .hero .hero-foreground {
   color: #fff;
   text-shadow: 0 1px 2px rgb(0 0 0 / 50%);
 }
 
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-foreground a,
-main > div.section:has(.hero) .hero .hero-foreground a,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-foreground a,
 main > div:has(> .hero) .hero .hero-foreground a {
   color: #fff;
 }
@@ -482,9 +482,9 @@ main > div:has(> .hero) .hero .hero-foreground a {
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-foreground p a,
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-foreground a.btn,
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-foreground a.btn-primary,
-main > div.section:has(.hero) .hero .hero-foreground p a,
-main > div.section:has(.hero) .hero .hero-foreground a.btn,
-main > div.section:has(.hero) .hero .hero-foreground a.btn-primary,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-foreground p a,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-foreground a.btn,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-foreground a.btn-primary,
 main > div:has(> .hero) .hero .hero-foreground p a,
 main > div:has(> .hero) .hero .hero-foreground a.btn,
 main > div:has(> .hero) .hero .hero-foreground a.btn-primary {
@@ -504,9 +504,9 @@ main > div:has(> .hero) .hero .hero-foreground a.btn-primary {
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-foreground p a:hover,
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-foreground a.btn:hover,
 main .persona-fragment-content > div:has(.hero):first-child .hero .hero-foreground a.btn-primary:hover,
-main > div.section:has(.hero) .hero .hero-foreground p a:hover,
-main > div.section:has(.hero) .hero .hero-foreground a.btn:hover,
-main > div.section:has(.hero) .hero .hero-foreground a.btn-primary:hover,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-foreground p a:hover,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-foreground a.btn:hover,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > div.section:has(.hero) .hero .hero-foreground a.btn-primary:hover,
 main > div:has(> .hero) .hero .hero-foreground p a:hover,
 main > div:has(> .hero) .hero .hero-foreground a.btn:hover,
 main > div:has(> .hero) .hero .hero-foreground a.btn-primary:hover {
@@ -662,7 +662,9 @@ main a.button:any-link {
  * Design migration: default content + section layout
  * Values measured from https://www.chevronlubricants.com/ at 1440px
  * --------------------------------------------------------------- */
-main > .section {
+
+/* Fragment wrappers are section roots too; :where preserves the main selector's specificity. */
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section {
   padding: 0;
   margin-block: var(--brand-section-spacing);
 
@@ -718,12 +720,12 @@ main > .section {
   }
 }
 
-main > .section:first-child {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:first-child {
   margin-top: 15px;
 }
 
 /* links in running copy (marked in scripts.js): underlined so they are not told apart by colour alone */
-main > .section > .default-content a.link-inline {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section > .default-content a.link-inline {
   text-decoration: underline;
 
   &:hover {
@@ -732,13 +734,13 @@ main > .section > .default-content a.link-inline {
 }
 
 /* centered: headings and copy centered */
-main > .section.centered > .default-content {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.centered > .default-content {
   text-align: center;
 }
 
 /* contained colored bands (source bands sit inside the 1200px container) */
-main > .section.blue-bg,
-main > .section.grey-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-bg {
   box-sizing: border-box;
   padding: var(--brand-band-padding) var(--spacing-l) 24px;
 
@@ -752,33 +754,33 @@ main > .section.grey-bg {
   }
 }
 
-main > .section.blue-bg > .default-content :is(h1, h2, h3, p) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg > .default-content :is(h1, h2, h3, p) {
   color: var(--color-white);
 }
 
 /* quote panel split over two headings (Delo "The Delo difference": "…save 2% of the cost of
    the fuel" + "(relative to 15W-40).”"): the source sets both lines at the same 30px/36px */
-main > .section.blue-bg > .default-content > h1 + h2 {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg > .default-content > h1 + h2 {
   margin-top: 0;
   font-size: 30px;
   line-height: 36px;
 }
 
-main > .section.blue-bg.centered > .default-content h2,
-main > .section.grey-bg.centered > .default-content h2 {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg.centered > .default-content h2,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-bg.centered > .default-content h2 {
   font-size: var(--brand-heading-size-h2-band);
   line-height: 1.2;
 }
 
 /* split: default content beside the block */
-main > .section.split > .default-content h2 {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.split > .default-content h2 {
   font-size: var(--brand-heading-size-h2-split);
   font-weight: 400;
   line-height: 1.24;
 }
 
 /* promo tile (image with overlaid heading + link) in split sections */
-main > .section.split > .default-content {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.split > .default-content {
   p:has(picture) {
     margin-top: 30px;
     border-radius: 10px;
@@ -816,7 +818,7 @@ main > .section.split > .default-content {
 }
 
 /* blue split band (insights): pill button */
-main > .section.blue-bg.split {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg.split {
   padding: 60px 45px;
 
   > .default-content {
@@ -859,7 +861,7 @@ main > .section.blue-bg.split {
 }
 
 @media (width >= 900px) {
-  main > .section.split {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.split {
     display: grid;
     grid-template-columns: minmax(0, 498px) minmax(0, 1fr);
     column-gap: 15px;
@@ -882,7 +884,7 @@ main > .section.blue-bg.split {
   }
 
   /* featured products: heading spans both columns, tile left, block right */
-  main > .section.split:has(> .default-content picture) {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.split:has(> .default-content picture) {
     grid-template-rows: auto auto 1fr;
     max-width: var(--brand-content-max-width);
     margin-inline: auto;
@@ -924,7 +926,7 @@ main > .section.blue-bg.split {
     }
   }
 
-  main > .section.blue-bg.split {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg.split {
     grid-template-columns: minmax(0, 445px) minmax(0, 1fr);
     column-gap: 60px;
     padding: 91px 0 100px 55px;
@@ -934,17 +936,17 @@ main > .section.blue-bg.split {
 
 @media (width >= 1200px) {
   /* centered bands sit inside the 12px container gutter; the split band spans the full container */
-  main > .section.blue-bg,
-  main > .section.grey-bg {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg,
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-bg {
     max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
     margin-inline: auto;
   }
 
-  main > .section.blue-bg.split {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.blue-bg.split {
     max-width: var(--brand-content-max-width);
   }
 
-  main > .section > .default-content {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section > .default-content {
     max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
   }
 }
@@ -956,7 +958,7 @@ main > .section.blue-bg.split {
  * 41px apart, bg-blue #0066b2 (third list bg-techron-gray #5c5e60); copy column
  * 445px at 55px / 91px, carousel 60px to its right, clipped at the band edge.
  * --------------------------------------------------------------- */
-main > .section:not(.blue-bg, .split):has(> .default-content + .block-content > .cards-insights) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:not(.blue-bg, .split):has(> .default-content + .block-content > .cards-insights) {
   > .default-content:has(+ .block-content > .cards-insights),
   > .default-content + .block-content:has(> .cards-insights) {
     box-sizing: border-box;
@@ -1023,7 +1025,7 @@ main > .section:not(.blue-bg, .split):has(> .default-content + .block-content > 
 }
 
 @media (width >= 900px) {
-  main > .section:not(.blue-bg, .split):has(> .default-content + .block-content > .cards-insights) {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section:not(.blue-bg, .split):has(> .default-content + .block-content > .cards-insights) {
     display: grid;
     grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
     row-gap: 41px;
@@ -1053,7 +1055,7 @@ main > .section:not(.blue-bg, .split):has(> .default-content + .block-content > 
  *   .multi-column (tiles)  1176px, 0, one grey strip per row, 30px apart
  * Homepage bands hold columns-cta / columns-brands only and keep their padding.
  * --------------------------------------------------------------- */
-main > .section.grey-bg:has(> .block-content > .accordion-drawer) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-bg:has(> .block-content > .accordion-drawer) {
   padding: 0;
   background: none;
 
@@ -1062,16 +1064,16 @@ main > .section.grey-bg:has(> .block-content > .accordion-drawer) {
   }
 }
 
-main > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > :is(.carousel-square, .cards-filterable)) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > :is(.carousel-square, .cards-filterable)) {
   max-width: var(--brand-content-max-width);
   padding: 0;
 }
 
-main > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > .cards-filterable) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > .cards-filterable) {
   padding-top: 20px;
 }
 
-main > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > .cards-service-stacked) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content > .cards-service-stacked) {
   padding: 0;
   background: none;
 
@@ -1090,11 +1092,11 @@ main > .section.grey-bg:not(:has(> .default-content > *)):has(> .block-content >
  * .distributor__container 30px 15px padding, 30px bottom margin;
  * the grease-portfolio bg-blue-2 strip has no padding (block only).
  * --------------------------------------------------------------- */
-main > .section.sky-blue-bg,
-main > .section.cobalt-blue-bg,
-main > .section.teal-blue-bg,
-main > .section.black-bg,
-main > .section.grey-gradient {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.sky-blue-bg,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.cobalt-blue-bg,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.teal-blue-bg,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.black-bg,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-gradient {
   box-sizing: border-box;
   padding: 30px 15px;
 
@@ -1108,29 +1110,29 @@ main > .section.grey-gradient {
   }
 }
 
-main > .section.sky-blue-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.sky-blue-bg {
   background-color: var(--color-sky-blue);
 }
 
-main > .section.cobalt-blue-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.cobalt-blue-bg {
   background-color: var(--color-cobalt-blue);
 }
 
-main > .section.teal-blue-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.teal-blue-bg {
   padding: 0;
   background-color: var(--color-teal-blue);
 }
 
-main > .section.black-bg {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.black-bg {
   background-color: var(--color-black);
 }
 
-main > .section.grey-gradient {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-gradient {
   background: linear-gradient(var(--color-grey-light-bg), var(--color-white));
 }
 
 /* dark bands: white text and links (white on every band >= 4.5:1) */
-main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) {
   color: var(--color-white);
 
   > .default-content :is(h1, h2, h3, h4, h5, h6, p, li) {
@@ -1191,7 +1193,7 @@ main > .section:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg) {
 
 /* distributor locator band: "Find ... in" copy + "Find a distributor" link.
  * Source: 24px/26px Gotham medium white copy beside a white 40px zip-code box. */
-main > .section.centered:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg)
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.centered:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg)
   > .default-content:has(> p:first-child + p:last-child > a:only-child) {
   display: flex;
   flex-wrap: wrap;
@@ -1244,7 +1246,7 @@ main > .section.centered:is(.sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg)
  * video tile (image, copy, link). Source .multi-column at 1440px: intro richtext 20px 0 20px 20px,
  * two 588px columns in DOM order, 1px white divider on the right of the first, image 240px tall
  * flush with the top, copy 10px in, bold underlined link 15px in. */
-main > .section:has(> .block-content > .quote-testimonial .quote-testimonial-portrait):has(> .block-content + .default-content) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:has(> .block-content > .quote-testimonial .quote-testimonial-portrait):has(> .block-content + .default-content) {
   > .block-content:has(> .quote-testimonial) + .default-content {
     margin-top: 30px;
 
@@ -1280,7 +1282,7 @@ main > .section:has(> .block-content > .quote-testimonial .quote-testimonial-por
 }
 
 @media (width >= 900px) {
-  main > .section:has(> .block-content > .quote-testimonial .quote-testimonial-portrait):has(> .block-content + .default-content) {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section:has(> .block-content > .quote-testimonial .quote-testimonial-portrait):has(> .block-content + .default-content) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: stretch;
@@ -1313,7 +1315,7 @@ main > .section:has(> .block-content > .quote-testimonial .quote-testimonial-por
  * of square blue buttons. Source .help-buttons (1440px): 776px column at the container start,
  * 24px/28.8px navy title 20px above, 254x64 buttons (20px 30px, #0066b2, white 16px/22px),
  * 5px apart; the following section heading spans the full container. */
-main > .section.centered:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg)
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.centered:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg)
   > .default-content:has(> p:first-child + p > a:only-child):has(> p:first-child + p + p > a:only-child):not(:has(> p:first-child a)) {
   display: flex;
   flex-wrap: wrap;
@@ -1361,7 +1363,7 @@ main > .section.centered:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, 
 }
 
 @media (width >= 1200px) {
-  main > .section.centered:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg)
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.centered:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, .teal-blue-bg, .black-bg)
     > .default-content:has(> p:first-child + p > a:only-child):has(> p:first-child + p + p > a:only-child):not(:has(> p:first-child a)) {
     padding-inline-end: 400px;
 
@@ -1374,7 +1376,7 @@ main > .section.centered:not(.blue-bg, .grey-bg, .sky-blue-bg, .cobalt-blue-bg, 
 /* where-to-buy locator pages: page title above the locator.
  * Source .title h1: Gotham Narrow bold 30px/36px, centred, 10px top margin, black
  * (distributor, installer); the retailer page (locator + "Find online" list) keeps it navy. */
-main > .section:has(> .block-content > .locator) > .default-content > h1 {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:has(> .block-content > .locator) > .default-content > h1 {
   margin-top: 10px;
   font-size: 30px;
   line-height: 36px;
@@ -1382,21 +1384,21 @@ main > .section:has(> .block-content > .locator) > .default-content > h1 {
   color: var(--brand-products-heading-color);
 }
 
-main > .section:has(> .block-content > .locator):has(> .default-content > h2) > .default-content > h1 {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:has(> .block-content > .locator):has(> .default-content > h2) > .default-content > h1 {
   color: var(--brand-copy-color);
 }
 
 /* right-aligned: default content aligned right (e.g. "Download the chart" link) */
-main > .section.right-aligned > .default-content {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.right-aligned > .default-content {
   text-align: right;
 }
 
 @media (width >= 1200px) {
-  main > .section.sky-blue-bg,
-  main > .section.cobalt-blue-bg,
-  main > .section.teal-blue-bg,
-  main > .section.black-bg,
-  main > .section.grey-gradient {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.sky-blue-bg,
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.cobalt-blue-bg,
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.teal-blue-bg,
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.black-bg,
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section.grey-gradient {
     max-width: calc(var(--brand-content-max-width) - 2 * var(--brand-content-gutter));
     margin-inline: auto;
   }
@@ -1412,8 +1414,8 @@ main > .section.right-aligned > .default-content {
 
 /* standalone images and logos: intrinsic size, centered (source images are
  * authored at their own size; wide banners still fill the 1176px container) */
-main > .section:not(.split) > .default-content p > picture > img,
-main > .section:not(.split) > .default-content p > a > picture > img {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:not(.split) > .default-content p > picture > img,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:not(.split) > .default-content p > a > picture > img {
   display: block;
   width: auto;
   max-width: 100%;
@@ -1421,18 +1423,18 @@ main > .section:not(.split) > .default-content p > a > picture > img {
 }
 
 /* brand logos: source renders them 55-100px tall (Delo 134x70, ISOCLEAN 226x77) */
-main > .section:not(.split) > .default-content p > picture > img[alt*="logo" i],
-main > .section:not(.split) > .default-content p > a > picture > img[alt*="logo" i] {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:not(.split) > .default-content p > picture > img[alt*="logo" i],
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:not(.split) > .default-content p > a > picture > img[alt*="logo" i] {
   max-height: 80px;
 }
 
-main > .section:not(.split) > .default-content p:has(> picture, > a > picture) + p:has(> picture, > a > picture) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:not(.split) > .default-content p:has(> picture, > a > picture) + p:has(> picture, > a > picture) {
   margin-top: 30px;
 }
 
 /* in-page H1 (not the page-top heading): after a block or in a later section */
-main > .section:not(:first-child) > .default-content > h1,
-main > .section > .block-content:not(:empty) + .default-content > h1 {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:not(:first-child) > .default-content > h1,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section > .block-content:not(:empty) + .default-content > h1 {
   margin-top: 10px;
   font-size: 30px;
   line-height: 36px;
@@ -1440,16 +1442,16 @@ main > .section > .block-content:not(:empty) + .default-content > h1 {
 }
 
 /* section headings: centered non-band sections, after a block, or after copy */
-main > .section.centered:not(.blue-bg, .grey-bg) > .default-content > h2,
-main > .section > .block-content:not(:empty) + .default-content > h2,
-main > .section > .default-content > :not(h1, h2) ~ h2 {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.centered:not(.blue-bg, .grey-bg) > .default-content > h2,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section > .block-content:not(:empty) + .default-content > h2,
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section > .default-content > :not(h1, h2) ~ h2 {
   margin-top: 10px;
   font-size: 24px;
   line-height: 28.8px;
   text-align: center;
 }
 
-main > .section > .default-content > h2 + h3 {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section > .default-content > h2 + h3 {
   margin-top: 3px;
   font-size: 20px;
   font-weight: 400;
@@ -1457,13 +1459,13 @@ main > .section > .default-content > h2 + h3 {
   text-align: center;
 }
 
-main > .section > .block-content:not(:empty) + .default-content > h2 + p {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section > .block-content:not(:empty) + .default-content > h2 + p {
   margin-top: 3px;
   text-align: center;
 }
 
-main > .section.centered > .default-content > :is(h1, h2) + p:has(> picture, > a > picture),
-main > .section > .block-content:not(:empty) + .default-content > :is(h1, h2, p) + p:has(> picture, > a > picture) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section.centered > .default-content > :is(h1, h2) + p:has(> picture, > a > picture),
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section > .block-content:not(:empty) + .default-content > :is(h1, h2, p) + p:has(> picture, > a > picture) {
   margin-top: 24px;
 }
 
@@ -1473,7 +1475,7 @@ main > .section > .block-content:not(:empty) + .default-content > :is(h1, h2, p)
  * and .../by_brand/delo.html (source page body #f5f5f5, featured carousel
  * #f5f5f5 -> #fff gradient, category strip with a #dbdbdb top rule).
  * --------------------------------------------------------------- */
-main > .section:has(> .block-content > .cards-products.grid) {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section:has(> .block-content > .cards-products.grid) {
   margin-top: 0;
   padding: 40px 0 60px;
   background-color: var(--color-grey-light-bg);
@@ -1586,7 +1588,7 @@ main > .section:has(> .block-content > .cards-products.grid) {
 }
 
 @media (width >= 900px) {
-  main > .section:has(> .block-content > .cards-products.grid) {
+  :is(main, :where(.fragment-content, .persona-fragment-content)) > .section:has(> .block-content > .cards-products.grid) {
     > .default-content {
       box-sizing: border-box;
       padding-inline: 18px;
@@ -1635,7 +1637,7 @@ div[data-status] {
 /* A section still loading stays hidden even when its section style sets its own
    display (banner, split, insights band); otherwise it flashes at the top of the
    page before the sections above it and shifts the layout. */
-main > .section[data-status] {
+:is(main, :where(.fragment-content, .persona-fragment-content)) > .section[data-status] {
   display: none !important;
 }
 
