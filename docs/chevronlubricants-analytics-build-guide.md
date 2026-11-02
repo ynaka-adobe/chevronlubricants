@@ -375,6 +375,47 @@ attribute — reproducing the TEBG Form Start → Form Submit funnel.
 
 ---
 
+## 9. Persona filtering: client contract
+
+### 9.1 Selected visitor preferences
+
+The functional per-tab preferences are `b2bPersona` (canonical role) and
+`marketingPersona` (author-mapped campaign slug). URL inputs and the shared
+dropdown use the same resolver. See [authoring and exact role labels](persona-filtering.md).
+Optional Analytics and Target transmissions remain independently consent-gated.
+
+### 9.2 Page taxonomy is not the visitor preference
+
+The published `<meta name="persona">` describes the page. Normal consented local
+events expose its canonical comma-separated labels in `page.persona`; selected
+preferences are separately available in `visitor.b2bPersona` and
+`visitor.marketingPersona`. Selecting a role never rewrites the page metadata.
+
+### 9.3 Persona selection event
+
+After Analytics permission, one actual preference change pushes:
+
+```js
+{
+  event: 'persona-filter',
+  persona: 'Technical Evaluator',
+  page: location.pathname,
+  timestamp: '2026-11-01T12:00:00.000Z',
+}
+```
+
+`persona` is an exact canonical string, or `null` for All. `page` is the sanitized
+path string, not the normal event's page object. The timestamp is generated at
+the change; the example is illustrative. Repeated identical state, query-free
+restoration and pre-consent changes do not produce replay events.
+This hook is retained/notified through the existing instrumentation, not a new
+AppMeasurement call or an unconfigured collector event. The Analytics owner
+must separately decide/configure any eVar7 or success-event mapping; this
+implementation does not provision report-suite variables or assert that
+reporting configuration is verified.
+
+---
+
 *Measurement model captured live from the 3M TEBG report suite (`acsmarketingtebg`) and
 the Parker reference build; block handling is generic for the Chevron Lubricants EDS repo
 `ynaka-adobe/chevronlubricants`. Scoped to US.*
@@ -685,7 +726,7 @@ page taxonomy (`page.persona`) from selected visitor preferences (`visitor`).
 This hook does not configure eVar7 or send an unconfigured collector event.
 
 Bot heuristics, illustrative invisible-traffic figures and opt-in reference
-benchmarks remain omitted because this US build is Analytics-only and does not
+benchmarks remain omitted because this browser-measured demo does not
 provide those supported live capabilities.
 The heading is "This page," not "This session": counts/rankings/CTR describe the
 bounded 200-event retained window. No Adobe reporting metrics are simulated.

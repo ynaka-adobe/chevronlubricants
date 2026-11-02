@@ -31,7 +31,9 @@
 ### Implement the authoritative two-tier persona-filter backlog
 
 **Branch:** `ynaka-adobe-chevron-promo-images`
-**Status:** Implementation validated and ready for authorized publication.
+**Status:** Published directly to `main` as `8577bd7` using `@ynakagawa`;
+custom-domain runtime verified. Live metadata/index population remains blocked
+on the coworker's content publication. No PR requested.
 Direct publication as `@ynakagawa` is authorized after validation. No PR requested.
 This explicitly supersedes the historical cross-tab persona entries below.
 
@@ -55,8 +57,8 @@ This explicitly supersedes the historical cross-tab persona entries below.
   query-index change does not populate it.
 - Authoring, compatibility, consent, per-tab restore and shared Target server
   identity/retention limitations are documented in `docs/persona-filtering.md`.
-- All80 repository tests pass. Changed JS/CSS and whitespace checks pass.
-  Repository-wide JS lint still reports12 pre-existing violations in unchanged
+- All 80 repository tests pass. Changed JS/CSS and whitespace checks pass.
+  Repository-wide JS lint still reports 12 pre-existing violations in unchanged
   fragment, hero and legacy product files; those are outside this change.
 - Real published content with local runtime assets verified independent browser
   tabs, map-driven rollup, same-tab reload/navigation, canonical/numeric aliases,
@@ -68,6 +70,17 @@ This explicitly supersedes the historical cross-tab persona entries below.
   Inline cards retain progressive no-JS visibility; pre-existing JSON-fed
   grids retain their source-link fallback rather than a server-rendered grid.
   No audience membership or report-suite configuration is claimed verified.
+- All 16 deployed runtime assets byte-match on both preview and the actual
+  custom domain. No cache purge or CDN configuration deployment was needed.
+  No-override live verification repeated all consent/session/alias flows and
+  returned the same ten successful numeric Target values with continuous identity.
+- Published JS/CSS also passed desktop/mobile temporary browser-fixture checks
+  for actual hidden styles, stable 88px selector height, service/product
+  no-selector behavior, filtered grid cap/See all counts and no page overflow.
+  The actual untagged resource sheet correctly retained all 45 rows.
+- Post-deployment live index remains 298 rows / 178 learning paths, with zero
+  `persona` properties or values on learning rows. This is not a claim that the
+  backlog's 179 draft metadata edits or all live inheritance are operational.
 
 ### Unify persona query aliases and selected persona
 
