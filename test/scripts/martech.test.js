@@ -132,6 +132,7 @@ describe('Chevron consent-first analytics', () => {
     expect(request.searchParams.get('g')).to.equal(`${win.location.origin}/en-us/home`);
     api.instrument.track('cta-click', { link: { text: 'Product', url: '/en-us/home/products/delo-syn-trans-xe.html?p=2#benefits' } });
     expect(win.adobeDataLayer.at(-1).link.url).to.equal('/en-us/home/products/delo-syn-trans-xe');
+    expect(api.analytics.cleanURL('/en-us/%68ome.html?p=2')).to.equal('/en-us/home');
     api.persona.setActivePersona(api.persona.PERSONAS[1]);
     await tick();
     expect(win.adobeDataLayer.filter((entry) => entry.event === 'persona-filter')).to.have.length(1);

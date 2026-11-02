@@ -1,3 +1,5 @@
+import { formatPageLink } from '../../scripts/utils/page-links.js';
+
 /*
  * Search: site search results over the query index (helix-query.yaml "site" index,
  * /query-index.json: path, title, description, content).
@@ -85,17 +87,18 @@ function resultItem(entry, words) {
   const li = document.createElement('li');
   li.className = 'search-result';
   const url = new URL(entry.path, window.location.origin);
+  const href = formatPageLink(`${url.pathname}${url.search}${url.hash}`);
   const title = document.createElement('a');
   title.className = 'search-result-title';
-  title.href = url.pathname;
+  title.href = href;
   title.append(highlight(displayTitle(entry), words));
   const desc = document.createElement('p');
   desc.className = 'search-result-description';
   desc.append(highlight(snippet(entry, words) || 'Description not available', words));
   const link = document.createElement('a');
   link.className = 'search-result-url';
-  link.href = url.pathname;
-  link.textContent = url.href;
+  link.href = href;
+  link.textContent = new URL(href, window.location.origin).href;
   link.tabIndex = -1;
   link.setAttribute('aria-hidden', 'true');
   li.append(title, desc, link);

@@ -28,6 +28,34 @@
 
 ## Open PRs
 
+### Format rendered page navigation with .html extensions
+
+**Branch:** `ynaka-adobe-chevron-html-url-support`
+**Status:** Prepared and verified locally; user requested consistent outgoing
+`.html` page links and authorized safe runtime publication using `@ynakagawa`.
+Publication in progress; no PR requested.
+
+- Use one shared destination-aware formatter after decoration and for dynamic
+  DOM additions/href changes. Cover header/footer, authored/EMA blocks, scheduled
+  fragments, query-index collections/search and exact commerce renderer output.
+- Format live custom-domain page navigation only, retaining extensionless
+  canonicals/Analytics identity. Preview/local page links remain extensionless;
+  no new preview 404s or CDN changes. GET search navigation uses the same policy.
+- Preserve raw queries/fragments/encoding, existing suffixes, directory/index
+  semantics, anchors, downloads/assets/documents, data/control/API/editing links
+  and external sites. No mass DA/source/catalog edits.
+- Local-override browser parity covers 5,028 anchor instances across home, B2B,
+  Delo listing, Industrial resources, two search pages and two product pages at
+  1440/390px plus authored/commerce previews. Only eligible hrefs change; linked
+  nodes/copy/order/target attributes remain intact. Search display URLs and GET
+  submission use `.html`; JSON fetches stay unchanged.
+- Persona transitions retain counts 8/6/7/9, and newly replaced scheduled-fragment
+  links normalize automatically. A real header click retains tab persona and
+  reaches the `.html` Contact page. Encoded product paths keep encoding while
+  preserving exact product/SKU rendering and extensionless Analytics identity.
+  Targeted 93-test suite, changed-file lint and whitespace checks pass. Actual
+  deployed-byte and no-override link checks remain pending until publication.
+
 ### Publish the approved per-persona landing cards
 
 **Branch:** `ynaka-adobe-chevron-promo-images`

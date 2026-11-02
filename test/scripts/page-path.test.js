@@ -10,6 +10,8 @@ describe('Chevron html page aliases', () => {
       '/en-us/home/products/by-brand/delo',
       '/content/en-us/home',
       '/en-us/Example_Page',
+      '/en-us/%68ome',
+      '/en-us/home/products/delo%2Dsyn-trans-xe',
     ].forEach((path) => {
       expect(normalizePagePath(`${path}.html`)).to.equal(path);
       expect(normalizePagePath(path)).to.equal(path);

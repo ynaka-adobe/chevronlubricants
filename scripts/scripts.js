@@ -1,4 +1,5 @@
 import { getConfig, loadArea, setConfig } from './ak.js';
+import initPageLinks from './utils/page-links.js';
 
 const hostnames = ['authorkit.dev', 'localhost'];
 
@@ -118,6 +119,7 @@ export async function loadPage() {
   }
   await loadArea();
   decorateDefaultContentLinks();
+  initPageLinks();
 }
 await loadPage();
 

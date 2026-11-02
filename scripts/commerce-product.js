@@ -1,4 +1,5 @@
 import normalizePagePath from './utils/page-path.js';
+import { reportError } from './martech/consent.js';
 
 const PRODUCT_TYPES = new Map([
   ['delo-100-motor-oils', 'Engine oils'],
@@ -166,10 +167,19 @@ const INDUSTRIAL_PRODUCT_TYPES = new Map([
 
 const PRODUCTS_WITHOUT_EQUIPMENT = new Set(['chevron-tmgl-premium', 'regal-hd-57']);
 
-export function getProductType(pathname) {
+function getProductSlug(pathname) {
   const prefix = '/en-us/home/products/';
-  if (!pathname.startsWith(prefix)) return undefined;
-  const slug = normalizePagePath(pathname).slice(prefix.length);
+  try {
+    const path = normalizePagePath(decodeURI(pathname));
+    return path.startsWith(prefix) ? path.slice(prefix.length) : undefined;
+  } catch {
+    reportError('Invalid encoded product path left unchanged', new Error('Path could not be decoded'));
+    return undefined;
+  }
+}
+
+export function getProductType(pathname) {
+  const slug = getProductSlug(pathname);
   return PRODUCT_TYPES.get(slug) ?? INDUSTRIAL_PRODUCT_TYPES.get(slug);
 }
 
@@ -381,7 +391,7 @@ export function decorateCommerceProduct(main, pathname = window.location.pathnam
   const type = getProductType(pathname);
   if (!type || !main || main.querySelector('.commerce-product')) return false;
   const sku = document.querySelector('meta[name="sku"]')?.content;
-  const slug = normalizePagePath(pathname).split('/').pop();
+  const slug = getProductSlug(pathname);
   if (sku !== slug && !(slug === 'delo-syn-trans-xe' && sku === `${slug}-sae-75w-90`)) return false;
   if (!document.querySelector('script[type="application/ld+json"]')) return false;
   const content = readContent(main, PRODUCTS_WITHOUT_EQUIPMENT.has(slug));

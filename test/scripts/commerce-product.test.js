@@ -226,6 +226,15 @@ describe('Delo Product Bus detail template', () => {
     }
   });
 
+  it('keeps exact product/SKU gating when a navigation path uses encoded unreserved characters', () => {
+    const path = '/en-us/home/products/delo%2Dsyn-trans-xe.html';
+    expect(getProductType(path)).to.equal(getProductType(PATH));
+    expect(decorateCommerceProduct(main, path)).to.be.true;
+    expect(main.querySelector('.commerce-product')).to.exist;
+    expect(getProductType('/en-us/home/products/delo%2Fsyn-trans-xe.html')).to.be.undefined;
+    expect(getProductType('/en-us/home/products/delo-syn-trans-xe%2Epdf.html')).to.be.undefined;
+  });
+
   it('does not alter DA-authored, unrelated, category, suffix or unknown-product pages', () => {
     const original = main.innerHTML;
     const paths = [

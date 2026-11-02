@@ -4,7 +4,7 @@ For projects that want a few more batteries. Built by the team who brought you d
 ## Chevron .html page aliases
 
 The custom domain renders `.html` page aliases without redirecting the browser,
-retaining existing extensionless canonical URLs and internal links.
+retaining existing extensionless canonical URLs.
 Runtime support normalizes a single lowercase `.html` suffix on page paths under
 `/en-us/` (and `/content/en-us/` for local runtime comparisons). Commerce retains
 its exact product inventory, SKU and structured-data gates. Same-origin Analytics
@@ -25,6 +25,25 @@ The custom-domain CDN does not control `.aem.page`/`.aem.live`/`.aem.network`
 hostnames. Authored extensionless preview URLs remain available; commerce
 extensionless previews use `.aem.network`, not `.aem.page`. Direct `.html`
 preview URLs remain unsupported without separate hosting changes.
+
+### Rendered navigation links
+
+On the custom domain, rendered page destinations under `/en-us/` use `.html`.
+`scripts/utils/page-links.js` formats the original `href` without reserializing
+encoded paths, repeated/empty query parameters or fragments. It runs after page
+decoration and observes inserted links and later `href` updates, covering shared
+navigation, authored blocks, scheduled fragments, query-index cards and commerce.
+GET search forms use the same formatting; other form/API actions are untouched.
+No DA sources, catalog records, canonical metadata or Analytics identity change.
+
+Existing `.html` links are idempotent. Anchors/query-only links, directories
+(including `/` and trailing-slash paths), downloads, assets, documents, sheets,
+fragment/schedule source links, editing/admin URLs and external sites stay as-is.
+Main-tier links to this site's Adobe preview hosts become custom-domain page
+links only when navigating from the custom domain. Adobe preview/local page
+destinations remain extensionless (existing page `.html` suffixes are removed);
+explicit custom-domain destinations still use their working `.html` aliases.
+Formatting links does not add `.html` routing to Adobe preview hosts.
 
 ## Chevron consent and live analytics booklet
 
