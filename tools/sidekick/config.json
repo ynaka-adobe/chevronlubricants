@@ -10,11 +10,13 @@
       "event": "aem-genai-variations-sidekick"
     },
     {
-      "id": "generate-variations",
-      "title": "Generate Variations",
-      "url": "https://experience.adobe.com/aem/generate-variations",
-      "passConfig": true,
-      "environments": ["preview", "live", "edit"],
+      "id": "persona",
+      "title": "Persona",
+      "url": "/tools/persona/persona.html",
+      "isPalette": true,
+      "passReferrer": true,
+      "paletteRect": "top: 40px; right: 0; width: 400px; height: calc(100% - 40px);",
+      "environments": ["preview", "live", "prod"],
       "includePaths": ["**"]
     }
   ]

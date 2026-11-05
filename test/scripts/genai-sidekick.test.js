@@ -121,7 +121,7 @@ describe('Generate with AI configuration and lazy wiring', () => {
     await new Promise((resolve) => { setTimeout(resolve, 20); });
   }
 
-  it('adds the exact DuPont event plugin without modifying the existing link', async () => {
+  it('keeps GenAI and the Persona palette without the user-removed legacy link', async () => {
     const { plugins } = await (await fetch('/tools/sidekick/config.json')).json();
     expect(plugins.find(({ id }) => id === 'aem-genai-variations')).to.deep.equal({
       id: 'aem-genai-variations',
@@ -130,12 +130,15 @@ describe('Generate with AI configuration and lazy wiring', () => {
       includePaths: ['**'],
       event: 'aem-genai-variations-sidekick',
     });
-    expect(plugins.find(({ id }) => id === 'generate-variations')).to.deep.equal({
-      id: 'generate-variations',
-      title: 'Generate Variations',
-      url: 'https://experience.adobe.com/aem/generate-variations',
-      passConfig: true,
-      environments: ['preview', 'live', 'edit'],
+    expect(plugins.map(({ id }) => id)).to.deep.equal(['aem-genai-variations', 'persona']);
+    expect(plugins.find(({ id }) => id === 'persona')).to.deep.equal({
+      id: 'persona',
+      title: 'Persona',
+      url: '/tools/persona/persona.html',
+      isPalette: true,
+      passReferrer: true,
+      paletteRect: 'top: 40px; right: 0; width: 400px; height: calc(100% - 40px);',
+      environments: ['preview', 'live', 'prod'],
       includePaths: ['**'],
     });
   });
@@ -144,7 +147,7 @@ describe('Generate with AI configuration and lazy wiring', () => {
     const win = await fixture();
     await new Promise((resolve) => { setTimeout(resolve, 100); });
     expect(win.performance.getEntriesByType('resource')
-      .filter(({ name }) => /genai-variations/.test(name))).to.have.length(0);
+      .filter(({ name }) => /genai-variations|\/tools\/persona\//.test(name))).to.have.length(0);
     expect(win.genaiScripts).to.have.length(0);
     expect(win.document.querySelector('#aemGenAIVariations')).to.equal(null);
   });

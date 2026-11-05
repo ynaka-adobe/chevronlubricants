@@ -28,11 +28,43 @@
 
 ## Open PRs
 
+### Add the author Persona palette and remove the legacy variations link
+
+**Branch:** `ynaka-adobe-chevron-genai-sidekick`
+**Status:** Ready for user-requested direct-main publication using
+`@ynakagawa`, no new PR.
+
+- Inspect DuPont main `ebc0c907`: its actual Persona Sidekick app is an iframe
+  palette for selecting/applying a demo profile, not an external service.
+  Adapt that intent to Chevron's existing canonical B2B role and DA-mapped
+  marketing tier. Do not import DuPont login/region simulation, static scores,
+  `demoProfile`, shared cookies or tenant settings.
+- Add source/origin-checked author palette messaging for V1/V2 shadow trees,
+  including preview-host iframe to live/custom page. Use shared persona helpers
+  and one atomic existing event; preserve per-tab storage, all filters/heroes,
+  scheduled fragments, Insights, consent gating and numeric Target delivery.
+- Apply/Reset remove stale persona aliases only, preserving other query bytes,
+  encoded paths, `.html` and hashes; no full navigation or DA content changes.
+  No public dropdown or ordinary visitor app/bridge downloads.
+- Remove only the user-identified generic `generate-variations` navigation
+  plugin. Keep the DuPont **Generate with AI** app, production Sidekick
+  visibility, author-tool gates and unrelated integrations unchanged.
+- No Target audience/activity, DA app-sheet/content or CDN updates.
+- Targeted 106-test browser suite and changed-file JS/CSS lint pass. Tests cover
+  actual palette UI against shared helpers, both Sidekick shadow layouts,
+  atomic mapped selections, coarse override/campaign retention, Reset,
+  query-free restoration, encoded URL preservation, real card/hero/Insights
+  updates, read-only consent, consented numeric Target transmission,
+  forged-message rejection, map-outage preference preservation and page-only
+  storage errors, plus GenAI/visibility,
+  commerce, DA preview and navigation regressions.
+  Deployed native interaction results will be recorded after publication.
+
 ### Add DuPont's in-page Generate with AI Sidekick app
 
 **Branch:** `ynaka-adobe-chevron-genai-sidekick`
-**Status:** Ready for requested direct-main publication; no new PR.
-Source reads and publication use the authorized `@ynakagawa` account.
+**Status:** Live as runtime commit `9abf7b5`, published nonforce to main after
+fresh remote-parent checks using the authorized `@ynakagawa` account. No PR.
 
 - Verified DuPont main `ebc0c907` uses the custom
   `aem-genai-variations-sidekick` event and Adobe's hosted in-page client,
@@ -49,8 +81,20 @@ Source reads and publication use the authorized `@ynakagawa` account.
   early/late injection, click-only loading, duplicate clicks, clean load-error
   retry, existing plugin preservation, production visibility, DA preview,
   commerce, persona, consent/analytics and page-link behavior. Changed-file
-  lint and whitespace checks pass. Deployed author launch and Adobe's
-  authentication outcome will be recorded after publication.
+  lint and whitespace checks pass.
+- Actual native V1 Sidekick readiness/button launches the hosted panel on
+  custom-domain `.html` pages, `.aem.page` previews and `.aem.live` pages.
+  Correct `pageUrl` preserves persona query, hash and encoded product path
+  (`delo%2Dsyn-trans-xe.html`); commerce SKU/canonical stay intact. Close/reopen
+  retains exactly one iframe/client. V2 event/injection coverage is automated;
+  no installed V2 extension was available in the verification browser.
+- No GenAI requests occur before Sidekick injection, and no external client
+  loads until click. Production Scheduler/Quick Edit remain unloaded and
+  pre-consent Analytics remains empty. All three runtime assets byte-match
+  committed files across custom domain and `.aem.page/.live/.network`.
+- Adobe's panel visibly reports "Sign in required"; actual generation is
+  unverified pending the author's Adobe sign-in/product entitlement. The user
+  confirmed the initial "not working" report was cached content.
 
 ### Format rendered page navigation with .html extensions
 

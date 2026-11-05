@@ -1,7 +1,6 @@
 # Generate with AI Sidekick app
 
-Chevron includes DuPont's actual in-page GenAI integration alongside the existing
-**Generate Variations** link. **Generate with AI** fires
+Chevron includes DuPont's actual in-page GenAI integration. **Generate with AI** fires
 `custom:aem-genai-variations-sidekick` and loads Adobe's hosted Sidekick client
 only on the author's first click. The client opens its panel on that page,
 supports content selection/preview, and handles closing/reopening the panel.
@@ -22,7 +21,9 @@ No GenAI module, client, or panel is loaded for a page without an injected
 Sidekick. An injected Sidekick initializes the local event adapter; Adobe's
 external client is still click-only. Scheduler and Quick Edit retain their
 existing non-production gates, and open Sidekick visibility does not depend on
-`is-ready`. Other plugins and visitor consent/analytics are unchanged.
+`is-ready`. Visitor consent/analytics are unchanged. The user subsequently
+requested removal of the old **Generate Variations** navigation entry;
+**Generate with AI** remains the in-page GenAI app alongside **Persona**.
 
 ## Authentication and external dependencies
 
@@ -44,8 +45,7 @@ button click retries without duplicate scripts or panels. Adobe owns the
 panel's authentication and service errors.
 
 This is a rendered-page Sidekick app, not a DA editor plugin. No DA app sheet,
-CDN configuration, or content deployment is changed. The existing
-**Generate Variations** link retains its edit-environment support.
+CDN configuration, or content deployment is changed.
 
 ## Reference
 

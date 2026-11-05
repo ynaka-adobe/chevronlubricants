@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Chevron Persona</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./persona.css">
+    <script type="module" src="./persona.js"></script>
+  </head>
+  <body>
+    <main class="persona-app">
+      <h1>Persona</h1>
+      <p>Preview Chevron content using this tab's B2B role and marketing persona.</p>
+      <form id="persona-form">
+        <label for="b2b-persona">B2B persona</label>
+        <select id="b2b-persona" disabled></select>
+        <label for="marketing-persona">Marketing persona</label>
+        <select id="marketing-persona" disabled></select>
+        <p id="persona-mapping"></p>
+        <div class="persona-actions">
+          <button type="submit" id="persona-apply" disabled>Apply</button>
+          <button type="button" id="persona-reset" disabled>Reset</button>
+          <button type="button" id="persona-refresh">Refresh</button>
+        </div>
+      </form>
+      <p id="persona-status" role="status">Connecting to the content page...</p>
+      <section aria-labelledby="current-heading">
+        <h2 id="current-heading">Current page state</h2>
+        <dl>
+          <dt>B2B persona</dt><dd id="current-b2b">Not connected</dd>
+          <dt>Marketing persona</dt><dd id="current-marketing">Not connected</dd>
+          <dt>Tab storage</dt><dd id="current-storage">Not connected</dd>
+          <dt>Personalization consent</dt><dd id="current-personalization">Not connected</dd>
+          <dt>Analytics consent</dt><dd id="current-analytics">Not connected</dd>
+        </dl>
+        <p id="persona-page"></p>
+      </section>
+      <p class="persona-note">Selections update the page's existing filters and hero.
+        They do not grant consent, sign anyone in, or change authored content.
+        Reset clears both persona preferences for this tab.</p>
+    </main>
+  </body>
+</html>

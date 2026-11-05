@@ -73,6 +73,48 @@ means no coarse B2B restriction; the marketing slug can still select a fragment.
 Invalid/duplicate rows and unavailable sheets produce diagnostics, not invented
 role mappings. Existing named deep links work when their slug is in this sheet.
 
+## Author Sidekick Persona app
+
+The **Persona** Sidekick button opens an author-only palette on preview, live,
+and the Chevron custom domain. It adapts
+[DuPont's Persona app](https://github.com/ynaka-adobe/dupont/blob/ebc0c90714f47aa690c88c3d4ffd6a399fe44ce0/tools/persona/persona.js)
+to Chevron's existing two-tier model, rather than importing DuPont's
+cross-tab `demoProfile`, login/region simulation, or illustrative persona scores.
+No controls or app downloads are added to ordinary visitor pages.
+
+The palette reads the content page's shared helpers through a source- and
+origin-checked message bridge. This works when Sidekick serves the palette from
+the preview host while the content page uses a different live/custom origin;
+the app never reads or writes the iframe origin's persona storage. Sidekick's
+`referrer` parameter supplies the parent origin; the bridge reports the actual
+current page URL, retaining `.html`, encoded paths, and fragments.
+
+Changing controls previews the selection without modifying the page. Choosing
+a marketing slug selects its author-map B2B rollup; a subsequent manual B2B
+choice can override that rollup while retaining the marketing tier, matching
+the existing coarse-selection behavior. **Apply** updates both tiers atomically,
+using the same `persona:change` event and tab storage as visitor URL inputs.
+Existing card/hero/scheduled-fragment filtering and Insights/Target listeners
+therefore receive the same canonical state.
+
+Apply removes only `p`/`persona` URL aliases so a stale query cannot undo the
+selection on reload. Other raw query bytes, duplicate parameters, `.html`
+suffixes, encoded product paths and hashes are preserved. The page does not
+navigate, and the palette stays open. A query-free reload restores the saved
+tab preference. **Reset** clears both tiers; **Refresh** rereads current state.
+If storage is unavailable the palette explicitly reports a page-only preference.
+
+The displayed Analytics and Personalization consent values are read-only.
+Selecting a persona is a functional preference, not consent: no optional
+Analytics or numeric Target profile transmission occurs until the respective
+existing consent is granted. The app does not alter Target audiences/activities
+or DA content. Native Sidekick handles closing/reopening its palette.
+
+After deploying an update, refresh the extension's project configuration and
+hard-reload an already-open content page if its static modules are cached.
+The final Sidekick entries are **Generate with AI** and **Persona**; the old
+standalone **Generate Variations** link was removed at the user's request.
+
 ## Inline cards: explicit cell or automatic inheritance
 
 Applies to **cards-resource, cards-insights, cards-service, cards-products** and

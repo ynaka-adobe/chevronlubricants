@@ -169,6 +169,33 @@ export function setActivePersona(value, { updateURL = false } = {}) {
   apply(value || null, value ? marketingPersona : null);
 }
 
+export async function setPersonaSelection({ b2bPersona: coarse, marketingPersona: marketing }) {
+  if ((coarse !== null && !PERSONAS.includes(coarse))
+    || (marketing !== null && !/^[a-z0-9][a-z0-9-]*$/.test(marketing))) {
+    diagnose('Invalid two-tier persona selection ignored');
+    return false;
+  }
+  revision += 1;
+  const version = revision;
+  if (marketing !== null && marketing !== marketingPersona) {
+    const map = await loadPersonaMap();
+    if (version !== revision) return false;
+    if (!map.has(marketing)) {
+      diagnose('Unknown marketing persona selection ignored');
+      return false;
+    }
+  }
+  // Preserve unrelated query bytes; stale URL aliases must not undo the selection on reload.
+  const url = new URL(window.location.href);
+  const query = url.search.slice(1).split('&')
+    .filter((part) => !['p', 'persona'].some((key) => new URLSearchParams(part).has(key)))
+    .join('&');
+  url.search = query ? `?${query}` : '';
+  window.history.replaceState(null, '', url);
+  apply(coarse, marketing);
+  return true;
+}
+
 export function parsePersonas(value) {
   const values = (Array.isArray(value) ? value : String(value || '').split(','))
     .map((item) => String(item).trim()).filter(Boolean);

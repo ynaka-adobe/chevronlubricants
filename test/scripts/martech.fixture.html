@@ -152,9 +152,29 @@
         await decorate(block);
         return block;
       }
+      async function openPersonaPalette(tag = 'aem-sidekick') {
+        const { default: init } = await import('../../tools/persona/bridge.js');
+        const sk = document.createElement(tag);
+        document.body.append(sk);
+        init(sk);
+        let root = sk.attachShadow({ mode: 'open' });
+        if (tag === 'aem-sidekick') {
+          for (const name of ['theme-wrapper', 'palette-container']) {
+            const host = document.createElement(name);
+            root.append(host);
+            root = host.attachShadow({ mode: 'open' });
+          }
+        }
+        const palette = document.createElement('iframe');
+        palette.src = `/tools/persona/persona.html?referrer=${encodeURIComponent(location.href)}`;
+        const loaded = new Promise((resolve) => { palette.onload = resolve; });
+        root.append(palette);
+        await loaded;
+        return { sk, palette };
+      }
       window.testAPI = {
         integration, consent, instrument, analytics, media, booklet, ak, target, persona,
-        renderPersonaSchedule, renderCollection,
+        renderPersonaSchedule, renderCollection, openPersonaPalette,
       };
       document.addEventListener('click', (event) => {
         if (event.target.closest('main a')) event.preventDefault();

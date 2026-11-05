@@ -2,6 +2,7 @@ import { expect } from '@esm-bundle/chai';
 // These cases share consent storage, so they must not run in a parallel test-file context.
 import './target.cases.js';
 import './persona.cases.js';
+import './persona-app.cases.js';
 
 describe('Chevron consent-first analytics', () => {
   let frame;
