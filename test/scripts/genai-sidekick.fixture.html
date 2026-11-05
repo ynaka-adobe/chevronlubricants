@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8"><title>GenAI Sidekick fixture</title></head>
+  <body>
+    <main></main>
+    <script type="module">
+      window.genaiScripts = [];
+      const append = document.head.append.bind(document.head);
+      document.head.append = (...nodes) => {
+        nodes.forEach((node) => {
+          if (node.src?.includes('aem-genai-variations-mfe')) window.genaiScripts.push(node);
+          else append(node);
+        });
+      };
+      window.injectSidekick = (tag) => {
+        const sk = document.createElement(tag);
+        sk.setAttribute('open', 'true');
+        document.body.append(sk);
+        document.dispatchEvent(new CustomEvent('sidekick-ready'));
+      };
+      const params = new URLSearchParams(location.search);
+      if (params.get('timing') === 'early') window.injectSidekick(params.get('tag'));
+      await import('../../scripts/lazy.js');
+      window.testReady = true;
+    </script>
+  </body>
+</html>

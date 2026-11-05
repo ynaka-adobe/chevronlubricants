@@ -28,6 +28,30 @@
 
 ## Open PRs
 
+### Add DuPont's in-page Generate with AI Sidekick app
+
+**Branch:** `ynaka-adobe-chevron-genai-sidekick`
+**Status:** Ready for requested direct-main publication; no new PR.
+Source reads and publication use the authorized `@ynakagawa` account.
+
+- Verified DuPont main `ebc0c907` uses the custom
+  `aem-genai-variations-sidekick` event and Adobe's hosted in-page client,
+  distinct from Chevron's existing Generate Variations navigation plugin.
+- Add that event plugin for preview/live/production and an idempotent,
+  click-only loader for V1/V2 Sidekick. No injected Sidekick means no GenAI
+  module/client load. Preserve existing plugins, production visibility,
+  non-production Scheduler/Quick Edit gates, EMA, commerce, persona,
+  consent and analytics.
+- No copied tenant settings, credentials, DA app-sheet/content updates, or CDN
+  changes. Adobe sign-in and AEM/EDS entitlement remain external requirements;
+  generation is not claimed until verified with an entitled author session.
+- Targeted browser suite passes 97 tests covering both Sidekick event versions,
+  early/late injection, click-only loading, duplicate clicks, clean load-error
+  retry, existing plugin preservation, production visibility, DA preview,
+  commerce, persona, consent/analytics and page-link behavior. Changed-file
+  lint and whitespace checks pass. Deployed author launch and Adobe's
+  authentication outcome will be recorded after publication.
+
 ### Format rendered page navigation with .html extensions
 
 **Branch:** `ynaka-adobe-chevron-html-url-support`
