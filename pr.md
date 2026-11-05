@@ -31,7 +31,8 @@
 ### Import the actual Target and Workfront apps and replace the Persona UI
 
 **Branch:** `ynaka-adobe-chevron-genai-sidekick`
-**Status:** Repository implementation ready for direct main publication; no PR.
+**Status:** Live as runtime commit `62da698`, published nonforce directly to main
+using authorized `@ynakagawa` after fresh remote-parent checks. No PR.
 
 - Inspect DuPont main `ebc0c907` exact `tools/target`, `tools/workfront` and
   `tools/persona`, not generic Adobe console links. Import the Target activity,
@@ -74,6 +75,24 @@
   insertion contracts, source Persona visualizations/simulation isolation and
   existing visitor personalization/consent/GenAI/commerce/navigation behavior.
   Changed-file JS/CSS lint and whitespace checks pass.
+- Actual no-local-override deployed browser verification: Target, Workfront
+  Library and Workfront task-completion pages all return HTTP 200 and show their
+  precise setup state on the custom domain and `.aem.page/.live/.network`.
+  All 12 entry-page scenarios have zero external/provider requests and zero
+  page errors. Five checked runtime entry/module assets byte-match the commit
+  on all four delivery hosts.
+- Actual native V1 Sidekick launches the replacement Persona across the
+  preview-iframe/custom-page origin boundary. Source cards, three interest bars,
+  five radar polygons and the illustrative-data disclaimer render. Toggling
+  simulated Logged in/CA leaves the real page URL, state, filtering and Analytics
+  unchanged. Apply, Reset, campaign retention, query-free reload and close/reopen
+  still work; live card counts remain 8/6/7/9/29. Preview and encoded commerce
+  `.html` paths also pass, with existing SKU/canonical/query/hash preservation.
+- Ordinary visitor load downloads no Target, Workfront, Persona or Sidekick
+  author app. No Target request occurs before Personalization consent. Retained
+  native GenAI still opens one actual Adobe panel with the correct page URL;
+  Adobe sign-in is required and generation remains unverified. Installed V2
+  extension execution remains unverified (its bridge behavior is browser-tested).
 
 ### Add the author Persona palette and remove the legacy variations link
 
