@@ -31,8 +31,8 @@
 ### Add the author Persona palette and remove the legacy variations link
 
 **Branch:** `ynaka-adobe-chevron-genai-sidekick`
-**Status:** Ready for user-requested direct-main publication using
-`@ynakagawa`, no new PR.
+**Status:** Live as runtime commit `24f002b`, published nonforce after fresh
+remote-parent checks using the authorized `@ynakagawa` account. No PR.
 
 - Inspect DuPont main `ebc0c907`: its actual Persona Sidekick app is an iframe
   palette for selecting/applying a demo profile, not an external service.
@@ -58,7 +58,26 @@
   forged-message rejection, map-outage preference preservation and page-only
   storage errors, plus GenAI/visibility,
   commerce, DA preview and navigation regressions.
-  Deployed native interaction results will be recorded after publication.
+- Actual official V1 Sidekick config contains **Generate with AI** and
+  **Persona**, with no legacy **Generate Variations** entry. Native palette
+  app connects across the preview-iframe/custom-page origin boundary and
+  performs real UI selections/Apply/Reset using keyboard activation.
+- Custom-domain B2B UI selects `fleet-managers` -> Business Decision Maker
+  (6 cards and matching hero); query-free reload retains both tiers.
+  Manual Procurement override keeps `fleet-managers` while showing 7 cards;
+  `safety` maps to Procurement (7); Industry Researcher shows 9;
+  `oem` shows Technical Evaluator (8). `default` rollup and Reset show 29.
+  Close/reopen retains the same native iframe.
+- Real preview palette selection and encoded commerce `.html` selection work.
+  Only persona query aliases are removed; raw duplicate `keep=a%20b&keep=x+y`,
+  hashes, encoded paths, commerce SKU and extensionless canonicals are preserved.
+  There are no public controls, visitor app/bridge downloads or pre-consent
+  Analytics/Target requests; Insights continues waiting for consent.
+- All seven changed runtime assets byte-match on custom domain and
+  `.aem.page/.live/.network`. Retained GenAI native launch still creates one
+  panel/client with the updated exact encoded page URL. Adobe's panel visibly
+  requires sign-in; actual generation remains unverified. V2 nested-palette
+  messaging is browser-tested, not tested with an installed V2 extension.
 
 ### Add DuPont's in-page Generate with AI Sidekick app
 
