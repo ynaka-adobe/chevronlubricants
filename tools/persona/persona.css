@@ -1,7 +1,12 @@
+/* DuPont tools/persona (Apache-2.0), adapted for Chevron's shared-state controls. */
 :root {
-  font-family: Arial, sans-serif;
-  color: #003b71;
-  background: #fff;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #f2f2f2;
+  background: #141414;
+
+  --persona-accent: #ff5722;
+  --persona-muted: #a0a0a0;
+  --persona-border: #2c2c2c;
 }
 
 * {
@@ -13,7 +18,7 @@ body {
 }
 
 .persona-app {
-  padding: 20px;
+  padding: 24px;
 }
 
 h1 {
@@ -42,10 +47,10 @@ label {
 select,
 button {
   min-height: 40px;
-  border: 1px solid #8a9bac;
-  border-radius: 4px;
-  background: #fff;
-  color: #003b71;
+  border: 1px solid var(--persona-border);
+  border-radius: 6px;
+  background: #1e1e1e;
+  color: #f2f2f2;
   font: inherit;
 }
 
@@ -89,10 +94,98 @@ dd {
 }
 
 .persona-note {
-  border-top: 1px solid #d6e1eb;
+  border-top: 1px solid var(--persona-border);
   padding-top: 16px;
 }
 
 [data-error="true"] {
-  color: #b42318;
+  color: #ff9a8b;
+}
+
+.persona-label,
+.persona-section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--persona-accent);
+}
+
+.persona-description,
+.persona-metrics,
+.persona-trajectory,
+.persona-note,
+.persona-controls p {
+  color: var(--persona-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.persona-interest {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2fr auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  margin: 8px 0;
+}
+
+.persona-interest-track {
+  height: 4px;
+  border-radius: 2px;
+  background: #3a3a3a;
+  overflow: hidden;
+}
+
+.persona-interest-fill {
+  display: block;
+  height: 100%;
+  background: var(--persona-accent);
+}
+
+.persona-radar-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.persona-radar {
+  width: 100%;
+  max-width: 260px;
+}
+
+.persona-radar-grid,
+.persona-radar-axis {
+  fill: none;
+  stroke: var(--persona-border);
+  stroke-width: 1;
+}
+
+.persona-radar-shape {
+  fill: color-mix(in srgb, var(--persona-accent) 35%, transparent);
+  stroke: var(--persona-accent);
+  stroke-width: 2;
+}
+
+.persona-radar-label {
+  fill: var(--persona-muted);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.persona-controls {
+  border: 1px solid var(--persona-border);
+  padding: 12px;
+  margin: 16px 0;
+}
+
+.persona-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+summary {
+  cursor: pointer;
+  margin-top: 20px;
 }

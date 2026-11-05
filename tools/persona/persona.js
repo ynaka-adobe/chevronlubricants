@@ -1,3 +1,6 @@
+// DuPont profile UI adapted to Chevron's existing per-tab persona bridge.
+import renderProfile from './profiles.js';
+
 const status = document.getElementById('persona-status');
 const coarse = document.getElementById('b2b-persona');
 const marketing = document.getElementById('marketing-persona');
@@ -69,6 +72,7 @@ function render(next) {
   });
   document.getElementById('persona-page').textContent = state.pageURL;
   mapping();
+  renderProfile(coarse.value);
 }
 
 window.addEventListener('message', (event) => {
@@ -106,12 +110,28 @@ marketing.addEventListener('change', () => {
   const selected = state.marketingPersonas.find(({ slug }) => slug === marketing.value);
   if (selected) coarse.value = selected.role || '';
   mapping();
+  renderProfile(coarse.value);
 });
+coarse.addEventListener('change', () => renderProfile(coarse.value));
+const simulatedLogin = document.getElementById('persona-loggedin');
+const simulatedRegion = document.getElementById('persona-region');
+const regions = 'AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC'.split(' ');
+simulatedRegion.replaceChildren(option('', 'Region (state)'), ...regions.map((region) => option(region, region)));
+function simulation() {
+  document.getElementById('persona-simulation').textContent = `App-only simulation: ${simulatedLogin.checked ? 'logged in' : 'logged out'}; ${simulatedRegion.value || 'no region'}. No page or identity effects.`;
+}
+simulatedLogin.addEventListener('change', simulation);
+simulatedRegion.addEventListener('change', simulation);
 document.getElementById('persona-form').addEventListener('submit', (event) => {
   event.preventDefault();
   run('apply', { b2bPersona: coarse.value || null, marketingPersona: marketing.value || null });
 });
-reset.addEventListener('click', () => run('apply', { b2bPersona: null, marketingPersona: null }));
+reset.addEventListener('click', () => {
+  simulatedLogin.checked = false;
+  simulatedRegion.value = '';
+  simulation();
+  run('apply', { b2bPersona: null, marketingPersona: null });
+});
 document.getElementById('persona-refresh').addEventListener('click', () => {
   if (origin) run('get');
 });

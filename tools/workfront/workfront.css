@@ -1,0 +1,268 @@
+/* Adapted from DuPont tools/workfront (Apache-2.0): responsive project/detail layout. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font: 14px Arial, sans-serif;
+  color: #242424;
+  background: #f5f5f5;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  background: #fff;
+  color: #242424;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.context-label,
+.setup-required,
+.connect-screen {
+  padding: 16px;
+  overflow-wrap: anywhere;
+}
+
+.context-label {
+  margin: 0;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.app-shell {
+  display: grid;
+  grid-template: auto 1fr / 210px minmax(0, 1fr);
+  min-height: calc(100vh - 60px);
+}
+
+.topbar {
+  grid-column: 1 / -1;
+  background: #292929;
+  color: #fff;
+  padding: 16px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.topbar-title,
+.sidebar-heading,
+.toolbar-title,
+.detail-name {
+  font-weight: 700;
+}
+
+.topbar-expand {
+  margin-left: auto;
+  color: #fff;
+}
+
+.sidebar {
+  border-right: 1px solid #ddd;
+  background: #fff;
+  padding: 12px;
+}
+
+.filter-bar,
+.toolbar,
+.tab-bar,
+.modal-footer,
+.detail-footer,
+.modal-assign-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.active,
+.btn-connect,
+.btn-new-task,
+.modal-btn-primary,
+.btn-complete {
+  background: #1473e6;
+  border-color: #1473e6;
+  color: #fff;
+}
+
+.rt-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 8px 0;
+  text-align: left;
+}
+
+.rt-icon {
+  padding: 6px;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.main {
+  padding: 16px;
+  overflow: auto;
+}
+
+.search-input,
+.modal-input,
+.modal-textarea {
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  max-width: 100%;
+}
+
+.records-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.badge {
+  display: inline-block;
+  border-radius: 4px;
+  padding: 3px 6px;
+}
+
+.progress {
+  width: 80px;
+  height: 4px;
+  background: #ddd;
+  margin-bottom: 5px;
+}
+
+.progress > div {
+  height: 100%;
+  background: #1473e6;
+}
+
+.empty-state,
+.loading,
+.spinner-wrap {
+  padding: 20px;
+  line-height: 1.5;
+}
+
+.error,
+.modal-error,
+.modal-input-error {
+  color: #b42318;
+}
+
+.detail-panel {
+  display: none;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: min(460px, 100%);
+  overflow: auto;
+  background: #fff;
+  box-shadow: -3px 0 16px #0003;
+  z-index: 2;
+}
+
+.detail-panel.open {
+  display: block;
+}
+
+.detail-header,
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+}
+
+.detail-body,
+.modal-body,
+.modal-footer {
+  padding: 16px;
+}
+
+.detail-field,
+.modal-field,
+.approval-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.detail-field-label,
+.modal-label,
+.detail-section-title {
+  font-weight: 700;
+}
+
+.detail-field-value {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0006;
+  padding: 20px;
+}
+
+.modal {
+  width: min(620px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.modal-row {
+  flex-flow: row wrap;
+}
+
+.user-result-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-top: 6px;
+}
+
+@media (width < 700px) {
+  .app-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    border-bottom: 1px solid #ddd;
+  }
+}

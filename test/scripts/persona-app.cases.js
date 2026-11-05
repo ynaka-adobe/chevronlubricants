@@ -93,6 +93,37 @@ describe('Author-only two-tier Persona palette', () => {
     expect(api.consent.getConsent().personalization).to.equal(false);
   });
 
+  it('shows DuPont profile cards/radar and keeps login/region explicitly app-only simulations', async () => {
+    await open();
+    const coarse = doc.querySelector('#b2b-persona');
+    coarse.value = business;
+    coarse.dispatchEvent(new app.contentWindow.Event('change'));
+    expect(doc.querySelector('#persona-name').textContent).to.equal(business);
+    expect(doc.querySelectorAll('#persona-interests .persona-interest')).to.have.length(3);
+    expect(doc.querySelectorAll('#persona-radar polygon')).to.have.length(5);
+    expect(doc.querySelector('#persona-profile').textContent).to.include('not measured visitor data');
+    const login = doc.querySelector('#persona-loggedin');
+    login.checked = true;
+    login.dispatchEvent(new app.contentWindow.Event('change'));
+    const region = doc.querySelector('#persona-region');
+    region.value = 'CA';
+    region.dispatchEvent(new app.contentWindow.Event('change'));
+    expect(doc.querySelector('#persona-simulation').textContent).to.include('logged in; CA');
+    expect(api.persona.getB2bPersona()).to.equal(null);
+    const pageURL = win.location.href;
+    await apply();
+    expect(api.persona.getB2bPersona()).to.equal(business);
+    expect(win.location.href).to.equal(pageURL);
+    expect(win.localStorage.getItem('demoProfile')).to.equal(null);
+    expect(win.document.cookie).not.to.include('demoProfile');
+    expect(win.adobeDataLayer).to.have.length(0);
+    expect(win.targetCalls).to.have.length(0);
+    doc.querySelector('#persona-reset').click();
+    await tick();
+    expect(login.checked).to.equal(false);
+    expect(region.value).to.equal('');
+  });
+
   it('retains the marketing tier on manual coarse changes and handles default-map rollups and Reset', async () => {
     await load('?insights=1&p=oem');
     await open();

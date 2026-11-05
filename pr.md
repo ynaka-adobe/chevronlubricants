@@ -28,6 +28,53 @@
 
 ## Open PRs
 
+### Import the actual Target and Workfront apps and replace the Persona UI
+
+**Branch:** `ynaka-adobe-chevron-genai-sidekick`
+**Status:** Repository implementation ready for direct main publication; no PR.
+
+- Inspect DuPont main `ebc0c907` exact `tools/target`, `tools/workfront` and
+  `tools/persona`, not generic Adobe console links. Import the Target activity,
+  XT creation, offer change and DA insertion frontend; import Workfront project,
+  task, issue, document, approval readback and task-completion author workflows.
+- Replace Persona's UI with the source dark profile cards, interest bars, radar,
+  summary, metrics and trajectory. Label scores/data as illustrative, not actual
+  measured analytics. Per the user's explicit choice, keep Logged in/Region as
+  clearly labeled app-only simulations; they do not authenticate, target, persist
+  a profile/cookie or affect page content, consent, Analytics or Target.
+- Keep Chevron's canonical two-tier per-tab persona bridge, author map, atomic
+  Apply/Reset, raw URL preservation, hero/cards/Insights behavior and all consent
+  gates. Retain the single existing Persona entry and Generate with AI; do not
+  reintroduce the removed generic Generate Variations link.
+- Target and Workfront nonsecret configuration files intentionally have empty
+  endpoints/identifiers. Actual entry pages report actionable setup-required
+  states with no provider requests. Do not copy source runtime routes, tenant
+  identities, service secrets, source credential sheets or token-refresh scripts.
+- Target requires an approved backend that validates/authorizes the current DA
+  author token, uses header-only credentials and POST mutations. DA insertion
+  escapes provider data, separates tables, uses `target=1`, and reports a send
+  request rather than unverified insertion/save success. A structural
+  `target-offer` slot preserves fallback content; no visitor offer delivery is
+  added or claimed. Existing consent-gated numeric Target persona delivery stays
+  unchanged.
+- Workfront uses a strict origin/popup/state-checked OAuth broker contract and
+  memory-only expiring tokens; no access/refresh tokens in URLs or localStorage.
+  The source broker is not compatible unchanged; a secure approved Chevron
+  OAuth/API broker still needs provisioning. Frontend API operations and OAuth
+  handling are exercised with mocks only; no provider records were changed.
+- DA app/prepare registration remains pending because configuration access
+  returns HTTP 401. No DA writes, credential changes, EMA/library overwrites,
+  content migrations, CDN or runtime deployment. Personalize remains a distinct
+  pending app, not an alias for this Persona replacement.
+- Directly related setup/contracts documented in `tools/target/README.md`,
+  `tools/workfront/README.md` and `docs/persona-filtering.md`.
+- Focused combined browser suite: 124 passing tests, covering real standalone
+  setup screens, configured mocked activity/project workflows, safe headers and
+  POST mutations, popup/state/source rejection, sign-in/expiry failures, DA
+  insertion contracts, source Persona visualizations/simulation isolation and
+  existing visitor personalization/consent/GenAI/commerce/navigation behavior.
+  Changed-file JS/CSS lint and whitespace checks pass.
+
 ### Add the author Persona palette and remove the legacy variations link
 
 **Branch:** `ynaka-adobe-chevron-genai-sidekick`

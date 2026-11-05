@@ -78,8 +78,18 @@ role mappings. Existing named deep links work when their slug is in this sheet.
 The **Persona** Sidekick button opens an author-only palette on preview, live,
 and the Chevron custom domain. It adapts
 [DuPont's Persona app](https://github.com/ynaka-adobe/dupont/blob/ebc0c90714f47aa690c88c3d4ffd6a399fe44ce0/tools/persona/persona.js)
-to Chevron's existing two-tier model, rather than importing DuPont's
-cross-tab `demoProfile`, login/region simulation, or illustrative persona scores.
+to Chevron's existing two-tier model. The replacement uses the source's dark
+profile-card layout, role descriptions, interest bars, intent radar, summary,
+metrics and trajectory. These static demonstration profiles/scores are clearly
+labeled **illustrative, not measured visitor data**.
+
+At the user's explicit choice, **Logged in** and **Region** remain visible as
+**app-only simulations**: they update only a preview label inside this iframe,
+never authenticate anyone, grant consent, change the page URL, write a
+`demoProfile`/cookie, or influence page filtering, Analytics or Target. They are
+not persisted across page reloads. Reset also clears these local controls.
+The source's cross-tab storage/cookie model and `p`/`li`/`region` navigation are
+not imported; Apply still uses Chevron's canonical shared per-tab selection.
 No controls or app downloads are added to ordinary visitor pages.
 
 The palette reads the content page's shared helpers through a source- and

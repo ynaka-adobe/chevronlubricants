@@ -1,0 +1,4 @@
+.target-offer,
+.target-offer-slot:empty {
+  min-height: 0;
+}

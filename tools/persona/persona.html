@@ -1,4 +1,5 @@
 <!doctype html>
+<!-- Adapted from DuPont tools/persona (Apache-2.0): shared Chevron state and app-only simulations. -->
 <html lang="en">
   <head>
     <title>Chevron Persona</title>
@@ -10,11 +11,22 @@
   </head>
   <body>
     <main class="persona-app">
-      <h1>Persona</h1>
-      <p>Preview Chevron content using this tab's B2B role and marketing persona.</p>
+      <h1 class="persona-label">Persona</h1>
       <form id="persona-form">
         <label for="b2b-persona">B2B persona</label>
         <select id="b2b-persona" disabled></select>
+        <fieldset class="persona-controls">
+          <legend>App-only simulations</legend>
+          <label class="persona-toggle" for="persona-loggedin">
+            <input type="checkbox" id="persona-loggedin">
+            <span>Logged in (simulation only)</span>
+          </label>
+          <label for="persona-region">Region (simulation only)</label>
+          <select id="persona-region" aria-label="Region (simulation only)"></select>
+          <p>These controls only preview this app. They do not authenticate anyone,
+            change location, or affect page content, Analytics or Target.</p>
+          <p id="persona-simulation" role="status">Simulation: logged out; no region.</p>
+        </fieldset>
         <label for="marketing-persona">Marketing persona</label>
         <select id="marketing-persona" disabled></select>
         <p id="persona-mapping"></p>
@@ -25,7 +37,25 @@
         </div>
       </form>
       <p id="persona-status" role="status">Connecting to the content page...</p>
-      <section aria-labelledby="current-heading">
+      <section id="persona-profile" hidden aria-label="Illustrative persona profile">
+        <p class="persona-note">Illustrative demo profile: interests, intent scores,
+          metrics and trajectory below are examples, not measured visitor data.</p>
+        <h2 class="persona-name" id="persona-name"></h2>
+        <p class="persona-description" id="persona-description"></p>
+        <h3 class="persona-section-label">Top Interests</h3>
+        <div class="persona-interests" id="persona-interests"></div>
+        <h3 class="persona-section-label">Intent Map</h3>
+        <div class="persona-radar-wrap">
+          <svg class="persona-radar" id="persona-radar" viewBox="0 0 260 260"
+            role="img" aria-label="Illustrative intent radar chart"></svg>
+        </div>
+        <p class="persona-summary" id="persona-summary"></p>
+        <p class="persona-metrics" id="persona-metrics"></p>
+        <p class="persona-trajectory" id="persona-trajectory"></p>
+      </section>
+      <details>
+        <summary>Current page state and consent</summary>
+        <section aria-labelledby="current-heading">
         <h2 id="current-heading">Current page state</h2>
         <dl>
           <dt>B2B persona</dt><dd id="current-b2b">Not connected</dd>
@@ -36,6 +66,7 @@
         </dl>
         <p id="persona-page"></p>
       </section>
+      </details>
       <p class="persona-note">Selections update the page's existing filters and hero.
         They do not grant consent, sign anyone in, or change authored content.
         Reset clears both persona preferences for this tab.</p>
